@@ -50,12 +50,12 @@ Within a given context, a user could have different roles
   - [RM09: Write outcome](#rm09)
 1. System updates the view as soon as new comments have been added
 
-### RA03: Share retrospective session
+### <a id="ra03"></a>RA03: Share retrospective session
 
 1. User clicks on 'share retrospective session'
 1. System show the link to share
 
-### RA04: Add a comment
+### <a id="ra04"></a>RA04: Add a comment
 
 Precondition: Session is in 'COMMENT'-mode
 
@@ -65,7 +65,7 @@ Precondition: Session is in 'COMMENT'-mode
 1. System saves the comment and pushes the comment to the other attendees
 1. System goes back to [RA02](#ra02)
 
-### RA05: Modify an own comment
+### <a id="ra05"></a>RA05: Modify an own comment
 
 Precondition: Session is in 'COMMENT'-mode
 
@@ -75,7 +75,7 @@ Precondition: Session is in 'COMMENT'-mode
 1. System saves the comment and pushes the update to the other attendees
 1. System goes back to [RA02](#ra02)
 
-### RA06: Delete an own comment
+### <a id="ra06"></a>RA06: Delete an own comment
 
 Precondition: Session is in 'COMMENT'-mode
 
@@ -83,7 +83,7 @@ Precondition: Session is in 'COMMENT'-mode
 1. System removes the comment and pushes the delete to the other attendees
 1. System goes back to [RA02](#ra02)
 
-### RA07: Change state no further comment
+### <a id="ra07"></a>RA07: Change state no further comment
  
 Precondition: Session is in 'COMMENT'-mode
 
@@ -91,7 +91,7 @@ Precondition: Session is in 'COMMENT'-mode
 1. System pushes this information to all attendees
 1. System updates view. Continue with [RA02](#ra02)
  
-### RA08: Show single comment
+### <a id="ra08"></a>RA08: Show single comment
 
 Precondition: Session is not in 'COMMENT'-mode
 
@@ -100,14 +100,14 @@ Precondition: Session is not in 'COMMENT'-mode
   - Close (go back to [RA02](#ra02)
   - Vote on comment ([RA09](#ra09)) (if in 'VOTE'-mode)
 
-### RA09: Vote/Unvote on comments
+### <a id="ra09"></a>RA09: Vote/Unvote on comments
 
 Precondition: Session is in 'VOTE'-mode
 
 1. Unvoted by user: If user has enough votes available, he can add a vote. Voted by user: User can remove vote
 1. Close (go back to [RA02)(#ra02))
 
-### RA10: Export comments and votes
+### <a id="ra10"></a>RA10: Export comments and votes
 
 Precondition: Session is not in 'COMMENT'-mode
 
@@ -116,7 +116,7 @@ Precondition: Session is not in 'COMMENT'-mode
 
 ## Retrospective Management
 
-### RM01: Create a new retrospective
+### <a id="rm01"></a>RM01: Create a new retrospective
 
 As a user I want to create a new retrospective session.
 
@@ -127,28 +127,56 @@ As a user I want to create a new retrospective session.
 1. User clicks on create
 1. System goes to [RA02: Show retrospective comments](#ra02)
 
-### RM02: Change retrospective settings
-### RM03: Persist session
-### RM04: Unhide comments
-### RM05: Iterate trough comments
-### RM06: Group comments
-### RM07: Delete comment
-### RM08: Modify comment
-### RM09: Write outcome
+### <a id="rm02"></a>RM02: Change retrospective settings
+
+As a retrospective manager, i want to change the retrospective settings
+
+Precondition: User is on comments overview
+
+1. User clicks on retrospective settings
+1. System shows the settings, which contains:
+  - Max number of votes
+  - Name of the retrospective
+  - Other managers
+1. User changes settings and saves it
+1. System goes to [RA02: Show retrospective comments](#ra02)
+
+### <a id="rm03"></a>RM03: Persist session
+
+As a user i want to persist this session 
+
+Precondition: User is not authenticated
+
+1. User clicks on 'persist'
+1. System show the note that sessions can only be persisted if user is authenticated
+1. User 'register' or 'authenticate' (see [REG01](#REG01) or [REG02](#REG02))
+
+### <a id="rm04"></a>RM04: Unhide comments
+
+As a retrospective leader (manager), i want to unhide all comments.
+
+1. If all users have declared that they have finished, the manager can unhide the comments.
+1. The system changes the status of the retrospective and notifies all clients to reload all comments
+
+### <a id=rm05"></a>RM05: Iterate trough comments
+### <a id=rm06"></a>RM06: Group comments
+### <a id=rm07"></a>RM07: Delete comment
+### <a id=rm08"></a>RM08: Modify comment
+### <a id=rm09"></a>RM09: Write outcome
 
 ## Registration Flow
-### REG01: Register
-### REG02: Re register
-### REG03: Change user settings
-### REG04: Logout
+### <a id=reg01"></a>REG01: Register
+### <a id=reg02"></a>REG02: Authenticate
+### <a id=reg03"></a>REG03: Change user settings
+### <a id=reg04"></a>REG04: Logout
   
 ## Manage
 
-### M01: View persisted retro sessions
-### M02: Delete retro session
+### <a id=m01"></a>M01: View persisted retro sessions
+### <a id=m02"></a>M02: Delete retro session
   
 ## Admin flow
 
-### A01: Manage subscribed users
-### A02: Manage persistent retro sessions
+### <a id=a01"></a>A01: Manage subscribed users
+### <a id=a02"></a>A02: Manage persistent retro sessions
 
