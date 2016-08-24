@@ -47,6 +47,8 @@ jspm_packages
 .idea/dictionaries
 .idea/vcs.xml
 .idea/jsLibraryMappings.xml
+.idea/cas-fee-retrospective.iml
+.idea/modules.xml
 
 # Sensitive or high-churn files:
 .idea/dataSources.ids
