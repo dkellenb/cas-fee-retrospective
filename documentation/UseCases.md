@@ -236,15 +236,29 @@ Precondition: Authenticated
 
 ### <a id="REG04"></a>REG04: Logout
 
+I want to unlink my access from the current machine.
 
   
 ## Manage
 
 ### <a id="M01"></a>M01: View persisted retro sessions
+
+As a user I want to see previous retrospective sessions
+
+Precondition: Authenticated
+
 ### <a id="M02"></a>M02: Delete retro session
+
+As a user I want to remove previous retrospective session (because i don't trust the provider ;-) )
+
+Precondition: Authenticated
   
 ## Admin flow
 
 ### <a id="A01"></a>A01: Manage subscribed users
+
+As an administrator I want to manage subscribed users
+
 ### <a id="A02"></a>A02: Manage persistent retro sessions
 
+As an administrator I want to manage all persisted retrospective sessions
