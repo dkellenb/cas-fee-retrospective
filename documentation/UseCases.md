@@ -1,44 +1,154 @@
 # User
+
 There are two types of user:
+
 - anonymous user
 - registered user
 
 # Roles
+
 Within a given context, a user could have different roles
+
 - Administrator (can only be given to registered users)
 - Manager (can manage a board)
 - Editor (can change a comment)
 - Reader (can see comments)
 
-# Use Cases
-## Registration Flow
-- Register
-  
-## Manage
-- View persisted retro sessions
-- Delete retro session
-  
-## Admin flow
-- Manage subscribed users
-- Manage persistent retro sessions
+# States
 
-## Retrospective Management
-- Create a new retrospective
-- Unhide comments
-- Iterate trough comments
-- Group comments
-- Delete comment
-- Modify comment
-- Change retrospective settings
-- Write outcome
-- Persist session
-- Share retro spective session
+- COMMENT: Users are allowed to comment
+- GROUP: Comments can be grouped
+- VOTE: Users are allowed to vote
+- CLOSED: Session is closed and cannot be modified
+
+# Use Cases
 
 ## Retrospective attendance
-- Join an existing retrospective
-- Add a comment
-- Delete an own comment
-- Modify an own comment
-- See comments
-- Vote on comments
-- Export comments and votes
+
+### <a id="ra01"></a>RA01: Join an existing retrospective
+
+1. User gets the link to the retrospective and opens the page
+1. If the user is already known to the system, continues to (#ra02). Otherwise the system show a page where the user could enter a short name.
+1. The system persists the short name and redirects to (#ra02)
+
+### <a id="ra02"></a>RA02: Show retrospective comments
+
+1. System show all retrospective comments, split up in three groups: Start doing, continue doing, stop doing. Additionally on this view following UCs can be started:
+  - [RA03: Share retrospective session](#ra03)
+  - [RA04: Add a comment](#ra04)
+  - [RA05: Modify an own comment](#ra05)
+  - [RA06: Delete an own comment](#ra06)
+  - [RA07: Change state no further comment](#ra07)
+  - [RA09: Show single comment](#ra09)
+  - [RA10: Export comments and votes](#ra10)
+  - [RM02: Change retrospective settings](#rm02)
+  - [RM03: Persist session](#rm03)
+  - [RM04: Unhide comments](#rm04)
+  - [RM06: Group comments](#rm06)
+  - [RM07: Delete comment](#rm07)
+  - [RM08: Modify comment](#rm08)
+  - [RM09: Write outcome](#rm09)
+1. System updates the view as soon as new comments have been added
+
+### RA03: Share retrospective session
+
+1. User clicks on 'share retrospective session'
+1. System show the link to share
+
+### RA04: Add a comment
+
+Precondition: Session is in 'COMMENT'-mode
+
+1. User clicks on one of the three buttons to add a comment
+1. System shows a text field
+1. User enters the text and confirms it
+1. System saves the comment and pushes the comment to the other attendees
+1. System goes back to [RA02](#ra02)
+
+### RA05: Modify an own comment
+
+Precondition: Session is in 'COMMENT'-mode
+
+1. User clicks on own comment
+1. System shows a text field with the comment
+1. User enters the text and confirms it
+1. System saves the comment and pushes the update to the other attendees
+1. System goes back to [RA02](#ra02)
+
+### RA06: Delete an own comment
+
+Precondition: Session is in 'COMMENT'-mode
+
+1. User clicks delete action on own comment
+1. System removes the comment and pushes the delete to the other attendees
+1. System goes back to [RA02](#ra02)
+
+### RA07: Change state no further comment
+ 
+Precondition: Session is in 'COMMENT'-mode
+
+1. User confirms that he has no intention to add further comment
+1. System pushes this information to all attendees
+1. System updates view. Continue with [RA02](#ra02)
+ 
+### RA08: Show single comment
+
+Precondition: Session is not in 'COMMENT'-mode
+
+1. User clicks on comment
+1. System shows the full content. Following further actions are possible:
+  - Close (go back to [RA02](#ra02)
+  - Vote on comment ([RA09](#ra09)) (if in 'VOTE'-mode)
+
+### RA09: Vote/Unvote on comments
+
+Precondition: Session is in 'VOTE'-mode
+
+1. Unvoted by user: If user has enough votes available, he can add a vote. Voted by user: User can remove vote
+1. Close (go back to [RA02)(#ra02))
+
+### RA10: Export comments and votes
+
+Precondition: Session is not in 'COMMENT'-mode
+
+1. User clicks on export
+1. System generates a JSON based export of the retrospective
+
+## Retrospective Management
+
+### RM01: Create a new retrospective
+
+As a user I want to create a new retrospective session.
+
+1. User is on start page
+1. System show a simple form to create a new retrospective session. Following fields are contained:
+  * name
+  * optional additional settings
+1. User clicks on create
+1. System goes to [RA02: Show retrospective comments](#ra02)
+
+### RM02: Change retrospective settings
+### RM03: Persist session
+### RM04: Unhide comments
+### RM05: Iterate trough comments
+### RM06: Group comments
+### RM07: Delete comment
+### RM08: Modify comment
+### RM09: Write outcome
+
+## Registration Flow
+### REG01: Register
+### REG02: Re register
+### REG03: Change user settings
+### REG04: Logout
+  
+## Manage
+
+### M01: View persisted retro sessions
+### M02: Delete retro session
+  
+## Admin flow
+
+### A01: Manage subscribed users
+### A02: Manage persistent retro sessions
+
