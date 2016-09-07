@@ -16,9 +16,6 @@ See [UseCases](documentation/UseCases.md)
 ### Technical features
 ...
 
-### REST Api
+### REST API
 
-####Methods
-| Method             | CMD    | Description                      |
-|--------------------|--------|----------------------------------|
-
+See [RestAPI](documentation/RestAPI.md)
