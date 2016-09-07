@@ -10,12 +10,16 @@ This repository contains the project work of the two students [Daniel Kellenberg
 ### Use Cases
 See [UseCases](documentation/UseCases.md)
 
+### Domain Model
+See [DomainModel](documentation/DomainModel.md)
+
+### REST API
+
+See [RestAPI](documentation/RestAPI.md)
+
 ### Supported features
 ... 
 
 ### Technical features
 ...
 
-### REST API
-
-See [RestAPI](documentation/RestAPI.md)
