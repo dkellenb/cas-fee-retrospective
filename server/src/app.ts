@@ -1,11 +1,11 @@
-/// <reference path="_all.d.ts" />
-"use strict";
+/// <reference path='_all.d.ts' />
+'use strict';
 
-import * as bodyParser from "body-parser";
-import * as express from "express";
-import * as path from "path";
+import * as bodyParser from 'body-parser';
+import * as express from 'express';
+import * as path from 'path';
 
-import * as indexRoute from "./routes/index";
+import * as indexRoute from './routes/index';
 
 /**
  * The server.
@@ -14,91 +14,90 @@ import * as indexRoute from "./routes/index";
  */
 class Server {
 
-  public app: express.Application;
+    public app:express.Application;
 
-  /**
-   * Bootstrap the application.
-   *
-   * @class Server
-   * @method bootstrap
-   * @static
-   */
-  public static bootstrap(): Server {
-    return new Server();
-  }
+    /**
+     * Bootstrap the application.
+     *
+     * @class Server
+     * @method bootstrap
+     * @static
+     */
+    public static bootstrap():Server {
+        return new Server();
+    }
 
-  /**
-   * Constructor.
-   *
-   * @class Server
-   * @constructor
-   */
-  constructor() {
-    //create expressjs application
-    this.app = express();
+    /**
+     * Constructor.
+     *
+     * @class Server
+     * @constructor
+     */
+    constructor() {
+        // create expressjs application
+        this.app = express();
 
-    //configure application
-    this.config();
+        // configure application
+        this.config();
 
-    //configure routes
-    this.routes();
-  }
+        // configure routes
+        this.routes();
+    }
 
-  /**
-   * Configure application
-   *
-   * @class Server
-   * @method config
-   * @return void
-   */
-  private config() {
-    //configure jade
-    this.app.set("views", path.join(__dirname, "views"));
-    this.app.set("view engine", "jade");
+    /**
+     * Configure application
+     *
+     * @class Server
+     * @method config
+     * @return void
+     */
+    private config():void {
+        // configure jade
+        this.app.set('views', path.join(__dirname, 'views'));
+        this.app.set('view engine', 'jade');
 
-    //mount logger
-    //this.app.use(logger("dev"));
+        // mount logger
+        // this.app.use(logger('dev'));
 
-    //mount json form parser
-    this.app.use(bodyParser.json());
+        // mount json form parser
+        this.app.use(bodyParser.json());
 
-    //mount query string parser
-    this.app.use(bodyParser.urlencoded({ extended: true }));
+        // mount query string parser
+        this.app.use(bodyParser.urlencoded({extended: true}));
 
-    //add static paths
-    this.app.use(express.static(path.join(__dirname, "public")));
-    this.app.use(express.static(path.join(__dirname, "bower_components")));
+        // add static paths
+        this.app.use(express.static(path.join(__dirname, 'public')));
+        this.app.use(express.static(path.join(__dirname, 'bower_components')));
 
-    // catch 404 and forward to error handler
-    this.app.use(function(err: any, req: express.Request, res: express.Response, next: express.NextFunction) {
-      var error = new Error("Not Found");
-      err.status = 404;
-      next(err);
-    });
-  }
+        // catch 404 and forward to error handler
+        this.app.use(function (err:any, req:express.Request, res:express.Response, next:express.NextFunction) {
+            err.status = 404;
+            next(err);
+        });
+    }
 
-  /**
-   * Configure routes
-   *
-   * @class Server
-   * @method routes
-   * @return void
-   */
-  private routes() {
-    //get router
-    let router: express.Router;
-    router = express.Router();
+    /**
+     * Configure routes
+     *
+     * @class Server
+     * @method routes
+     * @return void
+     */
+    private routes():void {
+        // get router
+        let router:express.Router;
+        router = express.Router();
 
-    //create routes
-    var index: indexRoute.Index = new indexRoute.Index();
+        // create routes
+        let index:indexRoute.Index = new indexRoute.Index();
 
-    //home page
-    router.get("/", index.index.bind(index.index));
+        // home page
+        router.get('/', index.index.bind(index.index));
 
-    //use router middleware
-    this.app.use(router);
-  }
+        // use router middleware
+        this.app.use(router);
+    }
 }
 
-var server = Server.bootstrap();
+let server = Server.bootstrap();
 export = server.app;

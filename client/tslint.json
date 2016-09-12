@@ -89,8 +89,7 @@
       "check-branch",
       "check-decl",
       "check-operator",
-      "check-separator",
-      "check-type"
+      "check-separator"
     ],
 
     "directive-selector-name": [true, "camelCase"],

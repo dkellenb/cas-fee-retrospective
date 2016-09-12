@@ -1,9 +1,9 @@
-"use strict";
+'use strict';
 var Route;
 (function (Route) {
     class Index {
         index(req, res, next) {
-            res.render("index");
+            res.render('index');
         }
     }
     Route.Index = Index;
