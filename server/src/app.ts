@@ -1,103 +1,57 @@
 /// <reference path='_all.d.ts' />
 'use strict';
 
-import * as bodyParser from 'body-parser';
 import * as express from 'express';
-import * as path from 'path';
+import * as logger from 'morgan';
+import * as bodyParser from 'body-parser';
+import router from './routes';
 
-import * as indexRoute from './routes/index';
+const app: express.Express = express();
 
-/**
- * The server.
- *
- * @class Server
- */
-class Server {
+app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-    public app:express.Application;
+app.use('/api', router); // prefix all the api calls with '/api'
 
-    /**
-     * Bootstrap the application.
-     *
-     * @class Server
-     * @method bootstrap
-     * @static
-     */
-    public static bootstrap():Server {
-        return new Server();
-    }
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+    let err = new Error('Not Found');
+    err['status'] = 404;
+    next(err);
+});
 
-    /**
-     * Constructor.
-     *
-     * @class Server
-     * @constructor
-     */
-    constructor() {
-        // create expressjs application
-        this.app = express();
+// error handlers
 
-        // configure application
-        this.config();
-
-        // configure routes
-        this.routes();
-    }
-
-    /**
-     * Configure application
-     *
-     * @class Server
-     * @method config
-     * @return void
-     */
-    private config():void {
-        // configure jade
-        this.app.set('views', path.join(__dirname, 'views'));
-        this.app.set('view engine', 'jade');
-
-        // mount logger
-        // this.app.use(logger('dev'));
-
-        // mount json form parser
-        this.app.use(bodyParser.json());
-
-        // mount query string parser
-        this.app.use(bodyParser.urlencoded({extended: true}));
-
-        // add static paths
-        this.app.use(express.static(path.join(__dirname, 'public')));
-        this.app.use(express.static(path.join(__dirname, 'bower_components')));
-
-        // catch 404 and forward to error handler
-        this.app.use(function (err:any, req:express.Request, res:express.Response, next:express.NextFunction) {
-            err.status = 404;
-            next(err);
+// development error handler
+// will print stacktrace
+if (app.get('env') === 'development') {
+    app.use((err: any, req, res, next) => {
+        res.status(err['status'] || 500);
+        res.json({
+            message: err.message,
+            error: err
         });
-    }
-
-    /**
-     * Configure routes
-     *
-     * @class Server
-     * @method routes
-     * @return void
-     */
-    private routes():void {
-        // get router
-        let router:express.Router;
-        router = express.Router();
-
-        // create routes
-        let index:indexRoute.Index = new indexRoute.Index();
-
-        // home page
-        router.get('/', index.index.bind(index.index));
-
-        // use router middleware
-        this.app.use(router);
-    }
+    });
 }
 
-let server = Server.bootstrap();
-export = server.app;
+// Force HTTPS
+// if (app.get('env') === 'production') {
+//  app.use(function(req, res, next) {
+//    var protocol = req.get('x-forwarded-proto');
+//    protocol == 'https' ? next() : res.redirect('https://' + req.hostname + req.url);
+//  });
+// }
+
+// production error handler
+// no stacktraces leaked to user
+app.use((err: any, req, res, next) => {
+    res.status(err.status || 500);
+    res.json({
+        message: err.message,
+        error: {}
+    });
+    return null;
+});
+
+export default app;
