@@ -13,12 +13,23 @@
       "reflect-metadata"
     ],
     "noImplicitAny": false,
-    "sourceMap": false,
+    "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "moduleResolution": "node"
   },
-  "atom": {
-    "rewriteTsconfig": true
-  }
+  "exclude": [
+    "node_modules"
+  ],
+  "filesGlob": [
+    "src/**/*.ts"
+  ],
+  "files": [
+    "typings/index.d.ts",
+    "src/constant/tags.ts",
+    "src/constant/types.ts",
+    "src/controller/retrospective.ts",
+    "src/service/retrospective.ts",
+    "src/server.ts"
+  ]
 }
