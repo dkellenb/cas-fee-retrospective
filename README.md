@@ -45,14 +45,15 @@ Run `ng github-pages:deploy` to deploy to Github Pages.
 
 Server is available iin /server/ folder.
 
-#### Add tyings
+#### Add / Get typings
 
+Run `node_modules/.bin/typings install` to fetch all registred typings
 Run `node_modules/.bin/typings install dt~<package> --global --save`
 
 #### Build
 
-Run `npm run grunt`
+(?) Run `npm run grunt`
 
 #### Server run
 
-Run `npm start`
+(?) Run `npm start`
