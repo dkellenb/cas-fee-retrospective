@@ -14,7 +14,7 @@ gulp.task('ts', function() {
         .src(serverTS, {base: './'})
         .pipe(ts(tsProject))
         .js
-        .pipe(gulp.dest('./www'));
+        .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('watch', function() {

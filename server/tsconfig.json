@@ -25,7 +25,6 @@
     "src/**/*.ts"
   ],
   "files": [
-    "typings/index.d.ts",
     "src/constant/tags.ts",
     "src/constant/types.ts",
     "src/controller/retrospective.ts",
