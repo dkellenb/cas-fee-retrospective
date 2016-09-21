@@ -1,0 +1,48 @@
+.icon-button {
+    height: 1.5rem; /*24px*/
+    width: 1.5rem; /*24px*/
+    border: solid 2px #666666;
+    background: #C0C0C0;
+    color: #666666;
+}
+
+/*with sass move to icon-button elements*/
+.icon-button button {
+    width: 100%;
+    height: 100%;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.icon-button__add:before {
+    content: "+";
+}
+
+.icon-button__aboard:before {
+    content: "\2717";
+}
+
+.icon-button__delete:before {
+    content: "\2717";
+}
+
+.icon-button__check-mark:before {
+    content: "\2713";
+}
+
+.icon-button__check-mark_ok:before {
+    content: "\2713";
+}
+
+.icon-button__check-mark_ok {
+    background: #469546;
+}
+
+.icon-button__collapsible_close:before {
+    content: '\25B2';
+}
+
+.icon-button__collapsible_open:before {
+    content: "\25BC";
+}
