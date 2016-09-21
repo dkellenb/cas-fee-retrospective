@@ -1,0 +1,13 @@
+.button-set{
+    float: right;
+}
+
+.button-set:after{
+    clear: both;
+    font-size: 0;
+    display: table;
+}
+
+.button-set__element{
+    float: left;
+}

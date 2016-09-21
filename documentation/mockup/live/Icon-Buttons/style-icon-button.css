@@ -4,45 +4,56 @@
     border: solid 2px #666666;
     background: #C0C0C0;
     color: #666666;
+    margin: 0.125rem;
+}
+
+.icon-button__body_ok{
+    background: #469546;
 }
 
 /*with sass move to icon-button elements*/
-.icon-button button {
+button {
     width: 100%;
     height: 100%;
     border: none;
     font-size: 1rem;
     font-weight: bold;
+    background: none;
 }
 
 .icon-button__add:before {
-    content: "+";
+    content: '+';
 }
 
 .icon-button__aboard:before {
-    content: "\2717";
+    content: '\2717';
 }
 
 .icon-button__delete:before {
-    content: "\2717";
+    content: '\2717';
 }
 
 .icon-button__check-mark:before {
-    content: "\2713";
+    content: '\2713';
 }
 
-.icon-button__check-mark_ok:before {
-    content: "\2713";
-}
-
-.icon-button__check-mark_ok {
-    background: #469546;
+.icon-button__collapsible_close {
+    padding-left: 0.28rem;
 }
 
 .icon-button__collapsible_close:before {
     content: '\25B2';
 }
 
+.icon-button__collapsible_open {
+    padding-left: 0.28rem;
+}
+
 .icon-button__collapsible_open:before {
-    content: "\25BC";
+    content: '\25BC';
+}
+
+/*create svn for tumpup*/
+.icon-button__vote-up:before{
+    content: '👍';
 }
