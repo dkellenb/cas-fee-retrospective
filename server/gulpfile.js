@@ -20,5 +20,5 @@ gulp.task('ts', function() {
 });
 
 gulp.task('watch', function() {
-    gulp.watch('./src/**/*.ts', ['ts']);
+    gulp.watch(['./src/**/*.ts', '../shared/src/**/*.ts'], ['ts']);
 });
