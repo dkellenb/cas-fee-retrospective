@@ -1,0 +1,61 @@
+html {
+    font-family: Arial, serif;
+}
+
+.board {
+    /*300px*/
+    min-width: 18.75rem;
+    width: 100%;
+    border: solid 1px #cccccc;
+    background: #eeeeee;
+    display: block;
+}
+
+.board__header {
+    border-bottom: solid 1px #cccccc;
+    padding: 0.625rem; /*10px*/
+    position: relative;
+}
+
+/*clear header for hight*/
+.board__header:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.board__title {
+    font-size: 0.875rem; /*14px*/
+    font-weight: normal;
+    margin: 0;
+    float: left;
+}
+
+.board__menu {
+
+}
+
+.board__body {
+    padding: 0.625rem 0 0.625rem 0.625rem; /*10px*/
+    font-size: 0; /*white space killer*/
+}
+
+.board__elements {
+    position: relative;
+    text-align: center;
+    font-size: 0; /*white space killer*/
+}
+
+.board__element {
+    display: inline-block;
+    margin: 0.625rem 0.625rem 0 0; /*10px*/
+}
+
+/*Just empty Sticky-Note for Show*/
+.sticky-note {
+    /*120px*/
+    width: 7.5rem;
+    height: 7.5rem;
+    background: #ffffcc;
+    border: solid 1px #cccccc;
+}
