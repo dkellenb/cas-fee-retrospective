@@ -13,26 +13,7 @@ html {
 
 .board__header {
     border-bottom: solid 1px #cccccc;
-    padding: 0.625rem; /*10px*/
-    position: relative;
-}
-
-/*clear header for hight*/
-.board__header:after {
-    content: "";
-    clear: both;
-    display: table;
-}
-
-.board__title {
-    font-size: 0.875rem; /*14px*/
-    font-weight: normal;
-    margin: 0;
-    float: left;
-}
-
-.board__menu {
-
+    padding-left: 0.25rem;/*4px*/
 }
 
 .board__body {
@@ -49,13 +30,4 @@ html {
 .board__element {
     display: inline-block;
     margin: 0.625rem 0.625rem 0 0; /*10px*/
-}
-
-/*Just empty Sticky-Note for Show*/
-.sticky-note {
-    /*120px*/
-    width: 7.5rem;
-    height: 7.5rem;
-    background: #ffffcc;
-    border: solid 1px #cccccc;
 }

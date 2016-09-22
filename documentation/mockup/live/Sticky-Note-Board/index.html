@@ -5,13 +5,38 @@
     <title>Live Mock Demo Sticky-Note-Board</title>
 
     <link rel="stylesheet" href="style-board.css" type="text/css">
+
+    <!--Depends on this Styles-->
+    <link rel="stylesheet" href="../Split-Bar/style-split-bar.css" type="text/css">
+    <link rel="stylesheet" href="../Text/style-text.css" type="text/css"/>
+
+
+    <!--Stylesheets from other components for demo-->
+    <link rel="stylesheet" href="../Button-Set/button-set.css" type="text/css">
+    <link rel="stylesheet" href="../Icon-Buttons/style-icon-button.css" type="text/css">
+    <link rel="stylesheet" href="../Sticky-Note/style-sticky-note.css" type="text/css">
 </head>
 <body>
 
 <div class="board">
     <div class="board__header">
-        <h2 class="board__title">Title of the Board</h2>
-        <span class="board__menu"></span>
+        <!--html from board-header-bar for demo-->
+        <div class="split-bar">
+            <div class="split-bar__container split-bar__container_left">
+                <h2 class="title title__content_second">Title of the Board</h2>
+            </div>
+            <div class="split-bar__container split-bar__container_right">
+                <div class="button-set">
+                    <div class="icon-button button-set__element">
+                        <button class="icon-button__check-mark"></button>
+                    </div>
+                    <div class="icon-button button-set__element">
+                        <button class="icon-button__aboard"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end board-header-bar demo html-->
     </div>
     <div class="board__body">
         <div class="board__elements">

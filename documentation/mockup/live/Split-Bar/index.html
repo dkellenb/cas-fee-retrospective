@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live Mock Demo Sticky-Note-Board</title>
+
+    <link rel="stylesheet" href="style-split-bar.css" type="text/css">
+
+    <!--Stylesheets from other components for demo-->
+    <link rel="stylesheet" href="../Button-Set/button-set.css" type="text/css">
+    <link rel="stylesheet" href="../Icon-Buttons/style-icon-button.css" type="text/css">
+</head>
+<body>
+
+<div class="split-bar">
+    <div class="split-bar__container split-bar__container_left"><p>Text in Left Box</p></div>
+    <div class="split-bar__container split-bar__container_right"><p>Text in Right Box</p></div>
+</div>
+
+<!--Order of container does not matter-->
+<div class="split-bar">
+    <div class="split-bar__container split-bar__container_right"><p>Text in Right Box</p></div>
+    <div class="split-bar__container split-bar__container_left"><p>Text in Left Box</p></div>
+</div>
+
+</body>
+</html>

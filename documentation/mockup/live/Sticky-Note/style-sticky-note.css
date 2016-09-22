@@ -1,0 +1,12 @@
+html {
+    font-family: Arial, serif;
+}
+
+/*Just empty Sticky-Note for Show*/
+.sticky-note {
+    /*120px*/
+    width: 7.5rem;
+    height: 7.5rem;
+    background: #ffffcc;
+    border: solid 1px #cccccc;
+}

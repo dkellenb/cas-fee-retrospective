@@ -1,0 +1,42 @@
+.title {
+    font-family: Arial, serif;
+    font-size: 1.25rem; /*20px*/
+    font-weight: bold;
+    color: #000000;
+    margin: 0;
+}
+
+.title__content_second {
+    font-size: 1rem; /*16px*/
+    font-weight: normal;
+}
+
+.title__content_third {
+    font-size: 0.875rem; /*14px*/
+    font-weight: bold;
+}
+
+.title__content_fourth {
+    font-size: 0.875rem; /*14px*/
+    font-weight: normal;
+}
+
+.title__content_fifth {
+    font-size: 0.75rem; /*12px*/
+    font-weight: normal;
+}
+
+.text {
+    font-family: Arial, serif;
+    font-size: 0.875rem; /*14px*/
+    color: #000000;
+    margin: 0;
+}
+
+.text__content_bold {
+    font-weight: bold;
+}
+
+.text__content_small {
+    font-size: 0.75rem; /*12px*/
+}
