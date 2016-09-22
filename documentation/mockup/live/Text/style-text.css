@@ -1,4 +1,4 @@
-.title {
+h1, .title{
     font-family: Arial, serif;
     font-size: 1.25rem; /*20px*/
     font-weight: bold;
@@ -6,27 +6,27 @@
     margin: 0;
 }
 
-.title__content_second {
+h2, .title__content_second{
     font-size: 1rem; /*16px*/
     font-weight: normal;
 }
 
-.title__content_third {
+h3, .title__content_third {
     font-size: 0.875rem; /*14px*/
     font-weight: bold;
 }
 
-.title__content_fourth {
+h4, .title__content_fourth {
     font-size: 0.875rem; /*14px*/
     font-weight: normal;
 }
 
-.title__content_fifth {
+h5, .title__content_fifth {
     font-size: 0.75rem; /*12px*/
     font-weight: normal;
 }
 
-.text {
+p, .text{
     font-family: Arial, serif;
     font-size: 0.875rem; /*14px*/
     color: #000000;

@@ -4,9 +4,31 @@ html {
 
 /*Just empty Sticky-Note for Show*/
 .sticky-note {
-    /*120px*/
-    width: 7.5rem;
-    height: 7.5rem;
+    width: 8.75rem; /*140px*/
+    height: 8.75rem; /*140px*/
     background: #ffffcc;
     border: solid 1px #cccccc;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sticky-note__header{
+    order: 1; /*flexbox*/
+    display: block;
+    border-bottom: solid 1px #cccccc;
+    padding: 0.25rem; /*4px*/
+}
+
+.sticky-note__body{
+    padding: 0.25rem;
+    order: 2; /*flexbox*/
+}
+
+.sticky-note__footer{
+    order: 3; /*flexbox*/
+}
+
+.sticky-note__author{
+    width: 4.375rem; /*70px*/
 }

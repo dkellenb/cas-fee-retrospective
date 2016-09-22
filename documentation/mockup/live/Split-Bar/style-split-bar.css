@@ -12,6 +12,7 @@ html {
 
 .split-bar__container {
     flex-grow: 1;
+    flex-shrink: 0;
 }
 
 .split-bar__container_left {

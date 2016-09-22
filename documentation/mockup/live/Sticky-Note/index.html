@@ -5,17 +5,67 @@
     <title>Live Mock Demo Sticky-Note-Board</title>
 
     <link rel="stylesheet" href="style-sticky-note.css" type="text/css">
+
+    <!--Depends on Styles from:-->
+    <link rel="stylesheet" href="../Text/style-text.css" type="text/css"/>
+    <link rel="stylesheet" href="../Split-Bar/style-split-bar.css" type="text/css"/>
+
+    <!--Stylesheets from other components for demo-->
+    <link rel="stylesheet" href="../Button-Set/button-set.css" type="text/css">
+    <link rel="stylesheet" href="../Icon-Buttons/style-icon-button.css" type="text/css">
 </head>
 <body>
 
 <div class="sticky-note">
-    <div class="sticky-note__header"></div>
-    <div class="sticky-note__body"></div>
-    <div class="sticky-note__footer"></div>
-</div>
-<p></p>
-<div class="sticky-note">
+    <div class="sticky-note__header">
+        <h3 class="title title__content_third">Sticky Note Title</h3>
+    </div>
+    <div class="sticky-note__body">
+        <p>Here goes a smale Description of the Stricky Note</p>
+    </div>
+    <div class="sticky-note__footer split-bar">
+        <div class="split-bar__container split-bar__container_left"><span class="text text__content_small">Author Name</span></div>
+        <div class="split-bar__container split-bar__container_right">
 
+            <!--Just for Demo Add some Buttons-->
+            <div class="button-set">
+                <div class="icon-button button-set__element">
+                    <button class="icon-button__check-mark"></button>
+                </div>
+                <div class="icon-button button-set__element">
+                    <button class="icon-button__aboard"></button>
+                </div>
+            </div>
+            <!--ends here-->
+
+        </div>
+    </div>
+</div>
+<p><br/></p>
+<div class="sticky-note">
+    <div class="sticky-note__header">
+        <h3 class="title title__content_third">Sticky Note Title with a Long Title</h3>
+    </div>
+    <div class="sticky-note__body">
+        <p>Here goes a smale Description of the Stricky Note</p>
+    </div>
+    <div class="sticky-note__footer split-bar">
+        <div class="split-bar__container split-bar__container_left"><p class="text text__content_small sticky-note__author">Benjamin Rüde</p></div>
+        <div class="split-bar__container split-bar__container_right">
+
+            <!--Just for Demo Add some Buttons-->
+            <div class="button-set">
+                <div class="icon-button button-set__element">
+                    <button class="icon-button__check-mark"></button>
+                </div>
+                <div class="icon-button button-set__element">
+                    <button class="icon-button__aboard"></button>
+                </div>
+            </div>
+            <!--ends here-->
+
+        </div>
+    </div>
 </div>
 
 </body>
