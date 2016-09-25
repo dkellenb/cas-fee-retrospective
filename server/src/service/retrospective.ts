@@ -1,8 +1,5 @@
 import { injectable } from 'inversify';
-
-export interface IRetrospective {
-  name: string;
-}
+import { IRetrospective } from '../model/retrospective';
 
 @injectable()
 export class RetrospectiveService {

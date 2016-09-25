@@ -22,7 +22,7 @@ export class UUID {
   }
 
   toString() {
-    return this.str;
+    return this.uuid;
   }
 
 }

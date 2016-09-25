@@ -22,9 +22,13 @@
     "node_modules"
   ],
   "filesGlob": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "../shared/src/**/*.ts"
   ],
   "files": [
+    "../shared/src/model/retrospective.ts",
+    "../shared/src/model/user.ts",
+    "../shared/src/util/uuid.ts",
     "src/constant/tags.ts",
     "src/constant/types.ts",
     "src/controller/retrospective.ts",

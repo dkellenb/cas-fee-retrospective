@@ -1,6 +1,6 @@
 var gulp = require('gulp');
 var ts = require('gulp-typescript');
-var serverTS = ["src/**/*.ts", "typings/**/*.ts", "node_modules/**/*.d.ts"];
+var serverTS = ["../shared/src/**/*.ts", "src/**/*.ts", "typings/**/*.ts", "node_modules/**/*.d.ts"];
 
 
 var tsProject = ts.createProject("tsconfig.json", {

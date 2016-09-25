@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Put, Delete } from 'inversify-express-utils';
 import { injectable, inject } from 'inversify';
-import { IRetrospective, RetrospectiveService } from '../service/retrospective';
+import { RetrospectiveService } from '../service/retrospective';
+import { IRetrospective } from '../model/retrospective';
 import { Request } from 'express';
 import TYPES from '../constant/types';
 
