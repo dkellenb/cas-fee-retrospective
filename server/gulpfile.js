@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var ts = require('gulp-typescript');
+var concat = require('gulp-concat');
 var serverTS = ["../shared/src/**/*.ts", "src/**/*.ts", "typings/**/*.ts", "node_modules/**/*.d.ts"];
 
 
@@ -14,9 +15,10 @@ gulp.task('ts', function() {
         .src(serverTS, {base: './'})
         .pipe(ts(tsProject))
         .js
+        .pipe(concat('all.js'))
         .pipe(gulp.dest('./dist'));
 });
 
 gulp.task('watch', function() {
-    gulp.watch('./src/**/*.ts', ['ts']);
+    gulp.watch(['./src/**/*.ts', '../shared/src/**/*.ts'], ['ts']);
 });

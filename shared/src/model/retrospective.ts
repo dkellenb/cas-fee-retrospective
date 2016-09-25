@@ -26,7 +26,7 @@ export interface IRetrospectiveComment {
 
 export interface IRetrospective {
   uuid: UUID;
-  title: string;
+  name: string;
   description: string;
   status: RetrospectiveStatus;
   comments: IRetrospectiveComment[];
