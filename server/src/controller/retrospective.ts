@@ -1,12 +1,12 @@
 import { Controller, Get, Post, Put, Delete } from 'inversify-express-utils';
 import { injectable, inject } from 'inversify';
-import { IRetrospective } from '../../../shared/src/model/retrospective';
 import { Request } from 'express';
 import TYPES from '../constant/types';
+import { IRetrospective } from '../../../shared/src/model/retrospective';
 import {RetrospectiveService} from "../service/retrospective";
 
 @injectable()
-@Controller('/rest/retrospective')
+@Controller('/rest/retrospectives')
 export class RetrospectiveController {
 
   constructor(@inject(TYPES.RetrospectiveService) private retrospectiveService: RetrospectiveService) { }

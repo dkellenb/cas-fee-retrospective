@@ -28,6 +28,7 @@
     "src/constant/tags.ts",
     "src/constant/types.ts",
     "src/controller/retrospective.ts",
+    "src/controller/user.ts",
     "src/service/retrospective.ts",
     "src/server.ts"
   ]
