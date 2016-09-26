@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import { IUser } from "../../../shared/src/model/user";
+import { IUser } from '../../../shared/src/model/user';
 
 @injectable()
 export class UserRepository {

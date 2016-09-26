@@ -1,7 +1,7 @@
 import { injectable } from 'inversify';
-import { IUser, IUserJwt } from "../../../shared/src/model/user";
+import { IUserJwt } from '../../../shared/src/model/user';
 import { Request } from 'express';
-import { sign, verify } from 'jsonwebtoken';
+import { verify } from 'jsonwebtoken';
 
 @injectable()
 export class UserJwtService {

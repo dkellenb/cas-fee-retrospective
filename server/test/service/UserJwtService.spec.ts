@@ -1,5 +1,5 @@
-import { UserJwtService } from '../../src/service/UserJwtService'
-import { expect } from 'chai'
+import { UserJwtService } from '../../src/service/UserJwtService';
+import { expect } from 'chai';
 
 describe('UserJwtService', function() {
 
@@ -13,7 +13,7 @@ describe('UserJwtService', function() {
 
   it('Should decode sample JWT string', function() {
     // given
-    let jwt = '';
+    // let jwt = '';
 
     // when
     let jwtUser = UserJwtService.getJwtUser(null);

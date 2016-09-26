@@ -3,7 +3,7 @@ import { injectable, inject } from 'inversify';
 import { Request } from 'express';
 import TYPES from '../constant/types';
 import { IRetrospective } from '../../../shared/src/model/retrospective';
-import { RetrospectiveService } from "../service/retrospective";
+import { RetrospectiveService } from '../service/retrospective';
 
 @injectable()
 @Controller('/rest/retrospectives')

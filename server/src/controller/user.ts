@@ -1,8 +1,7 @@
 import { Controller, Get, Post, Put, Delete } from 'inversify-express-utils';
-import { injectable, inject } from 'inversify';
+import { injectable } from 'inversify';
 import { Request } from 'express';
-import { IUser } from "../../../shared/src/model/user";
-import { sign } from 'jsonwebtoken';
+import { IUser } from '../../../shared/src/model/user';
 
 @injectable()
 @Controller('/rest/users')
@@ -15,7 +14,7 @@ export class UserController {
 
   @Post('/')
   public createUser(request: Request): IUser {
-    return null; //this.retrospectiveService.createRetrospective(request.body);
+    return null; // this.retrospectiveService.createRetrospective(request.body);
   }
 
   @Get('/:id/')
@@ -25,7 +24,7 @@ export class UserController {
 
   @Put('/:id')
   public updateUser(request: Request): IUser {
-    return null; //this.retrospectiveService.updateRetrospective(request.params.id, request.body);
+    return null; // this.retrospectiveService.updateRetrospective(request.params.id, request.body);
   }
 
   @Delete('/:id')
