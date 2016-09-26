@@ -34,6 +34,9 @@
     "src/controller/retrospective.ts",
     "src/controller/user.ts",
     "src/service/retrospective.ts",
-    "src/server.ts"
+    "src/service/user.ts",
+    "src/service/UserJwtService.ts",
+    "src/server.ts",
+    "test/service/UserJwtService.spec.ts"
   ]
 }
