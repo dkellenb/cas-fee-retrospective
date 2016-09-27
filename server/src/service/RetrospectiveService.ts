@@ -1,14 +1,10 @@
 import { injectable } from 'inversify';
-
-export interface IRetrospective {
-  name: string;
-}
+import { IRetrospective } from '../../../shared/src/model/RetrospectiveDomainModel';
 
 @injectable()
 export class RetrospectiveService {
 
   private retrospectiveStorage: IRetrospective[] = [];
-
 
   public getRetrospectives(): IRetrospective[] {
     return this.retrospectiveStorage;
@@ -17,7 +13,7 @@ export class RetrospectiveService {
   public getRetrospective(id: string): IRetrospective {
     let result: IRetrospective;
     this.retrospectiveStorage.map(retrospective => {
-      if (retrospective.name === id) {
+      if (retrospective.uuid.getId() === id) {
         result = retrospective;
       }
     });
@@ -32,7 +28,7 @@ export class RetrospectiveService {
 
   public updateRetrospective(id: string, retrospective: IRetrospective): IRetrospective {
     this.retrospectiveStorage.map((entry, index) => {
-      if (entry.name === id) {
+      if (entry.uuid.getId() === id) {
         this.retrospectiveStorage[index] = retrospective;
       }
     });
@@ -43,7 +39,7 @@ export class RetrospectiveService {
   public deleteRetrospective(id: string): string {
     let updatedRetrospective: IRetrospective[] = [];
     this.retrospectiveStorage.map(retrospective => {
-      if (retrospective.name !== id) {
+      if (retrospective.uuid.getId() !== id) {
         updatedRetrospective.push(retrospective);
       }
     });

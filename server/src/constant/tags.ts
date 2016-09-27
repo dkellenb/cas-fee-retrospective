@@ -1,6 +1,7 @@
 const TAGS = {
   /** Controllers. */
-  RetrospectiveController: 'RetrospectiveController'
+  RetrospectiveController: 'RetrospectiveController',
+  UserController: 'UserController'
 };
 
 export default TAGS;

@@ -13,12 +13,16 @@
       "reflect-metadata"
     ],
     "noImplicitAny": false,
-    "sourceMap": false,
+    "sourceMap": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "moduleResolution": "node"
   },
-  "atom": {
-    "rewriteTsconfig": true
-  }
+  "exclude": [
+    "node_modules"
+  ],
+  "filesGlob": [
+    "src/**/*.ts",
+    "../shared/src/**/*.ts"
+  ]
 }

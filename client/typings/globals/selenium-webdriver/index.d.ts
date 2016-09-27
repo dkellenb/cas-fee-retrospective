@@ -532,7 +532,7 @@ declare namespace firefox {
 
         /**
          * Returns the currently configured value of a profile preference. This does
-         * not include any defaults defined in the profile's template directory user.js
+         * not include any defaults defined in the profile's template directory UserController.js
          * file (if a template were specified on construction).
          * @param {string} key The desired preference.
          * @return {(string|number|boolean|undefined)} The current value of the

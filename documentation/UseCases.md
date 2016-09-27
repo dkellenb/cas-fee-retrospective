@@ -28,7 +28,7 @@ Within a given context, a user could have different roles
 ### <a id="RA01"></a>RA01: Join an existing retrospective
 
 1. User gets the link to the retrospective and opens the page
-1. If the user is already known to the system, continues to (#RA02). Otherwise the system show a page where the user could enter a short name.
+1. If the user is already known to the system, continues to (#RA02). Otherwise the system show a page where the user could enter a short name and start a new retrospective session
 1. The system persists the short name and redirects to (#RA02)
 
 ### <a id="RA02"></a>RA02: Show retrospective comments
