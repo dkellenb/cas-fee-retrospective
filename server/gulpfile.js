@@ -36,10 +36,10 @@ var srcCompileTest = srcApp.concat(srcTest).concat(srcExternal);
 //******************************************************************************
 //* LINT
 //******************************************************************************
-gulp.task("lint", function() {
+gulp.task('lint', function() {
     return gulp.src(srcAll)
         .pipe(tslint({
-            formatter: "verbose"
+            formatter: 'verbose'
         }))
         .pipe(tslint.report())
 });
@@ -49,27 +49,25 @@ gulp.task("lint", function() {
 //* BUILD
 //******************************************************************************
 
-var tsProject = tsc.createProject("tsconfig.json", {
+var tsProject = tsc.createProject('tsconfig.json', {
     typescript: require('typescript')
 });
 
-gulp.task("build-source", function() {
+gulp.task('build-source', function() {
     return tsProject.src()
         .pipe(tsc(tsProject))
         .js
         .pipe(gulp.dest(__dirname + '/build/'));
 });
 
-gulp.task("build", function(cb) {
-    runSequence("lint", "build-source", cb);
-});
+gulp.task('build', ['lint', 'build-source']);
 
 
 //******************************************************************************
 //* TEST
 //******************************************************************************
 
-gulp.task('test', ['build-source', 'run-tests' ]);
+gulp.task('test', ['build-source', 'run-tests']);
 
 gulp.task('run-tests', function() {
     return gulp.src(__dirname + '/build/**/*.spec.js')
@@ -84,12 +82,7 @@ gulp.task('run-tests', function() {
 //******************************************************************************
 //* DEFAULT
 //******************************************************************************
-gulp.task("default", function (cb) {
-    runSequence(
-        "lint",
-        "build-source",
-        cb);
-});
+gulp.task('default', ['lint', 'build-source']);
 
 gulp.task('watch', function() {
     gulp.watch(srcAll, ['default']);

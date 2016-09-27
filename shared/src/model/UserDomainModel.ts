@@ -1,4 +1,4 @@
-import {UUID} from '../util/uuid';
+import {UUID} from '../util/UUID';
 
 export enum UserRole {
   USER,

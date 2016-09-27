@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Put, Delete } from 'inversify-express-utils';
 import { injectable } from 'inversify';
 import { Request } from 'express';
-import { IUser } from '../../../shared/src/model/user';
+import { IUser } from '../../../shared/src/model/UserDomainModel';
 
 @injectable()
 @Controller('/rest/users')

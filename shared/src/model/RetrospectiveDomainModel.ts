@@ -1,5 +1,5 @@
-import { UUID } from '../util/uuid';
-import { IUser } from './user';
+import { UUID } from '../util/UUID';
+import { IUser } from './UserDomainModel';
 
 export enum RetrospectiveStatus {
   OPEN,
