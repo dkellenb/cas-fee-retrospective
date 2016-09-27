@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live Mock Demo Sticky-Note-Board</title>
+
+    <link rel="stylesheet" href="style-collapsible-board.css" type="text/css">
+
+    <!--Depends on this Styles-->
+    <link rel="stylesheet" href="../Sticky-Note-Board/style-board.css"/>
+    <link rel="stylesheet" href="../Split-Bar/style-split-bar.css" type="text/css">
+    <link rel="stylesheet" href="../Text/style-text.css" type="text/css"/>
+
+
+    <!--Stylesheets from other components for demo-->
+    <link rel="stylesheet" href="../Button-Set/button-set.css" type="text/css">
+    <link rel="stylesheet" href="../Icon-Buttons/style-icon-button.css" type="text/css">
+    <link rel="stylesheet" href="../Sticky-Note/style-sticky-note.css" type="text/css">
+</head>
+<body>
+
+<div class="board">
+    <div class="board__header">
+        <!--html from board-header-bar for demo-->
+        <div class="split-bar">
+            <div class="split-bar__container split-bar__container_left">
+                <h2 class="title title__content_second">Title of the Collapsible Board</h2>
+            </div>
+            <div class="split-bar__container split-bar__container_right">
+                <div class="button-set">
+                    <!--Uses icon-button__toggle-collapsible-->
+                    <div class="icon-button">
+                        <input type="checkbox" class="icon-button__toggle-collapsible" id="vote_up_1">
+                        <label for="vote_up_1" class="icon-button__icon"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end board-header-bar demo html-->
+    </div>
+    <div class="board__body">
+        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
+            voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
+            amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed
+            diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
+            amet.</p>
+    </div>
+</div>
+
+
+</body>
+</html>
