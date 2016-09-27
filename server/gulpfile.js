@@ -11,7 +11,7 @@ var gulp            = require('gulp'),
     mocha           = require('gulp-mocha'),
     babel           = require('babel-register'),
     runSequence     = require('run-sequence'),
-    reflectMetadata = require('reflect-metadata');
+    reflectMetadata = require('reflect-metadata'); // needed for typescript compilation
 
 
 //******************************************************************************

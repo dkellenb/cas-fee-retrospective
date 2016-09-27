@@ -55,6 +55,7 @@
     "reflect-metadata": "^0.1.8",
     "run-sequence": "^1.2.2",
     "tslint": "^3.6.0",
+    "typemoq": "^0.3.3",
     "typings": "^1.3.3"
   }
 }
