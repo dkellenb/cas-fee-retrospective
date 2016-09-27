@@ -16,11 +16,13 @@
     <link rel="stylesheet" href="../Button-Set/button-set.css" type="text/css">
     <link rel="stylesheet" href="../Icon-Buttons/style-icon-button.css" type="text/css">
     <link rel="stylesheet" href="../Sticky-Note/style-sticky-note.css" type="text/css">
+
+
 </head>
 <body>
 
-<div class="board">
-    <div class="board__header">
+<div class="board collapsible-board">
+    <div class="board__header ">
         <!--html from board-header-bar for demo-->
         <div class="split-bar">
             <div class="split-bar__container split-bar__container_left">
@@ -30,7 +32,8 @@
                 <div class="button-set">
                     <!--Uses icon-button__toggle-collapsible-->
                     <div class="icon-button">
-                        <input type="checkbox" class="icon-button__toggle-collapsible" id="vote_up_1">
+                        <input type="checkbox" class="icon-button__toggle-collapsible js--collapsible-board__button"
+                               id="vote_up_1">
                         <label for="vote_up_1" class="icon-button__icon"></label>
                     </div>
                 </div>
@@ -38,15 +41,66 @@
         </div>
         <!--end board-header-bar demo html-->
     </div>
-    <div class="board__body">
-        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam
-            voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
-            amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed
-            diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit
+    <div class="board__body js--collapsible-board__toggle-element">
+        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+            dolore magna aliquyam erat, sed diam
+            voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+            takimata sanctus est Lorem ipsum dolor sit
+            amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+            labore et dolore magna aliquyam erat, sed
+            diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+            takimata sanctus est Lorem ipsum dolor sit
+            amet.</p>
+    </div>
+</div>
+<p>next</p>
+<div class="board collapsible-board">
+    <div class="board__header ">
+        <!--html from board-header-bar for demo-->
+        <div class="split-bar">
+            <div class="split-bar__container split-bar__container_left">
+                <h2 class="title title__content_second">Title of the Collapsible Board</h2>
+            </div>
+            <div class="split-bar__container split-bar__container_right">
+                <div class="button-set">
+                    <!--Uses icon-button__toggle-collapsible-->
+                    <div class="icon-button">
+                        <input type="checkbox" class="icon-button__toggle-collapsible js--collapsible-board__button"
+                               id="vote_up_2">
+                        <label for="vote_up_2" class="icon-button__icon"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--end board-header-bar demo html-->
+    </div>
+    <div class="board__body js--collapsible-board__toggle-element">
+        <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
+            dolore magna aliquyam erat, sed diam
+            voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+            takimata sanctus est Lorem ipsum dolor sit
+            amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
+            labore et dolore magna aliquyam erat, sed
+            diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
+            takimata sanctus est Lorem ipsum dolor sit
             amet.</p>
     </div>
 </div>
 
 
+<!--Excample Script for toggle will be solved with angular 2 -->
+<script type="text/javascript" src="../lib/jquery-2.2.4.min.js"></script>
+<script>
+    $(function () {
+        $('.collapsible-board').each(function () {
+            var collabsibleBoard = $(this);
+            collabsibleBoard.find('.js--collapsible-board__button').change(
+                    function () {
+                        collabsibleBoard.find('.js--collapsible-board__toggle-element').slideToggle();
+                    }
+            )
+        });
+    });
+</script>
 </body>
 </html>
