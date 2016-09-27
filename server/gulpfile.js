@@ -65,7 +65,7 @@ gulp.task("build-source", function() {
     return tsProject.src()
         .pipe(tsc(tsProject))
         .js
-        .pipe(gulp.dest(__dirname + "/build/"));
+        .pipe(gulp.dest(__dirname + '/build/'));
 });
 
 gulp.task("build", function(cb) {
@@ -78,9 +78,7 @@ gulp.task("build", function(cb) {
 //******************************************************************************
 
 gulp.task('test', function() {
-    return tsProject.src()
-        .pipe(tsc(tsProject))
-        .js
+    return gulp.src(__dirname + '/build/**/*.spec.js')
         .pipe(mocha({
             reporter: 'progress',
             compilers:babel

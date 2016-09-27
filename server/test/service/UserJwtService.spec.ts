@@ -11,15 +11,19 @@ describe('UserJwtService', function() {
     // teardown
   });
 
-  it('Should decode sample JWT string', function() {
-    // given
-    // let jwt = '';
+  describe('#getJwtUser()', function() {
 
-    // when
-    let jwtUser = UserJwtService.getJwtUser(null);
+    it('Should decode sample JWT string', function() {
+      // given
+      // let jwt = '';
 
-    // then
-    expect(jwtUser.name).eq('demo-user');
+      // when
+      let jwtUser = UserJwtService.getJwtUser(null);
+
+      // then
+      expect(jwtUser.name).eq('demo-user');
+    });
+
   });
 
 });
