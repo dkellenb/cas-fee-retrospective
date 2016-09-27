@@ -10,7 +10,8 @@ var gulp            = require('gulp'),
     concat          = require('gulp-concat'),
     mocha           = require('gulp-mocha'),
     babel           = require('babel-register'),
-    runSequence     = require('run-sequence');
+    runSequence     = require('run-sequence'),
+    reflectMetadata = require('reflect-metadata');
 
 
 //******************************************************************************
@@ -52,15 +53,6 @@ var tsProject = tsc.createProject("tsconfig.json", {
     typescript: require('typescript')
 });
 
-/*var tsProject = tsc.createProject({
-    removeComments : false,
-    noImplicitAny : false,
-    target : "ES5",
-    module : "amd",
-    declarationFiles : false
-});*/
-
-
 gulp.task("build-source", function() {
     return tsProject.src()
         .pipe(tsc(tsProject))
@@ -77,7 +69,9 @@ gulp.task("build", function(cb) {
 //* TEST
 //******************************************************************************
 
-gulp.task('test', function() {
+gulp.task('test', ['build-source', 'run-tests' ]);
+
+gulp.task('run-tests', function() {
     return gulp.src(__dirname + '/build/**/*.spec.js')
         .pipe(mocha({
             reporter: 'progress',
