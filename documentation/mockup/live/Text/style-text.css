@@ -1,4 +1,4 @@
-h1, .title{
+h1, .title {
     font-family: Arial, serif;
     font-size: 1.25rem; /*20px*/
     font-weight: bold;
@@ -6,7 +6,7 @@ h1, .title{
     margin: 0;
 }
 
-h2, .title__content_second{
+h2, .title__content_second {
     font-size: 1rem; /*16px*/
     font-weight: normal;
 }
@@ -26,7 +26,7 @@ h5, .title__content_fifth {
     font-weight: normal;
 }
 
-p, .text{
+p, span, .text {
     font-family: Arial, serif;
     font-size: 0.875rem; /*14px*/
     color: #000000;
