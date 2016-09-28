@@ -6,11 +6,8 @@
       "es6",
       "dom"
     ],
-    "types": [
-      "inversify",
-      "inversify-express-utils",
-      "mocha",
-      "reflect-metadata"
+    "typesRoots": [
+      "node_modules/@types"
     ],
     "noImplicitAny": false,
     "sourceMap": true,
