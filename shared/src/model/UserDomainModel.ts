@@ -22,3 +22,20 @@ export interface IUserJwt {
   email?: string;
   systemRole: UserRole;
 }
+
+export class CreateUserJSON {
+  shortName: string;
+  name?: string;
+  email?: string;
+}
+
+export class User implements IUser {
+  uuid: UUID;
+  shortName: string;
+  name?: string;
+  email?: string;
+  systemRole: UserRole;
+  token: IUserToken[];
+
+
+}
