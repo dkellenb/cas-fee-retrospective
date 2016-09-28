@@ -20,7 +20,7 @@
 
 </head>
 <body>
-
+<h2>Open Board</h2>
 <div class="board collapsible-board">
     <div class="board__header ">
         <!--html from board-header-bar for demo-->
@@ -53,7 +53,7 @@
             amet.</p>
     </div>
 </div>
-<p>next</p>
+<h2>Hidden Board</h2>
 <div class="board collapsible-board">
     <div class="board__header ">
         <!--html from board-header-bar for demo-->
@@ -66,7 +66,7 @@
                     <!--Uses icon-button__toggle-collapsible-->
                     <div class="icon-button">
                         <input type="checkbox" class="icon-button__toggle-collapsible js--collapsible-board__button"
-                               id="vote_up_2">
+                               id="vote_up_2" checked="checked">
                         <label for="vote_up_2" class="icon-button__icon"></label>
                     </div>
                 </div>
@@ -94,7 +94,13 @@
     $(function () {
         $('.collapsible-board').each(function () {
             var collabsibleBoard = $(this);
-            collabsibleBoard.find('.js--collapsible-board__button').change(
+            var toggleButton = collabsibleBoard.find('.js--collapsible-board__button');
+            var toggleElement = collabsibleBoard.find('.js--collapsible-board__toggle-element');
+            if(toggleButton.prop('checked')){
+               toggleElement.hide();
+            }
+
+            toggleButton.change(
                     function () {
                         collabsibleBoard.find('.js--collapsible-board__toggle-element').slideToggle();
                     }

@@ -12,11 +12,11 @@ html {
 }
 
 .board__header {
-    border-bottom: solid 1px #cccccc;
     padding-left: 0.25rem;/*4px*/
 }
 
 .board__body {
+    border-top: solid 1px #cccccc;
     padding: 0.625rem 0 0.625rem 0.625rem; /*10px*/
     font-size: 0; /*white space killer*/
 }

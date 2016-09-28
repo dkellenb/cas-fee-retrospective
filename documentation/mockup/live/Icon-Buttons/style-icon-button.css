@@ -65,9 +65,9 @@
 }
 
 .icon-button__toggle-collapsible + label:before{
-    content: '\25BC';
+    content: '\25B2';
 }
 
 .icon-button__toggle-collapsible:checked + label:before{
-    content: '\25B2';
+    content: '\25BC';
 }
