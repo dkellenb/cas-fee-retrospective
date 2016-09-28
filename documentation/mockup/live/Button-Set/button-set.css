@@ -1,13 +1,10 @@
-.button-set{
+.button-set {
     float: right;
+    font-size: 0; /*withespace solver*/
 }
 
-.button-set:after{
+.button-set:after {
     clear: both;
     font-size: 0;
     display: table;
-}
-
-.button-set__element{
-    float: left;
 }

@@ -4,7 +4,16 @@
     border: solid 2px #666666;
     background: #C0C0C0;
     color: #666666;
-    margin: 0.125rem;
+    margin: 0.125rem 0.125rem 0.125rem 0;
+
+    font-size: 0.875rem; /*14px*/
+    line-height: 1.25rem; /*24px*/
+    font-weight: bold;
+    padding: 0;
+    display: inline-block;
+    text-align: center;
+    box-sizing: content-box;
+    vertical-align: top; /*fix problem with firefox and toggle Buttons align*/
 }
 
 .icon-button:hover{
@@ -14,19 +23,6 @@
 
 .icon-button__body_success {
     background: #6dd15c;
-}
-
-.icon-button__icon {
-    width: 100%;
-    border: none;
-    font-size: 0.875rem; /*14px*/
-    line-height: 1.25rem; /*24px*/
-    font-weight: bold;
-    background: none;
-    padding: 0;
-    display: block;
-    text-align: center;
-    color: inherit;
 }
 
 .icon-button__icon_add:before {
@@ -58,6 +54,11 @@
     content: '👍';
 }
 
+.icon-button__toggle-icon{
+    display: block;
+    padding: 0;
+    margin: 0;
+}
 
 /**Toggle Stuff**/
 .icon-button__toggle-collapsible {
