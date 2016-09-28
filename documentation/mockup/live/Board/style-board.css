@@ -3,6 +3,7 @@
     min-width: 18.75rem;
     width: 100%;
     border: solid 1px #cccccc;
+    border-radius: 0.125rem;
     background: #eeeeee;
     display: block;
 }

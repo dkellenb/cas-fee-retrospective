@@ -2,6 +2,7 @@
     height: 1.25rem; /*24px*/
     width: 1.25rem; /*24px*/
     border: solid 2px #666666;
+    border-radius: 0.125rem;
     background: #C0C0C0;
     color: #666666;
     margin: 0.125rem 0.125rem 0.125rem 0;

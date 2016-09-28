@@ -8,6 +8,7 @@ html {
     height: 8.25rem; /*132px*/
     background: #ffffcc;
     border: solid 1px #cccccc;
+    border-radius: 0.125rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;

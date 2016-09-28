@@ -1,0 +1,52 @@
+.form {
+
+}
+
+.input {
+    display: block;
+}
+
+.input__textfield {
+    width: 100%;
+    background: #f7f7f7;
+    border: solid 1px #CCCCCC;
+    line-height: 1.25rem;
+    font-size: 0.875rem;
+    border-radius: 0.25rem;
+}
+
+.input__textfield:focus {
+    border: solid 1px #999999;
+    background: white;
+}
+
+.input__textfield_large {
+    width: 16rem;
+}
+
+.input__textfield_middle {
+    width: 8rem;
+}
+
+.input__textfield_small {
+    width: 6rem;
+}
+
+.input__label {
+    display: block;
+}
+
+.input__error-message {
+    display: block;
+    color: #d40000;
+}
+
+.input__textfield_error {
+    border: solid 2px #d40000;
+}
+
+.input__textfield_error:focus{
+    background: white;
+}
+
+
