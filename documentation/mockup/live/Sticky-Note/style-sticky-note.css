@@ -4,8 +4,8 @@ html {
 
 /*Just empty Sticky-Note for Show*/
 .sticky-note {
-    width: 8.75rem; /*140px*/
-    height: 8.75rem; /*140px*/
+    width: 8.25rem; /*132px*/
+    height: 8.25rem; /*132px*/
     background: #ffffcc;
     border: solid 1px #cccccc;
     display: flex;
