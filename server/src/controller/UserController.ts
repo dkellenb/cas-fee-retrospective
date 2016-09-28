@@ -1,8 +1,9 @@
 import { Controller, Get, Post, Put, Delete } from 'inversify-express-utils';
 import { injectable, inject } from 'inversify';
 import { Request, Response } from 'express';
-import { IUser, CreateUserJSON } from '../../../shared/src/model/UserDomainModel';
 import TYPES from '../constant/types';
+import {IUser} from '../../../shared/src/model/user/User';
+import {CreateUserJSON} from '../../../shared/src/model/user/CreateUserJSON';
 
 
 @injectable()
@@ -41,6 +42,11 @@ export class UserController {
   @Delete('/:id')
   public deleteUser(request: Request): string {
     return null; // this.retrospectiveService.deleteRetrospective(request.params.id);
+  }
+
+  @Get('/:id/tokens/:tokenId/')
+  public getJwtForUser(request: Request): string {
+    return this.userService.getJwt(request.params.id, request.params.tokenId);
   }
 
 }

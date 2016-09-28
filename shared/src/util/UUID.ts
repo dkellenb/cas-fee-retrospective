@@ -21,10 +21,6 @@ export class UUID {
     this.uuid = uuid || UUID.createUUID();
   }
 
-  getId() {
-    return this.uuid;
-  }
-
   toString() {
     return this.uuid;
   }

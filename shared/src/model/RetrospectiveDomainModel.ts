@@ -1,5 +1,4 @@
-import { UUID } from '../util/UUID';
-import { IUser } from './UserDomainModel';
+import { IUser } from './user/User';
 
 export enum RetrospectiveStatus {
   OPEN,
@@ -10,13 +9,13 @@ export enum RetrospectiveStatus {
 }
 
 export interface IRetrospectiveVote {
-  uuid: UUID;
+  uuid: string;
   author: IUser;
   value: number;
 }
 
 export interface IRetrospectiveComment {
-  uuid: UUID;
+  uuid: string;
   title: string;
   description: string;
   author: IUser;
@@ -25,7 +24,7 @@ export interface IRetrospectiveComment {
 }
 
 export interface IRetrospective {
-  uuid: UUID;
+  uuid: string;
   name: string;
   description: string;
   status: RetrospectiveStatus;

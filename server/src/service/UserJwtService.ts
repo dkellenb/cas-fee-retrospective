@@ -1,7 +1,7 @@
 import { injectable, inject } from 'inversify';
-import { IUserJwt } from '../../../shared/src/model/UserDomainModel';
+import {IUserJwt} from '../../../shared/src/model/user/UserJwt';
 import { Request } from 'express';
-import { verify } from 'jsonwebtoken';
+import {verify, sign} from 'jsonwebtoken';
 import TYPES from '../constant/types';
 import {UserJwtKeyProvider} from './UserJwtKeyProvider';
 
@@ -25,6 +25,10 @@ export class UserJwtService {
     }
     console.log('No JWT given');
     return null;
+  }
+
+  public createJwt(user: IUserJwt): string {
+    return sign(user, this.jwtKeyProvider.getKey());
   }
 
 }

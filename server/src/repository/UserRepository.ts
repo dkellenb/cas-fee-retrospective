@@ -1,19 +1,19 @@
 import { injectable } from 'inversify';
-import { IUser } from '../../../shared/src/model/UserDomainModel';
+import {IPersistedUser} from '../../../shared/src/model/user/PersistedUser';
 
 @injectable()
 export class UserRepository {
 
-  private userStorage: IUser[] = [];
+  private userStorage: IPersistedUser[] = [];
 
-  public getUsers(): IUser[] {
+  public getUsers(): IPersistedUser[] {
     return this.userStorage;
   }
 
-  public getUser(id: string): IUser {
-    let result: IUser;
+  public getUser(id: string): IPersistedUser {
+    let result: IPersistedUser = null;
     this.userStorage.map(user => {
-      if (user.uuid.getId() === id) {
+      if (user.uuid === id) {
         result = user;
       }
     });
@@ -21,14 +21,14 @@ export class UserRepository {
     return result;
   }
 
-  public createUser(user: IUser): IUser {
+  public createUser(user: IPersistedUser): IPersistedUser {
     this.userStorage.push(user);
     return user;
   }
 
-  public updateUser(id: string, user: IUser): IUser {
+  public updateUser(id: string, user: IPersistedUser): IPersistedUser {
     this.userStorage.map((entry, index) => {
-      if (entry.uuid.getId() === id) {
+      if (entry.uuid === id) {
         this.userStorage[index] = user;
       }
     });
@@ -37,9 +37,9 @@ export class UserRepository {
   }
 
   public deleteUser(id: string): string {
-    let updatedUser: IUser[] = [];
+    let updatedUser: IPersistedUser[] = [];
     this.userStorage.map(user => {
-      if (user.uuid.getId() !== id) {
+      if (user.uuid !== id) {
         updatedUser.push(user);
       }
     });
