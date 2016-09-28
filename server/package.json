@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "node ./src/server.js",
-    "test": "mocha test --compilers js:babel-register"
+    "start": "node ./build/src/server.js",
+    "test": "gulp test"
   },
   "babel": {
     "presets": [
