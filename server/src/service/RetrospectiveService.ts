@@ -11,9 +11,9 @@ export class RetrospectiveService {
   }
 
   public getRetrospective(id: string): IRetrospective {
-    let result: IRetrospective;
+    let result: IRetrospective = null;
     this.retrospectiveStorage.map(retrospective => {
-      if (retrospective.uuid.getId() === id) {
+      if (retrospective.uuid === id) {
         result = retrospective;
       }
     });
@@ -28,7 +28,7 @@ export class RetrospectiveService {
 
   public updateRetrospective(id: string, retrospective: IRetrospective): IRetrospective {
     this.retrospectiveStorage.map((entry, index) => {
-      if (entry.uuid.getId() === id) {
+      if (entry.uuid === id) {
         this.retrospectiveStorage[index] = retrospective;
       }
     });
@@ -39,7 +39,7 @@ export class RetrospectiveService {
   public deleteRetrospective(id: string): string {
     let updatedRetrospective: IRetrospective[] = [];
     this.retrospectiveStorage.map(retrospective => {
-      if (retrospective.uuid.getId() !== id) {
+      if (retrospective.uuid !== id) {
         updatedRetrospective.push(retrospective);
       }
     });

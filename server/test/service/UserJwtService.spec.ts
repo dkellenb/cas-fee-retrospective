@@ -1,9 +1,9 @@
 import { UserJwtService } from '../../src/service/UserJwtService';
+import { UserJwtKeyProvider, UserStaticJwtKeyProvider } from '../../src/service/UserJwtKeyProvider';
 import { expect } from 'chai';
 import { Request } from 'express';
 import { sign }  from 'jsonwebtoken';
 import * as TypeMoq from 'typemoq';
-import {UserJwtKeyProvider, UserStaticJwtKeyProvider} from "../../src/service/UserJwtKeyProvider";
 
 
 describe('UserJwtService', function() {
@@ -27,8 +27,8 @@ describe('UserJwtService', function() {
       // setup instance to be tested
       let userJwtService = new UserJwtService(staticJwtKeyProvider.object);
 
-      let mockRequest: TypeMoq.Mock<Request> = TypeMoq.Mock.ofType<Request>(Request);
-      mockRequest.setup(x => x.header('Authorization')).returns(() => jwt);
+      let mockRequest: TypeMoq.Mock<Request> = <any>TypeMoq.Mock.ofInstance({ header : (x: string) => ''});
+      mockRequest.setup(x => x.header('Authorization')).returns((x: string) => 'Bearer ' + jwt);
 
       // when
       let jwtUser = userJwtService.getJwtUser(mockRequest.object);

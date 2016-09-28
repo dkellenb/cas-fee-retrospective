@@ -8,7 +8,7 @@ import { RetrospectiveController } from './controller/RetrospectiveController';
 import { RetrospectiveService } from './service/RetrospectiveService';
 import { UserController } from './controller/UserController';
 import { UserJwtService } from './service/UserJwtService';
-import { UserRepository } from './service/UserRepository';
+import { UserRepository } from './repository/UserRepository';
 import { UserJwtKeyProvider, UserStaticJwtKeyProvider} from './service/UserJwtKeyProvider';
 
 // load everything needed to the kernel
