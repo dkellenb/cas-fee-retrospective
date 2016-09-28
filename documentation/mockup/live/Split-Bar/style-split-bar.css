@@ -6,8 +6,7 @@ html {
     display: flex;
     width: 100%;
     align-items: center;
-    padding-top: 0.125rem; /*2px*/
-    padding-bottom: 0.125rem; /*2px*/
+    height: 100%;
 }
 
 .split-bar__container {

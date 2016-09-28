@@ -6,10 +6,12 @@
     border-radius: 0.125rem;
     background: #eeeeee;
     display: block;
+    margin-bottom: 1rem;
 }
 
 .board__header {
     padding-left: 0.25rem;/*4px*/
+    height: 2rem;
 }
 
 .board__body {

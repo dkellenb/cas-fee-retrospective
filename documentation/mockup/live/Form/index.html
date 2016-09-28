@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live Mock Demo Sticky-Note-Board</title>
+
+    <link rel="stylesheet" href="style-form.css" type="text/css">
+
+    <!--Depends on this Styles-->
+    <link rel="stylesheet" href="../Text/style-text.css" type="text/css"/>
+    <link rel="stylesheet" href="../Inputs/styles-inputs.css" type="text/css"/>
+    <link rel="stylesheet" href="../Icon-Buttons/style-icon-button.css" type="text/css">
+    <link rel="stylesheet" href="../Button-Set/button-set.css" type="text/css">
+</head>
+<body>
+<form class="form">
+    <div class="form__body">
+        <div class="form_element input">
+            <label for="input-full" class="input__label">Label for full size Input</label>
+            <input id="input-full" type="text" class="input__textfield">
+        </div>
+
+        <div class="form__element input">
+            <label for="input-textarea-smale" class="input__label">Label for Smale-Textarea</label>
+            <textarea id="input-textarea-smale" rows="5" class="input__textfield"></textarea>
+        </div>
+    </div>
+    <div class="form__submit">
+        <div class="button-set">
+            <label class="button-set__text button-set_element" for="submit-button">Submit Text for Form</label>
+            <button class="icon-button button-set_element icon-button__icon_check-mark" type="submit"
+                    id="submit-button"></button>
+        </div>
+    </div>
+</form>
+
+</body>
+</html>
