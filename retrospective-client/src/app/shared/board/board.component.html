@@ -1,28 +1,29 @@
 <div class="board">
   <div class="board__header">
     <!--html from board-header-bar for demo-->
+    <ng-content select=".board-header"></ng-content>
     <div class="split-bar">
-      <div class="split-bar__container split-bar__container_left">
-        <h2 class="title title__content_second">Title of the Board</h2>
-      </div>
-      <div class="split-bar__container split-bar__container_right">
-        <div class="button-set">
-          <button class="button-set_element icon-button icon-button__icon_check-mark"></button>
-          <button class="button-set_element icon-button icon-button__icon_aboard"></button>
-        </div>
+    <div class="split-bar__container split-bar__container_left">
+      <h2 class="title title__content_second"><ng-content select="board-title"></ng-content></h2>
+    </div>
+    <div class="split-bar__container split-bar__container_right">
+      <div class="button-set">
+        <ng-content select="board-buttons"></ng-content>
       </div>
     </div>
+  </div>
     <!--end board-header-bar demo html-->
   </div>
   <div class="board__body">
-    <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et
-      dolore magna aliquyam erat, sed diam
-      voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-      takimata sanctus est Lorem ipsum dolor sit
-      amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut
-      labore et dolore magna aliquyam erat, sed
-      diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
-      takimata sanctus est Lorem ipsum dolor sit
-      amet.</p>
+    <ng-content select="board-body"></ng-content>
+    <!--<p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et-->
+      <!--dolore magna aliquyam erat, sed diam-->
+      <!--voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea-->
+      <!--takimata sanctus est Lorem ipsum dolor sit-->
+      <!--amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut-->
+      <!--labore et dolore magna aliquyam erat, sed-->
+      <!--diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea-->
+      <!--takimata sanctus est Lorem ipsum dolor sit-->
+      <!--amet.</p>-->
   </div>
 </div>

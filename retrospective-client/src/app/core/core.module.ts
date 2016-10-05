@@ -13,6 +13,9 @@ import {SharedModule} from "./../shared"
   exports: [CoreComponent]
 })
 export class CoreModule {
+
+ 
+
   constructor(@Optional() @SkipSelf() parentModule:CoreModule) {
     throwIfAlreadyLoaded(parentModule, 'CoreModule');
   }

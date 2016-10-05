@@ -1,0 +1,85 @@
+.icon-button {
+  height: 1.25rem; /*24px*/
+  width: 1.25rem; /*24px*/
+  border: solid 2px #666666;
+  border-radius: 0.125rem;
+  background: #C0C0C0;
+  color: #666666;
+  margin: 0.125rem 0.125rem 0.125rem 0;
+
+  font-size: 0.875rem; /*14px*/
+  font-weight: bold;
+  padding: 0;
+  display: inline-block;
+  text-align: center;
+  box-sizing: content-box;
+  vertical-align: top; /*fix problem with firefox and toggle Buttons align*/
+}
+
+.icon-button:hover{
+  background: #666666;
+  color:#C0C0C0;
+}
+
+.icon-button__body_success {
+  background: #6dd15c;
+}
+
+.icon-button__icon_add:before {
+  content: '+';
+}
+
+.icon-button__icon_aboard:before {
+  content: '\2717';
+}
+
+.icon-button__icon_delete:before {
+  content: '\2717';
+}
+
+.icon-button__icon_check-mark:before {
+  content: '\2713';
+}
+
+.icon-button__icon_collapsible_close:before {
+  content: '\25B2';
+}
+
+.icon-button__icon_collapsible_open:before {
+  content: '\25BC';
+}
+
+.icon-button__icon_forward:before{
+  padding-left: 0.1rem;
+  content: '\25B6';
+}
+
+.icon-button__icon_back:before{
+  content: '\25C4';
+}
+
+
+/*ToDo create svn for thump-up*/
+.icon-button__icon_vote-up:before{
+  content: '👍';
+}
+
+.icon-button__toggle-icon{
+  display: block;
+  padding: 0;
+  margin: 0;
+  line-height: 1.25rem;
+}
+
+/**Toggle Stuff**/
+.icon-button__toggle-collapsible {
+  display: none;
+}
+
+.icon-button__toggle-collapsible + label:before{
+  content: '\25B2';
+}
+
+.icon-button__toggle-collapsible:checked + label:before{
+  content: '\25BC';
+}
