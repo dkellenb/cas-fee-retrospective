@@ -14,8 +14,10 @@
 
 .form__submit {
     width: 100%;
-    border-top: solid 1px #cccccc;
+    border-top: solid 1px #999999;
     display: table;
+    padding: 0.25rem;
+    box-sizing: border-box;
 }
 
 .form__submit:after {
