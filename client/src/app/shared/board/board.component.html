@@ -1,0 +1,18 @@
+<div class="board">
+  <div class="board__header">
+    <ng-content select=".board-header"></ng-content>
+    <div class="split-bar">
+    <div class="split-bar__container split-bar__container_left">
+      <h2 class="title title__content_second"><ng-content select="board-title"></ng-content></h2>
+    </div>
+    <div class="split-bar__container split-bar__container_right">
+      <div class="button-set">
+        <ng-content select="board-buttons"></ng-content>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="board__body">
+    <ng-content select="board-body"></ng-content>
+  </div>
+</div>

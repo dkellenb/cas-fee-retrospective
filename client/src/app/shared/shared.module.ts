@@ -13,7 +13,10 @@ import {IconButtonComponent} from './icon-button/icon-button.component';
 @NgModule({
   declarations: [BoardComponent, BoardBody, BoardButtons, BoardTitle, IconButtonComponent],
   imports: [CommonModule, HttpModule, RouterModule, FormsModule],
-  exports: [CommonModule, HttpModule, RouterModule, FormsModule, BoardComponent, BoardBody, BoardButtons, BoardTitle]
+  exports: [CommonModule, HttpModule, RouterModule, FormsModule,
+    BoardComponent, BoardBody, BoardButtons, BoardTitle,
+    IconButtonComponent
+  ]
 })
 export class SharedModule {
 }
