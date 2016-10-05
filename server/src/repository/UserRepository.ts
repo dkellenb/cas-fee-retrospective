@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import {IPersistedUser} from '../../../shared/src/model/user/PersistedUser';
+import { IPersistedUser } from '../../../shared/src/model';
 
 @injectable()
 export class UserRepository {

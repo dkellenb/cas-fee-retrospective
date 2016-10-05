@@ -2,8 +2,7 @@ import { Controller, Get, Post, Put, Delete } from 'inversify-express-utils';
 import { injectable, inject } from 'inversify';
 import { Request, Response } from 'express';
 import TYPES from '../constant/types';
-import {IUser} from '../../../shared/src/model/user/User';
-import {CreateUserJSON} from '../../../shared/src/model/user/CreateUserJSON';
+import {IUser, CreateUserJSON} from '../../../shared/src/model';
 
 
 @injectable()

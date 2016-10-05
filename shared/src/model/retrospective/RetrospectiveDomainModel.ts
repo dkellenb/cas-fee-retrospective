@@ -1,4 +1,4 @@
-import { IUser } from './user/User';
+import { IUser } from '../user/User';
 
 export enum RetrospectiveStatus {
   OPEN,

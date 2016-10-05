@@ -21,13 +21,10 @@
     "experimentalDecorators": true,
     "moduleResolution": "node"
   },
-  "include": [
-    "src/**/*",
-    "../shared/src/**/*",
-    "test/**/*",
-    "../shared/test/**/*"
-  ],
   "exclude": [
     "node_modules"
+  ],
+  "include": [
+    "src/**/*.ts"
   ]
 }

@@ -1,5 +1,5 @@
 import { injectable } from 'inversify';
-import { IRetrospective } from '../../../shared/src/model/RetrospectiveDomainModel';
+import { IRetrospective } from '../../../shared/src/model';
 
 @injectable()
 export class RetrospectiveService {
