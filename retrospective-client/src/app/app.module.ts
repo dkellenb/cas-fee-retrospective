@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { BoardComponent } from './shared/board/board.component';
+import {CoreModule} from "./core";
 
 @NgModule({
   declarations: [
     AppComponent,
-    BoardComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    CoreModule
   ],
   providers: [],
   bootstrap: [AppComponent]
