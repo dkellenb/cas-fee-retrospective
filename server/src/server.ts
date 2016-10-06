@@ -1,23 +1,25 @@
 import 'reflect-metadata';
-import { interfaces, Controller, InversifyExpressServer, TYPE } from 'inversify-express-utils';
-import { Kernel } from 'inversify';
+import {interfaces, InversifyExpressServer, TYPE} from 'inversify-express-utils';
+import {Kernel} from 'inversify';
 import * as bodyParser from 'body-parser';
 import TYPES from './constant/types';
 import TAGS from './constant/tags';
-import { RetrospectiveController } from './controller/RetrospectiveController';
-import { RetrospectiveService } from './service/RetrospectiveService';
-import { UserController } from './controller/UserController';
-import { UserJwtService } from './service/UserJwtService';
-import { UserRepository } from './repository/UserRepository';
-import { UserJwtKeyProvider, UserStaticJwtKeyProvider} from './service/UserJwtKeyProvider';
+import {RetrospectiveController} from './controller/RetrospectiveController';
+import {RetrospectiveService} from './service/RetrospectiveService';
+import {UserController} from './controller/UserController';
+import {UserJwtService, UserService} from './service/';
+import {UserRepository} from './repository/UserRepository';
+import {UserJwtKeyProvider, UserStaticJwtKeyProvider} from './service/UserJwtKeyProvider';
 
 // load everything needed to the kernel
 let kernel = new Kernel();
 
 kernel.bind<interfaces.Controller>(TYPE.Controller).to(RetrospectiveController).whenTargetNamed(TAGS.RetrospectiveController);
 kernel.bind<interfaces.Controller>(TYPE.Controller).to(UserController).whenTargetNamed(TAGS.UserController);
+
 kernel.bind<RetrospectiveService>(TYPES.RetrospectiveService).to(RetrospectiveService);
 kernel.bind<UserRepository>(TYPES.UserRepository).to(UserRepository);
+kernel.bind<UserService>(TYPES.UserService).to(UserService);
 kernel.bind<UserJwtService>(TYPES.UserJwtService).to(UserJwtService);
 kernel.bind<UserJwtKeyProvider>(TYPES.UserJwtKeyProvider).to(UserStaticJwtKeyProvider);
 
