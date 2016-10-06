@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Start-Screen Live Mockup</title>
+
+    <link rel="stylesheet" href="../../Text/style-text.css" type="text/css"/>
+    <link rel="stylesheet" href="../../Split-Bar/style-split-bar.css" type="text/css"/>
+    <link rel="stylesheet" href="../../Header-Bar/styles-header-bar.css" type="text/css"/>
+    <link rel="stylesheet" href="../../Icon-Buttons/style-icon-button.css" type="text/css"/>
+    <link rel="stylesheet" href="../../Button-Set/button-set.css" type="text/css"/>
+    <link rel="stylesheet" href="../../Board/style-board.css" type="text/css"/>
+    <link rel="stylesheet" href="../../Form/style-form.css" type="text/css"/>
+    <link rel="stylesheet" href="../../Inputs/styles-inputs.css" type="text/css"/>
+</head>
+<body>
+
+<div class="header-bar">
+    <div class="split-bar">
+        <div class="split-bar__container split-bar__container_left">
+            <h1 class="title">Retrosprectiv Board</h1>
+        </div>
+        <div class="split-bar__container split-bar__container_right">
+
+        </div>
+    </div>
+</div>
+
+<div class="board">
+    <div class="board__header">
+        <div class="split-bar">
+            <div class="split-bar__container split-bar__container_left">
+                <h2 class="title title__content_second">Join Retrospective Board Session</h2>
+            </div>
+        </div>
+    </div>
+    <div class="board__body">
+        <form class="form">
+            <div class="form__body">
+                <div class="form__element input">
+                    <label for="input-session-key" class="input__label">Session-Key</label>
+                    <input id="input-session-key" type="text" class="input__textfield">
+                </div>
+                <div class="form__element input">
+                    <label for="input-Shortname" class="input__label">Shortname</label>
+                    <input id="input-Shortname" type="text" class="input__textfield">
+                </div>
+            </div>
+            <div class="form__submit">
+                <div class="button-set">
+                    <label class="button-set__text button-set_element" for="join-button">Join existing Session</label>
+                    <button class="icon-button button-set_element icon-button__icon_forward" type="submit"
+                            id="join-button"></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="board">
+    <div class="board__header">
+        <div class="split-bar">
+            <div class="split-bar__container split-bar__container_left">
+                <h2 class="title title__content_second">Create new Retrospective Board Session</h2>
+            </div>
+        </div>
+    </div>
+    <div class="board__body">
+        <form class="form">
+            <div class="form__body">
+                <div class="form__element input">
+                    <label for="input-session-title" class="input__label">Title for Session</label>
+                    <input id="input-session-title" type="text" class="input__textfield">
+                </div>
+
+                <div class="form__element input">
+                    <label for="input-session-description" class="input__label">Description of Session</label>
+                    <textarea id="input-session-description" rows="5" class="input__textfield"></textarea>
+                </div>
+
+                <div class="form__element input">
+                    <label for="input-moderator-name" class="input__label">Shortname</label>
+                    <input id="input-moderator-name" type="text" class="input__textfield">
+                </div>
+            </div>
+            <div class="form__submit">
+                <div class="button-set">
+                    <label class="button-set__text button-set_element" for="create-button">Create new Session</label>
+                    <button class="icon-button button-set_element icon-button__icon_forward" type="submit"
+                            id="create-button"></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
