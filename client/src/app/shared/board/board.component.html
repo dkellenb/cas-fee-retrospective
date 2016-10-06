@@ -1,18 +1,19 @@
 <div class="board">
   <div class="board__header">
-    <ng-content select=".board-header"></ng-content>
-    <div class="split-bar">
-    <div class="split-bar__container split-bar__container_left">
-      <h2 class="title title__content_second"><ng-content select="board-title"></ng-content></h2>
-    </div>
-    <div class="split-bar__container split-bar__container_right">
-      <div class="button-set">
-        <ng-content select="board-buttons"></ng-content>
-      </div>
-    </div>
-  </div>
+    <rsb-split-bar>
+      <rsb-split-bar-container-left>
+        <h2 class="title title__content_second">
+          <ng-content select="rsb-board-title"></ng-content>
+        </h2>
+      </rsb-split-bar-container-left>
+      <rsb-split-bar-container-right>
+        <div class="button-set">
+          <ng-content select="rsb-board-buttons"></ng-content>
+        </div>
+      </rsb-split-bar-container-right>
+    </rsb-split-bar>
   </div>
   <div class="board__body">
-    <ng-content select="board-body"></ng-content>
+    <ng-content select="rsb-board-body"></ng-content>
   </div>
 </div>

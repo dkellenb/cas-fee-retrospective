@@ -9,9 +9,11 @@ import {FormsModule}   from '@angular/forms';
 //Shared
 import {BoardComponent, BoardBody, BoardButtons, BoardTitle} from './board';
 import {IconButtonComponent} from './icon-button/icon-button.component';
+import {SplitBarComponent, SplitBarContainerRight, SplitBarContainerLeft} from './split-bar/';
 
 @NgModule({
-  declarations: [BoardComponent, BoardBody, BoardButtons, BoardTitle, IconButtonComponent],
+  declarations: [BoardComponent, BoardBody, BoardButtons, BoardTitle, IconButtonComponent,
+    SplitBarComponent,SplitBarContainerLeft,SplitBarContainerRight],
   imports: [CommonModule, HttpModule, RouterModule, FormsModule],
   exports: [CommonModule, HttpModule, RouterModule, FormsModule,
     BoardComponent, BoardBody, BoardButtons, BoardTitle,

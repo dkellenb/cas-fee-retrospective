@@ -1,7 +1,7 @@
 import {Component, OnInit, Input, Directive} from '@angular/core';
 
 @Component({
-  selector: 'app-board',
+  selector: 'rsb-board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.css']
 })
@@ -18,7 +18,7 @@ export class BoardComponent implements OnInit {
  * Title of the Board
  */
 @Directive({
-  selector: 'board-title'
+  selector: 'rsb-board-title'
 })
 export class BoardTitle {}
 
@@ -26,7 +26,7 @@ export class BoardTitle {}
  * Buttons in Buttonset of the Board
  */
 @Directive({
-  selector: 'board-buttons'
+  selector: 'rsb-board-buttons'
 })
 export class BoardButtons {}
 
@@ -34,6 +34,6 @@ export class BoardButtons {}
  * Content of the Body part of the Board
  */
 @Directive({
-  selector: 'board-body'
+  selector: 'rsb-board-body'
 })
 export class BoardBody {}

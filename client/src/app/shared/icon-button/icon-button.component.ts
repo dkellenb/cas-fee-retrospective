@@ -1,8 +1,8 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {IconButtonType} from "./icon-button-types";
+import {IconButtonType} from "./icon-button-type";
 
 @Component({
-  selector: 'icon-button',
+  selector: 'rsb-icon-button',
   templateUrl: './icon-button.component.html',
   styleUrls: ['./icon-button.component.css']
 })

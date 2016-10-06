@@ -1,0 +1,26 @@
+html {
+  font-family: Arial, serif;
+}
+
+.split-bar {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  height: 100%;
+}
+
+.split-bar__container {
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
+.split-bar__container_left {
+  padding-left: 0.125rem; /*2px*/
+  order: 1;
+}
+
+.split-bar__container_right {
+  order: 2;
+  padding-right: 0.125rem; /*2px*/
+  text-align: right;
+}
