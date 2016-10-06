@@ -62,7 +62,7 @@ gulp.task('build-source', function() {
     return tsProject.src()
         .pipe(tsc(tsProject))
         .js
-        .pipe(gulp.dest(__dirname + '/build/'));
+        .pipe(gulp.dest(__dirname + '/build/src/'));
 });
 
 gulp.task('build', function (cb) {

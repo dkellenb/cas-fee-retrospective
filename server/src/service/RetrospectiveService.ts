@@ -7,13 +7,13 @@ import {UserRole} from '../../../shared/src/model/user/User';
 @injectable()
 export class RetrospectiveService {
 
+  private retrospectiveStorage: IRetrospective[] = [];
+
   private static convertPublicUserToRetrospectiveUser(publicUser: PublicUser, retrospective: IRetrospective): RetrospectiveUser {
     let retrospectiveUser = <RetrospectiveUser>publicUser;
     retrospectiveUser.role = retrospective.managers.indexOf(publicUser.uuid) !== -1 ? UserRole.MANAGER : UserRole.USER;
     return retrospectiveUser;
   }
-
-  private retrospectiveStorage: IRetrospective[] = [];
 
   constructor(
     @inject(TYPES.UserService) private userService: UserService
