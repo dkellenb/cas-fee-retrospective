@@ -18,7 +18,7 @@ export class UserJwtService {
       let decoded = null;
       try {
         decoded = <IUserJwt>verify(jwt, this.jwtKeyProvider.getKey());
-        console.log('Decoded ' + decoded);
+        console.log('Decoded ' + JSON.stringify(decoded));
       } catch (err) {
         console.log('Invalid JWT: ' + jwt);
         throw new InvalidJwt('Passed JWT ' + jwt + ' is invalid');
@@ -40,10 +40,19 @@ export class UserJwtService {
 }
 
 class InvalidJwt extends Error {
+  constructor(msg) {
+    super(msg);
+  }
 }
 
 class MissingJwt extends Error {
+  constructor(msg) {
+    super(msg);
+  }
 }
 
 class OutdatedToken extends Error {
+  constructor(msg) {
+    super(msg);
+  }
 }

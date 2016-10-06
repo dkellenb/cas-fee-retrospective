@@ -1,10 +1,9 @@
 import { Controller, Get, Post, Put, Delete } from 'inversify-express-utils';
 import { injectable, inject } from 'inversify';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import TYPES from '../constant/types';
 import { IRetrospective, RetrospectiveUser } from '../../../shared/src/model';
-import { RetrospectiveService } from '../service/RetrospectiveService';
-import { UserJwtService } from '../service/UserJwtService';
+import { UserService, RetrospectiveService } from '../service';
 
 @injectable()
 @Controller('/rest/retrospectives')
@@ -12,7 +11,7 @@ export class RetrospectiveController {
 
   constructor(
     @inject(TYPES.RetrospectiveService) private retrospectiveService: RetrospectiveService,
-    @inject(TYPES.UserJwtService) private userJwtService: UserJwtService
+    @inject(TYPES.UserService) private userService: UserService
   ) { }
 
   @Get('/')
@@ -21,14 +20,18 @@ export class RetrospectiveController {
   }
 
   @Post('/')
-  public createRetrospective(request: Request): IRetrospective {
-    let jwtUser = this.userJwtService.getJwtUser(request);
-    return this.retrospectiveService.createRetrospective(jwtUser, request.body);
+  public createRetrospective(request: Request, response: Response): void {
+    let jwtUser = this.userService.getJwtUser(request);
+    let createdRetrospective = this.retrospectiveService.createRetrospective(jwtUser, request.body);
+
+    response.location('/rest/retrospectives/' + createdRetrospective.uuid);
+    response.sendStatus(201);
   }
 
   @Get('/:id')
   public getRetrospective(request: Request): IRetrospective {
-    return this.retrospectiveService.getRetrospective(request.params.id);
+    let jwtUser = this.userService.getJwtUser(request);
+    return this.retrospectiveService.getRetrospectiveSecured(jwtUser, request.params.id);
   }
 
   @Put('/:id')
@@ -43,21 +46,21 @@ export class RetrospectiveController {
     return this.retrospectiveService.deleteRetrospective(request.params.id);
   }
 
-  @Get('/:id/users')
-  public getRetrospectiveUsers(request: Request): RetrospectiveUser[] {
-    let jwtUser = this.userJwtService.getJwtUser(request);
+  @Get('/:id/attendees')
+  public getRetrospectiveAttendees(request: Request): RetrospectiveUser[] {
+    let jwtUser = this.userService.getJwtUser(request);
     return this.retrospectiveService.getRetrospectiveUsers(jwtUser, request.params.id);
   }
 
-  @Get('/:id/users/:userid')
+  @Get('/:id/attendees/:userid')
   public getRetrospectiveUser(request: Request): RetrospectiveUser {
-    let jwtUser = this.userJwtService.getJwtUser(request);
+    let jwtUser = this.userService.getJwtUser(request);
     return this.retrospectiveService.getRetrospectiveUser(jwtUser, request.params.id, request.params.userid);
   }
 
-  @Post('/:id/users')
+  @Post('/:id/attendees')
   public joinRetrospective(request: Request): void {
-    let jwtUser = this.userJwtService.getJwtUser(request);
+    let jwtUser = this.userService.getJwtUser(request);
     this.retrospectiveService.joinRetrospective(jwtUser, request.params.id);
   }
 

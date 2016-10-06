@@ -1,12 +1,11 @@
-import { IUser } from '../user/User';
-import {UUID} from "../../util/UUID";
+import {UUID} from '../../util/UUID';
 
-export enum RetrospectiveStatus {
-  OPEN,
-  REVIEW,
-  GROUP,
-  VOTE,
-  CLOSED
+export class RetrospectiveStatus {
+  static OPEN: string = 'OPEN';
+  static REVIEW: string = 'REVIEW';
+  static GROUP: string = 'GROUP';
+  static VOTE: string = 'VOTE';
+  static CLOSED: string = 'CLOSED';
 }
 
 export interface IRetrospectiveVote {

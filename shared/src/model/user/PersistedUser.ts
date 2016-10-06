@@ -19,15 +19,8 @@ export interface IPersistedUser extends IUser {
  */
 export class UserToken implements IUserToken {
 
-  /**
-   * C'tor with default validity.
-   *
-   * @param validUntilDate validity
-   */
-  constructor(validUntilDate?: Date) {
-    this.uuid = new UUID().toString();
-    this.validUntil = validUntilDate === null ? moment().add(3, 'years').unix() : validUntilDate.getTime();
-  }
+  uuid: string;
+  validUntil: number;
 
   /**
    * Creates a UserToken based on objects delivering the specified fields.
@@ -43,6 +36,16 @@ export class UserToken implements IUserToken {
   }
 
   /**
+   * C'tor with default validity.
+   *
+   * @param validUntilDate validity
+   */
+  constructor(validUntilDate: Date = null) {
+    this.uuid = new UUID().toString();
+    this.validUntil = validUntilDate ? validUntilDate.getTime() : moment().add(3, 'years').unix();
+  }
+
+  /**
    * Checks if the token is still valid (from the date).
    * @returns {boolean} false if it's not valid anymore
    */
@@ -50,14 +53,14 @@ export class UserToken implements IUserToken {
     return moment().unix() < this.validUntil;
   }
 
-  uuid: string;
-  validUntil: number;
 }
 
 /**
  * Concrete implementation of a user.
  */
 export class PersistedUser extends User implements IPersistedUser {
+
+  token: UserToken[];
 
   /**
    * Creates a User based on objects delivering the specified fields.
@@ -78,8 +81,6 @@ export class PersistedUser extends User implements IPersistedUser {
       this.token.push(UserToken.from(token));
     }
   }
-
-  token: UserToken[];
 
 }
 

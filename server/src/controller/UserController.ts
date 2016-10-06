@@ -24,7 +24,7 @@ export class UserController {
 
     let createdUser = this.userService.createUser(jsonData);
 
-    response.location('/rest/users/' + createdUser.uuid.getId() + '/tokens/' + createdUser.token[0].uuid);
+    response.location('/rest/users/' + createdUser.uuid + '/tokens/' + createdUser.token[0].uuid);
     response.sendStatus(201);
   }
 

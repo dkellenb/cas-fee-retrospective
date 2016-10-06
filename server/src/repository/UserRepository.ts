@@ -23,6 +23,7 @@ export class UserRepository {
 
   public createUser(user: IPersistedUser): IPersistedUser {
     this.userStorage.push(user);
+    console.log('Data now: ' + JSON.stringify(this.userStorage));
     return user;
   }
 

@@ -1,9 +1,9 @@
 import {UUID} from '../../util/UUID';
 
-export enum UserRole {
-  USER,
-  MANAGER,
-  ADMIN
+export class UserRole {
+  static USER: string = 'USER';
+  static MANAGER: string = 'MANAGER';
+  static ADMIN: string = 'ADMIN';
 }
 
 export class PublicUser {
@@ -22,9 +22,11 @@ export interface IUser {
 
 export class User implements IUser {
 
-  constructor() {
-    this.uuid = new UUID().toString();
-  }
+  public uuid: string;
+  public shortName: string;
+  public name?: string;
+  public email?: string;
+  public systemRole: UserRole;
 
   /**
    * Creates a UserJwt based on objects delivering the specified fields.
@@ -38,6 +40,10 @@ export class User implements IUser {
     return user;
   }
 
+  constructor() {
+    this.uuid = new UUID().toString();
+  }
+
   public copyUserValues(source: IUser) {
     // Object.assign(user, iUser) does not work, as then we would have no type for token
     this.uuid = source.uuid;
@@ -46,11 +52,5 @@ export class User implements IUser {
     this.email = source.email || null;
     this.systemRole = source.systemRole || UserRole.USER;
   }
-
-  public uuid: string;
-  public shortName: string;
-  public name?: string;
-  public email?: string;
-  public systemRole: UserRole;
 
 }

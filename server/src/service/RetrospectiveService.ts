@@ -98,5 +98,7 @@ export class RetrospectiveService {
 }
 
 class IllegalAccess extends Error {
-
+  constructor(msg) {
+    super(msg);
+  }
 }
