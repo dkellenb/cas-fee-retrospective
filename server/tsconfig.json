@@ -12,9 +12,6 @@
       "mocha",
       "reflect-metadata"
     ],
-    "typesRoots": [
-      "node_modules/@types"
-    ],
     "noImplicitAny": false,
     "sourceMap": true,
     "emitDecoratorMetadata": true,

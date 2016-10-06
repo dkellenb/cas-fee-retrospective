@@ -1,12 +1,20 @@
 import { injectable, inject } from 'inversify';
 import TYPES from '../constant/types';
 import { UUID } from '../../../shared/src/util/UUID';
-import {UserRepository} from '../repository/UserRepository';
-import { UserRole, UserJwt, CreateUserJSON, IPersistedUser, PersistedUser, UserToken } from '../../../shared/src/model';
+import { UserRepository } from '../repository/UserRepository';
+import { UserRole, UserJwt, CreateUserJSON, IPersistedUser, PersistedUser, UserToken, PublicUser } from '../../../shared/src/model';
 import { UserJwtService } from './UserJwtService';
 
 @injectable()
 export class UserService {
+
+  static convertUserToPublicUser(persistedUser: IPersistedUser):PublicUser {
+    let publicUser = new PublicUser();
+    publicUser.uuid = persistedUser.uuid;
+    publicUser.name = persistedUser.name;
+    publicUser.shortName = persistedUser.shortName;
+    return publicUser;
+  }
 
   constructor(
     @inject(TYPES.UserRepository) private userRepository: UserRepository,
@@ -46,6 +54,17 @@ export class UserService {
       }
     }
     throw new Error( 'No valid JWT found');
+  }
+
+  public getPublicUsers(userUuids: string[]): PublicUser[] {
+    return this.userRepository.getUsers()
+      .filter(u => userUuids.indexOf(u.uuid) !== 0)
+      .map(u => UserService.convertUserToPublicUser(u));
+  }
+
+  public getPublicUser(userUuid: string): PublicUser {
+    let user = this.userRepository.getUser(userUuid);
+    return UserService.convertUserToPublicUser(user);
   }
 
 }

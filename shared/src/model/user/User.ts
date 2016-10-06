@@ -6,6 +6,12 @@ export enum UserRole {
   ADMIN
 }
 
+export class PublicUser {
+  uuid: string;
+  shortName: string;
+  name?: string;
+}
+
 export interface IUser {
   uuid: string;
   shortName: string;
