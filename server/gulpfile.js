@@ -62,11 +62,11 @@ gulp.task('build-source', function() {
     return tsProject.src()
         .pipe(tsc(tsProject))
         .js
-        .pipe(gulp.dest(__dirname + '/build/'));
+        .pipe(gulp.dest(__dirname + '/build/src/'));
 });
 
 gulp.task('build', function (cb) {
-    sequence('lint', 'build-source')(cb)
+    sequence('build-source', 'lint')(cb)
 });
 
 
@@ -92,7 +92,7 @@ gulp.task('run-tests', function() {
 //* DEFAULT
 //******************************************************************************
 gulp.task('default', function (cb) {
-    sequence('del', 'lint', 'build-source', 'run-tests')(cb)
+    sequence('del', 'build-source', 'lint', 'run-tests')(cb)
 });
 
 gulp.task('watch', function() {

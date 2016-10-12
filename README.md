@@ -43,7 +43,7 @@ Run `ng github-pages:deploy` to deploy to Github Pages.
 
 ### Server Development
 
-Server is available iin /server/ folder.
+Server is available in /server/ folder.
 
 #### Build
 
@@ -51,4 +51,8 @@ Server is available iin /server/ folder.
 
 #### Server run
 
-(?) Run `npm start`
+* Install `npm -i -g ts-node`
+
+#### Tests
+
+* Run tests: `npm test`

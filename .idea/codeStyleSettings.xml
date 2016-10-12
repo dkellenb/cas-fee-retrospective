@@ -7,6 +7,9 @@
         <MarkdownNavigatorCodeStyleSettings>
           <option name="RIGHT_MARGIN" value="72" />
         </MarkdownNavigatorCodeStyleSettings>
+        <TypeScriptCodeStyleSettings>
+          <option name="USE_DOUBLE_QUOTES" value="false" />
+        </TypeScriptCodeStyleSettings>
         <codeStyleSettings language="TypeScript">
           <indentOptions>
             <option name="INDENT_SIZE" value="2" />

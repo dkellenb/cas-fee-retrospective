@@ -1,5 +1,5 @@
-import {IUser, User} from './User';
-import {IUserToken} from './PersistedUser';
+import { IUser, User } from './User';
+import { IUserToken } from './PersistedUser';
 
 export interface IUserJwt extends IUser {
   validUntil: number;
