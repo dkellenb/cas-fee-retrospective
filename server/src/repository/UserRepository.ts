@@ -9,7 +9,7 @@ import { DataAccess } from './dataaccess';
 export class UserRepository extends AbstractRepository<IUserDbModel> {
   constructor() {
     super();
-    super.setModel(DataAccess.mongooseConnection.model<IUserDbModel>('Users', UserDbSchema.schema));
+    super.setModel(DataAccess.mongooseConnection.model<IUserDbModel>('users', UserDbSchema.schema));
   }
 
   findByUuid(_uuid: string, callback: (error: any, result: IUserDbModel) => void) {
