@@ -14,7 +14,7 @@ import {HeaderBarComponent, HeaderBarTitle, HeaderBarMenu} from './header-bar/he
 import {TextInputComponent} from './text-input/text-input.component';
 import {ButtonSetComponent, ButtonSetElement} from './button-set';
 import {ButtonSetTextComponent} from './button-set-text';
-import {FormComponent, FormBody, FormSubmit} from './form';
+import {FormComponent, FormBody, FormSubmit,FormSetElement} from './form';
 
 @NgModule({
   declarations: [BoardComponent, BoardBody, BoardButtons, BoardTitle, IconButtonComponent,
@@ -22,7 +22,7 @@ import {FormComponent, FormBody, FormSubmit} from './form';
     HeaderBarComponent, HeaderBarTitle, HeaderBarMenu,
     TextInputComponent,
     ButtonSetComponent, ButtonSetElement, ButtonSetTextComponent, ButtonSetTextComponent,
-    FormComponent, FormBody, FormSubmit],
+    FormComponent, FormBody, FormSubmit, FormSetElement],
   imports: [CommonModule, HttpModule, RouterModule, FormsModule],
   exports: [CommonModule, HttpModule, RouterModule, FormsModule,
     BoardComponent, BoardBody, BoardButtons, BoardTitle,
@@ -30,7 +30,7 @@ import {FormComponent, FormBody, FormSubmit} from './form';
     HeaderBarComponent, HeaderBarTitle, HeaderBarMenu,
     TextInputComponent,
     ButtonSetComponent, ButtonSetElement, ButtonSetTextComponent,
-    FormComponent, FormBody, FormSubmit
+    FormComponent, FormBody, FormSubmit,FormSetElement
   ],
   providers: []
 })

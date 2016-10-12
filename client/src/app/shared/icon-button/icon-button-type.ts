@@ -8,8 +8,8 @@ export class IconButtonType {
   public static CHECK_MARK:IconButtonType = new IconButtonType('icon-button__icon_check-mark', false);
   public static ARROW_UP:IconButtonType = new IconButtonType('icon-button__icon_collapsible_close', false);
   public static ARROW_DOWN:IconButtonType = new IconButtonType('icon-button__icon_collapsible_open', false);
-  public static ARROW_LEFT:IconButtonType = new IconButtonType('icon-button__icon_forward', false);
-  public static ARROW_RIGHT:IconButtonType = new IconButtonType('icon-button__icon_back', false);
+  public static ARROW_LEFT:IconButtonType = new IconButtonType('icon-button__icon_back', false);
+  public static ARROW_RIGHT:IconButtonType = new IconButtonType('icon-button__icon_forward', false);
   public static VOTE:IconButtonType = new IconButtonType('icon-button__icon_vote', false);
 
   /*Toggle Buttons*/

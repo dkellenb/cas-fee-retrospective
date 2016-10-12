@@ -1,4 +1,4 @@
-import { Component, OnInit, Directive } from '@angular/core';
+import {Component, OnInit, Directive, ElementRef, Renderer, ViewChild} from '@angular/core';
 
 @Component({
   selector: 'rsb-form',
@@ -31,3 +31,16 @@ export class FormBody {}
   selector: 'rsb-form-submit'
 })
 export class FormSubmit {}
+
+
+/**
+ * Directiv for label a Element of the Form
+ */
+@Directive({
+  selector: '[rsb-form-element]',
+})
+export class FormSetElement {
+  constructor(public el: ElementRef, public renderer: Renderer) {
+    renderer.setElementClass(el.nativeElement, 'form__element', true);
+  }
+}

@@ -3,7 +3,7 @@ import {IconButtonType} from "./../shared"
 
 
 @Component({
-  selector: 'app-core',
+  selector: 'rsb-core',
   templateUrl: './core.component.html',
   styleUrls: ['./core.component.css']
 })
