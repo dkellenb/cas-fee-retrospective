@@ -1,0 +1,27 @@
+.form {
+  padding-top: 1rem;
+}
+
+.form__element, :host>>>.form__element {
+  margin-bottom: 0.5rem;
+}
+
+.form__body {
+  max-width: 30rem;
+  margin: 0 auto;
+  padding: 0 1rem 1rem 1rem;
+}
+
+.form__submit {
+  width: 100%;
+  border-top: solid 1px #999999;
+  display: table;
+  padding: 0.25rem;
+  box-sizing: border-box;
+}
+
+.form__submit:after {
+  clear: both;
+  font-size: 0;
+  display: table;
+}
