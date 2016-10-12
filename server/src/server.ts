@@ -10,6 +10,7 @@ import { UserController } from './controller/UserController';
 import { UserJwtService, UserService } from './service/';
 import { UserRepository } from './repository/UserRepository';
 import { UserJwtKeyProvider, UserStaticJwtKeyProvider} from './service/UserJwtKeyProvider';
+import * as nconf from 'nconf';
 
 // load everything needed to the kernel
 let kernel = new Kernel();
@@ -23,6 +24,11 @@ kernel.bind<UserService>(TYPES.UserService).to(UserService).inSingletonScope();
 kernel.bind<UserJwtService>(TYPES.UserJwtService).to(UserJwtService).inSingletonScope();
 kernel.bind<UserJwtKeyProvider>(TYPES.UserJwtKeyProvider).to(UserStaticJwtKeyProvider).inSingletonScope();
 
+// read configuration
+nconf.argv()
+  .env()
+  .file({ file: 'server-config.json' });
+
 // start the server
 let server = new InversifyExpressServer(kernel);
 server.setConfig((app) => {
@@ -33,5 +39,6 @@ server.setConfig((app) => {
 });
 
 let app = server.build();
-app.listen(3000);
-console.log('Server started on port 3000 :)');
+app.listen(nconf.get('port'));
+console.log('Server started on port ' + nconf.get('port'));
+console.log(nconf.get('mongodburl'));

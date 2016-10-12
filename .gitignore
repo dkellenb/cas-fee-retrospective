@@ -89,3 +89,4 @@ client/src/**.*/.js
 client/src/**.*/.js.map
 server/src/**/*.js
 server/src/**/*.js.map
+server/server-config.json
