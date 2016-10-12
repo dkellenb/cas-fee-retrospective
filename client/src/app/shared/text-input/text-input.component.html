@@ -1,0 +1,8 @@
+<div class="input">
+  <label [attr.for]="id" class="input__label">{{labelText}}</label>
+  <label *ngIf="hasErrorMessage()" [attr.for]="id" class="input__error-message">{{inputErrorMessage}}</label>
+  <input *ngIf="!isTextArea" [id]="id" type="text" class="input__textfield"
+         [class.input__textfield_error]="hasErrorMessage()">
+  <textarea *ngIf="isTextArea" [id]="id" rows="5" class="input__textfield"
+            [class.input__textfield_error]="hasErrorMessage()"></textarea>
+</div>

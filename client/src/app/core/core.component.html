@@ -17,5 +17,13 @@
       diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea
       takimata sanctus est Lorem ipsum dolor sit
       amet.</p>
+
+    <rsb-text-input [id]="'test-input'" [isTextArea]="false" [labelText]="'Text Input Label'"></rsb-text-input>
+
+    <rsb-text-input [id]="'test-input-error'" [isTextArea]="false" [labelText]="'Text Input Label'" [inputErrorMessage]="'hier ist ein Fehler'"></rsb-text-input>
+
+    <rsb-text-input [id]="'test-input-textarea'" [isTextArea]="true" [labelText]="'Text Input Label'"></rsb-text-input>
+
+    <rsb-text-input [id]="'test-input-textarea-error'" [isTextArea]="true" [labelText]="'Text Input Label'" [inputErrorMessage]="'Auch ein Fehler'"></rsb-text-input>
   </rsb-board-body>
 </rsb-board>

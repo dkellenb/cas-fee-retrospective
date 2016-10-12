@@ -9,7 +9,7 @@ import {IconButtonType} from "./icon-button-type";
 export class IconButtonComponent implements OnInit {
 
   @Input()
-  private buttonType:IconButtonType = IconButtonType.ADD;
+  private buttonType:IconButtonType = IconButtonType.NONE;
 
   public iconButtonType = IconButtonType;
 

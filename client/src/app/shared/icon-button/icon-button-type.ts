@@ -1,6 +1,7 @@
 export class IconButtonType {
 
   /*Static Buttons*/
+  public static NONE:IconButtonType = new IconButtonType('icon-button__icon_none',false);
   public static ADD:IconButtonType = new IconButtonType('icon-button__icon_add', false);
   public static ABOARD:IconButtonType = new IconButtonType('icon-button__icon_aboard', false);
   public static DELETE:IconButtonType = new IconButtonType('icon-button__icon_delete', false);
