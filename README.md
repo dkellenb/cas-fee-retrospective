@@ -45,14 +45,6 @@ Run `ng github-pages:deploy` to deploy to Github Pages.
 
 Server is available in /server/ folder.
 
-#### Build
-
-(?) Run `gulp ts`
-
-#### Server run
-
-* Install `npm -i -g ts-node`
-
-#### Tests
-
-* Run tests: `npm test`
+ * Prepare: /server/$ `npm install`
+ * Run Server: /server/$ `npm start`
+ * Run Tests: /server/$ `npm test`
