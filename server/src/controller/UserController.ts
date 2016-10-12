@@ -19,13 +19,22 @@ export class UserController {
   }
 
   @Post('/')
-  public createUser(request: Request, response: Response) {
-    let jsonData = <CreateUserJSON>request.body;
-
-    let createdUser = this.userService.createUser(jsonData);
-
-    response.location('/rest/users/' + createdUser.uuid + '/tokens/' + createdUser.token[0].uuid);
-    response.sendStatus(201);
+  public createUser(request: Request, response: Response): void {
+    try {
+      console.log('POST: /users/ | ' + JSON.stringify(request.body));
+      let jsonData = <CreateUserJSON>request.body;
+      this.userService.createUser(jsonData).then((createdUser) => {
+        console.log('UserController#createUser@promise');
+        response.location('/rest/users/' + createdUser.uuid + '/tokens/' + createdUser.tokens[0].uuid);
+        response.sendStatus(201);
+      }).catch((error) => {
+        console.log(error);
+        response.send({"error": "error in your request"});
+      });
+    } catch (e) {
+      console.log(e);
+      response.send({"error": "error in your request"});
+    }
   }
 
   @Get('/:id/')
@@ -44,8 +53,13 @@ export class UserController {
   }
 
   @Get('/:id/tokens/:tokenId/')
-  public getJwtForUser(request: Request): string {
-    return this.userService.getJwt(request.params.id, request.params.tokenId);
+  public getJwtForUser(request: Request, response: Response): Promise<string> {
+    try {
+      return this.userService.getJwt(request.params.id, request.params.tokenId);
+    } catch (e) {
+      console.log(e);
+      response.send({"error": "error in your request"});
+    }
   }
 
 }

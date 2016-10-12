@@ -18,7 +18,7 @@ For all methods needing authentication they require a JWT passed by the header:
 
 ### Retrospective Management
 
-URL: `/rest/retrospective`
+URL: `/rest/retrospectives`
 
 | Method  | CMD    | Auth |Description                                                        |
 |---------|--------|------|-------------------------------------------------------------------|
@@ -30,7 +30,7 @@ URL: `/rest/retrospective`
 
 ### Retrospective Management: Change status
 
-URL: `/rest/retrospective/:id/status`
+URL: `/rest/retrospectives/:id/status`
 
 | Method  | CMD    | Auth |Description                                                        |
 |---------|--------|------|-------------------------------------------------------------------|
@@ -39,7 +39,7 @@ URL: `/rest/retrospective/:id/status`
 
 ### Retrospective Management: Attendees
 
-URL: `/rest/retrospective/:id/attendees`
+URL: `/rest/retrospectives/:id/attendees`
 
 | Method  | CMD    | Auth |Description                                                        |
 |---------|--------|------|-------------------------------------------------------------------|
@@ -47,7 +47,7 @@ URL: `/rest/retrospective/:id/attendees`
 
 ### Retrospective Management: Comments
 
-URL: `/rest/retrospective/:id/comments`
+URL: `/rest/retrospectives/:id/comments`
 
 | Method  | CMD    | Auth |Description                                                        |
 |---------|--------|------|-------------------------------------------------------------------|
@@ -59,7 +59,7 @@ URL: `/rest/retrospective/:id/comments`
 
 ### Retrospective Management: Voting
 
-URL `/rest/retrospective/:id/comments/:id/votes`
+URL `/rest/retrospectives/:id/comments/:id/votes`
 
 | Method  | CMD    | Auth |Description                                                        |
 |---------|--------|------|-------------------------------------------------------------------|
@@ -82,7 +82,7 @@ URL `/rest/user`
 
 ### User Management: Transfer of account to other computer
 
-URL `/rest/user/:id/transfertoken`
+URL `/rest/users/:id/transfertoken`
 
 | Method  | CMD    | Auth |Description                                                        |
 |---------|--------|------|-------------------------------------------------------------------|

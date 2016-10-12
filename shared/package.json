@@ -1,0 +1,12 @@
+{
+  "name": "cas-fee-retrospective-shared",
+  "version": "0.0.1",
+  "description": "",
+  "main": "",
+  "dependencies": {
+    "moment": "^2.15.1"
+  },
+  "devDependencies": {},
+  "author": "",
+  "license": "MIT"
+}
