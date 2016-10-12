@@ -5,7 +5,9 @@
 <rsb-board [title]="'This is a direct String title'">
   <rsb-board-title>Here is the Title of the Board</rsb-board-title>
   <rsb-board-buttons>
-    <rsb-icon-button [buttonType]="iconButtonType.DELETE"></rsb-icon-button>
+    <rsb-button-set-text>Das ist ein Test Text</rsb-button-set-text>
+    <rsb-icon-button rsb-button-set-element [buttonType]="iconButtonType.DELETE"></rsb-icon-button>
+    <rsb-icon-button rsb-button-set-element [buttonType]="iconButtonType.CHECK_MARK"></rsb-icon-button>
   </rsb-board-buttons>
   <rsb-board-body>
     <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et-->
@@ -20,10 +22,12 @@
 
     <rsb-text-input [id]="'test-input'" [isTextArea]="false" [labelText]="'Text Input Label'"></rsb-text-input>
 
-    <rsb-text-input [id]="'test-input-error'" [isTextArea]="false" [labelText]="'Text Input Label'" [inputErrorMessage]="'hier ist ein Fehler'"></rsb-text-input>
+    <rsb-text-input [id]="'test-input-error'" [isTextArea]="false" [labelText]="'Text Input Label'"
+                    [inputErrorMessage]="'hier ist ein Fehler'"></rsb-text-input>
 
     <rsb-text-input [id]="'test-input-textarea'" [isTextArea]="true" [labelText]="'Text Input Label'"></rsb-text-input>
 
-    <rsb-text-input [id]="'test-input-textarea-error'" [isTextArea]="true" [labelText]="'Text Input Label'" [inputErrorMessage]="'Auch ein Fehler'"></rsb-text-input>
+    <rsb-text-input [id]="'test-input-textarea-error'" [isTextArea]="true" [labelText]="'Text Input Label'"
+                    [inputErrorMessage]="'Auch ein Fehler'"></rsb-text-input>
   </rsb-board-body>
 </rsb-board>
