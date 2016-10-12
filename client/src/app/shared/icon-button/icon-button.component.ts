@@ -9,10 +9,20 @@ import {IconButtonType} from "./icon-button-type";
 export class IconButtonComponent implements OnInit {
 
   @Input()
-  iconButtonType: IconButtonType;
+  private buttonType:IconButtonType = IconButtonType.ADD;
+
+  public iconButtonType = IconButtonType;
 
   constructor() {
 
+  }
+
+  public getHtmlClassName():string {
+    return this.buttonType.className;
+  }
+
+  public isToggleButton():boolean{
+    return this.buttonType.isToggleButton;
   }
 
   ngOnInit() {

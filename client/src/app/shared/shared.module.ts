@@ -8,7 +8,7 @@ import {FormsModule}   from '@angular/forms';
 
 //Shared
 import {BoardComponent, BoardBody, BoardButtons, BoardTitle} from './board';
-import {IconButtonComponent} from './icon-button/icon-button.component';
+import {IconButtonComponent,IconButtonType} from './icon-button';
 import {SplitBarComponent, SplitBarContainerRight, SplitBarContainerLeft} from './split-bar/';
 import {HeaderBarComponent, HeaderBarTitle, HeaderBarMenu} from './header-bar/header-bar.component';
 
@@ -21,7 +21,11 @@ import {HeaderBarComponent, HeaderBarTitle, HeaderBarMenu} from './header-bar/he
     BoardComponent, BoardBody, BoardButtons, BoardTitle,
     IconButtonComponent,
     HeaderBarComponent, HeaderBarTitle,HeaderBarMenu
-  ]
+  ],
+  providers: []
 })
 export class SharedModule {
+
+  public iconButtonEnum = IconButtonType;
+
 }

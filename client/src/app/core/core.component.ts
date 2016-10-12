@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {IconButtonType} from "./../shared"
+
 
 @Component({
   selector: 'app-core',
@@ -6,6 +8,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./core.component.css']
 })
 export class CoreComponent implements OnInit {
+
+
+  public iconButtonType = IconButtonType;
 
   constructor() {
   }
