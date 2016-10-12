@@ -15,6 +15,7 @@ import {TextInputComponent} from './text-input/text-input.component';
 import {ButtonSetComponent, ButtonSetElement} from './button-set';
 import {ButtonSetTextComponent} from './button-set-text';
 import {FormComponent, FormBody, FormSubmit,FormSetElement} from './form';
+import {ConfigurationService,RetrospectiveService,UserService} from './services';
 
 @NgModule({
   declarations: [BoardComponent, BoardBody, BoardButtons, BoardTitle, IconButtonComponent,
@@ -32,7 +33,7 @@ import {FormComponent, FormBody, FormSubmit,FormSetElement} from './form';
     ButtonSetComponent, ButtonSetElement, ButtonSetTextComponent,
     FormComponent, FormBody, FormSubmit,FormSetElement
   ],
-  providers: []
+  providers: [ConfigurationService,RetrospectiveService,UserService]
 })
 export class SharedModule {
 

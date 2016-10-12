@@ -6,3 +6,4 @@ export * from './header-bar';
 export * from './button-set';
 export * from './button-set-text';
 export * from './form';
+export * from './services';

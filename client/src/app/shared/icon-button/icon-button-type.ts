@@ -15,7 +15,7 @@ export class IconButtonType {
   /*Toggle Buttons*/
   public static COLLAPSIBLE:IconButtonType = new IconButtonType('icon-button__icon_vote', true);
 
-  private _isToggleButton;
+  private _isToggleButton:boolean;
   private _className:string;
 
   private constructor(className:string, isToggleButton:boolean) {
@@ -23,11 +23,11 @@ export class IconButtonType {
     this._isToggleButton = isToggleButton;
   }
 
-  get isToggleButton() {
+  public get isToggleButton():boolean {
     return this._isToggleButton;
   }
 
-  get className():string {
+  public get className():string {
     return this._className;
   }
 }
