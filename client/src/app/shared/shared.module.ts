@@ -10,14 +10,17 @@ import {FormsModule}   from '@angular/forms';
 import {BoardComponent, BoardBody, BoardButtons, BoardTitle} from './board';
 import {IconButtonComponent} from './icon-button/icon-button.component';
 import {SplitBarComponent, SplitBarContainerRight, SplitBarContainerLeft} from './split-bar/';
+import {HeaderBarComponent, HeaderBarTitle, HeaderBarMenu} from './header-bar/header-bar.component';
 
 @NgModule({
   declarations: [BoardComponent, BoardBody, BoardButtons, BoardTitle, IconButtonComponent,
-    SplitBarComponent,SplitBarContainerLeft,SplitBarContainerRight],
+    SplitBarComponent,SplitBarContainerLeft,SplitBarContainerRight,
+    HeaderBarComponent, HeaderBarTitle,HeaderBarMenu],
   imports: [CommonModule, HttpModule, RouterModule, FormsModule],
   exports: [CommonModule, HttpModule, RouterModule, FormsModule,
     BoardComponent, BoardBody, BoardButtons, BoardTitle,
-    IconButtonComponent
+    IconButtonComponent,
+    HeaderBarComponent, HeaderBarTitle,HeaderBarMenu
   ]
 })
 export class SharedModule {

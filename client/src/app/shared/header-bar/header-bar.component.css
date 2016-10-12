@@ -1,0 +1,8 @@
+.header-bar {
+  background: #eeeeee;
+  border: solid 1px #999999;
+  border-radius: 0.125rem;
+  display: block;
+  padding: 0.875rem; /*14px*/
+  margin-bottom: 1.5rem; /*24px*/
+}
