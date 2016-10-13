@@ -28,7 +28,7 @@ h5, .title__content_fifth {
   font-weight: normal;
 }
 
-p, span, label, .text {
+p, span, label, .text, a {
   font-family: Arial, serif;
   font-size: 0.875rem; /*14px*/
   color: #000000;

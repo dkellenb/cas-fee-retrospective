@@ -36,7 +36,4 @@ import {ConfigurationService,RetrospectiveService,UserService} from './services'
   providers: [ConfigurationService,RetrospectiveService,UserService]
 })
 export class SharedModule {
-
-  public iconButtonEnum = IconButtonType;
-
 }
