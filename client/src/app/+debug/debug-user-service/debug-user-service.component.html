@@ -1,3 +1,16 @@
-<p>
-  debug-user-service works!
-</p>
+<rsb-board>
+  <rsb-board-title>Create User</rsb-board-title>
+  <rsb-board-body>
+    <rsb-form>
+      <rsb-form-body>
+        <rsb-text-input [id]="'createUserShortName'" [labelText]="'Short Name'" [(ngModel)]="shortName"></rsb-text-input>
+        <rsb-text-input [id]="'createUserEmail'" [labelText]="'E-Mail'" [(ngModel)]="email"></rsb-text-input>
+        <rsb-text-input [id]="'createUserFullName'" [labelText]="'Full Name'" [(ngModel)]="fullName"></rsb-text-input>
+      </rsb-form-body>
+      <rsb-form-submit>
+        <rsb-button-set-text>create User</rsb-button-set-text>
+        <rsb-icon-button rsb-button-set-element [buttonType]="iconButtonType.CHECK_MARK" (click)="createUser()"></rsb-icon-button>
+      </rsb-form-submit>
+    </rsb-form>
+  </rsb-board-body>
+</rsb-board>

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {IconButtonType} from '../../shared';
 
 @Component({
   selector: 'app-debug-user-service',
@@ -7,9 +8,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DebugUserServiceComponent implements OnInit {
 
-  constructor() { }
+  public iconButtonType = IconButtonType;
+
+
+  //Fields
+  public shortName: string;
+  public email: string;
+  public fullName: string;
+
+
+  constructor() {
+  }
 
   ngOnInit() {
+  }
+
+  public createUser(): void {
+    alert('Eingaben waren: Shortname: ' + this.shortName + " email: " + this.email + " fullname: " + this.fullName);
   }
 
 }
