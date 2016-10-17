@@ -5,7 +5,7 @@ import { DebugUserServiceComponent } from './debug-user-service.component';
 
 describe('Component: DebugUserService', () => {
   it('should create an instance', () => {
-    let component = new DebugUserServiceComponent();
+    let component = new DebugUserServiceComponent(null);
     expect(component).toBeTruthy();
   });
 });
