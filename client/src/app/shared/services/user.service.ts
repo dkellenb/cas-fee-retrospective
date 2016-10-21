@@ -25,7 +25,6 @@ export class UserService {
     createUserJSON.shortName = shortName;
     createUserJSON.name = name;
     createUserJSON.email = email;
-
     return this.http.post(this.configuration.userEndpoint, createUserJSON, {withCredentials: true}).map(res => {
       let location: string = res.headers.get('Location');
       this.lookupAuthToken(location).subscribe(authToke => {
@@ -37,7 +36,7 @@ export class UserService {
 
   public lookupAuthToken(location: string): Observable<string> {
     return this.http.get(this.configuration.serverHostUrl + location, {withCredentials: true}).map(res => {
-      let authToken: string = res.toString();
+      let authToken: string = res.text();
       console.log('authToken erhalten: ' + authToken);
       return authToken;
     });
