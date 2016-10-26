@@ -7,8 +7,8 @@ import {IconButtonType} from '../icon-button';
   styleUrls: ['./board.component.css'],
   animations: [
     trigger('collapse', [
-      state('open', style({})),
-      state('close', style({
+      state(BoardComponent.OPEN, style({})),
+      state(BoardComponent.CLOSE, style({
         display: 'none'
       })),
       transition('inactive => active', animate('100ms ease-in')),
@@ -21,7 +21,12 @@ export class BoardComponent implements OnInit {
   private iconButtonType = IconButtonType;
 
   @Input()
-  private collapsibleState: string = 'open';
+  private isOpen: boolean = true;
+
+  private collapsibleState: string = BoardComponent.OPEN;
+
+  private static readonly OPEN: string = 'open';
+  private static readonly CLOSE: string = 'close';
 
   constructor() {
   }
@@ -29,14 +34,22 @@ export class BoardComponent implements OnInit {
   ngOnInit() {
   }
 
-  public toggleCollapsibleState(): void {
-    if (this.collapsibleState === 'open') {
-      this.collapsibleState = 'close';
-    } else {
-      this.collapsibleState = 'open';
-    }
+  ngOnChanges() {
+    this.updateCollapsibleState();
   }
 
+  public toggleCollapsibleState(): void {
+    this.isOpen = !this.isOpen;
+    this.updateCollapsibleState();
+  }
+
+  public updateCollapsibleState(): void {
+    if (this.isOpen) {
+      this.collapsibleState = BoardComponent.OPEN;
+    } else {
+      this.collapsibleState = BoardComponent.CLOSE;
+    }
+  }
 }
 
 /**
