@@ -11,8 +11,20 @@ import {IconButtonType} from '../icon-button';
       state(BoardComponent.CLOSE, style({
         display: 'none'
       })),
-      transition('inactive => active', animate('100ms ease-in')),
-      transition('active => inactive', animate('100ms ease-out'))
+      transition('open => close', [
+        style({
+          height: '*',
+          overflow: 'hidden'
+        }),
+        animate(250, style({height: 0}))
+      ]),
+      transition('close => open', [
+        style({
+          height: 0,
+          overflow: 'hidden'
+        }),
+        animate(250, style({height: '*'}))
+      ]),
     ])
   ]
 })
