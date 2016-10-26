@@ -1,1 +1,1 @@
-export * from 'sticky-note.component';
+export * from './sticky-note.component';

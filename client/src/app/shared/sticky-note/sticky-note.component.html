@@ -1,3 +1,22 @@
-<p>
-  sticky-note works!
-</p>
+<div class="sticky-note">
+  <div class="sticky-note__header">
+    <h3 class="title title__content_third">{{stickyNote.title}}</h3>
+  </div>
+  <div class="sticky-note__body">
+    <p>{{stickyNote.description}}</p>
+  </div>
+  <div class="sticky-note__footer">
+    <rsb-split-bar>
+      <rsb-split-bar-container-left>
+        <span *ngIf="!stickyNote.anonymous" class="text text__content_small">{{stickyNote.author}}</span>
+      </rsb-split-bar-container-left>
+      <rsb-split-bar-container-right>
+        <rsb-button-set>
+          <rsb-icon-button *ngIf="isVoteMode" [buttonType]="iconButtonType.VOTE"></rsb-icon-button>
+          <rsb-icon-button *ngIf="isEditMode||isNewMode" [buttonType]="iconButtonType.CHECK_MARK"></rsb-icon-button>
+          <rsb-icon-button *ngIf="isEditMode||isNewMode" [buttonType]="iconButtonType.ABOARD"></rsb-icon-button>
+        </rsb-button-set>
+      </rsb-split-bar-container-right>
+    </rsb-split-bar>
+  </div>
+</div>

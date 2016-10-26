@@ -32,7 +32,8 @@ import { StickyNoteComponent } from './sticky-note/sticky-note.component';
     HeaderBarComponent, HeaderBarTitle, HeaderBarMenu,
     TextInputComponent,
     ButtonSetComponent, ButtonSetElement, ButtonSetTextComponent,
-    FormComponent, FormBody, FormSubmit,FormSetElement
+    FormComponent, FormBody, FormSubmit,FormSetElement,
+    StickyNoteComponent
   ],
   providers: [ConfigurationService,RetrospectiveService,UserService, AuthenticationService]
 })
