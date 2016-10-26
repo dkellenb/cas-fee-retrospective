@@ -7,3 +7,4 @@ export * from './button-set';
 export * from './button-set-text';
 export * from './form';
 export * from './services';
+export * from './html-uid-generator';

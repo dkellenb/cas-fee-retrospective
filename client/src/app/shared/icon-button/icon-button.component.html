@@ -1,1 +1,2 @@
-<button class="icon-button {{getHtmlClassName()}}" (click)="isToggleButton()&&toggleButton()"></button>
+<label class="icon-button__lable" *ngIf="hasLable" [attr.for]="htmlUid">{{lableText}}</label>
+<button [attr.id]="htmlUid" class="icon-button {{htmlClassName}}" (click)="isToggleButton&&performToggle()"></button>

@@ -13,13 +13,19 @@
   display: inline-block;
   text-align: center;
   box-sizing: content-box;
-  vertical-align: top; /*fix problem with firefox and toggle Buttons align*/
+  vertical-align: middle;
 }
 
 .icon-button:hover{
   background: #666666;
   color:#C0C0C0;
 }
+
+.icon-button__lable {
+  padding: 0 0.25rem;
+  vertical-align: middle;
+}
+
 
 .icon-button__body_success {
   background: #6dd15c;
@@ -62,3 +68,4 @@
 .icon-button__icon_vote-up:before{
   content: '👍';
 }
+
