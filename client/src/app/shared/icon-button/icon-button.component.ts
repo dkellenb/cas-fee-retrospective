@@ -9,7 +9,10 @@ import {IconButtonType} from "./icon-button-type";
 export class IconButtonComponent implements OnInit {
 
   @Input()
-  private buttonType:IconButtonType = IconButtonType.NONE;
+  private buttonType: IconButtonType = IconButtonType.NONE;
+
+  @Input()
+  private toggleStatus: boolean = true;
 
   public iconButtonType = IconButtonType;
 
@@ -17,15 +20,22 @@ export class IconButtonComponent implements OnInit {
 
   }
 
-  public getHtmlClassName():string {
-    return this.buttonType.className;
+  public getHtmlClassName(): string {
+    if (this.buttonType.isToggleButton && !this.toggleStatus) {
+      return this.buttonType.toggleClassName;
+    }
+    return this.buttonType.className
   }
 
-  public isToggleButton():boolean{
+  public isToggleButton(): boolean {
     return this.buttonType.isToggleButton;
   }
 
   ngOnInit() {
 
+  }
+
+  public toggleButton(): void {
+    this.toggleStatus = !this.toggleStatus;
   }
 }

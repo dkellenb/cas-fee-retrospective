@@ -58,28 +58,7 @@
   content: '\25C4';
 }
 
-
 /*ToDo create svn for thump-up*/
 .icon-button__icon_vote-up:before{
   content: '👍';
-}
-
-.icon-button__toggle-icon{
-  display: block;
-  padding: 0;
-  margin: 0;
-  line-height: 1.25rem;
-}
-
-/**Toggle Stuff**/
-.icon-button__toggle-collapsible {
-  display: none;
-}
-
-.icon-button__toggle-collapsible + label:before{
-  content: '\25B2';
-}
-
-.icon-button__toggle-collapsible:checked + label:before{
-  content: '\25BC';
 }
