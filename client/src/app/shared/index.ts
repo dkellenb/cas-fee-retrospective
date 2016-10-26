@@ -9,3 +9,4 @@ export * from './form';
 export * from './services';
 export * from './html-uid-generator';
 export * from './sticky-note';
+export * from './gallery';

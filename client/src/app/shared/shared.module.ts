@@ -17,6 +17,7 @@ import {ButtonSetTextComponent} from './button-set-text';
 import {FormComponent, FormBody, FormSubmit,FormSetElement} from './form';
 import {ConfigurationService,RetrospectiveService,UserService,AuthenticationService} from './services';
 import { StickyNoteComponent } from './sticky-note/sticky-note.component';
+import { GalleryComponent } from './gallery/gallery.component';
 
 @NgModule({
   declarations: [BoardComponent, BoardBody, BoardButtons, BoardTitle, IconButtonComponent,
@@ -24,7 +25,7 @@ import { StickyNoteComponent } from './sticky-note/sticky-note.component';
     HeaderBarComponent, HeaderBarTitle, HeaderBarMenu,
     TextInputComponent,
     ButtonSetComponent, ButtonSetElement, ButtonSetTextComponent, ButtonSetTextComponent,
-    FormComponent, FormBody, FormSubmit, FormSetElement, StickyNoteComponent],
+    FormComponent, FormBody, FormSubmit, FormSetElement, StickyNoteComponent, GalleryComponent],
   imports: [CommonModule, HttpModule, RouterModule, FormsModule],
   exports: [CommonModule, HttpModule, RouterModule, FormsModule,
     BoardComponent, BoardBody, BoardButtons, BoardTitle,
@@ -33,7 +34,7 @@ import { StickyNoteComponent } from './sticky-note/sticky-note.component';
     TextInputComponent,
     ButtonSetComponent, ButtonSetElement, ButtonSetTextComponent,
     FormComponent, FormBody, FormSubmit,FormSetElement,
-    StickyNoteComponent
+    StickyNoteComponent, GalleryComponent
   ],
   providers: [ConfigurationService,RetrospectiveService,UserService, AuthenticationService]
 })
