@@ -23,6 +23,9 @@ export class BoardComponent implements OnInit {
   @Input()
   private isOpen: boolean = true;
 
+  @Input()
+  private isCollapsible = false;
+
   private collapsibleState: string = BoardComponent.OPEN;
 
   private static readonly OPEN: string = 'open';
@@ -35,6 +38,10 @@ export class BoardComponent implements OnInit {
   }
 
   ngOnChanges() {
+    if (!this.isCollapsible) {
+      //always open if not collapsible
+      this.isOpen = true;
+    }
     this.updateCollapsibleState();
   }
 
