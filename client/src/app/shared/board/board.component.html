@@ -9,11 +9,12 @@
       <rsb-split-bar-container-right>
         <rsb-button-set>
           <ng-content select="rsb-board-buttons"></ng-content>
+          <rsb-icon-button [buttonType]="iconButtonType.COLLAPSIBLE" (click)="toggleCollapsibleState()"></rsb-icon-button>
         </rsb-button-set>
       </rsb-split-bar-container-right>
     </rsb-split-bar>
   </div>
-  <div class="board__body">
+  <div class="board__body" [@collapse]="collapsibleState">
     <ng-content select="rsb-board-body"></ng-content>
   </div>
 </div>
