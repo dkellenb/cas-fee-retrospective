@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-comment',
@@ -7,9 +7,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CommentComponent implements OnInit {
 
-  constructor() { }
+
+  private boards: Board[] = [
+    new Board('Start doing'),
+    new Board('Continue doing'),
+    new Board('Stop doing')];
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
-
 }
+
+export class Board {
+  constructor(private title: string) {
+  }
+}
+
+

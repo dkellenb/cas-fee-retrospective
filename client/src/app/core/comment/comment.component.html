@@ -1,3 +1,14 @@
-<p>
-  comment works!
-</p>
+<div class="board-grid">
+  <div *ngFor="let board of boards;" class="board-grid__element">
+    <rsb-board>
+      <rsb-board-title>{{board.title}}</rsb-board-title>
+      <rsb-board-body>
+        <rsb-gallery>
+          <rsb-gallery-element>
+            <rsb-sticky-note></rsb-sticky-note>
+          </rsb-gallery-element>
+        </rsb-gallery>
+      </rsb-board-body>
+    </rsb-board>
+  </div>
+</div>
