@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'rsb-gallery',
@@ -7,7 +7,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GalleryComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
+
+  ngOnInit() {
+  }
+
+}
+
+@Component({
+  selector: 'rsb-gallery-element',
+  template: '<div class="gallery__element"><ng-content></ng-content></div>',
+  styleUrls: ['./gallery.component.css']
+})
+export class GalleryElementComponent implements OnInit {
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
