@@ -18,6 +18,7 @@ import {FormComponent, FormBody, FormSubmit, FormSetElement} from './form';
 import {ConfigurationService, RetrospectiveService, UserService, AuthenticationService} from './services';
 import {StickyNoteComponent} from './sticky-note/sticky-note.component';
 import {GalleryComponent, GalleryElementComponent} from './gallery';
+import {CarouselModule} from './carousel';
 
 @NgModule({
   declarations: [BoardComponent, BoardBody, BoardButtons, BoardTitle, IconButtonComponent,
@@ -25,7 +26,8 @@ import {GalleryComponent, GalleryElementComponent} from './gallery';
     HeaderBarComponent, HeaderBarTitle, HeaderBarMenu,
     TextInputComponent,
     ButtonSetComponent, ButtonSetElement, ButtonSetTextComponent, ButtonSetTextComponent,
-    FormComponent, FormBody, FormSubmit, FormSetElement, StickyNoteComponent, GalleryComponent, GalleryElementComponent],
+    FormComponent, FormBody, FormSubmit, FormSetElement, StickyNoteComponent, GalleryComponent, GalleryElementComponent,
+    CarouselModule],
   imports: [CommonModule, HttpModule, RouterModule, FormsModule],
   exports: [CommonModule, HttpModule, RouterModule, FormsModule,
     BoardComponent, BoardBody, BoardButtons, BoardTitle,
@@ -34,7 +36,7 @@ import {GalleryComponent, GalleryElementComponent} from './gallery';
     TextInputComponent,
     ButtonSetComponent, ButtonSetElement, ButtonSetTextComponent,
     FormComponent, FormBody, FormSubmit, FormSetElement,
-    StickyNoteComponent, GalleryComponent, GalleryElementComponent
+    StickyNoteComponent, GalleryComponent, GalleryElementComponent, CarouselModule
   ],
   providers: [ConfigurationService, RetrospectiveService, UserService, AuthenticationService]
 })
