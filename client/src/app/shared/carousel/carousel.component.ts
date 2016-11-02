@@ -31,12 +31,9 @@ export class CarouselComponent implements OnInit, AfterViewInit {
       return;
     }
     let stepSize = this.range / (this.carouselElements.length - 1);
-    console.log('step-size:' + stepSize);
     let order = this.carouselElements.length;
     this.carouselElements.forEach(function (carouselElement: CarouselElementComponent, index: number) {
-      let order = index-this.topElement;//index<this.topElement?index-this.topElement:this.carouselElements.length-index;
-      console.log('order: '+order);
-      carouselElement.order=order;
+      carouselElement.order=index-this.topElement;
       carouselElement.stepSize=stepSize;
     }.bind(this));
   }
