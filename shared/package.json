@@ -1,0 +1,15 @@
+{
+  "name": "cas-fee-retrospective-shared",
+  "version": "1.0.0",
+  "description": "Shared module",
+  "main": " ",
+  "dependencies": {
+    "moment": "^2.15.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

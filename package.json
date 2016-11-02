@@ -1,0 +1,25 @@
+{
+  "name": "cas-fee-retrospective",
+  "version": "1.0.0",
+  "description": "ROOT Module",
+  "main": " ",
+  "dependencies": {
+    "typescript": "^2.0.6"
+  },
+  "devDependencies": {
+    "typescript": "^2.0.6"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dkellenb/cas-fee-retrospective.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dkellenb/cas-fee-retrospective/issues"
+  },
+  "homepage": "https://github.com/dkellenb/cas-fee-retrospective#readme"
+}
