@@ -9,6 +9,10 @@ export class AbstractRepository<T extends mongoose.Document> {
 
   private _model: mongoose.Model<T>;
 
+  private static toObjectId (_id: string): mongoose.Types.ObjectId {
+    return mongoose.Types.ObjectId.createFromHexString(_id);
+  }
+
   protected setModel(schemaModel: mongoose.Model<T>) {
     this._model = schemaModel;
   }
@@ -24,7 +28,7 @@ export class AbstractRepository<T extends mongoose.Document> {
 
   retrieve(callback: (error: any, result: any) => void) {
     console.log('AbstractRepository#retrieve');
-    this._model.find({}, callback)
+    this._model.find({}, callback);
   }
 
   update(_id: mongoose.Types.ObjectId, item: T, callback: (error: any, result: any) => void) {
@@ -40,10 +44,6 @@ export class AbstractRepository<T extends mongoose.Document> {
   findById(_id: string, callback: (error: any, result: T) => void) {
     console.log('AbstractRepository#findById | ' + _id);
     this._model.findById( _id, callback);
-  }
-
-  private static toObjectId (_id: string) : mongoose.Types.ObjectId {
-    return mongoose.Types.ObjectId.createFromHexString(_id)
   }
 
 }

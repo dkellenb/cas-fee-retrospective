@@ -29,11 +29,11 @@ export class UserController {
         response.sendStatus(201);
       }).catch((error) => {
         console.log(error);
-        response.send({"error": "error in your request"});
+        response.send({'error': 'error in your request'});
       });
     } catch (e) {
       console.log(e);
-      response.send({"error": "error in your request"});
+      response.send({'error': 'error in your request'});
     }
   }
 
@@ -58,7 +58,7 @@ export class UserController {
       return this.userService.getJwt(request.params.id, request.params.tokenId);
     } catch (e) {
       console.log(e);
-      response.send({"error": "error in your request"});
+      response.send({'error': 'error in your request'});
     }
   }
 

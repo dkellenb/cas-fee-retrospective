@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import TYPES from '../constant/types';
 import { IRetrospective, RetrospectiveUser } from '../../../shared/src/model';
 import { UserService, RetrospectiveService } from '../service';
+import {CreateRetrospectiveJSON} from '../../../shared/src/model/retrospective/RetrospectiveDomainModel';
 
 @injectable()
 @Controller('/rest/retrospectives')
@@ -22,7 +23,7 @@ export class RetrospectiveController {
   @Post('/')
   public createRetrospective(request: Request, response: Response): void {
     let jwtUser = this.userService.getJwtUser(request);
-    let createdRetrospective = this.retrospectiveService.createRetrospective(jwtUser, request.body);
+    let createdRetrospective = this.retrospectiveService.createRetrospective(jwtUser, <CreateRetrospectiveJSON>request.body);
 
     response.location('/rest/retrospectives/' + createdRetrospective.uuid);
     response.sendStatus(201);

@@ -5,7 +5,7 @@ import { UserRepository } from '../repository/UserRepository';
 import { IUser, UserRole, UserJwt, CreateUserJSON, PublicUser } from '../../../shared/src/model';
 import { UserJwtService } from './UserJwtService';
 import { Request } from 'express';
-import {IPersistedUser, PersistedUser, UserToken, IUserDbModel} from '../repository/model/UserDbModel';
+import {IPersistedUser, PersistedUser, UserToken} from '../repository/model/UserDbModel';
 
 @injectable()
 export class UserService {
@@ -67,7 +67,7 @@ export class UserService {
         } else {
           resolve(jwtUser);
         }
-      })
+      });
     });
   }
 

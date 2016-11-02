@@ -49,7 +49,7 @@ server.setConfig((app) => {
     // Request headers you wish to allow
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
 
-    //Location must be set as Expose-Header so Angular HTTP will pick it up and make it accessible.
+    // Location must be set as Expose-Header so Angular HTTP will pick it up and make it accessible.
     res.setHeader('Access-Control-Expose-Headers', 'Location');
 
     // Set to true if you need the website to include cookies in the requests sent

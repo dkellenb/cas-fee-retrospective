@@ -1,4 +1,3 @@
-import { IUserDbModel } from '../model';
 import { DataAccess } from '../dataaccess';
 
 export class UserDbSchema {
