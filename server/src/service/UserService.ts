@@ -2,7 +2,7 @@ import { injectable, inject } from 'inversify';
 import TYPES from '../constant/types';
 import { UUID } from '../../../shared/src/util/UUID';
 import { UserRepository } from '../repository/UserRepository';
-import { IUser, UserRole, UserJwt, CreateUserJSON, PublicUser } from '../../../shared/src/model';
+import { IUser, User, UserRole, UserJwt, CreateUserJSON, PublicUser } from '../../../shared/src/model';
 import { UserJwtService } from './UserJwtService';
 import { Request } from 'express';
 import {IPersistedUser, PersistedUser, UserToken} from '../repository/model/UserDbModel';
@@ -16,6 +16,15 @@ export class UserService {
     publicUser.name = persistedUser.name;
     publicUser.shortName = persistedUser.shortName;
     return publicUser;
+  }
+
+  static convertUserToIUser(persistedUser: IPersistedUser):IUser {
+    let user = new User();
+    user.uuid = persistedUser.uuid;
+    user.name = persistedUser.name;
+    user.shortName = persistedUser.shortName;
+    user.systemRole = persistedUser.systemRole;
+    return user;
   }
 
   constructor(
@@ -57,8 +66,8 @@ export class UserService {
   }
 
   public getJwtUser(request: Request): Promise<IUser> {
-    let jwtUser = this.userJwtService.getJwtUser(request);
     return new Promise<IUser>((resolve, reject) => {
+      let jwtUser = this.userJwtService.getJwtUser(request);
       this.userRepository.findByUuid(jwtUser.uuid, (error, data) => {
         if (error) {
           reject(error);
@@ -93,6 +102,26 @@ export class UserService {
     });
   }
 
+  public getAllUsers(currentUser: User): Promise<IUser[]> {
+    return new Promise<IUser[]>((resolve, reject) => {
+      if (currentUser.systemRole !== UserRole.ADMIN) {
+        console.log('User ' + currentUser.name + ' is not allowed to fetch all users from the system');
+        throw new InvalidAccess('You are not allowed to fetch all users from the system');
+      } else {
+        this.userRepository.retrieve((error, users) => {
+          if (error) {
+            console.log(error);
+            reject(error);
+          } else if (!users) {
+            reject('No users found');
+          } else {
+            resolve(users.map(u => UserService.convertUserToIUser(u)));
+          }
+        });
+      }
+    });
+  }
+
   public getPublicUsers(userUuids: string[]): Promise<PublicUser[]> {
     return new Promise<PublicUser[]>((resolve, reject) => {
       this.userRepository.findByUuids(userUuids, (error, users) => {
@@ -107,7 +136,7 @@ export class UserService {
     });
   }
 
-  public getPublicUser(userUuid: string): Promise<PublicUser> {
+  public getPublicUser(currentUser: User, userUuid: string): Promise<PublicUser> {
     return new Promise<PublicUser>((resolve, reject) => {
       this.userRepository.findByUuid(userUuid, (error, user) => {
         if (error) {
@@ -120,9 +149,31 @@ export class UserService {
       });
     });
   }
+
+  public deleteUser(currentUser: User, userUuid: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      if (currentUser.uuid === userUuid || currentUser.systemRole === UserRole.ADMIN) {
+        this.userRepository.deleteByUuid(currentUser.uuid, (error) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve();
+          }
+        });
+      } else {
+        reject('User with uuid ' + currentUser.uuid + ' cannot be deleted. Insufficient privileges');
+      }
+    });
+  }
 }
 
 class UserUnknown extends Error {
+  constructor(msg) {
+    super(msg);
+  }
+}
+
+class InvalidAccess extends Error {
   constructor(msg) {
     super(msg);
   }

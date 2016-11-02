@@ -41,6 +41,11 @@ export class AbstractRepository<T extends mongoose.Document> {
     this._model.remove({_id: AbstractRepository.toObjectId(_id)}, (err) => callback(err, null));
   }
 
+  deleteByUuid(_uuid: string, callback:(error: any, result: any) => void) {
+    console.log('AbstractRepository#deleteByUuid | ' + _uuid);
+    this._model.remove({uuid: _uuid}, (err) => callback(err, null));
+  }
+
   findById(_id: string, callback: (error: any, result: T) => void) {
     console.log('AbstractRepository#findById | ' + _id);
     this._model.findById( _id, callback);

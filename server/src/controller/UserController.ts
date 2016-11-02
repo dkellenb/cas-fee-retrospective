@@ -13,9 +13,25 @@ export class UserController {
 
   }
 
+  @Get('/current')
+  public getCurrentUser(request: Request, response: Response): void {
+    this.userService.getJwtUser(request)
+      .then((currentUser) => response.send(currentUser))
+      .catch((err) => {
+        console.log(err);
+        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+      });
+  }
+
   @Get('/')
-  public getUsers(): IUser[] {
-    return null;
+  public getUsers(request: Request, response: Response): void {
+    this.userService.getJwtUser(request)
+      .then((currentUser) => this.userService.getAllUsers(currentUser))
+      .then((users) => response.send(users))
+      .catch((err) => {
+        console.log(err);
+        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+      });
   }
 
   @Post('/')
@@ -27,19 +43,25 @@ export class UserController {
         console.log('UserController#createUser@promise');
         response.location('/rest/users/' + createdUser.uuid + '/tokens/' + createdUser.tokens[0].uuid);
         response.sendStatus(201);
-      }).catch((error) => {
-        console.log(error);
-        response.send({'error': 'error in your request'});
+      }).catch((err) => {
+        console.log(err);
+        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
       });
-    } catch (e) {
-      console.log(e);
-      response.send({'error': 'error in your request'});
+    } catch (err) {
+      console.log(err);
+      response.send({'error': 'error in your request. see server logs for details', 'details' : err});
     }
   }
 
   @Get('/:id/')
-  public getUser(request: Request): IUser {
-    return null;
+  public getUser(request: Request, response: Response): void {
+    this.userService.getJwtUser(request)
+      .then((currentUser) => this.userService.getPublicUser(currentUser, request.params.id))
+      .then((user) => response.send(user))
+      .catch((err) => {
+        console.log(err);
+        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+      });
   }
 
   @Put('/:id')
@@ -48,8 +70,14 @@ export class UserController {
   }
 
   @Delete('/:id')
-  public deleteUser(request: Request): string {
-    return null; // this.retrospectiveService.deleteRetrospective(request.params.id);
+  public deleteUser(request: Request, response: Response): void {
+    this.userService.getJwtUser(request)
+      .then((currentUser) => this.userService.deleteUser(currentUser, request.params.id))
+      .then((user) => response.status(204).send())
+      .catch((err) => {
+        console.log(err);
+        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+      });
   }
 
   @Get('/:id/tokens/:tokenId/')

@@ -69,3 +69,7 @@ server.setConfig((app) => {
 let app = server.build();
 app.listen(nconf.get('port'));
 console.log('Server started on port ' + nconf.get('port'));
+console.log('');
+console.log('REST Services available on:');
+console.log('localhost:' + nconf.get('port') + '/rest/users');
+console.log('localhost:' + nconf.get('port') + '/rest/retrospectives');

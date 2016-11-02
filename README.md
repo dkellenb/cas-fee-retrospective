@@ -46,5 +46,5 @@ Run `ng github-pages:deploy` to deploy to Github Pages.
 Server is available in /server/ folder.
 
  * Prepare: /server/$ `npm install`
- * Run Server: /server/$ `npm start`
+ * Run Server: /server/$ `npm start` or use /server/$ `nodemon`
  * Run Tests: /server/$ `npm test`
