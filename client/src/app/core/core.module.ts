@@ -7,7 +7,7 @@ import {JoinSessionComponent} from './join-session';
 import {CreateSessionComponent} from './create-session';
 import {InitialPageComponent} from './initial-page';
 import {ReviewComponent} from './review';
-import {CommentComponent} from './comment';
+import {CommentModule} from './comment';
 import {VoteComponent} from './vote';
 import {ClosedComponent} from './closed';
 import {coreRouting} from './core-routes';
@@ -16,14 +16,14 @@ import {coreRouting} from './core-routes';
   imports: [
     CommonModule,
     SharedModule,
-    coreRouting
+    coreRouting,
+    CommentModule
   ],
   declarations: [CoreComponent,
     JoinSessionComponent,
     CreateSessionComponent,
     InitialPageComponent,
     ReviewComponent,
-    CommentComponent,
     VoteComponent,
     ClosedComponent],
   exports: [CoreComponent]

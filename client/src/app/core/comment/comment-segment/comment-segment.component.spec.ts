@@ -1,11 +1,11 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async } from '@angular/core/testing';
-import { CommentBoardBodyComponent } from './comment-board-body.component';
+import { CommentSegmentComponent } from './comment-segment.component';
 
-describe('Component: CommentBoardBody', () => {
+describe('Component: CommentSegment', () => {
   it('should create an instance', () => {
-    let component = new CommentBoardBodyComponent();
+    let component = new CommentSegmentComponent();
     expect(component).toBeTruthy();
   });
 });

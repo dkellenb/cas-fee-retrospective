@@ -1,5 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
+body{
+  margin: 1rem;
+}
+
 h1, .title {
   font-family: Arial, serif;
   font-size: 1.25rem; /*20px*/

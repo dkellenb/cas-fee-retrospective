@@ -21,7 +21,6 @@ export class UserService {
   }
 
   public createUser(shortName: string, name?: string, email?: string): Observable<boolean> {
-
     let createUserJSON = <CreateUserJSON>{};
     createUserJSON.shortName = shortName;
     createUserJSON.name = name;
