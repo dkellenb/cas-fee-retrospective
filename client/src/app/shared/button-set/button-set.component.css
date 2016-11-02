@@ -1,0 +1,16 @@
+.button-set {
+  float: right;
+  font-size: 0; /*withespace solver*/
+  display: block;
+}
+
+.button-set:after {
+  clear: both;
+  font-size: 0;
+  display: table;
+}
+
+.button-set_element, :host >>> .button-set_element {
+  display: inline-block;
+  vertical-align: middle;
+}

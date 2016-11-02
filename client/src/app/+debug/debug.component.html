@@ -1,0 +1,19 @@
+<rsb-header-bar>
+  <rsb-header-bar-title>Retrospective Board</rsb-header-bar-title>
+  <rsb-header-bar-menu></rsb-header-bar-menu>
+</rsb-header-bar>
+
+<rsb-board [isCollapsible]="true">
+  <rsb-board-title>Debug Elements</rsb-board-title>
+  <rsb-board-body>
+    <div>
+      <ul>
+        <li><a [routerLink]="'user-service'">User-Service</a></li>
+        <li><a [routerLink]="'retrospective-service'">Retrospective-Service</a></li>
+      </ul>
+    </div>
+  </rsb-board-body>
+</rsb-board>
+
+<router-outlet></router-outlet>
+

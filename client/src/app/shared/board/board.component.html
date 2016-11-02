@@ -7,13 +7,14 @@
         </h2>
       </rsb-split-bar-container-left>
       <rsb-split-bar-container-right>
-        <div class="button-set">
+        <rsb-button-set>
           <ng-content select="rsb-board-buttons"></ng-content>
-        </div>
+          <rsb-icon-button *ngIf="isCollapsible" [buttonType]="iconButtonType.COLLAPSIBLE" (click)="toggleCollapsibleState()" [toggleStatus]="isOpen"></rsb-icon-button>
+        </rsb-button-set>
       </rsb-split-bar-container-right>
     </rsb-split-bar>
   </div>
-  <div class="board__body">
+  <div class="board__body" [@collapse]="collapsibleState">
     <ng-content select="rsb-board-body"></ng-content>
   </div>
 </div>

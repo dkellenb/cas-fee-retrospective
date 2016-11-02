@@ -1,0 +1,42 @@
+.sticky-note {
+  width: 8.25rem; /*132px*/
+  height: 8.25rem; /*132px*/
+  border: solid 1px #cccccc;
+  border-radius: 0.125rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  /*Shadow*/
+  -webkit-box-shadow: 0.125rem 0.125rem 0.25rem 0 rgba(0,0,0,0.15);
+  -moz-box-shadow: 0.125rem 0.125rem 0.25rem 0 rgba(0,0,0,0.15);
+  box-shadow: 0.125rem 0.125rem 0.25rem 0 rgba(0,0,0,0.15);
+
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffcc+0,ffffaf+62,ffff8e+100 */
+  background: #ffffcc; /* Old browsers */
+  background: -moz-linear-gradient(-45deg, #ffffcc 0%, #ffffaf 62%, #ffff8e 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(-45deg, #ffffcc 0%,#ffffaf 62%,#ffff8e 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(135deg, #ffffcc 0%,#ffffaf 62%,#ffff8e 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffcc', endColorstr='#ffff8e',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+.sticky-note__header{
+  order: 1; /*flexbox*/
+  display: block;
+  border-bottom: solid 1px #cccccc;
+  padding: 0.25rem; /*4px*/
+}
+
+.sticky-note__body{
+  padding: 0.25rem;
+  order: 2; /*flexbox*/
+}
+
+.sticky-note__footer{
+  order: 3; /*flexbox*/
+  padding: 0.125rem 0 0.125rem 0.125rem;
+}
+
+.sticky-note__author{
+  width: 4.375rem; /*70px*/
+}
