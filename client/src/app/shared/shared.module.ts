@@ -19,6 +19,7 @@ import {ConfigurationService, RetrospectiveService, UserService, AuthenticationS
 import {StickyNoteComponent} from './sticky-note/sticky-note.component';
 import {GalleryComponent, GalleryElementComponent} from './gallery';
 import {CarouselModule} from './carousel';
+import {StickyNoteService} from './services/sticky-note.service';
 
 @NgModule({
   declarations: [BoardComponent, BoardBody, BoardButtons, BoardTitle, IconButtonComponent,
@@ -27,7 +28,7 @@ import {CarouselModule} from './carousel';
     TextInputComponent,
     ButtonSetComponent, ButtonSetElement, ButtonSetTextComponent, ButtonSetTextComponent,
     FormComponent, FormBody, FormSubmit, FormSetElement, StickyNoteComponent, GalleryComponent, GalleryElementComponent],
-  imports: [CommonModule, HttpModule, RouterModule, FormsModule,CarouselModule],
+  imports: [CommonModule, HttpModule, RouterModule, FormsModule, CarouselModule],
   exports: [CommonModule, HttpModule, RouterModule, FormsModule,
     BoardComponent, BoardBody, BoardButtons, BoardTitle,
     IconButtonComponent,
@@ -37,7 +38,7 @@ import {CarouselModule} from './carousel';
     FormComponent, FormBody, FormSubmit, FormSetElement,
     StickyNoteComponent, GalleryComponent, GalleryElementComponent, CarouselModule
   ],
-  providers: [ConfigurationService, RetrospectiveService, UserService, AuthenticationService]
+  providers: [ConfigurationService, RetrospectiveService, UserService, AuthenticationService, StickyNoteService]
 })
 export class SharedModule {
 }
