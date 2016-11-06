@@ -15,18 +15,52 @@
   z-index: 2000;
   top:0;
   bottom: 0;
-  overflow: auto;
-  margin: auto;
+  margin: auto 0;
 }
 
 .carousel__nav-button-right {
   border-right: 0 solid transparent;
-  border-left: 2rem solid #C0C0C0;
+  border-left: 2rem solid #999999;
   right: 1rem;
 }
 
 .carousel__nav-button-left {
   border-left: 0 solid transparent;
-  border-right: 2rem solid #C0C0C0;
+  border-right: 2rem solid #999999;
   left: 1rem;
+}
+
+.carousel__nav-inner-button {
+  width: 0;
+  height: 0;
+  border-top: 1.75rem solid transparent;
+  border-bottom: 1.75rem solid transparent;
+  background: transparent;
+  padding: 0;
+  position: absolute;
+  display: block;
+  z-index: 2001;
+  top:0;
+  bottom: 0;
+  margin: -1.75rem 0;
+}
+
+.carousel__nav-inner-button-right:hover {
+  border-left-color: #999999;
+}
+
+.carousel__nav-inner-button-left:hover {
+  border-right-color: #999999;
+}
+
+.carousel__nav-inner-button-right {
+  border-right: 0 solid transparent;
+  border-left: 1.75rem solid #C0C0C0;
+  right: 0.15rem;
+}
+
+.carousel__nav-inner-button-left {
+  border-left: 0 solid transparent;
+  border-right: 1.75rem solid #C0C0C0;
+  left: 0.15rem;
 }
