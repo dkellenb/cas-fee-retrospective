@@ -11,7 +11,7 @@ export class StickyNoteComponent implements OnInit {
   private iconButtonType = IconButtonType;
 
   @Input()
-  private stickyNote: IRetrospectiveComment;
+  private stickyNote: IRetrospectiveComment = <IRetrospectiveComment>{};
 
   @Input()
   private mode: StickyNoteMode = StickyNoteMode.Display;
