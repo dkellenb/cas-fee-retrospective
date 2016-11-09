@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {IconButtonType, UserService} from '../../shared';
+import {IconButtonType, UserService,AuthenticationService} from '../../shared';
 
 @Component({
   selector: 'app-debug-user-service',
@@ -17,7 +17,7 @@ export class DebugUserServiceComponent implements OnInit {
   public fullName: string;
 
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService, private authService:AuthenticationService) {
   }
 
   ngOnInit() {
@@ -30,7 +30,8 @@ export class DebugUserServiceComponent implements OnInit {
         console.log("user wurde erfolgreich angelegt")
       }
 
-      alert('Eingaben waren: Shortname: ' + this.shortName + " email: " + this.email + " fullname: " + this.fullName);
+      console.log('Eingaben waren: Shortname: ' + this.shortName + " email: " + this.email + " fullname: " + this.fullName);
+      console.log(this.authService.getLoggedInUser())
     });
   }
 

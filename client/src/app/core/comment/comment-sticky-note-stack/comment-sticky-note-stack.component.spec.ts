@@ -5,7 +5,7 @@ import { CommentStickyNoteStackComponent } from './comment-sticky-note-stack.com
 
 describe('Component: CommentStickyNoteStack', () => {
   it('should create an instance', () => {
-    let component = new CommentStickyNoteStackComponent();
+    let component = new CommentStickyNoteStackComponent(null);
     expect(component).toBeTruthy();
   });
 });

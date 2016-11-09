@@ -44,10 +44,7 @@ export class UserService {
     return this.http.get(this.configuration.serverHostUrl + location, {withCredentials: true}).map(
       res => {
       if (res.status == 200) {
-
-        let authToken: string = res.text();
-        console.log('authToken erhalten: ' + authToken);
-        return authToken;
+        return res.text();
       }
       else {
         throw new Error('wasn\'t able to get user token');
@@ -79,5 +76,8 @@ export class UserService {
   createUserIdEndpoint(id: string) {
     return this.configuration.userEndpoint + '/' + id;
   }
+
+
+
 
 }
