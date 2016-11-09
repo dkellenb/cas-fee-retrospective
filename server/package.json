@@ -23,7 +23,7 @@
     "inversify-logger-middleware": "2.0.2",
     "jsonwebtoken": "^7.1.9",
     "moment": "^2.15.2",
-    "mongoose": "^4.6.5",
+    "mongoose": "^4.6.6",
     "morgan": "^1.7.0",
     "nconf": "^0.8.4",
     "reflect-metadata": "^0.1.8",
