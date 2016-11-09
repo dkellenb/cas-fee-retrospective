@@ -12,6 +12,7 @@ import { UserRepository } from './repository/UserRepository';
 import { UserJwtKeyProvider, UserStaticJwtKeyProvider} from './service/UserJwtKeyProvider';
 import { DataAccess } from './repository/dataaccess';
 import * as nconf from 'nconf';
+import {RetrospectiveRepository} from './repository/RetrospectiveRepository';
 
 // load everything needed to the kernel
 let kernel = new Kernel();
@@ -20,6 +21,7 @@ kernel.bind<interfaces.Controller>(TYPE.Controller).to(RetrospectiveController).
 kernel.bind<interfaces.Controller>(TYPE.Controller).to(UserController).whenTargetNamed(TAGS.UserController);
 
 kernel.bind<RetrospectiveService>(TYPES.RetrospectiveService).to(RetrospectiveService).inSingletonScope();
+kernel.bind<RetrospectiveRepository>(TYPES.RetrospectiveRepository).to(RetrospectiveRepository).inSingletonScope();
 kernel.bind<UserRepository>(TYPES.UserRepository).to(UserRepository).inSingletonScope();
 kernel.bind<UserService>(TYPES.UserService).to(UserService).inSingletonScope();
 kernel.bind<UserJwtService>(TYPES.UserJwtService).to(UserJwtService).inSingletonScope();

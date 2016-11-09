@@ -2,7 +2,7 @@ import { DataAccess } from '../dataaccess';
 
 export class UserDbSchema {
 
-  static get schema () {
+  static get schema() {
     return DataAccess.mongooseInstance.Schema({
       uuid: {
         type: String,

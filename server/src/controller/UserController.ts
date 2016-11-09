@@ -66,6 +66,7 @@ export class UserController {
 
   @Put('/:id')
   public updateUser(request: Request): IUser {
+    // TODO: Implement update
     return null; // this.retrospectiveService.updateRetrospective(request.params.id, request.body);
   }
 
@@ -73,7 +74,7 @@ export class UserController {
   public deleteUser(request: Request, response: Response): void {
     this.userService.getJwtUser(request)
       .then((currentUser) => this.userService.deleteUser(currentUser, request.params.id))
-      .then((user) => response.status(204).send())
+      .then((user) => response.sendStatus(204))
       .catch((err) => {
         console.log(err);
         response.send({'error': 'error in your request. see server logs for details', 'details' : err});

@@ -7,9 +7,9 @@ export class UserRole {
 }
 
 export class PublicUser {
-  uuid: string;
-  shortName: string;
-  name?: string;
+  public uuid: string;
+  public shortName: string;
+  public name?: string;
 }
 
 export interface IUser {

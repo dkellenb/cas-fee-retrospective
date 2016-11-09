@@ -4,12 +4,14 @@ import { UserDbSchema } from './schema';
 import { IUserDbModel } from './model/';
 import { DataAccess } from './dataaccess';
 
+export const UserDbModel = DataAccess.mongooseConnection.model<IUserDbModel>
+  ('users', UserDbSchema.schema);
 
 @injectable()
 export class UserRepository extends AbstractRepository<IUserDbModel> {
   constructor() {
     super();
-    super.setModel(DataAccess.mongooseConnection.model<IUserDbModel>('users', UserDbSchema.schema));
+    super.setModel(UserDbModel);
   }
 
   findByUuid(_uuid: string, callback: (error: any, result: IUserDbModel) => void) {

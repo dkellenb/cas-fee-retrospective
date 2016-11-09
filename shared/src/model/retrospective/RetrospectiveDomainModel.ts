@@ -1,4 +1,4 @@
-import {UUID} from '../../util/UUID';
+import {IUser} from '../user/User';
 
 export class RetrospectiveStatus {
   static OPEN: string = 'OPEN';
@@ -23,39 +23,25 @@ export interface IRetrospectiveComment {
   votes: IRetrospectiveVote[];
 }
 
-export interface IRetrospective {
+export interface IBasicRetrospective {
   uuid: string;
   name: string;
   description?: string;
   status: RetrospectiveStatus;
-  comments: IRetrospectiveComment[];
-  attendees: string[]; // UUIDs of the users
-  managers: string[]; // UUIDs of the users
 }
 
-export class Retrospective implements IRetrospective {
-  uuid: string;
-  name: string;
-  description?: string;
-  status: RetrospectiveStatus;
+export interface IRetrospective extends IBasicRetrospective {
   comments: IRetrospectiveComment[];
-  attendees: string[]; // UUIDs of the users
-  managers: string[]; // UUIDs of the users
-
-  static create(createParams: CreateRetrospectiveJSON): Retrospective {
-    let retrospective = new Retrospective();
-    retrospective.uuid = new UUID().toString();
-    retrospective.name = createParams.name;
-    retrospective.description = createParams.description;
-    retrospective.comments = [];
-    retrospective.attendees = [];
-    retrospective.managers = [];
-    retrospective.status = RetrospectiveStatus.OPEN;
-    return retrospective;
-  }
+  attendees: IUser[];
+  manager: IUser;
 }
 
 export interface CreateRetrospectiveJSON {
+  name: string;
+  description?: string;
+}
+
+export interface UpdateRetrospectiveJSON {
   name: string;
   description?: string;
 }
