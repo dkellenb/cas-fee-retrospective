@@ -4,11 +4,14 @@
     <rsb-form>
       <rsb-form-body>
         <rsb-text-input [labelText]="'Title for Session'" [id]="'createSessionTitle'"></rsb-text-input>
-        <rsb-text-input [labelText]="'Description of Session'" [isTextArea]="true" [id]="'createSessionDesc'"></rsb-text-input>
-        <rsb-text-input [labelText]="'Shortname'" [id]="'createSessionShortName'"></rsb-text-input>
+        <rsb-text-input [labelText]="'Description of Session'" [isTextArea]="true"
+                        [id]="'createSessionDesc'"></rsb-text-input>
+        <rsb-text-input *ngIf="!isUserLoggedIn" [labelText]="'Shortname'"
+                        [id]="'createSessionShortName'"></rsb-text-input>
       </rsb-form-body>
       <rsb-form-submit>
-        <rsb-icon-button [lableText]="'Create new Session'" rsb-button-set-element [buttonType]="iconButtonType.ARROW_RIGHT"></rsb-icon-button>
+        <rsb-icon-button [lableText]="'Create new Session'" rsb-button-set-element
+                         [buttonType]="iconButtonType.ARROW_RIGHT"></rsb-icon-button>
       </rsb-form-submit>
     </rsb-form>
   </rsb-board-body>

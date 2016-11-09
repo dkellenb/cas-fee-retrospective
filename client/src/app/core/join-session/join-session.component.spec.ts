@@ -5,7 +5,7 @@ import { JoinSessionComponent } from './join-session.component';
 
 describe('Component: JoinSession', () => {
   it('should create an instance', () => {
-    let component = new JoinSessionComponent();
+    let component = new JoinSessionComponent(null);
     expect(component).toBeTruthy();
   });
 });
