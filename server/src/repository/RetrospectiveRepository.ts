@@ -1,11 +1,11 @@
 import { injectable } from 'inversify';
 import { AbstractRepository } from './AbstractRepository';
-import { DataAccess } from './dataaccess';
 import { IPersistedRetrospectiveDbModel } from './model';
 import { RetrospectiveDbSchema } from './schema';
 import {IPopulatedRetrospective} from './model/RetrospectiveDbModel';
+import * as mongoose from 'mongoose';
 
-export const RetrospectiveDbModel = DataAccess.mongooseConnection.model<IPersistedRetrospectiveDbModel>
+export const RetrospectiveDbModel = mongoose.model<IPersistedRetrospectiveDbModel>
   ('retrospectives', RetrospectiveDbSchema.schema);
 
 @injectable()

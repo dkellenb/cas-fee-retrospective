@@ -2,10 +2,9 @@ import { injectable } from 'inversify';
 import { AbstractRepository } from './AbstractRepository';
 import { UserDbSchema } from './schema';
 import { IUserDbModel } from './model/';
-import { DataAccess } from './dataaccess';
+import * as mongoose from 'mongoose';
 
-export const UserDbModel = DataAccess.mongooseConnection.model<IUserDbModel>
-  ('users', UserDbSchema.schema);
+export const UserDbModel = mongoose.model<IUserDbModel>('users', UserDbSchema.schema);
 
 @injectable()
 export class UserRepository extends AbstractRepository<IUserDbModel> {

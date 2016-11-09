@@ -1,10 +1,9 @@
-import { DataAccess } from '../dataaccess';
-import { Schema } from 'mongoose';
+import * as mongoose from 'mongoose';
 
 export class RetrospectiveDbSchema {
 
   static get schema() {
-    return DataAccess.mongooseInstance.Schema({
+    return new mongoose.Schema({
       uuid: {
         type: String,
         required: true,
@@ -23,11 +22,11 @@ export class RetrospectiveDbSchema {
         required: true
       },
       attendees: [{
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'users'
       }],
       manager: {
-        type: Schema.Types.ObjectId,
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'users'
       },
       comments: [{
@@ -44,7 +43,7 @@ export class RetrospectiveDbSchema {
           required: true
         },
         author: {
-          type: Schema.Types.ObjectId,
+          type: mongoose.Schema.Types.ObjectId,
           ref: 'users'
         },
         anonymous: {
@@ -57,7 +56,7 @@ export class RetrospectiveDbSchema {
             required: true
           },
           author: {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'users'
           },
           value: {

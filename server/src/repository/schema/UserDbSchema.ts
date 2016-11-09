@@ -1,9 +1,9 @@
-import { DataAccess } from '../dataaccess';
+import * as mongoose from 'mongoose';
 
 export class UserDbSchema {
 
   static get schema() {
-    return DataAccess.mongooseInstance.Schema({
+    return new mongoose.Schema({
       uuid: {
         type: String,
         required: true,

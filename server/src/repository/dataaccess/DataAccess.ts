@@ -6,7 +6,7 @@ export class DataAccess {
   static mongooseInstance: any;
   static mongooseConnection: Mongoose.Connection;
 
-  static connect (): Mongoose.Connection {
+  static connect(): Mongoose.Connection {
     if (this.mongooseInstance) {
       return this.mongooseInstance;
     }
