@@ -57,7 +57,7 @@ export class RetrospectiveController {
     this.userService.getJwtUser(request)
       .then((currentUser) => this.retrospectiveService.updateRetrospective(currentUser, request.params.id,
                                                                            <UpdateRetrospectiveJSON>request.body))
-      .then(() => response.sendStatus(402))
+      .then(() => response.sendStatus(204))
       .catch((err) => {
         console.log(err);
         response.send({'error': 'error in your request. see server logs for details', 'details' : err});
@@ -68,7 +68,7 @@ export class RetrospectiveController {
   public deleteRetrospective(request: Request, response: Response): void {
     this.userService.getJwtUser(request)
       .then((currentUser) => this.retrospectiveService.deleteRetrospective(currentUser, request.params.id))
-      .then(() => response.sendStatus(402))
+      .then(() => response.sendStatus(204))
       .catch((err) => {
         console.log(err);
         response.send({'error': 'error in your request. see server logs for details', 'details' : err});
@@ -103,7 +103,7 @@ export class RetrospectiveController {
   public joinRetrospective(request: Request, response: Response): void {
     this.userService.getJwtUser(request)
       .then((currentUser) => this.retrospectiveService.joinRetrospective(currentUser, request.params.id))
-      .then(() => response.sendStatus(402))
+      .then(() => response.sendStatus(204))
       .catch((err) => {
         console.log(err);
         response.send({'error': 'error in your request. see server logs for details', 'details' : err});

@@ -128,8 +128,14 @@ export class RetrospectiveService {
             if (userLoadError) {
               reject(userLoadError);
             } else {
-              persistedRetrospective.attendees.push(persistedUser._id);
-              persistedRetrospective.save();
+              if (persistedRetrospective.attendees.find((attendeeId) => {
+                  console.log(attendeeId + ' vs ' + persistedUser._id);
+                  return attendeeId === persistedUser._id;
+                }) === null) {
+                console.log('Register user ' + currentUser.uuid + ' to ' + id);
+                persistedRetrospective.attendees.push(persistedUser._id);
+                persistedRetrospective.save();
+              }
               resolve(persistedRetrospective);
             }
           });
