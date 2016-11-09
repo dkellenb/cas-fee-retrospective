@@ -10,13 +10,14 @@ import {IconButtonType} from '../icon-button';
 export class StickyNoteComponent implements OnInit {
   private iconButtonType = IconButtonType;
 
-  @Input()
-  private stickyNote: IRetrospectiveComment = <IRetrospectiveComment>{};
+  // @Input()
+  private stickyNote: IRetrospectiveComment;
 
   @Input()
   private mode: StickyNoteMode = StickyNoteMode.Display;
 
   constructor() {
+    this.stickyNote = <IRetrospectiveComment>{};
   }
 
   ngOnInit() {

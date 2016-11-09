@@ -22,5 +22,4 @@ export class JoinSessionComponent implements OnInit {
   }
 
 
-
 }

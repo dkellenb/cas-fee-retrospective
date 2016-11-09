@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import {IconButtonType} from "./../shared"
+import {Component, OnInit} from '@angular/core';
+import {IconButtonType} from './../shared';
 
 
 @Component({

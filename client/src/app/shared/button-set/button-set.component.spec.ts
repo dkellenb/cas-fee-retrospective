@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async } from '@angular/core/testing';
-import { ButtonSetComponent } from './button-set.component';
+import {TestBed, async} from '@angular/core/testing';
+import {ButtonSetComponent} from './button-set.component';
 
 describe('Component: ButtonSet', () => {
   it('should create an instance', () => {

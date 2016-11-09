@@ -7,9 +7,9 @@ import {Component, OnInit, Input} from '@angular/core';
 })
 export class CarouselElementComponent implements OnInit {
 
-  private _order=0;
-  private _absOrder=0;
-  private _stepSize =0;
+  private _order = 0;
+  private _absOrder = 0;
+  private _stepSize = 0;
   private _scaleSize = 1;
 
   constructor() {

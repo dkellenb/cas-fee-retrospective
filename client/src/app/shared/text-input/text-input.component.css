@@ -47,7 +47,7 @@
   border: solid 2px #d40000;
 }
 
-.input__textfield_error:focus{
+.input__textfield_error:focus {
   background: white;
 }
 

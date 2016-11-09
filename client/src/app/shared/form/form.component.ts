@@ -1,4 +1,4 @@
-import {Component, OnInit, Directive, ElementRef, Renderer, ViewChild} from '@angular/core';
+import {Component, OnInit, Directive, ElementRef, Renderer} from '@angular/core';
 
 @Component({
   selector: 'rsb-form',
@@ -7,7 +7,8 @@ import {Component, OnInit, Directive, ElementRef, Renderer, ViewChild} from '@an
 })
 export class FormComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
@@ -21,7 +22,8 @@ export class FormComponent implements OnInit {
 @Directive({
   selector: 'rsb-form-body'
 })
-export class FormBody {}
+export class FormBodyDirective {
+}
 
 
 /**
@@ -30,16 +32,17 @@ export class FormBody {}
 @Directive({
   selector: 'rsb-form-submit'
 })
-export class FormSubmit {}
+export class FormSubmitDirective {
+}
 
 
 /**
  * Directiv for label a Element of the Form
  */
 @Directive({
-  selector: '[rsb-form-element]',
+  selector: '[rsbFormElement]',
 })
-export class FormSetElement {
+export class FormSetElementDirective {
   constructor(public el: ElementRef, public renderer: Renderer) {
     renderer.setElementClass(el.nativeElement, 'form__element', true);
   }

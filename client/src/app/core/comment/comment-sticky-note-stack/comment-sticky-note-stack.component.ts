@@ -1,7 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {StickyNoteService} from '../../../shared/services/sticky-note.service';
-import {eventNames} from 'cluster';
-import {IRetrospectiveComment} from '../../../../../../shared/src/model/retrospective/RetrospectiveDomainModel';
 
 @Component({
   selector: 'rsb-comment-sticky-note-stack',
@@ -23,8 +21,8 @@ export class CommentStickyNoteStackComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.stickyNoteService.registerForNewComment(this.eventName).subscribe(stickyNote=> {
-      this.countEvent++
+    this.stickyNoteService.registerForNewComment(this.eventName).subscribe(stickyNote => {
+      this.countEvent++;
     });
   }
 

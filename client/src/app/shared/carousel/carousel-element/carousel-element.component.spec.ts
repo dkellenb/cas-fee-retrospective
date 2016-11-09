@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async } from '@angular/core/testing';
-import { CarouselElementComponent } from './carousel-element.component';
+import {TestBed, async} from '@angular/core/testing';
+import {CarouselElementComponent} from './carousel-element.component';
 
 describe('Component: CarouselElement', () => {
   it('should create an instance', () => {

@@ -43,13 +43,13 @@ export class UserService {
   public lookupAuthToken(location: string): Observable<string> {
     return this.http.get(this.configuration.serverHostUrl + location, {withCredentials: true}).map(
       res => {
-      if (res.status == 200) {
-        return res.text();
-      }
-      else {
-        throw new Error('wasn\'t able to get user token');
-      }
-    });
+        if (res.status == 200) {
+          return res.text();
+        }
+        else {
+          throw new Error('wasn\'t able to get user token');
+        }
+      });
   }
 
 
@@ -76,8 +76,6 @@ export class UserService {
   createUserIdEndpoint(id: string) {
     return this.configuration.userEndpoint + '/' + id;
   }
-
-
 
 
 }

@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
-import { TestBed, async } from '@angular/core/testing';
-import { ReviewComponent } from './review.component';
+import {TestBed, async} from '@angular/core/testing';
+import {ReviewComponent} from './review.component';
 
 describe('Component: Review', () => {
   it('should create an instance', () => {

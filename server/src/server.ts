@@ -37,7 +37,7 @@ server.setConfig((app) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
 
     // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
 
     // Location must be set as Expose-Header so Angular HTTP will pick it up and make it accessible.
     res.setHeader('Access-Control-Expose-Headers', 'Location');

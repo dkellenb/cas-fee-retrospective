@@ -8,7 +8,7 @@ export class ConfigurationService {
 
   private static serverRestApiBaseUrl: string = ConfigurationService.serverHostUrl + '/rest';
 
-  //Endpoints
+  // Endpoints
   private static userEndpoint: string = '/users';
   private static retrospectiveEndpoint: string = '/retrospectives';
 

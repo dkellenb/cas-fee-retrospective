@@ -9,7 +9,8 @@
       <rsb-split-bar-container-right>
         <rsb-button-set>
           <ng-content select="rsb-board-buttons"></ng-content>
-          <rsb-icon-button *ngIf="isCollapsible" [buttonType]="iconButtonType.COLLAPSIBLE" (click)="toggleCollapsibleState()" [toggleStatus]="isOpen"></rsb-icon-button>
+          <rsb-icon-button *ngIf="isCollapsible" [buttonType]="iconButtonType.COLLAPSIBLE"
+                           (click)="toggleCollapsibleState()" [toggleStatus]="isOpen"></rsb-icon-button>
         </rsb-button-set>
       </rsb-split-bar-container-right>
     </rsb-split-bar>

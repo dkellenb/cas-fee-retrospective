@@ -1,6 +1,6 @@
 .board-grid {
   display: flex;
-  margin:0 -1rem;
+  margin: 0 -1rem;
 }
 
 .board-grid__element {
@@ -8,6 +8,6 @@
   padding: 0 1rem;
 }
 
-rsb-comment-segment{
+rsb-comment-segment {
   border-bottom: 1px solid #999999;
 }

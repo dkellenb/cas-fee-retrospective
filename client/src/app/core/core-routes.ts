@@ -11,7 +11,7 @@ export const coreRoutes: Routes = [
   {
     path: '', component: CoreComponent,
     children: [
-      {path: '', component: InitialPageComponent}, //doesn't show any component
+      {path: '', component: InitialPageComponent}, // doesn't show any component
       {path: 'comment', component: CommentComponent},
       {path: 'review', component: ReviewComponent},
       {path: 'vote', component: VoteComponent},

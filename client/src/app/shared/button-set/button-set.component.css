@@ -10,7 +10,7 @@
   display: table;
 }
 
-.button-set_element, :host >>> .button-set_element {
+.button-set_element, :host > > > .button-set_element {
   display: inline-block;
   vertical-align: middle;
 }

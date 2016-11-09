@@ -1,12 +1,11 @@
-.user-status{
+.user-status {
 }
 
-.user-status__logout-link{
+.user-status__logout-link {
   color: #0000BB;
   text-decoration: none;
 }
 
-
-.user-status__logout-link:hover{
+.user-status__logout-link:hover {
   text-decoration: underline;
 }

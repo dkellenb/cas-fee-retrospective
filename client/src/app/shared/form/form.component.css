@@ -2,7 +2,7 @@
   padding-top: 1rem;
 }
 
-.form__element, :host>>>.form__element {
+.form__element, :host > > > .form__element {
   margin-bottom: 0.5rem;
 }
 

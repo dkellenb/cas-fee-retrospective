@@ -11,12 +11,12 @@ export class CarouselComponent implements OnInit, AfterViewInit {
   private range: number = 25;
   private topElement: number = 0;
 
+  @ContentChildren(CarouselElementComponent)
+  private carouselElements: QueryList<CarouselElementComponent>;
+
   constructor() {
     this.topElement = 0;
   }
-
-  @ContentChildren(CarouselElementComponent)
-  carouselElements: QueryList<CarouselElementComponent>;
 
   ngOnInit() {
   }
@@ -31,10 +31,9 @@ export class CarouselComponent implements OnInit, AfterViewInit {
       return;
     }
     let stepSize = this.range / (this.carouselElements.length - 1);
-    let order = this.carouselElements.length;
     this.carouselElements.forEach(function (carouselElement: CarouselElementComponent, index: number) {
-      carouselElement.order=index-this.topElement;
-      carouselElement.stepSize=stepSize;
+      carouselElement.order = index - this.topElement;
+      carouselElement.stepSize = stepSize;
     }.bind(this));
   }
 
@@ -42,14 +41,14 @@ export class CarouselComponent implements OnInit, AfterViewInit {
     if (this.topElement < (this.carouselElements.length - 1)) {
       this.topElement++;
     }
-    this.updateCarouselElementPositions()
+    this.updateCarouselElementPositions();
   }
 
   public moveCarouselRight(): void {
     if (this.topElement > 0) {
       this.topElement--;
     }
-    this.updateCarouselElementPositions()
+    this.updateCarouselElementPositions();
   }
 
 }
