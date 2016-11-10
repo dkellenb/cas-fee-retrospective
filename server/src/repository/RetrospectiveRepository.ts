@@ -4,12 +4,24 @@ import { IPersistedRetrospectiveDbModel } from './model';
 import { RetrospectiveDbSchema } from './schema';
 import {IPopulatedRetrospective} from './model/RetrospectiveDbModel';
 import * as mongoose from 'mongoose';
+import {IPersistedUser} from './model/UserDbModel';
 
 export const RetrospectiveDbModel = mongoose.model<IPersistedRetrospectiveDbModel>
   ('retrospectives', RetrospectiveDbSchema.schema);
 
 @injectable()
 export class RetrospectiveRepository extends AbstractRepository<IPersistedRetrospectiveDbModel> {
+
+  private static removeToken(user: IPersistedUser): void {
+    user.tokens = null;
+  }
+
+  private static clearPopulatedRetrospective(retrospective: IPopulatedRetrospective): IPopulatedRetrospective {
+    retrospective.attendees.forEach((u) => RetrospectiveRepository.removeToken(u));
+    RetrospectiveRepository.removeToken(retrospective.manager);
+    return retrospective;
+  }
+
   constructor() {
     super();
     super.setModel(RetrospectiveDbModel);
@@ -30,7 +42,9 @@ export class RetrospectiveRepository extends AbstractRepository<IPersistedRetros
       .populate('manager')
       .populate('comments.author')
       .exec((error, result) => {
-        callback(error, !result || result.length === 0 ? result : result[0]);
+        callback(error, !result || result.length === 0
+          ? result
+          : RetrospectiveRepository.clearPopulatedRetrospective(result[0]));
       });
   }
 
