@@ -1,4 +1,5 @@
 import * as mongoose from 'mongoose';
+import * as mongodb from 'mongodb';
 import {IBasicRetrospective} from '../../../../shared/src/model';
 import {IPersistedUser} from './UserDbModel';
 
@@ -19,8 +20,8 @@ export interface IPopulatedRetrospectiveComment extends IBasicRetrospectiveComme
 }
 
 export interface IPersistedRetrospective extends IBasicRetrospective {
-  attendees: mongoose.Schema.Types.ObjectId[];
-  manager: mongoose.Schema.Types.ObjectId;
+  attendees: mongodb.ObjectID[];
+  manager: mongodb.ObjectID;
   comments: IPersistedRetrospectiveComment[];
 }
 
