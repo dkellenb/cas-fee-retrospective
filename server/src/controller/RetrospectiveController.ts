@@ -5,7 +5,7 @@ import TYPES from '../constant/types';
 import { UserService, RetrospectiveService } from '../service';
 import {
   CreateRetrospectiveJSON,
-  UpdateRetrospectiveJSON
+  UpdateRetrospectiveJSON, CreateCommentJSON
 } from '../../../shared/src/model/RetrospectiveDomainModel';
 
 @injectable()
@@ -110,39 +110,76 @@ export class RetrospectiveController {
       });
   }
 
-  /**
-  @Get('/:id/comments')
-  public getComments(request: Request, response: Response): void {
+  @Get('/:id/topics')
+  public getTopics(request: Request, response: Response): void {
     this.userService.getJwtUser(request)
       .then((currentUser) => this.retrospectiveService.getRetrospectiveSecured(currentUser, request.params.id))
-      .then((retrospective) => response.send(retrospective.comments))
+      .then((retrospective) => response.send(retrospective.topics))
       .catch((err) => {
         console.log(err);
         response.send({'error': 'error in your request. see server logs for details', 'details' : err});
       });
   }
 
-  @Post('/:id/comments')
-  public addComment(request: Request) {
-    // TODO: Implement
+  @Get('/:id/topics/:topicid')
+  public getTopic(request: Request, response: Response): void {
+    this.userService.getJwtUser(request)
+      .then((currentUser) => this.retrospectiveService.getRetrospectiveSecured(currentUser, request.params.id))
+      .then((retrospective) => response.send(retrospective.topics.find((topic) => topic.uuid === request.params.topicid)))
+      .catch((err) => {
+        console.log(err);
+        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+      });
   }
 
-  @Get('/:id/comments/:commentId')
+  @Get('/:id/topics/:topicid/comments')
+  public getComments(request: Request, response: Response): void {
+    this.userService.getJwtUser(request)
+      .then((currentUser) => this.retrospectiveService.getRetrospectiveSecured(currentUser, request.params.id))
+      .then((retrospective) => retrospective.topics.find((topic) => topic.uuid === request.params.topicid))
+      .then((topic) => {
+        if (topic) {
+          response.send(topic.comments);
+        } else {
+          response.sendStatus(404);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+      });
+  }
+
+  @Post('/:id/topics/:topicid/comments')
+  public updateComment(request: Request, response: Response): void {
+    this.userService.getJwtUser(request)
+      .then((currentUser) => this.retrospectiveService.addComment(currentUser, request.params.id, request.params.topicid,
+                                                                  <CreateCommentJSON>request.body))
+      .then((createdComment) => response.location(
+          '/rest/retrospectives/' + request.params.id + '/topics/' + request.params.topicid + '/comments/' + createdComment.uuid
+        ).sendStatus(201))
+      .catch((err) => {
+        console.log(err);
+        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+      });
+  }
+
+  @Get('/:id/topics/:topicid/comments/:cid')
   public getComment(request: Request, response: Response): void {
     this.userService.getJwtUser(request)
       .then((currentUser) => this.retrospectiveService.getRetrospectiveSecured(currentUser, request.params.id))
-      .then((retrospective) => {
-        let filteredComment = retrospective.comments.filter((comment) => comment.uuid === request.params.commentId);
-        response.send(filteredComment);
-      }).catch((err) => {
-      console.log(err);
-      response.send({'error': 'error in your request. see server logs for details', 'details' : err});
-    });
+      .then((retrospective) => retrospective.topics.find((topic) => topic.uuid === request.params.topicid))
+      .then((topic) => {
+        if (topic) {
+          response.send(topic.comments.find((comment) => comment.uuid === request.params.cid));
+        } else {
+          response.sendStatus(404);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+      });
   }
-
-  @Put('/:id/comments/:commentId')
-  public updateComment(request: Request) {
-    // TODO: Implement
-  }**/
 
 }

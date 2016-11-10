@@ -22,6 +22,7 @@ export interface IBasicRetrospectiveComment<T> {
 }
 
 export interface IBasicRetrospectiveTopic<T> {
+  uuid: string;
   name: string;
   comments: IBasicRetrospectiveComment<T>[];
 }
@@ -43,4 +44,16 @@ export interface CreateRetrospectiveJSON {
 export interface UpdateRetrospectiveJSON {
   name: string;
   description?: string;
+}
+
+export interface CreateCommentJSON {
+  title?: string;
+  description: string;
+  anonymous?: boolean;
+}
+
+export interface UpdateCommentJSON {
+  title?: string;
+  description: string;
+  anonymous?: boolean;
 }

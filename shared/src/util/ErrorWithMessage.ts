@@ -1,5 +1,5 @@
 export class ErrorWithMessage extends Error {
-  private message;
+  public message;
   constructor(message) {
     super(message);
     this.message = message;

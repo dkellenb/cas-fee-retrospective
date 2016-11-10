@@ -41,7 +41,7 @@ export class RetrospectiveRepository extends AbstractRepository<IPersistedRetros
       .where('uuid').equals(_uuid)
       .populate('attendees')
       .populate('manager')
-      .populate('comments.author')
+      .populate('topics.comments.author')
       .exec((error, result) => {
         callback(error, !result || result.length === 0
           ? null

@@ -25,47 +25,60 @@ URL: `/rest/retrospectives`
 |         | GET    | X    |      | Returns all retrospectives the authenticated user has access to   |
 |         | POST   |      | OK   | Creates a new retrospective                                       |
 | :id     | GET    | X    | OK   | Get details about the retrospective                               |
-| :id     | PUT    | X    | Updates the configuration of a retrospective                      |
-| :id     | DELETE | X    | Deletes the retrospective if the authenticated user can manage it |
+| :id     | PUT    | X    |      | Updates the configuration of a retrospective                      |
+| :id     | DELETE | X    |      | Deletes the retrospective if the authenticated user can manage it |
 
 ### Retrospective Management: Change status
 
 URL: `/rest/retrospectives/:id/status`
 
-| Method  | CMD    | Auth |Description                                                        |
-|---------|--------|------|-------------------------------------------------------------------|
-|         | GET    |      | The current status of the retrospective                           |
-|         | PUT    |      | Change status of the retrospective                                |
+| +URL    | CMD    | Auth | Done | Description                                                       |
+|---------|--------|------|------|-------------------------------------------------------------------|
+|         | GET    |      |      | The current status of the retrospective                           |
+|         | PUT    |      |      | Change status of the retrospective                                |
 
 ### Retrospective Management: Attendees
 
 URL: `/rest/retrospectives/:id/attendees`
 
-| Method  | CMD    | Auth |Description                                                        |
-|---------|--------|------|-------------------------------------------------------------------|
-|         | GET    |      | Retrieve an updated list of the attendees                         |
+| +URL    | CMD    | Auth | Done | Description                                                       |
+|---------|--------|------|------|-------------------------------------------------------------------|
+|         | GET    | X    | OK   | Retrieve an updated list of the attendees                         |
+|         | POST   | X    | OK   | Just do a simple post to a retrospective to attend to it          |
+| :userid | GET    | X    | OK   | Retrieve a single attendee of a retrospective (e.g. if new)       |
+
+### Retrospective Topics
+
+URL: `/rest/retrospectives/:id/topics`
+
+| +URL     | CMD    | Auth | Done | Description                                                       |
+|----------|--------|------|------|-------------------------------------------------------------------|
+|          | GET    | X    | OK   | Retrieve all topics                                               |
+|          | POST   | X    |      | Add a new topic                                                   |
+| :topicid | GET    | X    | OK   | Get just the contents of this particular topic                    |
+| :topicid | PUT    | X    |      | Update the topic name (manager only)                              |
 
 ### Retrospective Management: Comments
 
-URL: `/rest/retrospectives/:id/comments`
+URL: `/rest/retrospectives/:id/topics/:topicid/comments`
 
-| Method  | CMD    | Auth |Description                                                        |
-|---------|--------|------|-------------------------------------------------------------------|
-|         | GET    |      | Gets all comments posted to a retrospective                       |
-|         | POST   |      | Puts a new comment to a retrospective                             |
-| :id     | GET    |      | Get a single comment                                              |
-| :id     | PUT    |      | Update a single comment                                           |
-| :id     | DELETE |      | Delete a single comment                                           |
+| +URL    | CMD    | Auth | Done | Description                                                       |
+|---------|--------|------|------|-------------------------------------------------------------------|
+|         | GET    |      | OK   | Gets all comments posted to this topic                            |
+|         | POST   |      | OK   | Puts a new comment to a topic                                     |
+| :cid    | GET    |      | OK   | Get a single comment on this topic                                |
+| :cid    | PUT    |      |      | Update a single comment                                           |
+| :cid    | DELETE |      |      | Delete a single comment                                           |
 
 ### Retrospective Management: Voting
 
-URL `/rest/retrospectives/:id/comments/:id/votes`
+URL `/rest/retrospectives/:id/comments/:topicid/comments/:cid/votes`
 
-| Method  | CMD    | Auth |Description                                                        |
-|---------|--------|------|-------------------------------------------------------------------|
-|         | GET    |      | Get all votes (restricted)                                        |
-|         | PUT    |      | Posts a vote to a single comment                                  |
-| :id     | DELETE |      | Remove a vote (only if from the current user)                     |
+| +URL    | CMD    | Auth | Done | Description                                                       |
+|---------|--------|------|------|-------------------------------------------------------------------|
+|         | GET    |      |      | Get all votes (restricted)                                        |
+|         | PUT    |      |      | Posts a vote to a single comment                                  |
+| :vid    | DELETE |      |      | Remove a vote (only if from the current user)                     |
 
 ### User Management
 
@@ -93,7 +106,7 @@ URL `/rest/user/:userid/tokens`
 
 URL `/rest/users/:id/transfertoken`
 
-| Method  | CMD    | Auth |Description                                                        |
-|---------|--------|------|-------------------------------------------------------------------|
-|         | POST   | X    | Creates a transfer token and sends it by mail                     |
-| :id     | GET    |      | Retrieve user details with the given token => transfer completed  |
+| +URL    | CMD    | Auth | Done | Description                                                       |
+|---------|--------|------|------|-------------------------------------------------------------------|
+|         | POST   | X    |      | Creates a transfer token and sends it by mail                     |
+| :id     | GET    |      |      | Retrieve user details with the given token => transfer completed  |

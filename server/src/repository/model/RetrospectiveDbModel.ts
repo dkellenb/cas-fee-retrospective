@@ -4,6 +4,8 @@ import {IPersistedUser} from './UserDbModel';
 import {IBasicRetrospective} from '../../../../shared/src/model';
 import {IBasicRetrospectiveTopic} from '../../../../shared/src/model';
 import {IBasicRetrospectiveComment} from '../../../../shared/src/model';
+import {UUID} from '../../../../shared/src/util/UUID';
+import {IRetrospectiveVote} from '../../../../shared/src/model/RetrospectiveDomainModel';
 
 
 export interface IPersistedRetrospective extends IBasicRetrospective<mongodb.ObjectID> {
@@ -19,12 +21,28 @@ export interface IPersistedRetrospectiveDbModel extends mongoose.Document, IPers
 }
 
 export class PersistedRetrospectiveTopic implements IBasicRetrospectiveTopic<mongodb.ObjectID> {
-  name: String;
+  uuid: string;
+  name: string;
   comments: IBasicRetrospectiveComment<mongodb.ObjectID>[];
 
-  constructor(name?: String) {
-    if (name) {
-      this.name = name;
-    }
+  constructor(name?: string) {
+    this.uuid = new UUID().toString();
+    this.name = name || 'undefined';
+  }
+}
+
+export class PersistedRetrospectiveComment implements IBasicRetrospectiveComment<mongodb.ObjectID> {
+  uuid: string;
+  title: string;
+  description: string;
+  anonymous: boolean;
+  author: mongodb.ObjectID;
+  votes: IRetrospectiveVote<mongodb.ObjectID>[];
+
+  constructor(description, title?, anonymous?) {
+    this.uuid = new UUID().toString();
+    this.title = title || '';
+    this.description = description;
+    this.anonymous = anonymous === true;
   }
 }

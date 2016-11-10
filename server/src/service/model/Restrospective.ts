@@ -29,11 +29,13 @@ export class PublicRetrospective implements IBasicRetrospective<RetrospectiveUse
 }
 
 export class PublicRetrospectiveTopic implements IBasicRetrospectiveTopic<RetrospectiveUser> {
+  uuid: string;
   name: string;
   comments: IBasicRetrospectiveComment<RetrospectiveUser>[];
 
   public static fromRetrospective(populatedTopic: IBasicRetrospectiveTopic<IPersistedUser>): PublicRetrospectiveTopic {
     let topic = new PublicRetrospectiveTopic();
+    topic.uuid = populatedTopic.uuid;
     topic.name = populatedTopic.name;
     topic.comments = populatedTopic.comments.map((comment) => PublicRetrospectiveComment.fromRetrospective(comment));
     return topic;

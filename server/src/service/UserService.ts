@@ -77,7 +77,6 @@ export class UserService {
         } else if (!data) {
           reject(new UserUnknown('This user is unknown to the system.'));
         } else {
-          console.log(data);
           resolve(jwtUser);
         }
       });
