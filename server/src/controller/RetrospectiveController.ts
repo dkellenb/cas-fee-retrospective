@@ -6,7 +6,7 @@ import { UserService, RetrospectiveService } from '../service';
 import {
   CreateRetrospectiveJSON,
   UpdateRetrospectiveJSON
-} from '../../../shared/src/model/retrospective/RetrospectiveDomainModel';
+} from '../../../shared/src/model/RetrospectiveDomainModel';
 
 @injectable()
 @Controller('/rest/retrospectives')
@@ -110,6 +110,7 @@ export class RetrospectiveController {
       });
   }
 
+  /**
   @Get('/:id/comments')
   public getComments(request: Request, response: Response): void {
     this.userService.getJwtUser(request)
@@ -142,6 +143,6 @@ export class RetrospectiveController {
   @Put('/:id/comments/:commentId')
   public updateComment(request: Request) {
     // TODO: Implement
-  }
+  }**/
 
 }

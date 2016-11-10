@@ -1,58 +1,46 @@
 import { injectable, inject } from 'inversify';
-import { IRetrospective, CreateRetrospectiveJSON, IUser, RetrospectiveUser } from '../../../shared/src/model';
-import { UserService } from './UserService';
+import { CreateRetrospectiveJSON, IUser } from '../../../shared/src/model';
 import TYPES from '../constant/types';
-import {UserRole} from '../../../shared/src/model';
 import {UserRepository, RetrospectiveRepository, RetrospectiveDbModel} from '../repository/';
-import {
-  RetrospectiveStatus,
-  UpdateRetrospectiveJSON
-} from '../../../shared/src/model/retrospective/RetrospectiveDomainModel';
-import {IPersistedRetrospectiveDbModel, IPopulatedRetrospective} from '../repository/model/RetrospectiveDbModel';
+import { RetrospectiveStatus, UpdateRetrospectiveJSON, IBasicRetrospective } from '../../../shared/src/model/RetrospectiveDomainModel';
+import { IPersistedRetrospectiveDbModel, PersistedRetrospectiveTopic } from '../repository/model/RetrospectiveDbModel';
 import {UUID} from '../../../shared/src/util/UUID';
-import {IPersistedUser} from '../repository/model/UserDbModel';
+import {RetrospectiveUser} from './model/User';
+import {PublicRetrospective} from './model/Restrospective';
 
 
 @injectable()
 export class RetrospectiveService {
 
-  private static convertToRetrospectiveUser(persistedUser: IPersistedUser, manager: IPersistedUser): RetrospectiveUser {
-    let retrospectiveUser = new RetrospectiveUser();
-    retrospectiveUser.uuid = persistedUser.uuid;
-    retrospectiveUser.name = persistedUser.name;
-    retrospectiveUser.shortName = persistedUser.shortName;
-    retrospectiveUser.role = manager.uuid === persistedUser.uuid ? UserRole.MANAGER : UserRole.USER;
-    return retrospectiveUser;
-  }
-
   constructor(
-    @inject(TYPES.UserService) private userService: UserService,
     @inject(TYPES.UserRepository) private userRepository: UserRepository,
     @inject(TYPES.RetrospectiveRepository) private retrospectiveRepository: RetrospectiveRepository,
   ) {
 
   }
 
-  public getRetrospectives(currentUser: IUser): Promise<IRetrospective[]> {
+  public getRetrospectives(currentUser: IUser): Promise<IBasicRetrospective<RetrospectiveUser>[]> {
     return new Promise<IPersistedRetrospectiveDbModel>((resolve, reject) => {
       // TODO IMPLEMENT
     });
   }
 
-  public getRetrospective(uuid: string): Promise<IPopulatedRetrospective> {
-    return new Promise<IPopulatedRetrospective>((resolve, reject) => {
+  public getRetrospective(uuid: string): Promise<PublicRetrospective> {
+    return new Promise<PublicRetrospective>((resolve, reject) => {
       this.retrospectiveRepository.findByUuidPopulated(uuid, (error, retrospective) => {
         if (error) {
           reject(error);
+        } else if (!retrospective) {
+          reject('Could not find retrospective ' + uuid);
         } else {
-          resolve(retrospective);
+          resolve(PublicRetrospective.fromRetrospective(retrospective));
         }
       });
     });
   }
 
-  public getRetrospectiveSecured(currentUser: IUser, uuid: string): Promise<IPopulatedRetrospective> {
-    return new Promise<IPopulatedRetrospective>((resolve, reject) => {
+  public getRetrospectiveSecured(currentUser: IUser, uuid: string): Promise<PublicRetrospective> {
+    return new Promise<PublicRetrospective>((resolve, reject) => {
       this.getRetrospective(uuid)
         .then((retrospective) => {
           if (retrospective.attendees.find((attendee) => attendee.uuid === currentUser.uuid)) {
@@ -60,30 +48,42 @@ export class RetrospectiveService {
           } else {
             reject('Illegal access to retrospective ' + uuid);
           }
-        });
+        }).catch((err) => reject(err));
     });
   }
 
   public createRetrospective(currentUser: IUser, createRetrospectiveJSON: CreateRetrospectiveJSON):
       Promise<IPersistedRetrospectiveDbModel> {
     return new Promise<IPersistedRetrospectiveDbModel>((resolve, reject) => {
-      let retrospective = <IPersistedRetrospectiveDbModel>new RetrospectiveDbModel(createRetrospectiveJSON);
+      let retrospective = <IPersistedRetrospectiveDbModel>new RetrospectiveDbModel();
       retrospective.uuid = new UUID().toString();
       retrospective.status = RetrospectiveStatus.OPEN;
+      retrospective.name = createRetrospectiveJSON.name;
+      retrospective.description = createRetrospectiveJSON.description;
+      retrospective.topics = [ new PersistedRetrospectiveTopic('Stop doing'),
+                               new PersistedRetrospectiveTopic('Continue doing'),
+                               new PersistedRetrospectiveTopic('Start doing')
+                             ];
       this.userRepository.findByUuid(currentUser.uuid, (error, user) => {
         if (error) {
           reject(error);
         } else {
           retrospective.attendees.push(user._id);
           retrospective.manager = user._id;
-          retrospective.save();
-          resolve(retrospective);
+          retrospective.save((err, createdRetrospective) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(createdRetrospective);
+            }
+          });
         }
       });
     });
   }
 
-  public updateRetrospective(currentUser: IUser, id: string, retrospective: UpdateRetrospectiveJSON): IRetrospective {
+  public updateRetrospective(currentUser: IUser, id: string, retrospective: UpdateRetrospectiveJSON):
+       IBasicRetrospective<RetrospectiveUser> {
     // TODO IMPLEMENT
     return null;
   }
@@ -97,12 +97,8 @@ export class RetrospectiveService {
     return new Promise<RetrospectiveUser[]>((resolve, reject) => {
       this.getRetrospectiveSecured(currentUser, id).then((retrospective) => {
         // as get retrospective secured return all references loaded, we can safely cast here and two lines bellow
-        let manager = retrospective.manager as IPersistedUser;
-        let retrospectiveUsers = retrospective.attendees.map((u) => {
-          return RetrospectiveService.convertToRetrospectiveUser(u as IPersistedUser, manager);
-        });
-        resolve(retrospectiveUsers);
-      });
+        resolve(retrospective.attendees);
+      }).catch((err) => reject(err));
     });
   }
 
@@ -110,11 +106,8 @@ export class RetrospectiveService {
     return new Promise<RetrospectiveUser>((resolve, reject) => {
       this.getRetrospectiveSecured(currentUser, id).then((retrospective) => {
         // as get retrospective secured return all references loaded, we can safely cast here and two lines bellow
-        let manager = retrospective.manager as IPersistedUser;
-        let attendees = retrospective.attendees as IPersistedUser[];
-        let attendee = RetrospectiveService.convertToRetrospectiveUser(attendees.find((u) => u.uuid === uuid), manager);
-        resolve(attendee);
-      });
+        resolve(retrospective.attendees.find((attendee) => attendee.uuid === uuid));
+      }).catch((err) => reject(err));
     });
   }
 

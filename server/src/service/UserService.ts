@@ -1,11 +1,14 @@
 import { injectable, inject } from 'inversify';
 import TYPES from '../constant/types';
+import { Request } from 'express';
 import { UUID } from '../../../shared/src/util/UUID';
 import { UserRepository } from '../repository/UserRepository';
-import { IUser, User, UserRole, UserJwt, CreateUserJSON, PublicUser } from '../../../shared/src/model';
+import { IUser, UserRole, CreateUserJSON } from '../../../shared/src/model';
 import { UserJwtService } from './UserJwtService';
-import { Request } from 'express';
-import {IPersistedUser, PersistedUser, UserToken} from '../repository/model/UserDbModel';
+import { IPersistedUser, PersistedUser, UserToken, User } from '../repository/model/UserDbModel';
+import { PublicUser, UserJwt } from './model/User';
+import {UpdateUserJSON} from '../../../shared/src/model/UserDomainModel';
+import {ErrorWithMessage} from '../../../shared/src/util/ErrorWithMessage';
 
 @injectable()
 export class UserService {
@@ -74,6 +77,7 @@ export class UserService {
         } else if (!data) {
           reject(new UserUnknown('This user is unknown to the system.'));
         } else {
+          console.log(data);
           resolve(jwtUser);
         }
       });
@@ -150,6 +154,26 @@ export class UserService {
     });
   }
 
+  public updateUser(currentUser: User, userUuid: string, updateUser: UpdateUserJSON): Promise<PublicUser> {
+    return new Promise<PublicUser>((resolve, reject) => {
+      this.userRepository.findByUuid(userUuid, (error, user) => {
+        if (error) {
+          reject(error);
+        } else if (!user) {
+          reject('User with uuid ' + userUuid + ' not found.');
+        } else if (currentUser.uuid !== user.uuid && currentUser.systemRole !== UserRole.ADMIN) {
+          reject('You are not allowed to update user with uuid ' + userUuid);
+        } else {
+          user.shortName = updateUser.shortName || user.shortName;
+          user.email = updateUser.email || user.email;
+          user.name = updateUser.name || user.name;
+          user.save();
+          resolve(UserService.convertUserToPublicUser(user));
+        }
+      });
+    });
+  }
+
   public deleteUser(currentUser: User, userUuid: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       if (currentUser.uuid === userUuid || currentUser.systemRole === UserRole.ADMIN) {
@@ -167,15 +191,14 @@ export class UserService {
   }
 }
 
-class UserUnknown extends Error {
+class UserUnknown extends ErrorWithMessage {
   constructor(msg) {
     super(msg);
   }
 }
 
-class InvalidAccess extends Error {
+class InvalidAccess extends ErrorWithMessage {
   constructor(msg) {
     super(msg);
   }
 }
-

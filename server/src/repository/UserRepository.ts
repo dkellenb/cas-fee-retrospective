@@ -17,7 +17,7 @@ export class UserRepository extends AbstractRepository<IUserDbModel> {
     this.getModel()
       .where('uuid').equals(_uuid)
       .exec((error, result) => {
-        callback(error, !result || result.length === 0 ? result : result[0]);
+        callback(error, !result || result.length === 0 ? null : result[0]);
       });
   }
 

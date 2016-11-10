@@ -20,11 +20,11 @@ For all methods needing authentication they require a JWT passed by the header:
 
 URL: `/rest/retrospectives`
 
-| Method  | CMD    | Auth |Description                                                        |
-|---------|--------|------|-------------------------------------------------------------------|
-|         | GET    | X    | Returns all retrospectives the authenticated user has access to   |
-|         | POST   |      | Creates a new retrospective                                       |
-| :id     | GET    |      | Get details about the retrospective                               |
+| +URL    | CMD    | Auth | Done | Description                                                       |
+|---------|--------|------|------|-------------------------------------------------------------------|
+|         | GET    | X    |      | Returns all retrospectives the authenticated user has access to   |
+|         | POST   |      | OK   | Creates a new retrospective                                       |
+| :id     | GET    | X    | OK   | Get details about the retrospective                               |
 | :id     | PUT    | X    | Updates the configuration of a retrospective                      |
 | :id     | DELETE | X    | Deletes the retrospective if the authenticated user can manage it |
 
@@ -71,14 +71,23 @@ URL `/rest/retrospectives/:id/comments/:id/votes`
 
 URL `/rest/user`
 
-| Method  | CMD    | Auth |Description                                                        |
-|---------|--------|------|-------------------------------------------------------------------|
-|         | GET    | X    | Retrieve all users (incl. filter possibilites)                    |
-|         | POST   |      | Create new user and JWT token, in order to identify a user        |
-|         | PUR    |      | Updates the current user                                          |
-| :id     | GET    | X    | Gets user details of the user (self or admin)                     |
-| :id     | PUT    |      | Updates the user                                                  |
-| :id     | DELETE | X    | Self delete or by admin                                           |
+| +URL    | CMD    | Auth | Done | Description                                                       |
+|---------|--------|------|------|-------------------------------------------------------------------|
+|         | GET    | X    |      | Retrieve all users (incl. filter possibilites)                    |
+|         | POST   |      | OK   | Create new user and JWT token, in order to identify a user        |
+| current | GET    | X    | OK   | Get the current user                                              |
+| :id     | GET    | X    | OK   | Gets the some details about the user (only public attributes)     |
+| :id     | PUT    | X    | OK   | Updates the given user (only allowed by the user itself or admin  |
+| :id     | DELETE | X    | OK   | Self delete or by admin                                           |
+
+### User Token retrieval
+
+URL `/rest/user/:userid/tokens`
+
+| +URL    | CMD    | Auth | Done | Description                                                       |
+|---------|--------|------|------|-------------------------------------------------------------------|
+| :id     | GET    |      | OK   | Gets the token for the given :userid and :id (token id) => JWT    |
+
 
 ### User Management: Transfer of account to other computer
 

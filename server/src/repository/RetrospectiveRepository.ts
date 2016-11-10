@@ -44,7 +44,7 @@ export class RetrospectiveRepository extends AbstractRepository<IPersistedRetros
       .populate('comments.author')
       .exec((error, result) => {
         callback(error, !result || result.length === 0
-          ? result
+          ? null
           : RetrospectiveRepository.clearPopulatedRetrospective(result[0]));
       });
   }

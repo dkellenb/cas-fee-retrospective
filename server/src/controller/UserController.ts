@@ -2,7 +2,8 @@ import { Controller, Get, Post, Put, Delete } from 'inversify-express-utils';
 import { injectable, inject } from 'inversify';
 import { Request, Response } from 'express';
 import TYPES from '../constant/types';
-import {IUser, CreateUserJSON} from '../../../shared/src/model';
+import {CreateUserJSON} from '../../../shared/src/model';
+import {UpdateUserJSON} from '../../../shared/src/model/UserDomainModel';
 
 
 @injectable()
@@ -65,9 +66,14 @@ export class UserController {
   }
 
   @Put('/:id')
-  public updateUser(request: Request): IUser {
-    // TODO: Implement update
-    return null; // this.retrospectiveService.updateRetrospective(request.params.id, request.body);
+  public updateUser(request: Request, response: Response): void {
+    this.userService.getJwtUser(request)
+      .then((currentUser) => this.userService.updateUser(currentUser, request.params.id, <UpdateUserJSON>request.body))
+      .then((user) => response.send(user))
+      .catch((err) => {
+        console.log(err);
+        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+      });
   }
 
   @Delete('/:id')
@@ -85,9 +91,9 @@ export class UserController {
   public getJwtForUser(request: Request, response: Response): Promise<string> {
     try {
       return this.userService.getJwt(request.params.id, request.params.tokenId);
-    } catch (e) {
-      console.log(e);
-      response.send({'error': 'error in your request'});
+    } catch (err) {
+      console.log(err);
+      response.send({'error': 'error in your request. see server logs for details', 'details' : err});
     }
   }
 

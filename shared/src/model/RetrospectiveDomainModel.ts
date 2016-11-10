@@ -1,5 +1,3 @@
-import {IUser} from '../user/User';
-
 export class RetrospectiveStatus {
   static OPEN: string = 'OPEN';
   static REVIEW: string = 'REVIEW';
@@ -8,32 +6,33 @@ export class RetrospectiveStatus {
   static CLOSED: string = 'CLOSED';
 }
 
-export interface IRetrospectiveVote {
+export interface IRetrospectiveVote<T> {
   uuid: string;
-  author: string; // UUID of the user
+  author: T;
   value: number;
 }
 
-export interface IRetrospectiveComment {
+export interface IBasicRetrospectiveComment<T> {
   uuid: string;
   title: string;
   description: string;
-  author: string; // UUID of the user
   anonymous: boolean;
-  votes: IRetrospectiveVote[];
+  author: T;
+  votes: IRetrospectiveVote<T>[];
 }
 
-export interface IBasicRetrospective {
+export interface IBasicRetrospectiveTopic<T> {
+  name: string;
+  comments: IBasicRetrospectiveComment<T>[];
+}
+
+export interface IBasicRetrospective<T> {
   uuid: string;
   name: string;
   description?: string;
   status: RetrospectiveStatus;
-}
-
-export interface IRetrospective extends IBasicRetrospective {
-  comments: IRetrospectiveComment[];
-  attendees: IUser[];
-  manager: IUser;
+  attendees: T[];
+  topics: IBasicRetrospectiveTopic<T>[];
 }
 
 export interface CreateRetrospectiveJSON {

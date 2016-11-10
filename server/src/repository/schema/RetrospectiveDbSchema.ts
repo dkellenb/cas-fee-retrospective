@@ -29,29 +29,21 @@ export class RetrospectiveDbSchema {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'users'
       },
-      comments: [{
-        uuid: {
+      topics: [{
+        name: {
           type: String,
           required: true
         },
-        title: {
-          type: String,
-          required: true
-        },
-        description: {
-          type: String,
-          required: true
-        },
-        author: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'users'
-        },
-        anonymous: {
-          type: Boolean,
-          required: true
-        },
-        votes: [{
+        comments: [{
           uuid: {
+            type: String,
+            required: true
+          },
+          title: {
+            type: String,
+            required: true
+          },
+          description: {
             type: String,
             required: true
           },
@@ -59,10 +51,24 @@ export class RetrospectiveDbSchema {
             type: mongoose.Schema.Types.ObjectId,
             ref: 'users'
           },
-          value: {
-            type: Number,
+          anonymous: {
+            type: Boolean,
             required: true
-          }
+          },
+          votes: [{
+            uuid: {
+              type: String,
+              required: true
+            },
+            author: {
+              type: mongoose.Schema.Types.ObjectId,
+              ref: 'users'
+            },
+            value: {
+              type: Number,
+              required: true
+            }
+          }]
         }]
       }]
     });

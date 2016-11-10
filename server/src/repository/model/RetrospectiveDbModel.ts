@@ -1,38 +1,30 @@
 import * as mongoose from 'mongoose';
 import * as mongodb from 'mongodb';
-import {IBasicRetrospective} from '../../../../shared/src/model';
 import {IPersistedUser} from './UserDbModel';
+import {IBasicRetrospective} from '../../../../shared/src/model';
+import {IBasicRetrospectiveTopic} from '../../../../shared/src/model';
+import {IBasicRetrospectiveComment} from '../../../../shared/src/model';
 
 
-export interface IBasicRetrospectiveComment {
-  uuid: string;
-  title: string;
-  description: string;
-  anonymous: boolean;
-}
-
-export interface IPersistedRetrospectiveComment extends IBasicRetrospectiveComment {
-  author: mongoose.Schema.Types.ObjectId;
-}
-
-export interface IPopulatedRetrospectiveComment extends IBasicRetrospectiveComment {
-  author: IPersistedUser;
-}
-
-export interface IPersistedRetrospective extends IBasicRetrospective {
-  attendees: mongodb.ObjectID[];
+export interface IPersistedRetrospective extends IBasicRetrospective<mongodb.ObjectID> {
   manager: mongodb.ObjectID;
-  comments: IPersistedRetrospectiveComment[];
 }
 
-export interface IPopulatedRetrospective extends IBasicRetrospective {
-  attendees: IPersistedUser[];
+export interface IPopulatedRetrospective extends IBasicRetrospective<IPersistedUser> {
   manager: IPersistedUser;
-  comments: IPopulatedRetrospectiveComment[];
 }
-
 
 export interface IPersistedRetrospectiveDbModel extends mongoose.Document, IPersistedRetrospective {
 
 }
 
+export class PersistedRetrospectiveTopic implements IBasicRetrospectiveTopic<mongodb.ObjectID> {
+  name: String;
+  comments: IBasicRetrospectiveComment<mongodb.ObjectID>[];
+
+  constructor(name?: String) {
+    if (name) {
+      this.name = name;
+    }
+  }
+}
