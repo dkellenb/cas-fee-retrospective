@@ -14,6 +14,7 @@ export class RetrospectiveRepository extends AbstractRepository<IPersistedRetros
 
   private static removeToken(user: IPersistedUser): void {
     user.tokens = null;
+    user.email = null;
   }
 
   private static clearPopulatedRetrospective(retrospective: IPopulatedRetrospective): IPopulatedRetrospective {
