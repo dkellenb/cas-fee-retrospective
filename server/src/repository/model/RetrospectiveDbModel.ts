@@ -20,7 +20,15 @@ export interface IPersistedRetrospectiveDbModel extends mongoose.Document, IPers
 
 }
 
-export class PersistedRetrospectiveTopic implements IBasicRetrospectiveTopic<mongodb.ObjectID> {
+export interface IPersistedRetrospectiveTopic extends IBasicRetrospectiveTopic<mongodb.ObjectID> {
+
+}
+
+export interface IPersistedRetrospectiveComment extends IBasicRetrospectiveComment<mongodb.ObjectID> {
+
+}
+
+export class PersistedRetrospectiveTopic implements IPersistedRetrospectiveTopic {
   uuid: string;
   name: string;
   comments: IBasicRetrospectiveComment<mongodb.ObjectID>[];
@@ -31,7 +39,7 @@ export class PersistedRetrospectiveTopic implements IBasicRetrospectiveTopic<mon
   }
 }
 
-export class PersistedRetrospectiveComment implements IBasicRetrospectiveComment<mongodb.ObjectID> {
+export class PersistedRetrospectiveComment implements IPersistedRetrospectiveComment {
   uuid: string;
   title: string;
   description: string;

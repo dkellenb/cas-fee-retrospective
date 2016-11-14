@@ -4,16 +4,17 @@ import TYPES from '../constant/types';
 import {UserRepository, RetrospectiveRepository, RetrospectiveDbModel} from '../repository/';
 import {
   RetrospectiveStatus, UpdateRetrospectiveJSON, IBasicRetrospective,
-  CreateCommentJSON
+  CreateCommentJSON, UpdateCommentJSON
 } from '../../../shared/src/model/RetrospectiveDomainModel';
 import {
   IPersistedRetrospectiveDbModel, PersistedRetrospectiveTopic,
-  PersistedRetrospectiveComment
+  PersistedRetrospectiveComment, IPersistedRetrospectiveTopic, IPersistedRetrospectiveComment
 } from '../repository/model/RetrospectiveDbModel';
 import {UUID} from '../../../shared/src/util/UUID';
 import {RetrospectiveUser} from './model/User';
 import {PublicRetrospective} from './model/Restrospective';
 import {IUserDbModel} from '../repository/model/UserDbModel';
+import {UserRole} from '../../../shared/src/model/UserDomainModel';
 
 
 @injectable()
@@ -118,26 +119,9 @@ export class RetrospectiveService {
     });
   }
 
-  private doRetroAndUserAction(currentUser: IUser, id: string,
-                               action: (error: any, retro?: IPersistedRetrospectiveDbModel, user?: IUserDbModel) => void): void {
-    this.retrospectiveRepository.findByUuid(id, (retrospectiveLoadError, persistedRetrospective) => {
-      if (retrospectiveLoadError) {
-        action(retrospectiveLoadError);
-      } else {
-        this.userRepository.findByUuid(currentUser.uuid, (userLoadError, persistedUser) => {
-          if (userLoadError) {
-            action(userLoadError);
-          } else {
-            action(null, persistedRetrospective, persistedUser);
-          }
-        });
-      }
-    });
-  }
-
   public joinRetrospective(currentUser: IUser, id: string): Promise<IPersistedRetrospectiveDbModel> {
     return new Promise<IPersistedRetrospectiveDbModel>((resolve, reject) => {
-      this.doRetroAndUserAction(currentUser, id, (error, persistedRetrospective, persistedUser) => {
+      this.doRetrospectiveAction(currentUser, id, (error, persistedRetrospective, persistedUser) => {
         if (error) {
           reject(error);
         } else {
@@ -157,24 +141,13 @@ export class RetrospectiveService {
 
   public addComment(currentUser: IUser, id: string, topicId: string, comment: CreateCommentJSON): Promise<PersistedRetrospectiveComment> {
     return new Promise<PersistedRetrospectiveComment>((resolve, reject) => {
-      this.doRetroAndUserAction(currentUser, id, (error, persistedRetrospective, persistedUser) => {
+      this.doTopicAction(currentUser, id, topicId, (error, persistedRetrospective, persistedTopic, persistedUser) => {
         if (error) {
           reject(error);
         } else {
-          if (persistedRetrospective.attendees.find((attendeeId) => {
-              return attendeeId === persistedUser._id;
-            }) === null) {
-            reject('User is not part of this retrospective');
-          }
-          let topic = persistedRetrospective.topics.find((topicEntry) => topicEntry.uuid === topicId);
-          if (topic == null) {
-            reject('Topic could not be found');
-          }
-
           let persistedComment = new PersistedRetrospectiveComment(comment.description, comment.title, comment.anonymous);
           persistedComment.author = persistedUser._id;
-          topic.comments.push(persistedComment);
-          console.log(persistedComment);
+          persistedTopic.comments.push(persistedComment);
 
           persistedRetrospective.save((err) => {
             if (err) {
@@ -187,4 +160,94 @@ export class RetrospectiveService {
       });
     });
   }
+
+  public updateComment(currentUser: IUser, retroId: string, topicId: string, commentId: string, updateComment: UpdateCommentJSON):
+     Promise<PersistedRetrospectiveComment> {
+    return new Promise<PersistedRetrospectiveComment>((resolve, reject) => {
+      this.doCommentAction(currentUser, retroId, topicId, commentId, (error, pRetrospective, pTopic, pComment, pUser) => {
+        if (error) {
+          reject(error);
+        } else {
+          pComment.title = updateComment.title || pComment.title;
+          pComment.description = updateComment.description || pComment.description;
+          pRetrospective.save();
+          resolve(pComment);
+        }
+      });
+    });
+  }
+
+  public deleteComment(currentUser: IUser, retroId: string, topicId: string, commentId: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.doCommentAction(currentUser, retroId, topicId, commentId, (error, pRetrospective, pTopic, pComment, pUser) => {
+        if (error) {
+          reject(error);
+        } else {
+          pTopic.comments = pTopic.comments.filter((comment) => comment.uuid !== commentId);
+          pRetrospective.save();
+          resolve();
+        }
+      });
+    });
+  }
+
+  private doRetrospectiveAction(currentUser: IUser, retroId: string,
+                                action: (error: any, retro?: IPersistedRetrospectiveDbModel, user?: IUserDbModel) => void): void {
+    this.retrospectiveRepository.findByUuid(retroId, (retrospectiveLoadError, persistedRetrospective) => {
+      if (retrospectiveLoadError) {
+        action(retrospectiveLoadError);
+      } else {
+        this.userRepository.findByUuid(currentUser.uuid, (userLoadError, persistedUser) => {
+          if (userLoadError) {
+            action(userLoadError);
+          } else {
+            action(null, persistedRetrospective, persistedUser);
+          }
+        });
+      }
+    });
+  }
+
+  private doTopicAction(currentUser: IUser, retroId: string, topicId: string,
+                        action: (error: any, retro?: IPersistedRetrospectiveDbModel,
+                                 topic?: IPersistedRetrospectiveTopic, user?: IUserDbModel) => void): void {
+    this.doRetrospectiveAction(currentUser, retroId, (error, persistedRetrospective, persistedUser) => {
+      if (error) {
+        action(error);
+      } else {
+        if (persistedRetrospective.attendees.find((attendeeId) => {
+            return attendeeId === persistedUser._id;
+          }) === null) {
+          action('User is not part of this retrospective');
+        }
+        let topic = persistedRetrospective.topics.find((topicEntry) => topicEntry.uuid === topicId);
+        if (topic == null) {
+          action('Topic could not be found');
+        }
+        action(null, persistedRetrospective, topic, persistedUser);
+      }
+    });
+  }
+
+  private doCommentAction(currentUser: IUser, retroId: string, topicId: string, commentId: string,
+                          action: (error: any, retro?: IPersistedRetrospectiveDbModel,
+                                   topic?: IPersistedRetrospectiveTopic, comment?: IPersistedRetrospectiveComment,
+                                   user?: IUserDbModel) => void): void {
+    this.doTopicAction(currentUser, retroId, topicId, (error, persistedRetrospective, persistedTopic, persistedUser) => {
+      if (error) {
+        action(error);
+      } else {
+        let comment = persistedTopic.comments.find((comment) => commentId === comment.uuid);
+        if (comment == null) {
+          action('Comment could not be found');
+        }
+        if (comment.author !== persistedUser._id && persistedUser.systemRole !== UserRole.ADMIN) {
+          action('Not allowed to modify this comment');
+        } else {
+          action(null, persistedRetrospective, persistedTopic, comment, persistedUser);
+        }
+      }
+    });
+  }
+
 }

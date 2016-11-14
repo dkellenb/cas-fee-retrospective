@@ -5,7 +5,7 @@ import TYPES from '../constant/types';
 import { UserService, RetrospectiveService } from '../service';
 import {
   CreateRetrospectiveJSON,
-  UpdateRetrospectiveJSON, CreateCommentJSON
+  UpdateRetrospectiveJSON, CreateCommentJSON, UpdateCommentJSON
 } from '../../../shared/src/model/RetrospectiveDomainModel';
 
 @injectable()
@@ -151,7 +151,7 @@ export class RetrospectiveController {
   }
 
   @Post('/:id/topics/:topicid/comments')
-  public updateComment(request: Request, response: Response): void {
+  public addComment(request: Request, response: Response): void {
     this.userService.getJwtUser(request)
       .then((currentUser) => this.retrospectiveService.addComment(currentUser, request.params.id, request.params.topicid,
                                                                   <CreateCommentJSON>request.body))
@@ -181,5 +181,30 @@ export class RetrospectiveController {
         response.send({'error': 'error in your request. see server logs for details', 'details' : err});
       });
   }
+
+  @Put('/:id/topics/:topicid/comments/:cid')
+  public updateComment(request: Request, response: Response): void {
+    this.userService.getJwtUser(request)
+      .then((currentUser) => this.retrospectiveService.updateComment(currentUser, request.params.id, request.params.topicid,
+                                                                     request.params.cid, <UpdateCommentJSON>request.body))
+      .then((comment) => {})
+      .catch((err) => {
+        console.log(err);
+        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+      });
+  }
+
+  @Delete('/:id/topics/:topicid/comments/:cid')
+  public deleteComment(request: Request, response: Response): void {
+    this.userService.getJwtUser(request)
+      .then((currentUser) => this.retrospectiveService.deleteComment(currentUser, request.params.id, request.params.topicid,
+        request.params.cid))
+      .then((comment) => {})
+      .catch((err) => {
+        console.log(err);
+        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+      });
+  }
+
 
 }
