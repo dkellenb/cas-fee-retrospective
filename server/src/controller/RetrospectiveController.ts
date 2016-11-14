@@ -185,9 +185,9 @@ export class RetrospectiveController {
   @Put('/:id/topics/:topicid/comments/:cid')
   public updateComment(request: Request, response: Response): void {
     this.userService.getJwtUser(request)
-      .then((currentUser) => this.retrospectiveService.updateComment(currentUser, request.params.id, request.params.topicid,
-                                                                     request.params.cid, <UpdateCommentJSON>request.body))
-      .then((comment) => {})
+      .then((currentUser) => this.retrospectiveService.updateComment(currentUser,
+        request.params.id, request.params.topicid, request.params.cid, <UpdateCommentJSON>request.body))
+      .then((comment) => response.send(comment))
       .catch((err) => {
         console.log(err);
         response.send({'error': 'error in your request. see server logs for details', 'details' : err});
@@ -197,9 +197,9 @@ export class RetrospectiveController {
   @Delete('/:id/topics/:topicid/comments/:cid')
   public deleteComment(request: Request, response: Response): void {
     this.userService.getJwtUser(request)
-      .then((currentUser) => this.retrospectiveService.deleteComment(currentUser, request.params.id, request.params.topicid,
-        request.params.cid))
-      .then((comment) => {})
+      .then((currentUser) => this.retrospectiveService.deleteComment(currentUser,
+        request.params.id, request.params.topicid, request.params.cid))
+      .then((comment) => response.sendStatus(204))
       .catch((err) => {
         console.log(err);
         response.send({'error': 'error in your request. see server logs for details', 'details' : err});

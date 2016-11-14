@@ -241,7 +241,7 @@ export class RetrospectiveService {
         if (comment == null) {
           action('Comment could not be found');
         }
-        if (comment.author !== persistedUser._id && persistedUser.systemRole !== UserRole.ADMIN) {
+        if (!comment.author.equals(persistedUser._id) && persistedUser.systemRole !== UserRole.ADMIN) {
           action('Not allowed to modify this comment');
         } else {
           action(null, persistedRetrospective, persistedTopic, comment, persistedUser);
