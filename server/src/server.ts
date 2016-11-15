@@ -43,7 +43,7 @@ server.setConfig((app) => {
   app.use(function (req, res, next) {
 
     // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:' + nconf.get('ui-port'));
+    res.setHeader('Access-Control-Allow-Origin', 'http://' + nconf.get('hostname') + ':' + nconf.get('ui-port'));
 
     // Request methods you wish to allow
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -73,5 +73,5 @@ app.listen(nconf.get('port'));
 console.log('Server started on port ' + nconf.get('port'));
 console.log('');
 console.log('REST Services available on:');
-console.log('localhost:' + nconf.get('port') + '/rest/users');
-console.log('localhost:' + nconf.get('port') + '/rest/retrospectives');
+console.log(nconf.get('hostname') + ':' + nconf.get('port') + '/rest/users');
+console.log(nconf.get('hostname') + ':' + nconf.get('port') + '/rest/retrospectives');
