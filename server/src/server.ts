@@ -13,6 +13,7 @@ import { UserJwtKeyProvider, UserStaticJwtKeyProvider} from './service/UserJwtKe
 import { DataAccess } from './repository/dataaccess';
 import * as nconf from 'nconf';
 import {RetrospectiveRepository} from './repository/RetrospectiveRepository';
+import * as socketIo from 'socket.io';
 
 // load everything needed to the kernel
 let kernel = new Kernel();
@@ -69,9 +70,17 @@ server.setConfig((app) => {
 });
 
 let app = server.build();
-app.listen(nconf.get('port'));
-console.log('Server started on port ' + nconf.get('port'));
-console.log('');
-console.log('REST Services available on:');
-console.log(nconf.get('hostname') + ':' + nconf.get('port') + '/rest/users');
-console.log(nconf.get('hostname') + ':' + nconf.get('port') + '/rest/retrospectives');
+app.listen(nconf.get('port'), nconf.get('hostname'), () => {
+  console.log('Server started on port ' + nconf.get('port'));
+  console.log('');
+  console.log('REST Services available on:');
+  console.log(nconf.get('hostname') + ':' + nconf.get('port') + '/rest/users');
+  console.log(nconf.get('hostname') + ':' + nconf.get('port') + '/rest/retrospectives');
+});
+
+let io = socketIo(server);
+console.log(io);
+io.on('connect', (socket) => console.log('a user connected'));
+io.on('connection', (socket) => console.log('a user connected 2'));
+
+
