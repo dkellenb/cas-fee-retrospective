@@ -1,7 +1,12 @@
 import 'reflect-metadata';
+import * as nconf from 'nconf';
+import * as SocketIO from 'socket.io';
+import * as express from 'express';
+import * as http from 'http';
+import * as bodyParser from 'body-parser';
+import {Provider} from 'nconf';
 import {interfaces, InversifyExpressServer, TYPE} from 'inversify-express-utils';
 import {Kernel} from 'inversify';
-import * as bodyParser from 'body-parser';
 import TYPES from './constant/types';
 import TAGS from './constant/tags';
 import { RetrospectiveController } from './controller/RetrospectiveController';
@@ -11,76 +16,137 @@ import { UserJwtService, UserService } from './service/';
 import { UserRepository } from './repository/UserRepository';
 import { UserJwtKeyProvider, UserStaticJwtKeyProvider} from './service/UserJwtKeyProvider';
 import { DataAccess } from './repository/dataaccess';
-import * as nconf from 'nconf';
 import {RetrospectiveRepository} from './repository/RetrospectiveRepository';
-import * as socketIo from 'socket.io';
+import {WebSocketService} from './service/WebSocketService';
 
-// load everything needed to the kernel
-let kernel = new Kernel();
+class RetroServer {
 
-kernel.bind<interfaces.Controller>(TYPE.Controller).to(RetrospectiveController).whenTargetNamed(TAGS.RetrospectiveController);
-kernel.bind<interfaces.Controller>(TYPE.Controller).to(UserController).whenTargetNamed(TAGS.UserController);
+  private config: Provider;
+  private kernel: Kernel;
+  private inversifyExpressServer: InversifyExpressServer;
+  private app: express.Application;
+  private serverInstance: http.Server;
+  private databaseConnection: any;
+  private socketIO: SocketIO.Server;
 
-kernel.bind<RetrospectiveService>(TYPES.RetrospectiveService).to(RetrospectiveService).inSingletonScope();
-kernel.bind<RetrospectiveRepository>(TYPES.RetrospectiveRepository).to(RetrospectiveRepository).inSingletonScope();
-kernel.bind<UserRepository>(TYPES.UserRepository).to(UserRepository).inSingletonScope();
-kernel.bind<UserService>(TYPES.UserService).to(UserService).inSingletonScope();
-kernel.bind<UserJwtService>(TYPES.UserJwtService).to(UserJwtService).inSingletonScope();
-kernel.bind<UserJwtKeyProvider>(TYPES.UserJwtKeyProvider).to(UserStaticJwtKeyProvider).inSingletonScope();
+  // Start the application
+  public static bootstrap(): RetroServer {
+    return new RetroServer();
+  }
 
-// read configuration
-nconf.argv()
-  .env()
-  .file({ file: 'server-config.json' });
+  constructor() {
+    // Load configuration
+    this.loadConfig();
 
-// start database connection
-DataAccess.connect();
+    // Setup DI kernel
+    this.initKernel();
 
-// start the server
-let server = new InversifyExpressServer(kernel);
-server.setConfig((app) => {
+    // Setup inversify inversifyExpressServer
+    this.setupInversifyExpressServer();
 
-  // Add headers
-  app.use(function (req, res, next) {
+    // Setup http server instance
+    this.initHttpServer();
 
-    // Website you wish to allow to connect
-    res.setHeader('Access-Control-Allow-Origin', 'http://' + nconf.get('hostname') + ':' + nconf.get('ui-port'));
+    // Setup WebSockets
+    this.initWebSocket();
 
-    // Request methods you wish to allow
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    // Setup Database connection
+    this.initDb();
+  }
 
-    // Request headers you wish to allow
-    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
+  private loadConfig(): void {
+    console.log('Load configuration');
+    this.config = nconf.argv()
+      .env()
+      .file({ file: 'server-config.json' });
+  }
 
-    // Location must be set as Expose-Header so Angular HTTP will pick it up and make it accessible.
-    res.setHeader('Access-Control-Expose-Headers', 'Location');
+  private initKernel(): void {
+    console.log('Setup Kernel');
+    let kernel = new Kernel();
 
-    // Set to true if you need the website to include cookies in the requests sent
-    // to the API (e.g. in case you use sessions)
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    kernel.bind<interfaces.Controller>(TYPE.Controller).to(RetrospectiveController).whenTargetNamed(TAGS.RetrospectiveController);
+    kernel.bind<interfaces.Controller>(TYPE.Controller).to(UserController).whenTargetNamed(TAGS.UserController);
 
-    // Pass to next layer of middleware
-    next();
-  });
+    kernel.bind<RetrospectiveService>(TYPES.RetrospectiveService).to(RetrospectiveService).inSingletonScope();
+    kernel.bind<RetrospectiveRepository>(TYPES.RetrospectiveRepository).to(RetrospectiveRepository).inSingletonScope();
+    kernel.bind<UserRepository>(TYPES.UserRepository).to(UserRepository).inSingletonScope();
+    kernel.bind<UserService>(TYPES.UserService).to(UserService).inSingletonScope();
+    kernel.bind<UserJwtService>(TYPES.UserJwtService).to(UserJwtService).inSingletonScope();
+    kernel.bind<UserJwtKeyProvider>(TYPES.UserJwtKeyProvider).to(UserStaticJwtKeyProvider).inSingletonScope();
+    kernel.bind<WebSocketService>(TYPES.WebSocketService).to(WebSocketService).inSingletonScope();
 
-  app.use(bodyParser.urlencoded({
-    extended: true
-  }));
-  app.use(bodyParser.json());
-});
+    this.kernel = kernel;
+  }
 
-let app = server.build();
-app.listen(nconf.get('port'), nconf.get('hostname'), () => {
-  console.log('Server started on port ' + nconf.get('port'));
-  console.log('');
-  console.log('REST Services available on:');
-  console.log(nconf.get('hostname') + ':' + nconf.get('port') + '/rest/users');
-  console.log(nconf.get('hostname') + ':' + nconf.get('port') + '/rest/retrospectives');
-});
+  private setupInversifyExpressServer(): void {
+    console.log('Setup InversifyExpressServer');
+    let server = new InversifyExpressServer(this.kernel);
+    server.setConfig((app) => {
 
-let io = socketIo(server);
-console.log(io);
-io.on('connect', (socket) => console.log('a user connected'));
-io.on('connection', (socket) => console.log('a user connected 2'));
+      // Add headers
+      app.use(function (req, res, next) {
 
+        // Website you wish to allow to connect
+        res.setHeader('Access-Control-Allow-Origin', 'http://' + nconf.get('hostname') + ':' + nconf.get('ui-port'));
 
+        // Request methods you wish to allow
+        res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+        // Request headers you wish to allow
+        res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,Authorization');
+
+        // Location must be set as Expose-Header so Angular HTTP will pick it up and make it accessible.
+        res.setHeader('Access-Control-Expose-Headers', 'Location');
+
+        // Set to true if you need the website to include cookies in the requests sent
+        // to the API (e.g. in case you use sessions)
+        res.setHeader('Access-Control-Allow-Credentials', 'true');
+
+        // Pass to next layer of middleware
+        next();
+      });
+
+      app.use(bodyParser.urlencoded({
+        extended: true
+      }));
+      app.use(bodyParser.json());
+    });
+
+    this.inversifyExpressServer = server;
+    this.app = server.build();
+  }
+
+  private initHttpServer(): void {
+    console.log('Init HTTP Server');
+    let hostname = nconf.get('hostname');
+    let port = parseInt(nconf.get('port'), 10);
+    this.serverInstance = this.app.listen(port, hostname, () => {
+      console.log('Server started on port ' + port);
+      console.log('');
+      console.log('REST Services available on:');
+      console.log(hostname + ':' + port + '/rest/users');
+      console.log(hostname + ':' + port + '/rest/retrospectives');
+    });
+  }
+
+  private initWebSocket(): void {
+    console.log('Init WebSockets');
+    let socketIO = SocketIO().listen(this.serverInstance, <SocketIO.ServerOptions>{
+      'path': '/socket/'
+    });
+
+    let webSocketService = <WebSocketService>this.kernel.get(TYPES.WebSocketService);
+    webSocketService.registerSocketIO(socketIO);
+
+    this.socketIO = socketIO;
+  }
+
+  private initDb(): void {
+    console.log('Init DB');
+    this.databaseConnection = DataAccess.connect();
+  }
+
+}
+
+RetroServer.bootstrap();

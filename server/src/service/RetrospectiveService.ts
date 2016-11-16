@@ -15,6 +15,7 @@ import {RetrospectiveUser} from './model/User';
 import {PublicRetrospective} from './model/Restrospective';
 import {IUserDbModel} from '../repository/model/UserDbModel';
 import {UserRole} from '../../../shared/src/model/UserDomainModel';
+import {WebSocketService} from './WebSocketService';
 
 
 @injectable()
@@ -23,6 +24,7 @@ export class RetrospectiveService {
   constructor(
     @inject(TYPES.UserRepository) private userRepository: UserRepository,
     @inject(TYPES.RetrospectiveRepository) private retrospectiveRepository: RetrospectiveRepository,
+    @inject(TYPES.WebSocketService) private webSocketService: WebSocketService
   ) {
 
   }
@@ -119,9 +121,9 @@ export class RetrospectiveService {
     });
   }
 
-  public joinRetrospective(currentUser: IUser, id: string): Promise<IPersistedRetrospectiveDbModel> {
+  public joinRetrospective(currentUser: IUser, retrospectiveId: string): Promise<IPersistedRetrospectiveDbModel> {
     return new Promise<IPersistedRetrospectiveDbModel>((resolve, reject) => {
-      this.doRetrospectiveAction(currentUser, id, (error, persistedRetrospective, persistedUser) => {
+      this.doRetrospectiveAction(currentUser, retrospectiveId, (error, persistedRetrospective, persistedUser) => {
         if (error) {
           reject(error);
         } else {
@@ -129,19 +131,21 @@ export class RetrospectiveService {
               console.log(attendeeId + ' vs ' + persistedUser._id);
               return attendeeId === persistedUser._id;
             }) === null) {
-            console.log('Register user ' + currentUser.uuid + ' to ' + id);
+            console.log('Register user ' + currentUser.uuid + ' to ' + retrospectiveId);
             persistedRetrospective.attendees.push(persistedUser._id);
             persistedRetrospective.save();
           }
+          this.webSocketService.userAddedToRetrospective(retrospectiveId, currentUser.uuid);
           resolve(persistedRetrospective);
         }
       });
     });
   }
 
-  public addComment(currentUser: IUser, id: string, topicId: string, comment: CreateCommentJSON): Promise<PersistedRetrospectiveComment> {
+  public addComment(currentUser: IUser, retrospectiveId: string, topicId: string, comment: CreateCommentJSON):
+      Promise<PersistedRetrospectiveComment> {
     return new Promise<PersistedRetrospectiveComment>((resolve, reject) => {
-      this.doTopicAction(currentUser, id, topicId, (error, persistedRetrospective, persistedTopic, persistedUser) => {
+      this.doTopicAction(currentUser, retrospectiveId, topicId, (error, persistedRetrospective, persistedTopic, persistedUser) => {
         if (error) {
           reject(error);
         } else {
@@ -153,6 +157,7 @@ export class RetrospectiveService {
             if (err) {
               reject(err);
             } else {
+              this.webSocketService.commentAddedToRetrospective(retrospectiveId, persistedComment.uuid);
               resolve(persistedComment);
             }
           });
