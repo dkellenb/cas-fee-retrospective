@@ -37,7 +37,7 @@ export class PublicRetrospectiveTopic implements IBasicRetrospectiveTopic<Retros
     let topic = new PublicRetrospectiveTopic();
     topic.uuid = populatedTopic.uuid;
     topic.name = populatedTopic.name;
-    topic.comments = populatedTopic.comments.map((comment) => PublicRetrospectiveComment.fromRetrospective(comment));
+    topic.comments = populatedTopic.comments.map((comment) => PublicRetrospectiveComment.fromRetrospective(comment, populatedTopic));
     return topic;
   }
 }
@@ -48,9 +48,11 @@ export class PublicRetrospectiveComment implements IBasicRetrospectiveComment<Re
   description: string;
   anonymous: boolean;
   author: RetrospectiveUser;
+  topicUuid?: string;
   votes: IRetrospectiveVote<RetrospectiveUser>[];
 
-  public static fromRetrospective(populatedRetrospectiveComment: IBasicRetrospectiveComment<IPersistedUser>): PublicRetrospectiveComment {
+  public static fromRetrospective(populatedRetrospectiveComment: IBasicRetrospectiveComment<IPersistedUser>,
+                                  populatedTopic?: IBasicRetrospectiveTopic<IPersistedUser>): PublicRetrospectiveComment {
     let comment = new PublicRetrospectiveComment();
     comment.uuid = populatedRetrospectiveComment.uuid;
     comment.title = populatedRetrospectiveComment.title;
@@ -58,6 +60,7 @@ export class PublicRetrospectiveComment implements IBasicRetrospectiveComment<Re
     comment.anonymous = populatedRetrospectiveComment.anonymous;
     comment.author = RetrospectiveUser.fromRetrospective(populatedRetrospectiveComment.author);
     comment.votes = populatedRetrospectiveComment.votes.map((vote) => PublicRetrospectiveVote.fromRetrospective(vote));
+    comment.topicUuid = populatedTopic.uuid;
     return comment;
   }
 }

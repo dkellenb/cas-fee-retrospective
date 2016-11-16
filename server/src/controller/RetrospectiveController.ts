@@ -110,6 +110,19 @@ export class RetrospectiveController {
       });
   }
 
+  @Get('/:id/comments/:cid')
+  public findComment(request: Request, response: Response): void {
+    this.userService.getJwtUser(request)
+      .then((currentUser) => this.retrospectiveService.getRetrospectiveSecured(currentUser, request.params.id))
+      .then((retrospective) => [].concat.apply([], retrospective.topics.map((topic) => topic.comments))
+        .find((comment) => comment.uuid === request.params.cid))
+      .then((comment) => response.send(comment))
+      .catch((err) => {
+        console.log(err);
+        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+      });
+  }
+
   @Get('/:id/topics')
   public getTopics(request: Request, response: Response): void {
     this.userService.getJwtUser(request)
