@@ -16,16 +16,15 @@
   vertical-align: middle;
 }
 
-.icon-button:hover{
+.icon-button:hover {
   background: #666666;
-  color:#C0C0C0;
+  color: #C0C0C0;
 }
 
 .icon-button__lable {
   padding: 0 0.25rem;
   vertical-align: middle;
 }
-
 
 .icon-button__body_success {
   background: #6dd15c;
@@ -55,17 +54,17 @@
   content: '\25BC';
 }
 
-.icon-button__icon_forward:before{
+.icon-button__icon_forward:before {
   padding-left: 0.1rem;
   content: '\25B6';
 }
 
-.icon-button__icon_back:before{
+.icon-button__icon_back:before {
   content: '\25C4';
 }
 
 /*ToDo create svn for thump-up*/
-.icon-button__icon_vote-up:before{
+.icon-button__icon_vote-up:before {
   content: '👍';
 }
 

@@ -1,4 +1,7 @@
-import {Component, OnInit, Input, Directive, trigger, state, transition, animate, style} from '@angular/core';
+import {
+  Component, OnInit, Input, Directive, trigger, state, transition, animate, style,
+  OnChanges
+} from '@angular/core';
 import {IconButtonType} from '../icon-button';
 
 @Component({
@@ -28,8 +31,11 @@ import {IconButtonType} from '../icon-button';
     ])
   ]
 })
-export class BoardComponent implements OnInit {
+export class BoardComponent implements OnInit, OnChanges {
+  private static readonly OPEN: string = 'open';
+  private static readonly CLOSE: string = 'close';
 
+  // noinspection TsLint
   private iconButtonType = IconButtonType;
 
   @Input()
@@ -40,9 +46,6 @@ export class BoardComponent implements OnInit {
 
   private collapsibleState: string = BoardComponent.OPEN;
 
-  private static readonly OPEN: string = 'open';
-  private static readonly CLOSE: string = 'close';
-
   constructor() {
   }
 
@@ -51,7 +54,7 @@ export class BoardComponent implements OnInit {
 
   ngOnChanges() {
     if (!this.isCollapsible) {
-      //always open if not collapsible
+      // always open if not collapsible
       this.isOpen = true;
     }
     this.updateCollapsibleState();
@@ -77,16 +80,16 @@ export class BoardComponent implements OnInit {
 @Directive({
   selector: 'rsb-board-title'
 })
-export class BoardTitle {
+export class BoardTitleDirective {
 }
 
 /**
  * Buttons in Buttonset of the Board
  */
 @Directive({
-  selector: 'rsb-board-buttons'
+  selector: 'rsb-board-title'
 })
-export class BoardButtons {
+export class BoardButtonsDirective {
 }
 
 /**
@@ -95,5 +98,5 @@ export class BoardButtons {
 @Directive({
   selector: 'rsb-board-body'
 })
-export class BoardBody {
+export class BoardBodyDirective {
 }

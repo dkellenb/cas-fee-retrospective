@@ -13,7 +13,7 @@
   padding: 0;
   position: absolute;
   z-index: 2000;
-  top:0;
+  top: 0;
   bottom: 0;
   margin: auto 0;
 }
@@ -40,7 +40,7 @@
   position: absolute;
   display: block;
   z-index: 2001;
-  top:0;
+  top: 0;
   bottom: 0;
   margin: -1.75rem 0;
 }

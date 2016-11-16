@@ -7,7 +7,8 @@ import {Component, OnInit, Directive} from '@angular/core';
 })
 export class HeaderBarComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
@@ -20,7 +21,8 @@ export class HeaderBarComponent implements OnInit {
 @Directive({
   selector: 'rsb-header-bar-title'
 })
-export class HeaderBarTitle {}
+export class HeaderBarTitle {
+}
 
 /**
  * Buttons in Buttonset of the Board
@@ -28,6 +30,7 @@ export class HeaderBarTitle {}
 @Directive({
   selector: 'rsb-header-bar-menu'
 })
-export class HeaderBarMenu {}
+export class HeaderBarMenu {
+}
 
 

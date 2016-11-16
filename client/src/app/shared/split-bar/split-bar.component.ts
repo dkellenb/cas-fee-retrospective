@@ -7,7 +7,8 @@ import {Component, OnInit, Directive} from '@angular/core';
 })
 export class SplitBarComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
   }
@@ -19,7 +20,8 @@ export class SplitBarComponent implements OnInit {
 @Directive({
   selector: 'rsb-split-bar-container-left'
 })
-export class SplitBarContainerLeft {}
+export class SplitBarContainerLeftDirective {
+}
 
 /**
  * Content for the right Container of the Split-Bar
@@ -27,4 +29,5 @@ export class SplitBarContainerLeft {}
 @Directive({
   selector: 'rsb-split-bar-container-right'
 })
-export class SplitBarContainerRight {}
+export class SplitBarContainerRightDirective {
+}

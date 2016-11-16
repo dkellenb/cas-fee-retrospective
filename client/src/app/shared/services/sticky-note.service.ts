@@ -11,6 +11,9 @@ export class StickyNoteService {
 
   public registerForNewComment(noteType: string): Observable<IRetrospectiveComment> {
     return Observable.timer(
+      0, 1000).map(event=> {
+      return <IRetrospectiveComment>{};
+    });
       0, 1000).map(event => { return <IBasicRetrospectiveComment>{}; });
   }
 }

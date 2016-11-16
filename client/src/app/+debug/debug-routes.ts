@@ -8,7 +8,7 @@ const debugRoutes: Routes = [
   {
     path: '', component: DebugComponent,
     children: [
-      {path: ''}, //doesn't show any component
+      {path: ''}, // doesn't show any component
       {path: 'user-service', component: DebugUserServiceComponent},
       {path: 'retrospective-service', component: DebugRestrospectiveServiceComponent}
     ]

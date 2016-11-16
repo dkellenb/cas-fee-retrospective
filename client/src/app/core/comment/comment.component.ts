@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-comment',
+  selector: 'rsb-comment',
   templateUrl: './comment.component.html',
   styleUrls: ['./comment.component.css']
 })
 export class CommentComponent implements OnInit {
 
-
+  // noinspection TsLint
   private boards: Board[] = [
     new Board('Start doing'),
     new Board('Continue doing'),
