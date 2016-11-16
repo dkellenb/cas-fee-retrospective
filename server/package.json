@@ -15,6 +15,7 @@
   },
   "author": "",
   "dependencies": {
+    "@types/inversify-express-utils": "^1.0.4",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "inversify": "2.0.1",
