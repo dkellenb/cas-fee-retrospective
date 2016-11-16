@@ -18,6 +18,7 @@ export interface IBasicRetrospectiveComment<T> {
   description: string;
   anonymous: boolean;
   author: T;
+  topicUuid: string;
   votes: IRetrospectiveVote<T>[];
 }
 
