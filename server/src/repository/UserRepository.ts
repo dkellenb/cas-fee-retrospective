@@ -1,52 +1,30 @@
 import { injectable } from 'inversify';
-import { IPersistedUser } from '../../../shared/src/model';
+import { AbstractRepository } from './AbstractRepository';
+import { UserDbSchema } from './schema';
+import { IUserDbModel } from './model/';
+import * as mongoose from 'mongoose';
+
+export const UserDbModel = mongoose.model<IUserDbModel>('users', UserDbSchema.schema);
 
 @injectable()
-export class UserRepository {
-
-  private userStorage: IPersistedUser[] = [];
-
-  public getUsers(): IPersistedUser[] {
-    return this.userStorage;
+export class UserRepository extends AbstractRepository<IUserDbModel> {
+  constructor() {
+    super();
+    super.setModel(UserDbModel);
   }
 
-  public getUser(id: string): IPersistedUser {
-    let result: IPersistedUser = null;
-    this.userStorage.map(user => {
-      if (user.uuid === id) {
-        result = user;
-      }
-    });
-
-    return result;
+  findByUuid(_uuid: string, callback: (error: any, result: IUserDbModel) => void) {
+    this.getModel()
+      .where('uuid').equals(_uuid)
+      .exec((error, result) => {
+        callback(error, !result || result.length === 0 ? null : result[0]);
+      });
   }
 
-  public createUser(user: IPersistedUser): IPersistedUser {
-    this.userStorage.push(user);
-    console.log('Data now: ' + JSON.stringify(this.userStorage));
-    return user;
-  }
-
-  public updateUser(id: string, user: IPersistedUser): IPersistedUser {
-    this.userStorage.map((entry, index) => {
-      if (entry.uuid === id) {
-        this.userStorage[index] = user;
-      }
-    });
-
-    return user;
-  }
-
-  public deleteUser(id: string): string {
-    let updatedUser: IPersistedUser[] = [];
-    this.userStorage.map(user => {
-      if (user.uuid !== id) {
-        updatedUser.push(user);
-      }
-    });
-
-    this.userStorage = updatedUser;
-    return id;
+  findByUuids(_uuids: string[], callback: (error: any, result: IUserDbModel[]) => void) {
+    this.getModel()
+      .where('uuid').in(_uuids)
+      .exec(callback);
   }
 
 }

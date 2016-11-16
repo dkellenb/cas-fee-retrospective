@@ -1,7 +1,12 @@
-import {UUID} from '../../util/UUID';
-import {IUser, User} from './User';
+import * as mongoose from 'mongoose';
+import { IUser } from '../../../../shared/src/model';
+import { UUID } from '../../../../shared/src/util';
 import * as moment from 'moment';
+import {UserRole} from '../../../../shared/src/model/UserDomainModel';
 
+/**
+ * Interface for a user token.
+ */
 export interface IUserToken {
   /** Unique identifier of this token. */
   uuid: string;
@@ -10,8 +15,18 @@ export interface IUserToken {
   validUntil: number;
 }
 
+/**
+ * Interface representing a persisted user.
+ */
 export interface IPersistedUser extends IUser {
-  token: IUserToken[];
+  tokens: IUserToken[];
+}
+
+/**
+ * Interface representing a persisted user from db point of view.
+ */
+export interface IUserDbModel extends mongoose.Document, IPersistedUser {
+
 }
 
 /**
@@ -56,11 +71,15 @@ export class UserToken implements IUserToken {
 }
 
 /**
- * Concrete implementation of a user.
+ * Implementation of a user.
  */
-export class PersistedUser extends User implements IPersistedUser {
+export class User implements IUser {
 
-  token: UserToken[];
+  public uuid: string;
+  public shortName: string;
+  public name?: string;
+  public email?: string;
+  public systemRole: UserRole;
 
   /**
    * Creates a User based on objects delivering the specified fields.
@@ -68,19 +87,51 @@ export class PersistedUser extends User implements IPersistedUser {
    * @param iUser any object matching the interface
    * @returns {User} a user implementation
    */
-  public static from(iUser: IPersistedUser): PersistedUser {
+  public static from(iUser: IUser): User {
+    let user = new User();
+    user.copyUserValues(iUser);
+    return user;
+  }
+
+  constructor() {
+    this.uuid = new UUID().toString();
+  }
+
+  public copyUserValues(source: IUser) {
+    this.uuid = source.uuid;
+    this.shortName = source.shortName;
+    this.name = source.name || null;
+    this.email = source.email || null;
+    this.systemRole = source.systemRole || UserRole.USER;
+  }
+
+}
+
+/**
+ * Concrete implementation of a persisted user (cleaning up the full mongoose context).
+ */
+export class PersistedUser extends User implements IPersistedUser {
+
+  tokens: UserToken[];
+
+  /**
+   * Creates a User based on objects delivering the specified fields.
+   *
+   * @param iUser any object matching the interface
+   * @returns {User} a user implementation
+   */
+  public static from(iUser: IUserDbModel): PersistedUser {
     let user = new PersistedUser();
     user.copyValues(iUser);
     return user;
   }
 
-  copyValues(source: IPersistedUser) {
+  copyValues(source: IUserDbModel) {
     super.copyUserValues(source);
-    this.token = [];
-    for (let token of source.token) {
-      this.token.push(UserToken.from(token));
+    this.tokens = [];
+    for (let token of source.tokens) {
+      this.tokens.push(UserToken.from(token));
     }
   }
 
 }
-

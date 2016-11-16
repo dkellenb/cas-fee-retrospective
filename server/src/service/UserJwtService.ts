@@ -1,10 +1,11 @@
 import { injectable, inject } from 'inversify';
 import * as moment from 'moment';
-import { IUserJwt } from '../../../shared/src/model';
 import { Request } from 'express';
 import { verify, sign } from 'jsonwebtoken';
 import TYPES from '../constant/types';
 import { UserJwtKeyProvider } from './UserJwtKeyProvider';
+import { ErrorWithMessage } from '../../../shared/src/util/ErrorWithMessage';
+import { IUserJwt } from './model/User';
 
 @injectable()
 export class UserJwtService {
@@ -39,19 +40,19 @@ export class UserJwtService {
 
 }
 
-class InvalidJwt extends Error {
+class InvalidJwt extends ErrorWithMessage {
   constructor(msg) {
     super(msg);
   }
 }
 
-class MissingJwt extends Error {
+class MissingJwt extends ErrorWithMessage {
   constructor(msg) {
     super(msg);
   }
 }
 
-class OutdatedToken extends Error {
+class OutdatedToken extends ErrorWithMessage {
   constructor(msg) {
     super(msg);
   }

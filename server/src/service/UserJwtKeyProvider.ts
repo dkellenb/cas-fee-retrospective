@@ -1,4 +1,5 @@
 import { injectable } from 'inversify';
+import * as nconf from 'nconf';
 
 export interface UserJwtKeyProvider {
 
@@ -13,11 +14,13 @@ export interface UserJwtKeyProvider {
 @injectable()
 export class UserStaticJwtKeyProvider implements UserJwtKeyProvider {
 
-  /** temporary secret. this will be changed later on. */
-  private static readonly JWT_KEY = 'V6LjnzR0mhQm2Ad81k8j';
+  private static key: string;
 
   public getKey(): string {
-    return UserStaticJwtKeyProvider.JWT_KEY;
+    if (!UserStaticJwtKeyProvider.key) {
+      UserStaticJwtKeyProvider.key = nconf.get('jwt-key');
+    }
+    return UserStaticJwtKeyProvider.key;
   }
 
 }

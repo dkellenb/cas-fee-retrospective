@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {IRetrospectiveComment} from '../../../../../shared/src/model/retrospective/RetrospectiveDomainModel';
+import {IBasicRetrospectiveComment} from '../../../../../shared/src/model/RetrospectiveDomainModel';
 
 @Injectable()
 export class StickyNoteService {
@@ -14,5 +14,6 @@ export class StickyNoteService {
       0, 1000).map(event=> {
       return <IRetrospectiveComment>{};
     });
+      0, 1000).map(event => { return <IBasicRetrospectiveComment>{}; });
   }
 }

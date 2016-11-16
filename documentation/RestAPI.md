@@ -18,73 +18,95 @@ For all methods needing authentication they require a JWT passed by the header:
 
 ### Retrospective Management
 
-URL: `/rest/retrospective`
+URL: `/rest/retrospectives`
 
-| Method  | CMD    | Auth |Description                                                        |
-|---------|--------|------|-------------------------------------------------------------------|
-|         | GET    | X    | Returns all retrospectives the authenticated user has access to   |
-|         | POST   |      | Creates a new retrospective                                       |
-| :id     | GET    |      | Get details about the retrospective                               |
-| :id     | PUT    | X    | Updates the configuration of a retrospective                      |
-| :id     | DELETE | X    | Deletes the retrospective if the authenticated user can manage it |
+| +URL     | CMD    | Auth | Done | Description                                                       |
+|----------|--------|------|------|-------------------------------------------------------------------|
+|          | GET    | X    |      | Returns all retrospectives the authenticated user has access to   |
+|          | POST   |      | OK   | Creates a new retrospective                                       |
+| :id      | GET    | X    | OK   | Get details about the retrospective                               |
+| :id      | PUT    | X    |      | Updates the configuration of a retrospective                      |
+| :id      | DELETE | X    |      | Deletes the retrospective if the authenticated user can manage it |
 
 ### Retrospective Management: Change status
 
-URL: `/rest/retrospective/:id/status`
+URL: `/rest/retrospectives/:id/status`
 
-| Method  | CMD    | Auth |Description                                                        |
-|---------|--------|------|-------------------------------------------------------------------|
-|         | GET    |      | The current status of the retrospective                           |
-|         | PUT    |      | Change status of the retrospective                                |
+| +URL     | CMD    | Auth | Done | Description                                                       |
+|----------|--------|------|------|-------------------------------------------------------------------|
+|          | GET    |      |      | The current status of the retrospective                           |
+|          | PUT    |      |      | Change status of the retrospective                                |
 
 ### Retrospective Management: Attendees
 
-URL: `/rest/retrospective/:id/attendees`
+URL: `/rest/retrospectives/:id/attendees`
 
-| Method  | CMD    | Auth |Description                                                        |
-|---------|--------|------|-------------------------------------------------------------------|
-|         | GET    |      | Retrieve an updated list of the attendees                         |
+| +URL     | CMD    | Auth | Done | Description                                                       |
+|----------|--------|------|------|-------------------------------------------------------------------|
+|          | GET    | X    | OK   | Retrieve an updated list of the attendees                         |
+|          | POST   | X    | OK   | Just do a simple post to a retrospective to attend to it          |
+| :userid  | GET    | X    | OK   | Retrieve a single attendee of a retrospective (e.g. if new)       |
+
+### Retrospective Topics
+
+URL: `/rest/retrospectives/:id/topics`
+
+| +URL     | CMD    | Auth | Done | Description                                                       |
+|----------|--------|------|------|-------------------------------------------------------------------|
+|          | GET    | X    | OK   | Retrieve all topics                                               |
+|          | POST   | X    |      | Add a new topic                                                   |
+| :topicid | GET    | X    | OK   | Get just the contents of this particular topic                    |
+| :topicid | PUT    | X    |      | Update the topic name (manager only)                              |
 
 ### Retrospective Management: Comments
 
-URL: `/rest/retrospective/:id/comments`
+URL: `/rest/retrospectives/:id/topics/:topicid/comments`
 
-| Method  | CMD    | Auth |Description                                                        |
-|---------|--------|------|-------------------------------------------------------------------|
-|         | GET    |      | Gets all comments posted to a retrospective                       |
-|         | POST   |      | Puts a new comment to a retrospective                             |
-| :id     | GET    |      | Get a single comment                                              |
-| :id     | PUT    |      | Update a single comment                                           |
-| :id     | DELETE |      | Delete a single comment                                           |
+| +URL     | CMD    | Auth | Done | Description                                                       |
+|----------|--------|------|------|-------------------------------------------------------------------|
+|          | GET    | X    | OK   | Gets all comments posted to this topic                            |
+|          | POST   | X    | OK   | Puts a new comment to a topic                                     |
+| :cid     | GET    | X    | OK   | Get a single comment on this topic                                |
+| :cid     | PUT    | X    | OK   | Update a single comment                                           |
+| :cid     | DELETE | X    | OK   | Delete a single comment                                           |
 
 ### Retrospective Management: Voting
 
-URL `/rest/retrospective/:id/comments/:id/votes`
+URL `/rest/retrospectives/:id/comments/:topicid/comments/:cid/votes`
 
-| Method  | CMD    | Auth |Description                                                        |
-|---------|--------|------|-------------------------------------------------------------------|
-|         | GET    |      | Get all votes (restricted)                                        |
-|         | PUT    |      | Posts a vote to a single comment                                  |
-| :id     | DELETE |      | Remove a vote (only if from the current user)                     |
+| +URL     | CMD    | Auth | Done | Description                                                       |
+|----------|--------|------|------|-------------------------------------------------------------------|
+|          | GET    | X    |      | Get all votes (restricted)                                        |
+|          | PUT    | X    |      | Posts a vote to a single comment                                  |
+| :vid     | DELETE | X    |      | Remove a vote (only if from the current user)                     |
 
 ### User Management
 
 URL `/rest/user`
 
-| Method  | CMD    | Auth |Description                                                        |
-|---------|--------|------|-------------------------------------------------------------------|
-|         | GET    | X    | Retrieve all users (incl. filter possibilites)                    |
-|         | POST   |      | Create new user and JWT token, in order to identify a user        |
-|         | PUR    |      | Updates the current user                                          |
-| :id     | GET    | X    | Gets user details of the user (self or admin)                     |
-| :id     | PUT    |      | Updates the user                                                  |
-| :id     | DELETE | X    | Self delete or by admin                                           |
+| +URL     | CMD    | Auth | Done | Description                                                       |
+|----------|--------|------|------|-------------------------------------------------------------------|
+|          | GET    | X    |      | Retrieve all users (incl. filter possibilites)                    |
+|          | POST   |      | OK   | Create new user and JWT token, in order to identify a user        |
+| current  | GET    | X    | OK   | Get the current user                                              |
+| :id      | GET    | X    | OK   | Gets the some details about the user (only public attributes)     |
+| :id      | PUT    | X    | OK   | Updates the given user (only allowed by the user itself or admin  |
+| :id      | DELETE | X    | OK   | Self delete or by admin                                           |
+
+### User Token retrieval
+
+URL `/rest/user/:userid/tokens`
+
+| +URL     | CMD    | Auth | Done | Description                                                       |
+|----------|--------|------|------|-------------------------------------------------------------------|
+| :id      | GET    |      | OK   | Gets the token for the given :userid and :id (token id) => JWT    |
+
 
 ### User Management: Transfer of account to other computer
 
-URL `/rest/user/:id/transfertoken`
+URL `/rest/users/:id/transfertoken`
 
-| Method  | CMD    | Auth |Description                                                        |
-|---------|--------|------|-------------------------------------------------------------------|
-|         | POST   | X    | Creates a transfer token and sends it by mail                     |
-| :id     | GET    |      | Retrieve user details with the given token => transfer completed  |
+| +URL     | CMD    | Auth | Done | Description                                                       |
+|----------|--------|------|------|-------------------------------------------------------------------|
+|          | POST   | X    |      | Creates a transfer token and sends it by mail                     |
+| :id      | GET    |      |      | Retrieve user details with the given token => transfer completed  |
