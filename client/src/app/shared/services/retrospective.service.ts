@@ -6,7 +6,6 @@ import {ConfigurationService} from './configuration.service';
 import {Http, Headers} from '@angular/http';
 import {AuthHeader} from './auth-header';
 import {Observable} from 'rxjs';
-import InvalidArgumentError = webdriver.error.InvalidArgumentError;
 
 @Injectable()
 export class RetrospectiveService {
@@ -46,7 +45,7 @@ export class RetrospectiveService {
   private getJwtToken(shortName?: string): Observable<string> {
     if (!this.authService.isUserLoggedIn()) {
       if (shortName == null) {
-        throw new InvalidArgumentError('No User Logged in an there is no shortName for create new User');
+        throw new Error('No User Logged in an there is no shortName for create new User');
       }
       console.log('no User logged in register new user with shportname: ' + shortName);
       return this.userService.createUser(shortName).map(isSuccess => {
