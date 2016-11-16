@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {UserService} from './user.service';
 import {AuthenticationService} from './authentication.service';
-import {IRetrospective} from '../../../../../shared/src/model/retrospective/RetrospectiveDomainModel';
+import {IBasicRetrospective, IUser} from '../../../../../shared/src/model';
 import {ConfigurationService} from './configuration.service';
 import {Http, Headers} from '@angular/http';
 import {AuthHeader} from './auth-header';
@@ -10,7 +10,7 @@ import {Observable} from 'rxjs';
 @Injectable()
 export class RetrospectiveService {
 
-  private _currentRetrospective: IRetrospective;
+  private _currentRetrospective: IBasicRetrospective<IUser>;
 
   constructor(private userService: UserService,
               private authService: AuthenticationService,
@@ -25,7 +25,7 @@ export class RetrospectiveService {
 
 
   public createRetrospective(sessionTitle: string, sessionDescription: string, shortName?: string): Observable<string> {
-    let retrospective = <IRetrospective>{};
+    let retrospective = <IBasicRetrospective<IUser>>{};
     retrospective.description = sessionDescription;
     retrospective.name = sessionTitle;
 
@@ -35,8 +35,8 @@ export class RetrospectiveService {
           withCredentials: true,
           headers: AuthHeader.appendAuthHeader(new Headers(), jwtToken)
         }).map(response => {
-        console.log(response);
-        return '';
+        console.log(response.toString());
+        return'';// return (<IBasicRetrospective<IUser>> response.json()).uuid;
       }, e => {
         console.log(e);
       });
@@ -57,7 +57,7 @@ export class RetrospectiveService {
     });
   }
 
-  public getRetrospective(sessionKey: string): IRetrospective {
+  public getRetrospective(sessionKey: string): IBasicRetrospective<IUser> {
     if (this._currentRetrospective != null && this._currentRetrospective.uuid === sessionKey) {
       return this._currentRetrospective;
     }
@@ -65,7 +65,7 @@ export class RetrospectiveService {
     return null;
   }
 
-  public get currentRetrospective(): IRetrospective {
+  public get currentRetrospective(): IBasicRetrospective<IUser> {
     return this._currentRetrospective;
   }
 }
