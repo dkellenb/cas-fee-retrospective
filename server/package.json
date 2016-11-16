@@ -15,7 +15,6 @@
   },
   "author": "",
   "dependencies": {
-    "@types/inversify-express-utils": "^1.0.4",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
     "inversify": "2.0.1",
@@ -42,6 +41,7 @@
     "@types/nconf": "0.0.32",
     "@types/node": "^6.0.46",
     "@types/reflect-metadata": "0.0.5",
+    "@types/inversify-express-utils": "^1.0.4",
     "babel-preset-es2015": "^6.14.0",
     "babel-register": "^6.14.0",
     "chai": "^3.5.0",
