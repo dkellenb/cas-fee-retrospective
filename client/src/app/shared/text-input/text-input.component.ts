@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, forwardRef} from '@angular/core';
+import {Component, OnInit, Input, forwardRef} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 export const TEXT_INPUT_CONTROL_VALUE_ACCESSOR: any = {
@@ -24,7 +24,7 @@ export class TextInputComponent implements OnInit, ControlValueAccessor {
   public inputErrorMessage: string = null;
 
   @Input()
-  public isTextArea: boolean = false; //default to textfield;
+  public isTextArea: boolean = false; // default to textfield;
 
   private _value: string;
   private _onTouchedCallback;
@@ -36,12 +36,12 @@ export class TextInputComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit() {
     if (this.labelText === null) {
-      console.error("No Lable for TextInputComponent");
-      this.inputErrorMessage = "No Lable for TextInputComponent";
+      console.error('No Lable for TextInputComponent');
+      this.inputErrorMessage = 'No Lable for TextInputComponent';
     }
     if (this.id === null) {
-      console.error("No ID for TextInputComponent Lable->" + this.labelText);
-      this.inputErrorMessage = "No ID for TextInputComponent";
+      console.error('No ID for TextInputComponent Lable->' + this.labelText);
+      this.inputErrorMessage = 'No ID for TextInputComponent';
     }
   }
 

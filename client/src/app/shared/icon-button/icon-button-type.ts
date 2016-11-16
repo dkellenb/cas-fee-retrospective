@@ -13,7 +13,8 @@ export class IconButtonType {
   public static VOTE: IconButtonType = new IconButtonType('icon-button__icon_vote', false);
 
   /*Toggle Buttons*/
-  public static COLLAPSIBLE: IconButtonType = new IconButtonType('icon-button__icon_collapsible_close', true, 'icon-button__icon_collapsible_open');
+  public static COLLAPSIBLE: IconButtonType =
+    new IconButtonType('icon-button__icon_collapsible_close', true, 'icon-button__icon_collapsible_open');
 
   private _isToggleButton: boolean;
   private _className: string;

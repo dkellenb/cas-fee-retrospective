@@ -1,5 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {IBasicRetrospectiveComment,IUser} from '../../../../../shared/src/model';
+import {IBasicRetrospectiveComment, IUser} from '../../../../../shared/src/model';
 import {IconButtonType} from '../icon-button';
 
 @Component({
@@ -8,6 +8,8 @@ import {IconButtonType} from '../icon-button';
   styleUrls: ['./sticky-note.component.css']
 })
 export class StickyNoteComponent implements OnInit {
+
+  // noinspection TsLint
   private iconButtonType = IconButtonType;
 
   // @Input()
@@ -40,6 +42,6 @@ export class StickyNoteComponent implements OnInit {
   }
 }
 
-export enum StickyNoteMode{
+export enum StickyNoteMode {
   Edit, Vote, New, Display
 }

@@ -1,5 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {IconButtonType} from "./icon-button-type";
+import {IconButtonType} from './icon-button-type';
 import {HtmlUidGenerator} from '../html-uid-generator';
 
 @Component({
@@ -45,7 +45,7 @@ export class IconButtonComponent implements OnInit {
     if (this.buttonType.isToggleButton && !this.toggleStatus) {
       return this.buttonType.toggleClassName;
     }
-    return this.buttonType.className
+    return this.buttonType.className;
   }
 
   public get isToggleButton(): boolean {

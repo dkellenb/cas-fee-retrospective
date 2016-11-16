@@ -28,11 +28,10 @@ export class AuthenticationService {
     return this.authenticationToken.isStored();
   }
 
-  //ToDo use jwt for decoding. (still some Problems with adding jsonwebtoken to the cli projekt with webpack...)
+  // ToDo use jwt for decoding. (still some Problems with adding jsonwebtoken to the cli projekt with webpack...)
   public getLoggedInUser(): IUser {
     let tokenParts: string[] = this.getAuthenticationToken().split('.');
-    let userString = Base64.decode(tokenParts[1]);
-    return JSON.parse(Base64.decode(tokenParts[1])); //decode(this.getAuthenticationToken());
+    return JSON.parse(Base64.decode(tokenParts[1])); // decode(this.getAuthenticationToken());
   }
 
   public logoutUser() {

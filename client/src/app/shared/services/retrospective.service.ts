@@ -12,17 +12,24 @@ export class RetrospectiveService {
 
   private _currentRetrospective: IBasicRetrospective<IUser>;
 
+  public static extractRetrospectiveIdFromLocation(location: string): string {
+    if (location == null) {
+      return null;
+    }
+    let id: string = location.substring((location.lastIndexOf('/') + 1), location.length);
+    console.log('id for retrospective is: ' + id);
+    return id;
+  }
+
   constructor(private userService: UserService,
               private authService: AuthenticationService,
               private configuration: ConfigurationService,
               private http: Http) {
   }
 
-
   public joinRetrospective(sessionKey: string, shortName?: string): string {
     return sessionKey;
   }
-
 
   public createRetrospective(sessionTitle: string, sessionDescription: string, shortName?: string): Observable<string> {
     let retrospective = <IBasicRetrospective<IUser>>{};
@@ -73,21 +80,12 @@ export class RetrospectiveService {
         }).map(response => {
         this._currentRetrospective = response.json();
         return this._currentRetrospective;
-      })
+      });
     });
   }
 
   public get currentRetrospective(): IBasicRetrospective<IUser> {
     return this._currentRetrospective;
-  }
-
-  public static extractRetrospectiveIdFromLocation(location: string): string {
-    if (location == null) {
-      return null;
-    }
-    let id: string = location.substring((location.lastIndexOf('/') + 1), location.length);
-    console.log('id for retrospective is: ' + id);
-    return id;
   }
 
 }

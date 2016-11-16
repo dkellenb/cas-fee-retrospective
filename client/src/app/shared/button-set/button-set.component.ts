@@ -19,7 +19,7 @@ export class ButtonSetComponent implements OnInit {
 @Directive({
   selector: '[rsb-button-set-element]',
 })
-export class ButtonSetElement {
+export class ButtonSetElementDirective {
   constructor(public el: ElementRef, public renderer: Renderer) {
     renderer.setElementClass(el.nativeElement, 'button-set_element', true);
   }

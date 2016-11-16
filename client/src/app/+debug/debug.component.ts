@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-debug',
+  selector: 'rsb-debug',
   templateUrl: './debug.component.html',
   styleUrls: ['./debug.component.css']
 })

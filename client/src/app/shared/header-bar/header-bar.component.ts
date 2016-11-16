@@ -21,7 +21,7 @@ export class HeaderBarComponent implements OnInit {
 @Directive({
   selector: 'rsb-header-bar-title'
 })
-export class HeaderBarTitle {
+export class HeaderBarTitleDirective {
 }
 
 /**
@@ -30,7 +30,7 @@ export class HeaderBarTitle {
 @Directive({
   selector: 'rsb-header-bar-menu'
 })
-export class HeaderBarMenu {
+export class HeaderBarMenuDirective {
 }
 
 
