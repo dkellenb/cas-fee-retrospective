@@ -1,5 +1,6 @@
 import { injectable } from 'inversify';
-import {RetrospectiveStatus} from '../../../shared/src/model';
+import * as SocketIO from 'socket.io';
+import { RetrospectiveStatus } from '../../../shared/src/model';
 
 @injectable()
 export class WebSocketService {

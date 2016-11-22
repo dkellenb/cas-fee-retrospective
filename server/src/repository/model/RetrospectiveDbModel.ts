@@ -42,6 +42,7 @@ export class PersistedRetrospectiveTopic implements IPersistedRetrospectiveTopic
 export class PersistedRetrospectiveComment implements IPersistedRetrospectiveComment {
   uuid: string;
   title: string;
+  topicUuid: string;
   description: string;
   anonymous: boolean;
   author: mongodb.ObjectID;

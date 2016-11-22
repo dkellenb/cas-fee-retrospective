@@ -37,10 +37,6 @@ Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.
 Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/). 
 Before running the tests make sure you are serving the app via `ng serve`.
 
-#### Deploying to Github Pages
-
-Run `ng github-pages:deploy` to deploy to Github Pages.
-
 ### Server Development
 
 Server is available in /server/ folder.
@@ -50,3 +46,8 @@ Server is available in /server/ folder.
  
  If you want to run the unit tests, simply use `npm test <example>/**/*.spec.ts`  
  To run all tests simply run `npm run test:all`
+
+### Deploying to Github Pages
+
+Run `ng github-pages:deploy` to deploy to Github Pages.
+

@@ -5,7 +5,7 @@ import * as express from 'express';
 import * as http from 'http';
 import * as bodyParser from 'body-parser';
 import {Provider} from 'nconf';
-import {interfaces, InversifyExpressServer, TYPE} from 'inversify-express-utils';
+import {Controller, InversifyExpressServer, TYPE} from 'inversify-express-utils';
 import {Kernel} from 'inversify';
 import TYPES from './constant/types';
 import TAGS from './constant/tags';
@@ -23,7 +23,7 @@ class RetroServer {
 
   private config: Provider;
   private kernel: Kernel;
-  private inversifyExpressServer: InversifyExpressServer;
+  private inversifyExpressServer: any;
   private app: express.Application;
   private serverInstance: http.Server;
   private databaseConnection: any;
@@ -65,8 +65,8 @@ class RetroServer {
     console.log('Setup Kernel');
     let kernel = new Kernel();
 
-    kernel.bind<interfaces.Controller>(TYPE.Controller).to(RetrospectiveController).whenTargetNamed(TAGS.RetrospectiveController);
-    kernel.bind<interfaces.Controller>(TYPE.Controller).to(UserController).whenTargetNamed(TAGS.UserController);
+    kernel.bind<Controller>(TYPE.Controller).to(RetrospectiveController).whenTargetNamed(TAGS.RetrospectiveController);
+    kernel.bind<Controller>(TYPE.Controller).to(UserController).whenTargetNamed(TAGS.UserController);
 
     kernel.bind<RetrospectiveService>(TYPES.RetrospectiveService).to(RetrospectiveService).inSingletonScope();
     kernel.bind<RetrospectiveRepository>(TYPES.RetrospectiveRepository).to(RetrospectiveRepository).inSingletonScope();
