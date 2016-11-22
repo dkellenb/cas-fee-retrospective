@@ -61,7 +61,7 @@
     "nyc": "9.0.1",
     "reflect-metadata": "^0.1.8",
     "ts-node": "1.7.0",
-    "tslint": "^3.6.0",
+    "tslint": "3.13.0",
     "typemoq": "^0.3.3",
     "typescript": "2.0.9"
   },
