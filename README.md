@@ -47,4 +47,6 @@ Server is available in /server/ folder.
 
  * Prepare: /server/$ `npm install`
  * Run Server: /server/$ `npm start` or use /server/$ `nodemon`
- * Run Tests: /server/$ `npm test`
+ 
+ If you want to run the unit tests, simply use `npm test <example>/**/*.spec.ts`  
+ To run all tests simply run `npm run test:all`
