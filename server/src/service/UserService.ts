@@ -91,7 +91,6 @@ export class UserService {
         } else if (!user) {
           reject(new UserUnknown('This user is unknown to the system.'));
         } else {
-          console.log('Try fetch ' + jwtUuid + ' from ' + JSON.stringify(user));
           let singleToken = (user.tokens || []).find(t => t.uuid === jwtUuid);
           if (singleToken !== null) {
             console.log('Token found: ' + JSON.stringify(singleToken));

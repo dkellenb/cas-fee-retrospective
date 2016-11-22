@@ -41,7 +41,7 @@ export class WebSocketService {
   }
 
   public retrospectiveStatusChanged(retrospectiveId: string, newStatus: RetrospectiveStatus) {
-    this.socketIO.sockets.in(retrospectiveId).emit('statusChanged', { 'newStatus': newStatus });
+    this.socketIO.sockets.in(retrospectiveId).emit('statusChanged', newStatus);
   }
 
 }

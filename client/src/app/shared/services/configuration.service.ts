@@ -8,6 +8,8 @@ export class ConfigurationService {
 
   private static serverRestApiBaseUrl: string = ConfigurationService.serverHostUrl + '/rest';
 
+  private static serverSocketBaseUrl: String = ConfigurationService.serverHostUrl + '/socket';
+
   // Endpoints
   private static userEndpoint: string = '/users';
   private static retrospectiveEndpoint: string = '/retrospectives';
@@ -29,6 +31,10 @@ export class ConfigurationService {
 
   public get retrospectiveEndpoint(): string {
     return ConfigurationService.serverRestApiBaseUrl + ConfigurationService.retrospectiveEndpoint;
+  }
+
+  public get webSocketUrl(): string {
+    return ConfigurationService.serverSocketBaseUrl;
   }
 
 }
