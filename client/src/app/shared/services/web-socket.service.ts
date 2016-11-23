@@ -4,7 +4,7 @@ import * as io from 'socket.io-client';
 import { ConfigurationService } from './configuration.service';
 
 @Injectable()
-export class SocketServiceService {
+export class WebSocketService {
 
   private socket: SocketIOClient.Socket;
 
@@ -12,8 +12,9 @@ export class SocketServiceService {
   }
 
   get(retrospectiveId: string): Observable<any> {
+    console.log('Why i am called?');
     if (!this.socket) {
-      let socketUrl = this.configurationService.webSocketUrl();
+      let socketUrl = this.configurationService.webSocketUrl;
       this.socket = io.connect(socketUrl);
       this.socket.on('connect', () => this.connect(retrospectiveId));
       this.socket.on('disconnect', () => this.disconnect(retrospectiveId));

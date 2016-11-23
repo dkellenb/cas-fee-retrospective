@@ -3,9 +3,10 @@ import {UserService} from './user.service';
 import {AuthenticationService} from './authentication.service';
 import {CreateRetrospectiveJSON, IBasicRetrospective, IRetrospectiveUser} from '../../../../../shared/src/model';
 import {ConfigurationService} from './configuration.service';
-import {Http} from '@angular/http';
 import {Observable} from 'rxjs';
 import {AuthHttp} from 'angular2-jwt';
+import {IBasicRetrospectiveComment, UpdateCommentJSON} from '../../../../../shared/src/model/RetrospectiveDomainModel';
+import {WebSocketService} from './web-socket.service';
 
 @Injectable()
 export class RetrospectiveService {
@@ -24,14 +25,19 @@ export class RetrospectiveService {
   constructor(private userService: UserService,
               private authService: AuthenticationService,
               private configuration: ConfigurationService,
+              private webSocketService: WebSocketService,
               private authHttp: AuthHttp
   ) {
+  }
+
+  public getCurrent(): IBasicRetrospective<IRetrospectiveUser> {
+    return this._currentRetrospective;
   }
 
   public joinRetrospective(retrospectiveId: string, shortName?: string): Observable<boolean> {
     return this.setupUser(shortName).flatMap(success => {
       if (success) {
-        return this.authHttp.post(this.configuration.retrospectiveEndpoint + '/' + retrospectiveId + '/attendees', '').map(response => {
+        return this.authHttp.post(this.createRetrospectiveIdEndpoint(retrospectiveId) + '/attendees', '').map(response => {
           if (response.status === 204) {
             return true;
           } else {
@@ -90,10 +96,58 @@ export class RetrospectiveService {
         observer.complete();
       });
     }
-    return this.authHttp.get(this.configuration.retrospectiveEndpoint + '/' + retrospectiveId).map(response => {
+    return this.authHttp.get(this.createRetrospectiveIdEndpoint(retrospectiveId)).map(response => {
       this._currentRetrospective = response.json();
+      // TODO integrate websockets this.webSocketService.get(retrospectiveId)
       return this._currentRetrospective;
     });
+  }
+
+  public getComment(retrospectiveId: string, commentId: string): Observable<IBasicRetrospectiveComment<IRetrospectiveUser>> {
+    return this.authHttp.get(this.createSimpleCommentIdEndpoint(retrospectiveId, commentId)).map(response => {
+      if (response.status === 200) {
+        return response.json();
+      } else {
+        throw new Error(`Could not load comment "${commentId}" on retro "${retrospectiveId}"`);
+      }
+    });
+  }
+
+  public updateComment(retrospectiveId: string, topicId: string, commentId: string, update: UpdateCommentJSON):
+     Observable<IBasicRetrospectiveComment<IRetrospectiveUser>> {
+    return this.authHttp.put(this.createCommentIdEndpoint(retrospectiveId, topicId, commentId), update).map(response => {
+      if (response.status === 200) {
+        return response.json();
+      } else {
+        throw new Error(`Could not update comment "${commentId}" on retro "${retrospectiveId}"`);
+      }
+    });
+  }
+
+  public deleteComment(retrospectiveId: string, topicId: string, commentId: string): Observable<boolean> {
+    return this.authHttp.delete(this.createCommentIdEndpoint(retrospectiveId, topicId, commentId)).map(response => {
+      if (response.status === 204) {
+        return true;
+      } else {
+        throw new Error(`Could not delete comment "${commentId}" on retro "${retrospectiveId}"`);
+      }
+    });
+  }
+
+  private createRetrospectiveIdEndpoint(id: string) {
+    return this.configuration.retrospectiveEndpoint + '/' + id;
+  }
+
+  private createSimpleCommentIdEndpoint(retroId: string, commentId: string) {
+    return this.createRetrospectiveIdEndpoint(retroId) + '/comments/' + commentId;
+  }
+
+  private createTopicIdEndpoint(retroId: string, topicId: string) {
+    return this.createRetrospectiveIdEndpoint(retroId) + '/topics/' + topicId;
+  }
+
+  private createCommentIdEndpoint(retroId: string, topicId: string, commentId: string) {
+    return this.createTopicIdEndpoint(retroId, topicId) + '/comments/' + commentId;
   }
 
 }

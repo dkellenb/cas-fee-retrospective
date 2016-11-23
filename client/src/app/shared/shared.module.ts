@@ -24,6 +24,7 @@ import {GalleryComponent, GalleryElementComponent} from './gallery';
 import {CarouselModule} from './carousel';
 import {StickyNoteService} from './services/sticky-note.service';
 import {UserStatusComponent} from './user-status/user-status.component';
+import {WebSocketService} from './services/web-socket.service';
 
 @NgModule({
   declarations: [BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective, IconButtonComponent,
@@ -47,6 +48,7 @@ import {UserStatusComponent} from './user-status/user-status.component';
   ],
   providers: [
     ConfigurationService, RetrospectiveService, UserService, AuthenticationService, StickyNoteService,
+    WebSocketService,
     AUTH_PROVIDERS
   ]
 })
