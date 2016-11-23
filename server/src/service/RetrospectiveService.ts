@@ -167,8 +167,8 @@ export class RetrospectiveService {
   }
 
   public updateComment(currentUser: IUser, retroId: string, topicId: string, commentId: string, updateComment: UpdateCommentJSON):
-     Promise<PersistedRetrospectiveComment> {
-    return new Promise<PersistedRetrospectiveComment>((resolve, reject) => {
+     Promise<IPersistedRetrospectiveComment> {
+    return new Promise<IPersistedRetrospectiveComment>((resolve, reject) => {
       this.doCommentAction(currentUser, retroId, topicId, commentId, (error, pRetrospective, pTopic, pComment, pUser) => {
         if (error) {
           reject(error);
