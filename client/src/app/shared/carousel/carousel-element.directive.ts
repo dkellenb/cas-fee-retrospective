@@ -15,7 +15,6 @@ export class CarouselElementDirective {
   }
 
   public updateElement(): void {
-    console.log('update');
     if (this._isActive) {
       this.renderer.setElementStyle(this.el.nativeElement, 'left', this.leftPostion + '%');
       this.renderer.setElementStyle(this.el.nativeElement, 'z-index', '' + this.zIndex);

@@ -22,7 +22,7 @@ export class RetrospectiveComponent implements OnInit {
   ngOnInit() {
     this.route.params
       .switchMap((params: Params) => this.retrospectiveService.getRetrospective(params['id']))
-      .subscribe(retrospective => {
+      .first().subscribe(retrospective => {
         this.retrospective = retrospective;
 
         this.retrospective.topics.map(topic => {

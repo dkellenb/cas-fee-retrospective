@@ -26,7 +26,6 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnChanges() {
-    console.log('Carousel aktive: ' + this.carouselActive);
     this.updateCarouselElementPositions();
   }
 
@@ -39,12 +38,9 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   private updateCarouselElementPositions() {
-    console.log('activeTopElement: ' + this.topElement);
     if (this.getNumberOfElements() <= 0) {
-      console.log('no elements in carousel');
       return;
     }
-    console.log('update Elements');
     let stepSize = this.range / (this.getNumberOfElements() - 1);
     this.carouselElements.forEach(function (carouselElement: CarouselElementDirective, index: number) {
       carouselElement.order = index - this.topElement;
