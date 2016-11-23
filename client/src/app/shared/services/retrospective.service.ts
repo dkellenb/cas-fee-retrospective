@@ -103,6 +103,16 @@ export class RetrospectiveService {
     });
   }
 
+  public getAttendee(retrospectiveId: string, attendeeId: string): Observable<IRetrospectiveUser> {
+    return this.authHttp.get(this.createAttendeeIdEndpoint(retrospectiveId, attendeeId)).map(response => {
+      if (response.status === 200) {
+        return response.json();
+      } else {
+        throw new Error(`Could not load attendee "${attendeeId}" on retro "${retrospectiveId}`);
+      }
+    });
+  }
+
   public getComment(retrospectiveId: string, commentId: string): Observable<IBasicRetrospectiveComment<IRetrospectiveUser>> {
     return this.authHttp.get(this.createSimpleCommentIdEndpoint(retrospectiveId, commentId)).map(response => {
       if (response.status === 200) {
@@ -137,9 +147,10 @@ export class RetrospectiveService {
   private setupWebSocket(retrospectiveId: string) {
     this.webSocketService.get(retrospectiveId)
       .subscribe((websocketAction: WebSocketAction) => {
+      console.log('Receieved web socket action: ' + JSON.stringify(websocketAction));
         switch (websocketAction.action) {
           case 'newUser':
-            this.retrieveAndUpdateUser(websocketAction.id);
+            this.retrieveAndUpdateAttendee(websocketAction.id);
             break;
           case 'newComment':
             this.retrieveAndUpdateComment(websocketAction.id);
@@ -157,8 +168,17 @@ export class RetrospectiveService {
       });
   }
 
-  private retrieveAndUpdateUser(userId: string) {
-    // TODO
+  private retrieveAndUpdateAttendee(userId: string) {
+    this.getAttendee(this._currentRetrospective.uuid, userId).first().subscribe(
+      (attendee: IRetrospectiveUser) => {
+        let attendeeIndex = this._currentRetrospective.attendees.findIndex((a) => a.uuid === userId);
+        if (attendeeIndex >= 0) {
+          this._currentRetrospective.attendees[attendeeIndex] = attendee;
+        } else {
+          this._currentRetrospective.attendees.push(attendee);
+        }
+      }
+    );
   }
 
   private retrieveAndUpdateComment(commentId: string) {
@@ -189,6 +209,10 @@ export class RetrospectiveService {
 
   private createRetrospectiveIdEndpoint(id: string) {
     return this.configuration.retrospectiveEndpoint + '/' + id;
+  }
+
+  private createAttendeeIdEndpoint(retroId: string, attendeeId: string) {
+    return this.createRetrospectiveIdEndpoint(retroId) + '/attendee/' + attendeeId;
   }
 
   private createSimpleCommentIdEndpoint(retroId: string, commentId: string) {

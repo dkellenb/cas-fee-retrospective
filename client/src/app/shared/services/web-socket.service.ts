@@ -14,12 +14,13 @@ export class WebSocketService {
   get(retrospectiveId: string): Observable<WebSocketAction> {
     console.log('Why i am called?');
     if (!this.socket) {
-      let socketUrl = this.configurationService.webSocketUrl;
-      this.socket = io.connect(socketUrl);
+      this.socket = io.connect(this.configurationService.serverHostUrl, {
+        path: this.configurationService.webSocketUrl
+      });
       this.socket.on('connect', () => this.connect(retrospectiveId));
       this.socket.on('disconnect', () => this.disconnect(retrospectiveId));
       this.socket.on('error', (error: string) => {
-        console.log(`ERROR: "${error}" (${socketUrl})`);
+        console.log(`ERROR: "${error}" (${this.configurationService.webSocketUrl})`);
       });
     }
 
