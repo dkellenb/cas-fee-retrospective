@@ -1,0 +1,13 @@
+<rsb-carousel [carouselActive]="false">
+  <div class="board-grid">
+    <div rsbCarouselElement class="board-grid__element" *ngFor="let boardTitle of boardTitles;">
+      <rsb-board>
+        <rsb-board-title>{{boardTitle}}</rsb-board-title>
+        <rsb-board-body>
+          <rsb-comment-segment></rsb-comment-segment>
+          <rsb-comment-sticky-note-stack></rsb-comment-sticky-note-stack>
+        </rsb-board-body>
+      </rsb-board>
+    </div>
+  </div>
+</rsb-carousel>

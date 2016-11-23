@@ -1,20 +1,19 @@
 import {Component, OnInit} from '@angular/core';
+import {RetrospectiveStatus, IBasicRetrospective, IUser} from '../../../../../shared/src/model';
 import {ActivatedRoute, Params} from '@angular/router';
-import {RetrospectiveService} from '../../shared/';
-import {IBasicRetrospective, IUser} from '../../../../../shared/src/model';
+import {RetrospectiveService} from '../../shared/services/retrospective.service';
 
 @Component({
-  selector: 'rsb-comment',
-  templateUrl: './comment.component.html',
-  styleUrls: ['./comment.component.css']
+  selector: 'rsb-retrospective',
+  templateUrl: './retrospective.component.html',
+  styleUrls: ['./retrospective.component.css']
 })
-export class CommentComponent implements OnInit {
-
-
-  private retrospective: IBasicRetrospective<IUser>;
+export class RetrospectiveComponent implements OnInit {
 
   // noinspection TsLint
-  private boards: Board[] = [];
+  private boardTitles: string[] = [];
+
+  private retrospective: IBasicRetrospective<IUser>;
 
   constructor(private route: ActivatedRoute,
               private retrospectiveService: RetrospectiveService) {
@@ -27,16 +26,9 @@ export class CommentComponent implements OnInit {
         this.retrospective = retrospective;
 
         this.retrospective.topics.map(topic => {
-          this.boards.push(new Board(topic.name));
+          this.boardTitles.push(topic.name);
         });
         console.log(this.retrospective);
       });
   }
 }
-
-export class Board {
-  constructor(private title: string) {
-  }
-}
-
-

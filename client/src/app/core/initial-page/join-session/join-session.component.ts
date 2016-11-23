@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {IconButtonType} from '../../shared';
-import {AuthenticationService} from '../../shared/services/authentication.service';
+import {IconButtonType, AuthenticationService} from '../../../shared';
 
 @Component({
   selector: 'rsb-join-session',
-  templateUrl: './join-session.component.html',
-  styleUrls: ['./join-session.component.css']
+  templateUrl: 'join-session.component.html',
+  styleUrls: ['join-session.component.css']
 })
 export class JoinSessionComponent implements OnInit {
 

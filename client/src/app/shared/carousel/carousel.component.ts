@@ -1,5 +1,6 @@
-import {Component, OnInit, ContentChildren, QueryList, AfterViewInit, Input, OnChanges} from '@angular/core';
+import {Component, OnInit, ContentChildren, QueryList, AfterViewInit, Input, OnChanges, AfterContentInit, NgZone, ChangeDetectorRef} from '@angular/core';
 import {CarouselElementComponent} from './carousel-element/carousel-element.component';
+import {CarouselElementDirective} from './carousel-element.directive';
 
 @Component({
   selector: 'rsb-carousel',
@@ -11,8 +12,8 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
   private range: number = 25;
   private topElement: number = 0;
 
-  @ContentChildren(CarouselElementComponent)
-  private carouselElements: QueryList<CarouselElementComponent>;
+  @ContentChildren(CarouselElementDirective)
+  private carouselElements: QueryList<CarouselElementDirective>;
 
   @Input()
   private carouselActive: boolean = true;
@@ -25,28 +26,36 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnChanges() {
+    console.log('Carousel aktive: ' + this.carouselActive);
     this.updateCarouselElementPositions();
   }
 
   ngAfterViewInit(): void {
     this.updateCarouselElementPositions();
+    this.carouselElements.changes.subscribe(() => {
+      this.updateCarouselElementPositions();
+      }
+    );
   }
 
   private updateCarouselElementPositions() {
     console.log('activeTopElement: ' + this.topElement);
-    if (this.carouselElements.length <= 0) {
+    if (this.getNumberOfElements() <= 0) {
+      console.log('no elements in carousel');
       return;
     }
-    let stepSize = this.range / (this.carouselElements.length - 1);
-    this.carouselElements.forEach(function (carouselElement: CarouselElementComponent, index: number) {
+    console.log('update Elements');
+    let stepSize = this.range / (this.getNumberOfElements() - 1);
+    this.carouselElements.forEach(function (carouselElement: CarouselElementDirective, index: number) {
       carouselElement.order = index - this.topElement;
       carouselElement.stepSize = stepSize;
-      carouselElement.isCarouselActive = this.carouselActive;
+      carouselElement.isCarouselActive = this.isCarouselActive;
+      carouselElement.updateElement();
     }.bind(this));
   }
 
   public moveCarouselRight(): void {
-    if (this.topElement < (this.carouselElements.length - 1)) {
+    if (this.topElement < (this.getNumberOfElements() - 1)) {
       this.topElement++;
     }
     this.updateCarouselElementPositions();
@@ -60,7 +69,15 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   public showNavigationArrows(): boolean {
-    return (this.carouselElements.length > 1)
+    return (this.getNumberOfElements() > 1)
       && this.carouselActive;
+  }
+
+  private getNumberOfElements(): number {
+    return this.carouselElements ? this.carouselElements.length : 0;
+  }
+
+  public get isCarouselActive(): boolean {
+    return this.carouselActive;
   }
 }

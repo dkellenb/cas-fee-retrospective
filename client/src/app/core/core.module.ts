@@ -3,29 +3,19 @@ import {CommonModule} from '@angular/common';
 import {CoreComponent} from './core.component';
 import {throwIfAlreadyLoaded} from './module-import-guard';
 import {SharedModule} from './../shared';
-import {JoinSessionComponent} from './join-session';
-import {CreateSessionComponent} from './create-session';
-import {InitialPageComponent} from './initial-page';
-import {ReviewComponent} from './review';
-import {CommentModule} from './comment';
-import {VoteComponent} from './vote';
-import {ClosedComponent} from './closed';
 import {coreRouting} from './core-routes';
+import {RetrospectiveModule} from './retrospective/retrospective.module';
+import {InitialPageModule} from './initial-page';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
+    RetrospectiveModule,
+    InitialPageModule,
     coreRouting,
-    CommentModule
   ],
-  declarations: [CoreComponent,
-    JoinSessionComponent,
-    CreateSessionComponent,
-    InitialPageComponent,
-    ReviewComponent,
-    VoteComponent,
-    ClosedComponent],
+  declarations: [CoreComponent],
   exports: [CoreComponent]
 })
 export class CoreModule {
