@@ -11,7 +11,7 @@ export class WebSocketService {
   constructor(private configurationService: ConfigurationService) {
   }
 
-  get(retrospectiveId: string): Observable<any> {
+  get(retrospectiveId: string): Observable<WebSocketAction> {
     console.log('Why i am called?');
     if (!this.socket) {
       let socketUrl = this.configurationService.webSocketUrl;
@@ -49,4 +49,10 @@ export class WebSocketService {
     console.log(`Disconnect from "${retrospectiveId}`);
   }
 
+}
+
+export class WebSocketAction {
+  action: string;
+  id?: string;
+  newStatus?: string;
 }

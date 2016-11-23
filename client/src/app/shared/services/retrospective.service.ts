@@ -6,7 +6,7 @@ import {ConfigurationService} from './configuration.service';
 import {Observable} from 'rxjs';
 import {AuthHttp} from 'angular2-jwt';
 import {IBasicRetrospectiveComment, UpdateCommentJSON} from '../../../../../shared/src/model/RetrospectiveDomainModel';
-import {WebSocketService} from './web-socket.service';
+import {WebSocketService, WebSocketAction} from './web-socket.service';
 
 @Injectable()
 export class RetrospectiveService {
@@ -98,7 +98,7 @@ export class RetrospectiveService {
     }
     return this.authHttp.get(this.createRetrospectiveIdEndpoint(retrospectiveId)).map(response => {
       this._currentRetrospective = response.json();
-      // TODO integrate websockets this.webSocketService.get(retrospectiveId)
+      this.setupWebSocket(retrospectiveId);
       return this._currentRetrospective;
     });
   }
@@ -130,6 +130,59 @@ export class RetrospectiveService {
         return true;
       } else {
         throw new Error(`Could not delete comment "${commentId}" on retro "${retrospectiveId}"`);
+      }
+    });
+  }
+
+  private setupWebSocket(retrospectiveId: string) {
+    this.webSocketService.get(retrospectiveId)
+      .subscribe((websocketAction: WebSocketAction) => {
+        switch (websocketAction.action) {
+          case 'newUser':
+            this.retrieveAndUpdateUser(websocketAction.id);
+            break;
+          case 'newComment':
+            this.retrieveAndUpdateComment(websocketAction.id);
+            break;
+          case 'updatedComment':
+            this.retrieveAndUpdateComment(websocketAction.id);
+            break;
+          case 'deletedComment':
+            this.updatedDeletedComment(websocketAction.id);
+            break;
+          case 'newStatus':
+            console.log('Change status');
+            break;
+        }
+      });
+  }
+
+  private retrieveAndUpdateUser(userId: string) {
+    // TODO
+  }
+
+  private retrieveAndUpdateComment(commentId: string) {
+    this.getComment(this._currentRetrospective.uuid, commentId).first().subscribe(
+      (comment: IBasicRetrospectiveComment<IRetrospectiveUser>) => {
+        let topics = this._currentRetrospective.topics
+          .filter((t) => t.uuid === comment.topicUuid);
+        if (topics && topics.length === 1) {
+          let commentIndex = topics[0].comments.findIndex((c => c.uuid === commentId));
+          if (commentIndex >= 0) {
+            topics[0].comments[commentIndex] = comment;
+          } else {
+            topics[0].comments.push(comment);
+          }
+        }
+      }
+    );
+  }
+
+  private updatedDeletedComment(commentId: string) {
+    this._currentRetrospective.topics.forEach((topic) => {
+      let commentIndex = topic.comments.findIndex((c) => c.uuid === commentId);
+      if (commentIndex >= 0) {
+        topic.comments = topic.comments.splice(commentIndex);
       }
     });
   }
