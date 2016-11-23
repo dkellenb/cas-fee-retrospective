@@ -5,7 +5,7 @@ import {CreateSessionComponent} from './create-session.component';
 
 describe('Component: CreateSession', () => {
   it('should create an instance', () => {
-    let component = new CreateSessionComponent(null, null);
+    let component = new CreateSessionComponent(null, null,null,null);
     expect(component).toBeTruthy();
   });
 });

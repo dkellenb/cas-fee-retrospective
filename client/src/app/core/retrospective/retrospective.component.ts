@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {RetrospectiveStatus, IBasicRetrospective, IUser} from '../../../../../shared/src/model';
 import {ActivatedRoute, Params} from '@angular/router';
-import {RetrospectiveService} from '../../shared/services/retrospective.service';
+import {RetrospectiveService} from '../services/retrospective.service';
 
 @Component({
   selector: 'rsb-retrospective',

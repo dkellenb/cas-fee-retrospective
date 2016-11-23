@@ -6,6 +6,7 @@ import {SharedModule} from './../shared';
 import {coreRouting} from './core-routes';
 import {RetrospectiveModule} from './retrospective/retrospective.module';
 import {InitialPageModule} from './initial-page';
+import {RetrospectiveService, UserService, WebSocketService} from './services';
 
 @NgModule({
   imports: [
@@ -16,7 +17,8 @@ import {InitialPageModule} from './initial-page';
     coreRouting,
   ],
   declarations: [CoreComponent],
-  exports: [CoreComponent]
+  exports: [CoreComponent],
+  providers: [RetrospectiveService, WebSocketService, UserService]
 })
 export class CoreModule {
 

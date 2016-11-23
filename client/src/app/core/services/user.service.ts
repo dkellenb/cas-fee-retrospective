@@ -1,11 +1,10 @@
 import {Injectable} from '@angular/core';
-import {ConfigurationService} from './configuration.service';
 import {Http} from '@angular/http';
-import {IUser, CreateUserJSON} from '../../../../../shared/src/model';
 import 'rxjs/Rx';
 import {Observable} from 'rxjs/Rx';
-import {AuthenticationService} from './authentication.service';
+import {AuthenticationService, ConfigurationService} from '../../shared';
 import {AuthHttp} from 'angular2-jwt';
+import {CreateUserJSON, IUser} from '../../../../../shared/src/model';
 
 @Injectable()
 export class UserService {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import * as io from 'socket.io-client';
-import { ConfigurationService } from './configuration.service';
+import { ConfigurationService } from '../../shared';
 
 @Injectable()
 export class WebSocketService {

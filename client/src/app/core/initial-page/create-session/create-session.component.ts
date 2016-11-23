@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {IconButtonType, AuthenticationService, RetrospectiveService} from '../../../shared';
+import {IconButtonType, AuthenticationService} from '../../../shared';
 import {Router, ActivatedRoute} from '@angular/router';
+import {RetrospectiveService} from '../../services';
 
 @Component({
   selector: 'rsb-create-session',

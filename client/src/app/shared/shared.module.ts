@@ -18,13 +18,12 @@ import {TextInputComponent} from './text-input/text-input.component';
 import {ButtonSetComponent, ButtonSetElementDirective} from './button-set';
 import {ButtonSetTextComponent} from './button-set-text';
 import {FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective} from './form';
-import {ConfigurationService, RetrospectiveService, UserService, AuthenticationService} from './services';
+import {ConfigurationService, AuthenticationService} from './services';
 import {StickyNoteComponent} from './sticky-note/sticky-note.component';
 import {GalleryComponent, GalleryElementComponent} from './gallery';
 import {CarouselModule} from './carousel';
 import {StickyNoteService} from './services/sticky-note.service';
 import {UserStatusComponent} from './user-status/user-status.component';
-import {WebSocketService} from './services/web-socket.service';
 
 @NgModule({
   declarations: [BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective, IconButtonComponent,
@@ -47,8 +46,7 @@ import {WebSocketService} from './services/web-socket.service';
     UserStatusComponent
   ],
   providers: [
-    ConfigurationService, RetrospectiveService, UserService, AuthenticationService, StickyNoteService,
-    WebSocketService,
+    ConfigurationService, AuthenticationService, StickyNoteService,
     AUTH_PROVIDERS
   ]
 })

@@ -1,11 +1,12 @@
 import {Injectable} from '@angular/core';
 import {UserService} from './user.service';
-import {AuthenticationService} from './authentication.service';
-import {CreateRetrospectiveJSON, IBasicRetrospective, IRetrospectiveUser} from '../../../../../shared/src/model';
-import {ConfigurationService} from './configuration.service';
+import {
+  CreateRetrospectiveJSON, IBasicRetrospective, IRetrospectiveUser,
+  IBasicRetrospectiveComment, UpdateCommentJSON
+} from '../../../../../shared/src/model';
+import {ConfigurationService, AuthenticationService} from '../../shared/';
 import {Observable} from 'rxjs';
 import {AuthHttp} from 'angular2-jwt';
-import {IBasicRetrospectiveComment, UpdateCommentJSON} from '../../../../../shared/src/model/RetrospectiveDomainModel';
 import {WebSocketService, WebSocketAction} from './web-socket.service';
 
 @Injectable()
@@ -26,8 +27,7 @@ export class RetrospectiveService {
               private authService: AuthenticationService,
               private configuration: ConfigurationService,
               private webSocketService: WebSocketService,
-              private authHttp: AuthHttp
-  ) {
+              private authHttp: AuthHttp) {
   }
 
   public getCurrent(): IBasicRetrospective<IRetrospectiveUser> {
@@ -123,8 +123,7 @@ export class RetrospectiveService {
     });
   }
 
-  public updateComment(retrospectiveId: string, topicId: string, commentId: string, update: UpdateCommentJSON):
-     Observable<IBasicRetrospectiveComment<IRetrospectiveUser>> {
+  public updateComment(retrospectiveId: string, topicId: string, commentId: string, update: UpdateCommentJSON): Observable<IBasicRetrospectiveComment<IRetrospectiveUser>> {
     return this.authHttp.put(this.createCommentIdEndpoint(retrospectiveId, topicId, commentId), update).map(response => {
       if (response.status === 200) {
         return response.json();
@@ -147,7 +146,7 @@ export class RetrospectiveService {
   private setupWebSocket(retrospectiveId: string) {
     this.webSocketService.get(retrospectiveId)
       .subscribe((websocketAction: WebSocketAction) => {
-      console.log('Receieved web socket action: ' + JSON.stringify(websocketAction));
+        console.log('Receieved web socket action: ' + JSON.stringify(websocketAction));
         switch (websocketAction.action) {
           case 'newUser':
             this.retrieveAndUpdateAttendee(websocketAction.id);

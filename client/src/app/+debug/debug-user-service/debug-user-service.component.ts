@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {IconButtonType, UserService, AuthenticationService} from '../../shared';
+import {IconButtonType, AuthenticationService} from '../../shared';
+import {UserService} from '../../core/services/user.service';
 
 @Component({
   selector: 'rsb-debug-user-service',
