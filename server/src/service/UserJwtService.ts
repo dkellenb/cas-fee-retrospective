@@ -16,12 +16,12 @@ export class UserJwtService {
     let authorization = request.header('Authorization');
     if (authorization && authorization.indexOf('Bearer') >= 0) {
       let jwt = authorization.substring(7);
+      jwt = jwt.replace(/\"/g, '');
       let decoded = null;
       try {
         decoded = <IUserJwt>verify(jwt, this.jwtKeyProvider.getKey());
-        console.log('Decoded ' + JSON.stringify(decoded));
       } catch (err) {
-        console.log('Invalid JWT: ' + jwt);
+        console.log('Invalid JWT: ' + jwt + ' (Error: ' + err + ')');
         throw new InvalidJwt('Passed JWT ' + jwt + ' is invalid');
       }
 
@@ -35,7 +35,9 @@ export class UserJwtService {
   }
 
   public createJwt(user: IUserJwt): string {
-    return sign(user, this.jwtKeyProvider.getKey());
+    let createdJwt = sign(user, this.jwtKeyProvider.getKey());
+    console.log(createdJwt);
+    return createdJwt;
   }
 
 }

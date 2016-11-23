@@ -1,14 +1,15 @@
 import {Injectable} from '@angular/core';
 import {LocalStorageItem} from './local-storage-item';
 import {IUser} from '../../../../../shared/src/model';
-import {Base64} from 'js-base64';
+import {JwtHelper} from 'angular2-jwt';
 
 @Injectable()
 export class AuthenticationService {
 
-  private static AUTH_KEY = 'authToken';
+  private static AUTH_KEY = 'id_token';
 
   private authenticationToken: LocalStorageItem<string> = new LocalStorageItem<string>(AuthenticationService.AUTH_KEY);
+  private jwtHelper: JwtHelper = new JwtHelper();
 
   constructor() {
   }
@@ -28,14 +29,12 @@ export class AuthenticationService {
     return this.authenticationToken.isStored();
   }
 
-  // TODO use jwt for decoding. (still some Problems with adding jsonwebtoken to the cli projekt with webpack...)
-  // Suggestion: Retrieve from /rest/users/currentUser
   public getLoggedInUser(): IUser {
-    let tokenParts: string[] = this.getAuthenticationToken().split('.');
-    return JSON.parse(Base64.decode(tokenParts[1])); // decode(this.getAuthenticationToken());
+    return this.jwtHelper.decodeToken(this.getAuthenticationToken());
   }
 
   public logoutUser() {
     this.authenticationToken.deleteCache();
   }
+
 }

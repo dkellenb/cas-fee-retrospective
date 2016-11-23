@@ -6,6 +6,9 @@ import {HttpModule} from '@angular/http';
 import {RouterModule} from '@angular/router';
 import {FormsModule}   from '@angular/forms';
 
+// 3rd party
+import { AUTH_PROVIDERS } from 'angular2-jwt';
+
 // Shared
 import {BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective} from './board';
 import {IconButtonComponent} from './icon-button';
@@ -21,6 +24,7 @@ import {GalleryComponent, GalleryElementComponent} from './gallery';
 import {CarouselModule} from './carousel';
 import {StickyNoteService} from './services/sticky-note.service';
 import {UserStatusComponent} from './user-status/user-status.component';
+import {WebSocketService} from './services/web-socket.service';
 
 @NgModule({
   declarations: [BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective, IconButtonComponent,
@@ -42,7 +46,11 @@ import {UserStatusComponent} from './user-status/user-status.component';
     StickyNoteComponent, GalleryComponent, GalleryElementComponent, CarouselModule,
     UserStatusComponent
   ],
-  providers: [ConfigurationService, RetrospectiveService, UserService, AuthenticationService, StickyNoteService]
+  providers: [
+    ConfigurationService, RetrospectiveService, UserService, AuthenticationService, StickyNoteService,
+    WebSocketService,
+    AUTH_PROVIDERS
+  ]
 })
 export class SharedModule {
 }

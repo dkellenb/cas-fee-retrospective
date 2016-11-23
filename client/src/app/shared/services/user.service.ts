@@ -5,11 +5,13 @@ import {IUser, CreateUserJSON} from '../../../../../shared/src/model';
 import 'rxjs/Rx';
 import {Observable} from 'rxjs/Rx';
 import {AuthenticationService} from './authentication.service';
+import {AuthHttp} from 'angular2-jwt';
 
 @Injectable()
 export class UserService {
 
-  constructor(private http: Http, private configuration: ConfigurationService, private authentication: AuthenticationService) {
+  constructor(private http: Http, private authHttp: AuthHttp, private configuration: ConfigurationService,
+              private authentication: AuthenticationService) {
 
   }
 
@@ -28,8 +30,9 @@ export class UserService {
       res => {
         let location: string = res.headers.get('Location');
         return this.lookupAuthToken(location).map(
-          authToke => {
-            this.authentication.setAuthenticationToken(authToke);
+          authToken => {
+            console.log('Token retrieved: ' + authToken);
+            this.authentication.setAuthenticationToken(authToken);
             return true;
           },
           e => {
@@ -52,19 +55,19 @@ export class UserService {
 
 
   public getUser(id: string): Observable < IUser > {
-    return this.http.get(this.createUserIdEndpoint(id)).map(res => {
+    return this.authHttp.get(this.createUserIdEndpoint(id)).map(res => {
       return res.json();
     });
   }
 
   public updateUser(id: string, user: IUser): Observable < IUser > {
-    return this.http.get(this.createUserIdEndpoint(id)).map(res => {
+    return this.authHttp.get(this.createUserIdEndpoint(id)).map(res => {
       return res.json();
     });
   }
 
   public deleteUser(id: string): Observable < IUser > {
-    return this.http.delete(this.createUserIdEndpoint(id)).map(res => {
+    return this.authHttp.delete(this.createUserIdEndpoint(id)).map(res => {
       return res.json();
     });
   }
