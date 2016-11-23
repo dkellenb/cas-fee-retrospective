@@ -212,7 +212,7 @@ export class RetrospectiveService {
   }
 
   private createAttendeeIdEndpoint(retroId: string, attendeeId: string) {
-    return this.createRetrospectiveIdEndpoint(retroId) + '/attendee/' + attendeeId;
+    return this.createRetrospectiveIdEndpoint(retroId) + '/attendees/' + attendeeId;
   }
 
   private createSimpleCommentIdEndpoint(retroId: string, commentId: string) {
