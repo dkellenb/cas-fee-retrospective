@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {RetrospectiveStatus, IBasicRetrospective, IUser} from '../../../../../shared/src/model';
-import {ActivatedRoute, Params} from '@angular/router';
+import {IBasicRetrospective, IRetrospectiveUser} from '../../../../../shared/src/model';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import {RetrospectiveService} from '../services/retrospective.service';
 
 @Component({
@@ -10,25 +10,21 @@ import {RetrospectiveService} from '../services/retrospective.service';
 })
 export class RetrospectiveComponent implements OnInit {
 
-  // noinspection TsLint
-  private boardTitles: string[] = [];
-
-  private retrospective: IBasicRetrospective<IUser>;
+  private retrospective: IBasicRetrospective<IRetrospectiveUser>;
 
   constructor(private route: ActivatedRoute,
-              private retrospectiveService: RetrospectiveService) {
+              private retrospectiveService: RetrospectiveService, private router: Router) {
   }
 
   ngOnInit() {
-    this.route.params
-      .switchMap((params: Params) => this.retrospectiveService.getRetrospective(params['id']))
-      .first().subscribe(retrospective => {
+    this.route.params.switchMap((params: Params) => this.retrospectiveService.getRetrospective(params['id']))
+      .first()
+      .subscribe(retrospective => {
         this.retrospective = retrospective;
-
-        this.retrospective.topics.map(topic => {
-          this.boardTitles.push(topic.name);
-        });
-        console.log(this.retrospective);
+        console.log('load Retrospective with UUID: ' + this.retrospective.uuid);
+      }, e => {
+        console.log('Wasn\'t able to finde Retrospective');
+        this.router.navigate(['']);
       });
   }
 }
