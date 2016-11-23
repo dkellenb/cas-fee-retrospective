@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, KeyValueDiffers} from '@angular/core';
 
 @Component({
   selector: 'rsb-carousel-element',
@@ -11,43 +11,58 @@ export class CarouselElementComponent implements OnInit {
   private _absOrder = 0;
   private _stepSize = 0;
   private _scaleSize = 1;
+  private _isActive = true;
 
   constructor() {
   }
 
-  get order(): number {
-    return this._order;
+  @Input()
+  public set isCarouselActive(active: boolean) {
+    this._isActive = active;
   }
 
   @Input()
-  set order(value) {
+  public set order(value) {
     this._order = value;
     this._absOrder = Math.abs(value);
   }
 
-  get stepSize(): number {
-    return this._stepSize;
-  }
-
   @Input()
-  set stepSize(value) {
+  public set stepSize(value) {
     this._stepSize = value;
     this._scaleSize = value / 100;
   }
 
-  public get leftPostion(): number {
+  private get leftPostion(): number {
     return (this._order * this._stepSize) + 50;
   }
 
-  public get zIndex(): number {
+  private get zIndex(): number {
     return 1000 - this._absOrder;
-  };
+  }
 
-  public get scale(): number {
+  private get scale(): number {
     return 1 - (this._absOrder * this._scaleSize);
-  };
+  }
+
+  public get style(): any {
+    if (this._isActive) {
+      return {
+        'left': this.leftPostion + '%',
+        'z-index': this.zIndex,
+        'transform': 'translate(-50%, 0) scale(' + this.scale + ')'
+      };
+    } else {
+      return {};
+    }
+  }
+
+  public get isCarouselActive() {
+    return this._isActive;
+  }
 
   ngOnInit() {
   }
+
 
 }

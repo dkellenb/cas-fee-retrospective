@@ -1,8 +1,4 @@
-<div class="carousel__element"
-     [ngStyle]="{
-     'left': leftPostion+'%',
-     'z-index':zIndex,
-     'transform': 'translate(-50%, 0) scale('+scale+')'
-     }">
+<div [class.carousel__element]="isCarouselActive"
+     [ngStyle]="style">
   <ng-content></ng-content>
 </div>

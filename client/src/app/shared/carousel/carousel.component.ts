@@ -1,4 +1,4 @@
-import {Component, OnInit, ContentChildren, QueryList, AfterViewInit} from '@angular/core';
+import {Component, OnInit, ContentChildren, QueryList, AfterViewInit, Input, OnChanges} from '@angular/core';
 import {CarouselElementComponent} from './carousel-element/carousel-element.component';
 
 @Component({
@@ -6,7 +6,7 @@ import {CarouselElementComponent} from './carousel-element/carousel-element.comp
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.css']
 })
-export class CarouselComponent implements OnInit, AfterViewInit {
+export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
 
   private range: number = 25;
   private topElement: number = 0;
@@ -14,11 +14,18 @@ export class CarouselComponent implements OnInit, AfterViewInit {
   @ContentChildren(CarouselElementComponent)
   private carouselElements: QueryList<CarouselElementComponent>;
 
+  @Input()
+  private carouselActive: boolean = true;
+
   constructor() {
     this.topElement = 0;
   }
 
   ngOnInit() {
+  }
+
+  ngOnChanges() {
+    this.updateCarouselElementPositions();
   }
 
   ngAfterViewInit(): void {
@@ -34,21 +41,26 @@ export class CarouselComponent implements OnInit, AfterViewInit {
     this.carouselElements.forEach(function (carouselElement: CarouselElementComponent, index: number) {
       carouselElement.order = index - this.topElement;
       carouselElement.stepSize = stepSize;
+      carouselElement.isCarouselActive = this.carouselActive;
     }.bind(this));
   }
 
-  public moveCarouselLeft(): void {
+  public moveCarouselRight(): void {
     if (this.topElement < (this.carouselElements.length - 1)) {
       this.topElement++;
     }
     this.updateCarouselElementPositions();
   }
 
-  public moveCarouselRight(): void {
+  public moveCarouselLeft(): void {
     if (this.topElement > 0) {
       this.topElement--;
     }
     this.updateCarouselElementPositions();
   }
 
+  public showNavigationArrows(): boolean {
+    return (this.carouselElements.length > 1)
+      && this.carouselActive;
+  }
 }
