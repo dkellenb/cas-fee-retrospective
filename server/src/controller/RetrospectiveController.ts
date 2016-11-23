@@ -26,7 +26,7 @@ export class RetrospectiveController {
       .then((retrospectives) => response.send(retrospectives))
       .catch((err) => {
         console.log(err);
-        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+        response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});
       });
   }
 
@@ -37,7 +37,7 @@ export class RetrospectiveController {
       .then((createdRetrospective) => response.location('/rest/retrospectives/' + createdRetrospective.uuid).sendStatus(201))
       .catch((err) => {
         console.log(err);
-        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+        response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});
       });
   }
 
@@ -48,7 +48,7 @@ export class RetrospectiveController {
       .then((retrospective) => response.send(retrospective))
       .catch((err) => {
         console.log(err);
-        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+        response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});
       });
   }
 
@@ -60,7 +60,7 @@ export class RetrospectiveController {
       .then(() => response.sendStatus(204))
       .catch((err) => {
         console.log(err);
-        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+        response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});
       });
   }
 
@@ -71,7 +71,7 @@ export class RetrospectiveController {
       .then(() => response.sendStatus(204))
       .catch((err) => {
         console.log(err);
-        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+        response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});
       });
   }
 
@@ -82,7 +82,7 @@ export class RetrospectiveController {
       .then((retrospective) => response.send(retrospective.attendees))
       .catch((err) => {
         console.log(err);
-        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+        response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});
       });
   }
 
@@ -95,7 +95,7 @@ export class RetrospectiveController {
         response.send(filteredAttendee);
       }).catch((err) => {
         console.log(err);
-        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+      response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});
       });
   }
 
@@ -106,7 +106,7 @@ export class RetrospectiveController {
       .then(() => response.sendStatus(204))
       .catch((err) => {
         console.log(err);
-        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+        response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});
       });
   }
 
@@ -119,7 +119,7 @@ export class RetrospectiveController {
       .then((comment) => response.send(comment))
       .catch((err) => {
         console.log(err);
-        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+        response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});
       });
   }
 
