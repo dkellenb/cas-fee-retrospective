@@ -8,7 +8,7 @@ export class ConfigurationService {
 
   private static serverRestApiBaseUrl: string = ConfigurationService.serverHostUrl + '/rest';
 
-  private static serverSocketBaseUrl: String = ConfigurationService.serverHostUrl + '/socket';
+  private static serverSocketBaseUrl: string = ConfigurationService.serverHostUrl + '/socket';
 
   // Endpoints
   private static userEndpoint: string = '/users';
