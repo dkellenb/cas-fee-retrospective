@@ -1,5 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {IBasicRetrospectiveComment, IUser} from '../../../../../shared/src/model';
+import {IBasicRetrospectiveComment, IUser} from '../model';
 import {IconButtonType} from '../icon-button';
 
 @Component({

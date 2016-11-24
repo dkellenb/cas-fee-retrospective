@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {RetrospectiveStatus, IBasicRetrospective, IUser} from '../../../../../shared/src/model';
+import {IBasicRetrospective, IUser} from '../../shared/model';
 import {ActivatedRoute, Params} from '@angular/router';
 import {RetrospectiveService} from '../services/retrospective.service';
 

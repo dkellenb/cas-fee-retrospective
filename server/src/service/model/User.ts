@@ -1,7 +1,7 @@
-import {UserRole} from '../../../../shared/src/model/';
-import {IUser} from '../../../../shared/src/model/';
+import {UserRole} from '../../../../client/src/app/shared/model/';
+import {IUser} from '../../../../client/src/app/shared/model/';
 import {User, IUserToken, IPersistedUser} from '../../repository/model/UserDbModel';
-import {IRetrospectiveUser} from '../../../../shared/src/model/UserDomainModel';
+import {IRetrospectiveUser} from '../../../../client/src/app/shared/model/UserDomainModel';
 
 export class PublicUser {
   public uuid: string;

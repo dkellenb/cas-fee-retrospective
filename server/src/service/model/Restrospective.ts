@@ -1,9 +1,7 @@
-
 import {RetrospectiveUser} from './User';
 import {RetrospectiveStatus, IBasicRetrospective, IBasicRetrospectiveTopic,
-        IBasicRetrospectiveComment, IRetrospectiveVote} from '../../../../shared/src/model';
-import {IPopulatedRetrospective} from '../../repository/model/RetrospectiveDbModel';
-import {IPersistedUser} from '../../repository/model/UserDbModel';
+        IBasicRetrospectiveComment, IRetrospectiveVote} from '../../../../client/src/app/shared/model';
+import {IPopulatedRetrospective, IPersistedUser} from '../../repository/model';
 
 export class PublicRetrospective implements IBasicRetrospective<RetrospectiveUser> {
   uuid: string;

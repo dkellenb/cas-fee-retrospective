@@ -6,7 +6,7 @@ import { UserService, RetrospectiveService } from '../service';
 import {
   CreateRetrospectiveJSON,
   UpdateRetrospectiveJSON, CreateCommentJSON, UpdateCommentJSON
-} from '../../../shared/src/model/RetrospectiveDomainModel';
+} from '../../../client/src/app/shared/model/';
 
 @injectable()
 @Controller('/rest/retrospectives')

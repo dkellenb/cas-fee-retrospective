@@ -3,7 +3,7 @@ import {UserService} from './user.service';
 import {
   CreateRetrospectiveJSON, IBasicRetrospective, IRetrospectiveUser,
   IBasicRetrospectiveComment, UpdateCommentJSON
-} from '../../../../../shared/src/model';
+} from '../../shared/model';
 import {ConfigurationService, AuthenticationService} from '../../shared/';
 import {Observable} from 'rxjs';
 import {AuthHttp} from 'angular2-jwt';
@@ -123,7 +123,8 @@ export class RetrospectiveService {
     });
   }
 
-  public updateComment(retrospectiveId: string, topicId: string, commentId: string, update: UpdateCommentJSON): Observable<IBasicRetrospectiveComment<IRetrospectiveUser>> {
+  public updateComment(retrospectiveId: string, topicId: string, commentId: string, update: UpdateCommentJSON):
+      Observable<IBasicRetrospectiveComment<IRetrospectiveUser>> {
     return this.authHttp.put(this.createCommentIdEndpoint(retrospectiveId, topicId, commentId), update).map(response => {
       if (response.status === 200) {
         return response.json();

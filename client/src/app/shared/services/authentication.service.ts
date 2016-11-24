@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {LocalStorageItem} from './local-storage-item';
-import {IUser} from '../../../../../shared/src/model';
+import {IUser} from '../model';
 import {JwtHelper} from 'angular2-jwt';
 
 @Injectable()

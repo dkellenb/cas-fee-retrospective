@@ -1,14 +1,12 @@
 import { injectable, inject } from 'inversify';
 import TYPES from '../constant/types';
 import { Request } from 'express';
-import { UUID } from '../../../shared/src/util/UUID';
+import { IUser, UserRole, CreateUserJSON, UpdateUserJSON } from '../../../client/src/app/shared/model';
+import { UUID, ErrorWithMessage } from '../../../client/src/app/shared/util';
 import { UserRepository } from '../repository/UserRepository';
-import { IUser, UserRole, CreateUserJSON } from '../../../shared/src/model';
 import { UserJwtService } from './UserJwtService';
 import { IPersistedUser, PersistedUser, UserToken, User } from '../repository/model/UserDbModel';
 import { PublicUser, UserJwt } from './model/User';
-import {UpdateUserJSON} from '../../../shared/src/model/UserDomainModel';
-import {ErrorWithMessage} from '../../../shared/src/util/ErrorWithMessage';
 
 @injectable()
 export class UserService {
