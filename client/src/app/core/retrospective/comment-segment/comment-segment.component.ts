@@ -1,6 +1,7 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {IBasicRetrospectiveComment, IRetrospectiveUser} from '../../../shared/model';
 import {IconButtonType} from '../../../shared/';
+import {RetrospectiveService} from '../../services/retrospective.service';
 
 @Component({
   selector: 'rsb-comment-segment',
@@ -14,10 +15,15 @@ export class CommentSegmentComponent implements OnInit {
   @Input()
   public comments: IBasicRetrospectiveComment<IRetrospectiveUser>[];
 
-  constructor() {
+  constructor(private retrospectiveService: RetrospectiveService) {
   }
 
   ngOnInit() {
+  }
+
+
+  public createComment(): void {
+    this.comments.push(<IBasicRetrospectiveComment<IRetrospectiveUser>>{});
   }
 
 

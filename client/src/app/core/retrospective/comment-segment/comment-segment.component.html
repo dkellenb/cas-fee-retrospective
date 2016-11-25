@@ -7,5 +7,5 @@
   </rsb-carousel>
 
   <!--No own comments present-->
-  <div *ngIf="!hasComments" class="comment-segment__empty-space"><rsb-icon-button [buttonType]="iconButtonType.ADD"></rsb-icon-button></div>
+  <div *ngIf="!hasComments" class="comment-segment__empty-space"><rsb-icon-button [buttonType]="iconButtonType.ADD" (click)="createComment()"></rsb-icon-button></div>
 </div>
