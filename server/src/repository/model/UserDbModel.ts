@@ -1,8 +1,7 @@
 import * as mongoose from 'mongoose';
-import { IUser } from '../../../../shared/src/model';
-import { UUID } from '../../../../shared/src/util';
 import * as moment from 'moment';
-import {UserRole} from '../../../../shared/src/model/UserDomainModel';
+import { UUID } from '../../../../client/src/app/shared/util';
+import { IUser, UserRole } from '../../../../client/src/app/shared/model';
 
 /**
  * Interface for a user token.

@@ -111,7 +111,9 @@ class RetroServer {
         extended: true
       }));
       app.use(bodyParser.json());
+      app.use(express.static('../client/dist'));
     });
+
 
     this.inversifyExpressServer = server;
     this.app = server.build();

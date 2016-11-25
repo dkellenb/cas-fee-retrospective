@@ -1,20 +1,20 @@
 import { injectable, inject } from 'inversify';
-import { CreateRetrospectiveJSON, IUser } from '../../../shared/src/model';
+import { CreateRetrospectiveJSON, IUser } from '../../../client/src/app/shared/model';
 import TYPES from '../constant/types';
 import {UserRepository, RetrospectiveRepository, RetrospectiveDbModel} from '../repository/';
 import {
   RetrospectiveStatus, UpdateRetrospectiveJSON, IBasicRetrospective,
   CreateCommentJSON, UpdateCommentJSON
-} from '../../../shared/src/model/RetrospectiveDomainModel';
+} from '../../../client/src/app/shared/model/RetrospectiveDomainModel';
 import {
   IPersistedRetrospectiveDbModel, PersistedRetrospectiveTopic,
   PersistedRetrospectiveComment, IPersistedRetrospectiveTopic, IPersistedRetrospectiveComment
 } from '../repository/model/RetrospectiveDbModel';
-import {UUID} from '../../../shared/src/util/UUID';
+import {UUID} from '../../../client/src/app/shared/util/UUID';
 import {RetrospectiveUser} from './model/User';
 import {PublicRetrospective} from './model/Restrospective';
 import {IUserDbModel} from '../repository/model/UserDbModel';
-import {UserRole} from '../../../shared/src/model/UserDomainModel';
+import {UserRole} from '../../../client/src/app/shared/model/UserDomainModel';
 import {WebSocketService} from './WebSocketService';
 
 

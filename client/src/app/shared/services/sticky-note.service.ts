@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {IBasicRetrospectiveComment, IUser} from '../../../../../shared/src/model';
+import {IBasicRetrospectiveComment, IUser} from '../model';
 
 @Injectable()
 export class StickyNoteService {

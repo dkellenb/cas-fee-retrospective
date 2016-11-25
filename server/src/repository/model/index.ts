@@ -1,2 +1,2 @@
-export * from './UserDbModel';
 export * from './RetrospectiveDbModel';
+export * from './UserDbModel';

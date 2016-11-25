@@ -4,7 +4,7 @@ import { Request } from 'express';
 import { verify, sign } from 'jsonwebtoken';
 import TYPES from '../constant/types';
 import { UserJwtKeyProvider } from './UserJwtKeyProvider';
-import { ErrorWithMessage } from '../../../shared/src/util/ErrorWithMessage';
+import { ErrorWithMessage } from '../../../client/src/app/shared/util/ErrorWithMessage';
 import { IUserJwt } from './model/User';
 
 @injectable()

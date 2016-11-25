@@ -1,11 +1,10 @@
 import * as mongoose from 'mongoose';
 import * as mongodb from 'mongodb';
 import {IPersistedUser} from './UserDbModel';
-import {IBasicRetrospective} from '../../../../shared/src/model';
-import {IBasicRetrospectiveTopic} from '../../../../shared/src/model';
-import {IBasicRetrospectiveComment} from '../../../../shared/src/model';
-import {UUID} from '../../../../shared/src/util/UUID';
-import {IRetrospectiveVote} from '../../../../shared/src/model/RetrospectiveDomainModel';
+import {IRetrospectiveVote, IBasicRetrospective, IBasicRetrospectiveTopic, IBasicRetrospectiveComment}
+  from '../../../../client/src/app/shared/model';
+import {UUID}
+  from '../../../../client/src/app/shared/util';
 
 
 export interface IPersistedRetrospective extends IBasicRetrospective<mongodb.ObjectID> {

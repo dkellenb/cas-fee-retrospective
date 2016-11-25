@@ -4,7 +4,7 @@ import 'rxjs/Rx';
 import {Observable} from 'rxjs/Rx';
 import {AuthenticationService, ConfigurationService} from '../../shared';
 import {AuthHttp} from 'angular2-jwt';
-import {CreateUserJSON, IUser} from '../../../../../shared/src/model';
+import {CreateUserJSON, IUser} from '../../shared/model';
 
 @Injectable()
 export class UserService {

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthenticationService} from '../services/authentication.service';
-import {IUser} from '../../../../../shared/src/model';
+import {IUser} from '../model';
 
 @Component({
   selector: 'rsb-user-status',
