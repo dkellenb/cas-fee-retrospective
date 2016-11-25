@@ -1,4 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
+import {IBasicRetrospectiveComment, IRetrospectiveUser} from '../../../shared/model';
+import {IconButtonType} from '../../../shared/';
 
 @Component({
   selector: 'rsb-comment-segment',
@@ -7,10 +9,20 @@ import {Component, OnInit} from '@angular/core';
 })
 export class CommentSegmentComponent implements OnInit {
 
+  public iconButtonType = IconButtonType;
+
+  @Input()
+  public comments: IBasicRetrospectiveComment<IRetrospectiveUser>[];
+
   constructor() {
   }
 
   ngOnInit() {
+  }
+
+
+  public get hasComments(): boolean {
+    return this.comments != null && this.comments.length > 0;
   }
 
 }

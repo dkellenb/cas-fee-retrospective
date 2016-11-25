@@ -226,5 +226,4 @@ export class RetrospectiveService {
   private createCommentIdEndpoint(retroId: string, topicId: string, commentId: string) {
     return this.createTopicIdEndpoint(retroId, topicId) + '/comments/' + commentId;
   }
-
 }

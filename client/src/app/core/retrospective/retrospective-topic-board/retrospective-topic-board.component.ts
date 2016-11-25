@@ -1,5 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {IBasicRetrospectiveTopic, IRetrospectiveUser} from '../../../../../../shared/src/model';
+import {IBasicRetrospectiveTopic, IRetrospectiveUser} from '../../../shared/model';
 @Component({
   selector: 'rsb-retrospective-topic-board',
   templateUrl: './retrospective-topic-board.component.html',
@@ -15,5 +15,4 @@ export class RetrospectiveTopicBoardComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }

@@ -5,6 +5,7 @@ import {SharedModule} from '../../shared/shared.module';
 import {CommentSegmentComponent} from './comment-segment';
 import {CommentStickyNoteStackComponent} from './comment-sticky-note-stack';
 import { RetrospectiveTopicBoardComponent } from './retrospective-topic-board/retrospective-topic-board.component';
+import { OwnCommentsPipe } from './comment-segment/own-comments.pipe';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { RetrospectiveTopicBoardComponent } from './retrospective-topic-board/re
   declarations: [RetrospectiveComponent,
     CommentStickyNoteStackComponent,
     CommentSegmentComponent,
-    RetrospectiveTopicBoardComponent]
+    RetrospectiveTopicBoardComponent,
+    OwnCommentsPipe]
 })
 export class RetrospectiveModule {
 }

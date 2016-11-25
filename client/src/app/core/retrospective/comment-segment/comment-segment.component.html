@@ -1,36 +1,11 @@
 <div class="comment-segment">
-  <rsb-carousel>
-    <div rsbCarouselElement>
+  <!--If own comments present-->
+  <rsb-carousel *ngIf="hasComments">
+    <div rsbCarouselElement *ngFor="let comment of comments">
       <rsb-sticky-note></rsb-sticky-note>
     </div>
-    <div rsbCarouselElement>
-      <rsb-sticky-note></rsb-sticky-note>
-    </div>
-    <div rsbCarouselElement>
-      <rsb-sticky-note></rsb-sticky-note>
-    </div>
-    <div rsbCarouselElement>
-      <rsb-sticky-note></rsb-sticky-note>
-    </div>
-    <div rsbCarouselElement>
-      <rsb-sticky-note></rsb-sticky-note>
-    </div>
-
-
-    <!--<rsb-carousel-element>-->
-    <!--<rsb-sticky-note></rsb-sticky-note>-->
-    <!--</rsb-carousel-element>-->
-    <!--<rsb-carousel-element>-->
-    <!--<rsb-sticky-note></rsb-sticky-note>-->
-    <!--</rsb-carousel-element>-->
-    <!--<rsb-carousel-element>-->
-    <!--<rsb-sticky-note></rsb-sticky-note>-->
-    <!--</rsb-carousel-element>-->
-    <!--<rsb-carousel-element>-->
-    <!--<rsb-sticky-note></rsb-sticky-note>-->
-    <!--</rsb-carousel-element>-->
-    <!--<rsb-carousel-element>-->
-    <!--<rsb-sticky-note></rsb-sticky-note>-->
-    <!--</rsb-carousel-element>-->
   </rsb-carousel>
+
+  <!--No own comments present-->
+  <div *ngIf="!hasComments" class="comment-segment__empty-space"><rsb-icon-button [buttonType]="iconButtonType.ADD"></rsb-icon-button></div>
 </div>
