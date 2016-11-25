@@ -2,10 +2,21 @@
 
 This repository contains the project work of the two students [Daniel Kellenberger](https://github.com/dkellenb) and [Benjamin Rüde](https://github.com/bruede).
 
-## Installation
-...
+## Installation, Configuration and launch
+### Installation
+1. `git co https://github.com/dkellenb/cas-fee-retrospective`
+1. `npm install -g gulp`
+1. `npm install -g ts-node`
+1. `gulp initial`
+
+### Configuration
+Copy file `server/server-config-template.json` to `server/server-config.json` and adapt it to your needs.
+
+### Execution
+Start application with `gulp run`.
 
 ## Documentation
+* [Specialities](documentation/Specialities.md)
 * [UseCases](documentation/UseCases.md)
 * [DomainModel](documentation/DomainModel.md)
 * [RestAPI](documentation/RestAPI.md)
