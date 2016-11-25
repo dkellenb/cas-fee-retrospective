@@ -19,6 +19,7 @@ This page is intended to show what we learned and have built in into this applic
   - Separate npm projects for server / client
     - Individual development possible (live / static for server / client)
     - Shared domain model
+  - Websocket with different 'rooms'
 - Client
   - Lazy loading of debug module (see `client/src/app/+debug`)
   - ...
