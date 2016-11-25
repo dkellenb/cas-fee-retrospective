@@ -1,5 +1,4 @@
-import {Component, OnInit, ContentChildren, QueryList, AfterViewInit, Input, OnChanges, AfterContentInit, NgZone, ChangeDetectorRef} from '@angular/core';
-import {CarouselElementComponent} from './carousel-element/carousel-element.component';
+import {Component, OnInit, ContentChildren, QueryList, AfterViewInit, Input, OnChanges} from '@angular/core';
 import {CarouselElementDirective} from './carousel-element.directive';
 
 @Component({
@@ -26,25 +25,21 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnChanges() {
-    console.log('Carousel aktive: ' + this.carouselActive);
     this.updateCarouselElementPositions();
   }
 
   ngAfterViewInit(): void {
     this.updateCarouselElementPositions();
     this.carouselElements.changes.subscribe(() => {
-      this.updateCarouselElementPositions();
+        this.updateCarouselElementPositions();
       }
     );
   }
 
   private updateCarouselElementPositions() {
-    console.log('activeTopElement: ' + this.topElement);
     if (this.getNumberOfElements() <= 0) {
-      console.log('no elements in carousel');
       return;
     }
-    console.log('update Elements');
     let stepSize = this.range / (this.getNumberOfElements() - 1);
     this.carouselElements.forEach(function (carouselElement: CarouselElementDirective, index: number) {
       carouselElement.order = index - this.topElement;

@@ -1,5 +1,0 @@
-.carousel__element {
-  position: absolute;
-  left: 50%;
-  transition: transform 0.5s, left 0.5s;
-}
