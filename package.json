@@ -3,21 +3,25 @@
   "version": "1.0.0",
   "description": "ROOT Module",
   "main": " ",
-  "dependencies": {
-    "typescript": "^2.0.6"
-  },
   "devDependencies": {
-    "typescript": "^2.0.6"
+    "child_process": "^1.0.2",
+    "del": "^2.2.2",
+    "gulp": "^3.9.1",
+    "gulp-clean": "^0.3.2",
+    "gulp-exec": "^2.1.3",
+    "gulp-install": "^0.6.0",
+    "gulp-sequence": "^0.4.6",
+    "typescript": "^2.0.10"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "ts-node server/src/server.ts"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dkellenb/cas-fee-retrospective.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "dkellenb, bruede",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/dkellenb/cas-fee-retrospective/issues"
   },
