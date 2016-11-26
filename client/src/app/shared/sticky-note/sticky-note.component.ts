@@ -1,5 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {IBasicRetrospectiveComment, IUser} from '../model';
+import {IBasicRetrospectiveComment, IRetrospectiveUser} from '../model';
 import {IconButtonType} from '../icon-button';
 
 @Component({
@@ -12,14 +12,14 @@ export class StickyNoteComponent implements OnInit {
   // noinspection TsLint
   private iconButtonType = IconButtonType;
 
-  // @Input()
-  private stickyNote: IBasicRetrospectiveComment<IUser>;
+  @Input()
+  private stickyNote: IBasicRetrospectiveComment<IRetrospectiveUser>;
 
   @Input()
   private mode: StickyNoteMode = StickyNoteMode.Display;
 
   constructor() {
-    this.stickyNote = <IBasicRetrospectiveComment<IUser>>{};
+    this.stickyNote = <IBasicRetrospectiveComment<IRetrospectiveUser>>{};
   }
 
   ngOnInit() {

@@ -40,7 +40,7 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
     if (this.getNumberOfElements() <= 0) {
       return;
     }
-    let stepSize = this.range / (this.getNumberOfElements() - 1);
+    let stepSize = this.calcStepSize(this.getNumberOfElements());
     this.carouselElements.forEach(function (carouselElement: CarouselElementDirective, index: number) {
       carouselElement.order = index - this.topElement;
       carouselElement.stepSize = stepSize;
@@ -75,4 +75,12 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
   public get isCarouselActive(): boolean {
     return this.carouselActive;
   }
+
+  private calcStepSize(numberOfElements: number): number {
+    if (numberOfElements < 2) {
+      return this.range;
+    }
+    return this.range / (numberOfElements - 1);
+  }
+
 }
