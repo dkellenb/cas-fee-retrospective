@@ -3,7 +3,7 @@ import {IBasicRetrospectiveTopic, IRetrospectiveUser, IUser, IBasicRetrospective
 import {AuthenticationService} from '../../../../shared/services/authentication.service';
 import {IStickyNote, StickyNoteMode} from './';
 import {RetrospectiveService} from '../../../services/retrospective.service';
-import {CreateCommentJSON} from '../../../../shared/model/RetrospectiveDomainModel';
+import {CreateCommentJSON, UpdateCommentJSON} from '../../../../shared/model/RetrospectiveDomainModel';
 
 @Injectable()
 export class TopicService {
@@ -34,6 +34,8 @@ export class TopicService {
   public saveComment(stickyNote: IStickyNote) {
     if (stickyNote.mode === StickyNoteMode.New) {
       this.createNewComment(stickyNote);
+    } else {
+      this.updateComment(stickyNote);
     }
   }
 
@@ -61,7 +63,7 @@ export class TopicService {
       });
   }
 
-  private createNewComment(stickyNote: IStickyNote) {
+  private createNewComment(stickyNote: IStickyNote): void {
     let comment: CreateCommentJSON = <CreateCommentJSON>{};
     comment.title = stickyNote.title;
     comment.description = stickyNote.description;
@@ -71,6 +73,18 @@ export class TopicService {
       .first()
       .subscribe((returnStickyNote: IStickyNote) => {
         stickyNote.uuid = returnStickyNote.uuid;
+        stickyNote.mode = StickyNoteMode.Display;
+      });
+  }
+
+  private updateComment(stickyNote: IStickyNote): void {
+    let comment: UpdateCommentJSON = <UpdateCommentJSON>{};
+    comment.title = stickyNote.title;
+    comment.description = stickyNote.description;
+    comment.anonymous = stickyNote.author !== null;
+    this.retrospectiveService.updateComment(this._topic.uuid, stickyNote.uuid, comment)
+      .first()
+      .subscribe((returnStickyNote: IStickyNote) => {
         stickyNote.mode = StickyNoteMode.Display;
       });
   }

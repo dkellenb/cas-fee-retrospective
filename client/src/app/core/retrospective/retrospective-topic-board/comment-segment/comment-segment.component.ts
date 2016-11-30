@@ -1,6 +1,7 @@
 import {Component, OnInit, DoCheck} from '@angular/core';
 import {IconButtonType} from '../../../../shared/';
 import {TopicService, IStickyNote} from '../services';
+import {StickyNoteMode} from '../services/sticky-note-mode.enum';
 
 @Component({
   selector: 'rsb-comment-segment',
@@ -25,7 +26,6 @@ export class CommentSegmentComponent implements OnInit, DoCheck {
   ngOnInit() {
   }
 
-
   public createComment(): void {
     this.topicService.addNewEmptyComment();
   }
@@ -41,7 +41,12 @@ export class CommentSegmentComponent implements OnInit, DoCheck {
 
 
   public get comments(): IStickyNote[] {
-    return this.topicService.ownComments;
+    return this.topicService.ownComments.map((stickyNote: IStickyNote) => {
+      if (stickyNote.mode === StickyNoteMode.Display) {
+        stickyNote.mode = StickyNoteMode.Editable;
+      }
+      return stickyNote;
+    });
   }
 
 }

@@ -35,6 +35,14 @@ export class StickyNoteComponent implements OnInit {
     }
   }
 
+  public enterEditMode(): void {
+    this.stickyNote.mode = StickyNoteMode.Edit;
+  }
+
+  public deleteComment() {
+    this.topicService.deleteComment(this.stickyNote);
+  }
+
   public vote(): void {
 
   }
@@ -51,8 +59,20 @@ export class StickyNoteComponent implements OnInit {
     return this.stickyNote.mode === StickyNoteMode.New;
   }
 
+  public get isEditableMode(): boolean {
+    return this.stickyNote.mode === StickyNoteMode.Editable;
+  }
+
   public get isDisplayMode(): boolean {
-    return this.stickyNote.mode === StickyNoteMode.Display;
+    return this.stickyNote.mode === StickyNoteMode.Display || this.isEditableMode;
+  }
+
+  public get showEditButton(): boolean {
+    return this.isEditableMode;
+  }
+
+  public get showDeleteButton(): boolean {
+    return this.isEditableMode;
   }
 
   public get showForm(): boolean {
