@@ -1,12 +1,11 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {IconButtonType} from '../../../../shared';
-import {IStickyNote} from './sticky-note.interface';
-import {StickyNoteMode} from './sticky-note-mode.enum';
+import {TopicService, IStickyNote, StickyNoteMode} from '../services/';
 
 @Component({
   selector: 'rsb-sticky-note',
-  templateUrl: 'sticky-note.component.html',
-  styleUrls: ['sticky-note.component.css']
+  templateUrl: './sticky-note.component.html',
+  styleUrls: ['./sticky-note.component.css']
 })
 export class StickyNoteComponent implements OnInit {
 
@@ -16,11 +15,23 @@ export class StickyNoteComponent implements OnInit {
   @Input()
   private stickyNote: IStickyNote;
 
-  constructor() {
-    this.stickyNote = <IStickyNote>{};
+  constructor(private topicService: TopicService) {
+
   }
 
   ngOnInit() {
+  }
+
+  public saveStickyNote(): void {
+    this.topicService.saveComment(this.stickyNote);
+  }
+
+  public aboardEdit(): void {
+
+  }
+
+  public vote(): void {
+
   }
 
   public get isEditMode(): boolean {
@@ -39,7 +50,7 @@ export class StickyNoteComponent implements OnInit {
     return this.stickyNote.mode === StickyNoteMode.Display;
   }
 
-  public get showSaveButton(): boolean {
+  public get showForm(): boolean {
     return this.isEditMode || this.isNewMode;
   }
 

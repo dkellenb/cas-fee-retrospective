@@ -5,7 +5,7 @@ import {StickyNoteComponent} from './sticky-note.component';
 
 describe('Component: StickyNote', () => {
   it('should create an instance', () => {
-    let component = new StickyNoteComponent();
+    let component = new StickyNoteComponent(null);
     expect(component).toBeTruthy();
   });
 });

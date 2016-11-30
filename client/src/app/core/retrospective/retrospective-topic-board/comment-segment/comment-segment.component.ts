@@ -1,12 +1,11 @@
 import {Component, OnInit, DoCheck} from '@angular/core';
 import {IconButtonType} from '../../../../shared/';
-import {TopicService} from '../services/topic.service';
-import {IStickyNote} from '../sticky-note/sticky-note.interface';
+import {TopicService, IStickyNote} from '../services';
 
 @Component({
   selector: 'rsb-comment-segment',
-  templateUrl: 'comment-segment.component.html',
-  styleUrls: ['comment-segment.component.css']
+  templateUrl: './comment-segment.component.html',
+  styleUrls: ['./comment-segment.component.css']
 })
 export class CommentSegmentComponent implements OnInit, DoCheck {
   public iconButtonType = IconButtonType;
@@ -28,7 +27,7 @@ export class CommentSegmentComponent implements OnInit, DoCheck {
 
 
   public createComment(): void {
-    this.topicService.createNewComment();
+    this.topicService.addNewEmptyComment();
   }
 
 

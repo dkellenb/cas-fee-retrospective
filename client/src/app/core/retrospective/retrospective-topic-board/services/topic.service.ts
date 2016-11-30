@@ -1,14 +1,17 @@
 import {Injectable} from '@angular/core';
 import {IBasicRetrospectiveTopic, IRetrospectiveUser, IUser, IBasicRetrospectiveComment} from '../../../../shared/model';
 import {AuthenticationService} from '../../../../shared/services/authentication.service';
-import {IStickyNote, StickyNoteMode} from '../sticky-note';
+import {IStickyNote, StickyNoteMode} from './';
+import {RetrospectiveService} from '../../../services/retrospective.service';
+import {CreateCommentJSON} from '../../../../shared/model/RetrospectiveDomainModel';
 
 @Injectable()
 export class TopicService {
 
   private _topic: IBasicRetrospectiveTopic<IRetrospectiveUser>;
 
-  constructor(private authService: AuthenticationService) {
+  constructor(private authService: AuthenticationService,
+              private retrospectiveService: RetrospectiveService) {
   }
 
   public set topic(value: IBasicRetrospectiveTopic<IRetrospectiveUser>) {
@@ -19,7 +22,7 @@ export class TopicService {
     return this._topic.name;
   }
 
-  public createNewComment() {
+  public addNewEmptyComment() {
     let comment: IStickyNote = <IStickyNote>{};
     comment.author = this.getLoggedInRetrospectiveUser();
     comment.anonymous = false;
@@ -27,6 +30,26 @@ export class TopicService {
     comment.mode = StickyNoteMode.New;
     console.log('create new comment');
     this._topic.comments.push(comment);
+  }
+
+  public saveComment(stickyNote: IStickyNote) {
+    if (stickyNote.mode === StickyNoteMode.New) {
+      this.createNewComment(stickyNote);
+    }
+  }
+
+  private createNewComment(stickyNote: IStickyNote) {
+    let comment: CreateCommentJSON = <CreateCommentJSON>{};
+    comment.title = stickyNote.title;
+    comment.description = stickyNote.description;
+    comment.anonymous = stickyNote.author !== null;
+    this.retrospectiveService.createComment(this._topic.uuid, comment)
+      .map(this.mapIBasicRetrospectiveCommentToIStickyNote)
+      .first()
+      .subscribe((returnStickyNote: IStickyNote) => {
+        stickyNote.uuid = returnStickyNote.uuid;
+        stickyNote.mode = StickyNoteMode.Display;
+      });
   }
 
   private getLoggedInRetrospectiveUser(): IRetrospectiveUser {

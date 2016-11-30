@@ -103,57 +103,55 @@ export class RetrospectiveService {
     });
   }
 
-  public getAttendee(retrospectiveId: string, attendeeId: string): Observable<IRetrospectiveUser> {
-    return this.authHttp.get(this.createAttendeeIdEndpoint(retrospectiveId, attendeeId)).map(response => {
+  public getAttendee(attendeeId: string): Observable<IRetrospectiveUser> {
+    return this.authHttp.get(this.createAttendeeIdEndpoint(this._currentRetrospective.uuid, attendeeId)).map(response => {
       if (response.status === 200) {
         return response.json();
       } else {
-        throw new Error(`Could not load attendee "${attendeeId}" on retro "${retrospectiveId}`);
+        throw new Error(`Could not load attendee "${attendeeId}" on retro "${this._currentRetrospective.uuid}`);
       }
     });
   }
 
-  public getComment(retrospectiveId: string, commentId: string): Observable<IBasicRetrospectiveComment<IRetrospectiveUser>> {
-    return this.authHttp.get(this.createSimpleCommentIdEndpoint(retrospectiveId, commentId)).map(response => {
+  public getComment(commentId: string): Observable<IBasicRetrospectiveComment<IRetrospectiveUser>> {
+    return this.authHttp.get(this.createSimpleCommentIdEndpoint(this._currentRetrospective.uuid, commentId)).map(response => {
       if (response.status === 200) {
         return response.json();
       } else {
-        throw new Error(`Could not load comment "${commentId}" on retro "${retrospectiveId}"`);
+        throw new Error(`Could not load comment "${commentId}" on retro "${this._currentRetrospective.uuid}"`);
       }
     });
   }
 
-  public createComment(retrospectiveId: string,
-                       topicId: string,
+  public createComment(topicId: string,
                        create: CreateCommentJSON): Observable<IBasicRetrospectiveComment<IRetrospectiveUser>> {
-    return this.authHttp.post(this.createCommentEndpoint(retrospectiveId, topicId), create).map(response => {
+    return this.authHttp.post(this.createCommentEndpoint(this._currentRetrospective.uuid, topicId), create).map(response => {
       if (response.status === 200) {
         return response.json();
       } else {
-        throw new Error(`Could not create comment on retro "${retrospectiveId}"`);
+        throw new Error(`Could not create comment on retro "${this._currentRetrospective.uuid}"`);
       }
     });
   }
 
-  public updateComment(retrospectiveId: string,
-                       topicId: string,
+  public updateComment(topicId: string,
                        commentId: string,
                        update: UpdateCommentJSON): Observable<IBasicRetrospectiveComment<IRetrospectiveUser>> {
-    return this.authHttp.put(this.createCommentIdEndpoint(retrospectiveId, topicId, commentId), update).map(response => {
+    return this.authHttp.put(this.createCommentIdEndpoint(this._currentRetrospective.uuid, topicId, commentId), update).map(response => {
       if (response.status === 200) {
         return response.json();
       } else {
-        throw new Error(`Could not update comment "${commentId}" on retro "${retrospectiveId}"`);
+        throw new Error(`Could not update comment "${commentId}" on retro "${this._currentRetrospective.uuid}"`);
       }
     });
   }
 
-  public deleteComment(retrospectiveId: string, topicId: string, commentId: string): Observable<boolean> {
-    return this.authHttp.delete(this.createCommentIdEndpoint(retrospectiveId, topicId, commentId)).map(response => {
+  public deleteComment(topicId: string, commentId: string): Observable<boolean> {
+    return this.authHttp.delete(this.createCommentIdEndpoint(this._currentRetrospective.uuid, topicId, commentId)).map(response => {
       if (response.status === 204) {
         return true;
       } else {
-        throw new Error(`Could not delete comment "${commentId}" on retro "${retrospectiveId}"`);
+        throw new Error(`Could not delete comment "${commentId}" on retro "${this._currentRetrospective.uuid}"`);
       }
     });
   }
@@ -183,7 +181,7 @@ export class RetrospectiveService {
   }
 
   private retrieveAndUpdateAttendee(userId: string) {
-    this.getAttendee(this._currentRetrospective.uuid, userId).first().subscribe(
+    this.getAttendee(userId).first().subscribe(
       (attendee: IRetrospectiveUser) => {
         let attendeeIndex = this._currentRetrospective.attendees.findIndex((a) => a.uuid === userId);
         if (attendeeIndex >= 0) {
@@ -196,7 +194,7 @@ export class RetrospectiveService {
   }
 
   private retrieveAndUpdateComment(commentId: string) {
-    this.getComment(this._currentRetrospective.uuid, commentId).first().subscribe(
+    this.getComment(commentId).first().subscribe(
       (comment: IBasicRetrospectiveComment<IRetrospectiveUser>) => {
         let topics = this._currentRetrospective.topics
           .filter((t) => t.uuid === comment.topicUuid);

@@ -1,9 +1,11 @@
 <div class="sticky-note">
   <div class="sticky-note__header">
-    <h3 class="title title__content_third">{{stickyNote.title}}</h3>
+    <h3 *ngIf="!showForm" class="title title__content_third">{{stickyNote.title}}</h3>
+    <rsb-text-input *ngIf="showForm" [(ngModel)]="stickyNote.title"></rsb-text-input>
   </div>
   <div class="sticky-note__body">
-    <p>{{stickyNote.description}}</p>
+    <p *ngIf="!showForm">{{stickyNote.description}}</p>
+    <rsb-text-input *ngIf="showForm" [(ngModel)]="stickyNote.description" [isTextArea]="true"></rsb-text-input>
   </div>
   <div class="sticky-note__footer">
     <rsb-split-bar>
@@ -12,9 +14,9 @@
       </rsb-split-bar-container-left>
       <rsb-split-bar-container-right>
         <rsb-button-set>
-          <rsb-icon-button *ngIf="isVoteMode" [buttonType]="iconButtonType.VOTE"></rsb-icon-button>
-          <rsb-icon-button *ngIf="showSaveButton" [buttonType]="iconButtonType.CHECK_MARK"></rsb-icon-button>
-          <rsb-icon-button *ngIf="showSaveButton" [buttonType]="iconButtonType.ABOARD"></rsb-icon-button>
+          <rsb-icon-button *ngIf="isVoteMode" [buttonType]="iconButtonType.VOTE" (click)="vote()"></rsb-icon-button>
+          <rsb-icon-button *ngIf="showForm" [buttonType]="iconButtonType.CHECK_MARK" (click)="saveStickyNote()"></rsb-icon-button>
+          <rsb-icon-button *ngIf="showForm" [buttonType]="iconButtonType.ABOARD" (click)="aboardEdit()"></rsb-icon-button>
         </rsb-button-set>
       </rsb-split-bar-container-right>
     </rsb-split-bar>

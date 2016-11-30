@@ -26,7 +26,7 @@ export class RetrospectiveTopicBoardComponent implements OnInit {
   }
 
   public addComment(): void {
-    this.topicService.createNewComment();
+    this.topicService.addNewEmptyComment();
   }
 
   public get showAddCommentButton(): boolean {
