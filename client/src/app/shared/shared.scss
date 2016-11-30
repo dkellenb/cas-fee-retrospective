@@ -1,0 +1,41 @@
+/**
+ * VARIABLES.
+ */
+
+/** COLORS */
+$input-border-color: #666666;
+$input-border-color__focus: #999999;
+
+$input-background-color: #ffffcc;
+$input-background-color__focus: #ffffff;
+
+$icon-border-color: #666666;
+$icon-border-width: 2px;
+$icon-text-color: #666666;
+$icon-background-color: #C0C0C0;
+
+$icon-text-color__hover: #999999;
+$icon-background-color__hover: #C0C0C0;
+$icon-background-color__success: #6dd15c;
+
+$error-color: #d40000;
+
+$link-color: #0000bb;
+
+$panel-border-color: #999999;
+$panel-background-color: #eeeeee;
+
+
+/**
+ * FORM ELEMENTS
+ */
+@mixin input-element {
+  border: 1px solid $input-border-color;
+  background: $input-background-color;
+  line-height: 1.25rem;
+  font-size: 0.875rem;
+  border-radius: 0.25rem;
+  padding: 0 0.25rem;
+  box-sizing: border-box;
+}
+

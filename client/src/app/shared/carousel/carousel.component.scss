@@ -1,3 +1,5 @@
+@import '../shared.scss';
+
 .carousel {
   position: relative;
   height: 100%;
@@ -20,13 +22,13 @@
 
 .carousel__nav-button-right {
   border-right: 0 solid transparent;
-  border-left: 2rem solid #999999;
+  border-left: 2rem solid $icon-text-color;
   right: 1rem;
 }
 
 .carousel__nav-button-left {
   border-left: 0 solid transparent;
-  border-right: 2rem solid #999999;
+  border-right: 2rem solid $icon-text-color;
   left: 1rem;
 }
 
@@ -46,22 +48,22 @@
 }
 
 .carousel__nav-inner-button-right:hover {
-  border-left-color: #999999;
+  border-left-color: $icon-text-color__hover;
 }
 
 .carousel__nav-inner-button-left:hover {
-  border-right-color: #999999;
+  border-right-color: $icon-text-color__hover;
 }
 
 .carousel__nav-inner-button-right {
   border-right: 0 solid transparent;
-  border-left: 1.75rem solid #C0C0C0;
+  border-left: 1.75rem solid $icon-background-color;
   right: 0.15rem;
 }
 
 .carousel__nav-inner-button-left {
   border-left: 0 solid transparent;
-  border-right: 1.75rem solid #C0C0C0;
+  border-right: 1.75rem solid $icon-background-color;
   left: 0.15rem;
 }
 

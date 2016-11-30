@@ -1,3 +1,5 @@
+@import '../../shared/shared.scss';
+
 .board-grid {
   display: flex;
   margin: 0 -1rem;
@@ -9,5 +11,5 @@
 }
 
 rsb-comment-segment {
-  border-bottom: 1px solid #999999;
+  border-bottom: 1px solid $panel-border-color;
 }

@@ -1,10 +1,12 @@
+@import '../shared.scss';
+
 .icon-button {
   height: 1.25rem; /*24px*/
   width: 1.25rem; /*24px*/
-  border: solid 2px #666666;
+  border: solid $icon-border-width $icon-border-color;
   border-radius: 0.125rem;
-  background: #C0C0C0;
-  color: #666666;
+  background: $icon-background-color;
+  color: $icon-border-color;
   margin: 0.125rem 0.125rem 0.125rem 0;
 
   font-size: 0.875rem; /*14px*/
@@ -17,8 +19,8 @@
 }
 
 .icon-button:hover {
-  background: #666666;
-  color: #C0C0C0;
+  background: $icon-background-color__hover;
+  color: $icon-text-color__hover;
 }
 
 .icon-button__lable {
@@ -27,7 +29,7 @@
 }
 
 .icon-button__body_success {
-  background: #6dd15c;
+  background: $icon-background-color__success;
 }
 
 .icon-button__icon_add:before {

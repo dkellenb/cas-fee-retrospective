@@ -1,3 +1,9 @@
+@import '../../../../shared/shared.scss';
+
+$sticky-note-gradient-1: #ffffcc;
+$sticky-note-gradient-2: #ffffaf;
+$sticky-note-gradient-3: #ffff8e;
+
 .sticky-note {
   width: 8.25rem; /*132px*/
   height: 8.25rem; /*132px*/
@@ -14,9 +20,9 @@
 
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffcc+0,ffffaf+62,ffff8e+100 */
   background: #ffffcc; /* Old browsers */
-  background: -moz-linear-gradient(-45deg, #ffffcc 0%, #ffffaf 62%, #ffff8e 100%); /* FF3.6-15 */
-  background: -webkit-linear-gradient(-45deg, #ffffcc 0%, #ffffaf 62%, #ffff8e 100%); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(135deg, #ffffcc 0%, #ffffaf 62%, #ffff8e 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  background:    -moz-linear-gradient(-45deg, $sticky-note-gradient-1 0%, $sticky-note-gradient-2 62%, $sticky-note-gradient-3 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(-45deg, $sticky-note-gradient-1 0%, $sticky-note-gradient-2 62%, $sticky-note-gradient-3 100%); /* Chrome10-25,Safari5.1-6 */
+  background:         linear-gradient(135deg, $sticky-note-gradient-1 0%, $sticky-note-gradient-2 62%, $sticky-note-gradient-3 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffcc', endColorstr='#ffff8e', GradientType=1); /* IE6-9 fallback on horizontal gradient */
 }
 
