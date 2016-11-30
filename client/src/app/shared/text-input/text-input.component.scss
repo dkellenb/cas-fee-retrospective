@@ -1,3 +1,5 @@
+@import '../shared.scss';
+
 .form {
 
 }
@@ -7,19 +9,13 @@
 }
 
 .input__textfield {
+  @include input-element();
   width: 100%;
-  background: #ffffcc;
-  border: solid 1px #999999;
-  line-height: 1.25rem;
-  font-size: 0.875rem;
-  border-radius: 0.25rem;
-  padding: 0 0.25rem;
-  box-sizing: border-box;
 }
 
 .input__textfield:focus {
-  border: solid 1px #999999;
-  background: white;
+  border-color: $input-border-color__focus;
+  background: $input-background-color__focus;
 }
 
 .input__textfield_large {
@@ -40,15 +36,15 @@
 
 .input__error-message {
   display: block;
-  color: #d40000;
+  color: $error-color;
 }
 
 .input__textfield_error {
-  border: solid 2px #d40000;
+  border: solid 2px $error-color;
 }
 
 .input__textfield_error:focus {
-  background: white;
+  background: $input-background-color__focus;
 }
 
 

@@ -1,8 +1,10 @@
+@import '../shared.scss';
+
 .user-status {
 }
 
 .user-status__logout-link {
-  color: #0000BB;
+  color: $link-color;
   text-decoration: none;
 }
 

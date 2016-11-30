@@ -5,7 +5,7 @@ import {IUser} from '../model';
 @Component({
   selector: 'rsb-user-status',
   templateUrl: './user-status.component.html',
-  styleUrls: ['./user-status.component.css']
+  styleUrls: ['./user-status.component.scss']
 })
 export class UserStatusComponent implements OnInit {
 

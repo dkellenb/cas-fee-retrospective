@@ -1,0 +1,29 @@
+/**
+ * VARIABLES.
+ */
+
+/** COLORS */
+$input-border-color: #666666;
+$input-border-color__focus: #999999;
+
+$input-background-color: #ffffcc;
+$input-background-color__focus: #ffffff;
+
+$error-color: #d40000;
+
+$link-color: #0000bb;
+
+
+/**
+ * FORM ELEMENTS
+ */
+@mixin input-element {
+  border: 1px solid $input-border-color;
+  background: $input-background-color;
+  line-height: 1.25rem;
+  font-size: 0.875rem;
+  border-radius: 0.25rem;
+  padding: 0 0.25rem;
+  box-sizing: border-box;
+}
+

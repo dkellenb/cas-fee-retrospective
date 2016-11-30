@@ -10,7 +10,7 @@ export const TEXT_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 @Component({
   selector: 'rsb-text-input',
   templateUrl: './text-input.component.html',
-  styleUrls: ['./text-input.component.css'],
+  styleUrls: ['./text-input.component.scss'],
   providers: [TEXT_INPUT_CONTROL_VALUE_ACCESSOR]
 })
 export class TextInputComponent implements OnInit, ControlValueAccessor {
