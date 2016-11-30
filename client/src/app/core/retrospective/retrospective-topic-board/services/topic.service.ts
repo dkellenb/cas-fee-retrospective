@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
-import {IBasicRetrospectiveTopic, IRetrospectiveUser, IUser, IBasicRetrospectiveComment} from '../../../shared/model';
-import {AuthenticationService} from '../../../shared/services/authentication.service';
+import {IBasicRetrospectiveTopic, IRetrospectiveUser, IUser, IBasicRetrospectiveComment} from '../../../../shared/model';
+import {AuthenticationService} from '../../../../shared/services/authentication.service';
 import {IStickyNote, StickyNoteMode} from '../sticky-note';
 
 @Injectable()

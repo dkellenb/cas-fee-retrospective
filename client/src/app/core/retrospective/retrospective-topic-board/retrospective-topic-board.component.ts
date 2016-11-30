@@ -1,7 +1,7 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {IBasicRetrospectiveTopic, IRetrospectiveUser, RetrospectiveStatus} from '../../../shared/model';
 import {IconButtonType} from '../../../shared';
-import {TopicService} from './topic.service';
+import {TopicService} from './services/topic.service';
 @Component({
   selector: 'rsb-retrospective-topic-board',
   templateUrl: './retrospective-topic-board.component.html',

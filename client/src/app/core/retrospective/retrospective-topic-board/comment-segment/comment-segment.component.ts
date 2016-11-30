@@ -1,6 +1,6 @@
-import {Component, OnInit, Input, DoCheck} from '@angular/core';
-import {IconButtonType} from '../../../shared/';
-import {TopicService} from '../retrospective-topic-board/topic.service';
+import {Component, OnInit, DoCheck} from '@angular/core';
+import {IconButtonType} from '../../../../shared/';
+import {TopicService} from '../services/topic.service';
 import {IStickyNote} from '../sticky-note/sticky-note.interface';
 
 @Component({

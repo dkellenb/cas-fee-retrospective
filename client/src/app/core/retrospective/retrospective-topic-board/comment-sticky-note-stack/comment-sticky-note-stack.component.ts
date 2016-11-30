@@ -1,5 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {StickyNoteService} from '../../../shared/services/sticky-note.service';
+import {StickyNoteService} from '../../../../shared/services/sticky-note.service';
 
 @Component({
   selector: 'rsb-comment-sticky-note-stack',

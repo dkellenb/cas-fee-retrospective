@@ -1,12 +1,12 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {IconButtonType} from '../../../shared';
+import {IconButtonType} from '../../../../shared';
 import {IStickyNote} from './sticky-note.interface';
 import {StickyNoteMode} from './sticky-note-mode.enum';
 
 @Component({
   selector: 'rsb-sticky-note',
-  templateUrl: './sticky-note.component.html',
-  styleUrls: ['./sticky-note.component.css']
+  templateUrl: 'sticky-note.component.html',
+  styleUrls: ['sticky-note.component.css']
 })
 export class StickyNoteComponent implements OnInit {
 
