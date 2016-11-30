@@ -8,13 +8,13 @@
   <div class="sticky-note__footer">
     <rsb-split-bar>
       <rsb-split-bar-container-left>
-        <span *ngIf="!stickyNote.anonymous" class="text text__content_small">{{stickyNote.author}}</span>
+        <span *ngIf="showAuthor" class="text text__content_small">{{stickyNote.author.shortName}}</span>
       </rsb-split-bar-container-left>
       <rsb-split-bar-container-right>
         <rsb-button-set>
           <rsb-icon-button *ngIf="isVoteMode" [buttonType]="iconButtonType.VOTE"></rsb-icon-button>
-          <rsb-icon-button *ngIf="isEditMode||isNewMode" [buttonType]="iconButtonType.CHECK_MARK"></rsb-icon-button>
-          <rsb-icon-button *ngIf="isEditMode||isNewMode" [buttonType]="iconButtonType.ABOARD"></rsb-icon-button>
+          <rsb-icon-button *ngIf="showSaveButton" [buttonType]="iconButtonType.CHECK_MARK"></rsb-icon-button>
+          <rsb-icon-button *ngIf="showSaveButton" [buttonType]="iconButtonType.ABOARD"></rsb-icon-button>
         </rsb-button-set>
       </rsb-split-bar-container-right>
     </rsb-split-bar>

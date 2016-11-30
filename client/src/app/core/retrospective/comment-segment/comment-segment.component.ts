@@ -1,7 +1,7 @@
 import {Component, OnInit, Input, DoCheck} from '@angular/core';
-import {IBasicRetrospectiveComment, IRetrospectiveUser} from '../../../shared/model';
 import {IconButtonType} from '../../../shared/';
 import {TopicService} from '../retrospective-topic-board/topic.service';
+import {IStickyNote} from '../sticky-note/sticky-note.interface';
 
 @Component({
   selector: 'rsb-comment-segment',
@@ -41,7 +41,7 @@ export class CommentSegmentComponent implements OnInit, DoCheck {
   }
 
 
-  public get comments(): IBasicRetrospectiveComment<IRetrospectiveUser>[] {
+  public get comments(): IStickyNote[] {
     return this.topicService.ownComments;
   }
 

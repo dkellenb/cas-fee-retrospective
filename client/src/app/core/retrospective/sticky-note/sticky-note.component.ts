@@ -16,9 +16,6 @@ export class StickyNoteComponent implements OnInit {
   @Input()
   private stickyNote: IStickyNote;
 
-  @Input()
-  private mode: StickyNoteMode = StickyNoteMode.Display;
-
   constructor() {
     this.stickyNote = <IStickyNote>{};
   }
@@ -27,18 +24,26 @@ export class StickyNoteComponent implements OnInit {
   }
 
   public get isEditMode(): boolean {
-    return this.mode === StickyNoteMode.Edit;
+    return this.stickyNote.mode === StickyNoteMode.Edit;
   }
 
   public get isVoteMode(): boolean {
-    return this.mode === StickyNoteMode.Vote;
+    return this.stickyNote.mode === StickyNoteMode.Vote;
   }
 
   public get isNewMode(): boolean {
-    return this.mode === StickyNoteMode.New;
+    return this.stickyNote.mode === StickyNoteMode.New;
   }
 
   public get isDisplayMode(): boolean {
-    return this.mode === StickyNoteMode.Display;
+    return this.stickyNote.mode === StickyNoteMode.Display;
+  }
+
+  public get showSaveButton(): boolean {
+    return this.isEditMode || this.isNewMode;
+  }
+
+  public get showAuthor() {
+    return !this.stickyNote.anonymous && this.stickyNote.author !== null;
   }
 }

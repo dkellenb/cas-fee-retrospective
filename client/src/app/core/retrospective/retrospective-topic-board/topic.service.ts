@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
-import {IBasicRetrospectiveTopic, IRetrospectiveUser} from '../../../shared/model';
+import {IBasicRetrospectiveTopic, IRetrospectiveUser, IUser, IBasicRetrospectiveComment} from '../../../shared/model';
 import {AuthenticationService} from '../../../shared/services/authentication.service';
-import {IBasicRetrospectiveComment} from '../../../shared/model/RetrospectiveDomainModel';
-import {IUser} from '../../../shared/model/UserDomainModel';
+import {IStickyNote, StickyNoteMode} from '../sticky-note';
 
 @Injectable()
 export class TopicService {
@@ -21,10 +20,11 @@ export class TopicService {
   }
 
   public createNewComment() {
-    let comment: IBasicRetrospectiveComment<IRetrospectiveUser> = <IBasicRetrospectiveComment<IRetrospectiveUser>>{};
+    let comment: IStickyNote = <IStickyNote>{};
     comment.author = this.getLoggedInRetrospectiveUser();
     comment.anonymous = false;
     comment.topicUuid = this._topic.uuid;
+    comment.mode = StickyNoteMode.New;
     console.log('create new comment');
     this._topic.comments.push(comment);
   }
@@ -42,14 +42,22 @@ export class TopicService {
   }
 
 
-  public get comments(): IBasicRetrospectiveComment<IRetrospectiveUser>[] {
-    return this._topic.comments;
+  public get comments(): IStickyNote[] {
+    return this._topic.comments.map(this.mapIBasicRetrospectiveCommentToIStickyNote);
   }
 
-  public get ownComments(): IBasicRetrospectiveComment<IRetrospectiveUser>[] {
+  public get ownComments(): IStickyNote[] {
     return this._topic.comments.filter((comment: IBasicRetrospectiveComment<IRetrospectiveUser>) => {
       return comment.author.uuid === this.authService.getLoggedInUser().uuid;
-    });
+    }).map(this.mapIBasicRetrospectiveCommentToIStickyNote);
+  }
+
+  private mapIBasicRetrospectiveCommentToIStickyNote(comment: IBasicRetrospectiveComment<IRetrospectiveUser>): IStickyNote {
+    let sticky: IStickyNote = <IStickyNote>comment;
+    if (sticky.mode === null) {
+      sticky.mode = StickyNoteMode.Display;
+    }
+    return sticky;
   }
 
 
