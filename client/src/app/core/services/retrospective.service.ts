@@ -147,6 +147,7 @@ export class RetrospectiveService {
   }
 
   public deleteComment(topicId: string, commentId: string): Observable<boolean> {
+    console.log('delete on Server Comment' + commentId);
     return this.authHttp.delete(this.createCommentIdEndpoint(this._currentRetrospective.uuid, topicId, commentId)).map(response => {
       if (response.status === 204) {
         return true;
@@ -176,6 +177,8 @@ export class RetrospectiveService {
           case 'newStatus':
             console.log('Change status');
             break;
+          default:
+            console.log('Unknown Websocket Action ' + websocketAction.action);
         }
       });
   }
@@ -214,7 +217,7 @@ export class RetrospectiveService {
     this._currentRetrospective.topics.forEach((topic) => {
       let commentIndex = topic.comments.findIndex((c) => c.uuid === commentId);
       if (commentIndex >= 0) {
-        topic.comments = topic.comments.splice(commentIndex);
+        topic.comments = topic.comments.splice(commentIndex, 1);
       }
     });
   }

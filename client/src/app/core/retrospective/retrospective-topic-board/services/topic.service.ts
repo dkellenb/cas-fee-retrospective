@@ -47,7 +47,10 @@ export class TopicService {
         this._topic.comments.splice(index, 1);
       }
     } else {
-      this.retrospectiveService.deleteComment(this._topic.uuid, stickyNote.uuid);
+      this.retrospectiveService.deleteComment(this._topic.uuid, stickyNote.uuid).first().subscribe(success => {
+          console.log('Comment deleted on Server with id ' + stickyNote.uuid);
+        }
+      );
     }
   }
 
