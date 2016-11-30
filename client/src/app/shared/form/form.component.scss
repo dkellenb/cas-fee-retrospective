@@ -1,3 +1,5 @@
+@import '../shared.scss';
+
 .form {
   padding-top: 1rem;
 }
@@ -14,7 +16,7 @@
 
 .form__submit {
   width: 100%;
-  border-top: solid 1px #999999;
+  border-top: solid 1px $panel-border-color;
   display: table;
   padding: 0.25rem;
   box-sizing: border-box;

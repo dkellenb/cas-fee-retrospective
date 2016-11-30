@@ -6,7 +6,7 @@ import {StickyNoteMode} from './sticky-note-mode.enum';
 @Component({
   selector: 'rsb-sticky-note',
   templateUrl: 'sticky-note.component.html',
-  styleUrls: ['sticky-note.component.css']
+  styleUrls: ['sticky-note.component.scss']
 })
 export class StickyNoteComponent implements OnInit {
 

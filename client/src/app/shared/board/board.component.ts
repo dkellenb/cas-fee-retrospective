@@ -7,7 +7,7 @@ import {IconButtonType} from '../icon-button';
 @Component({
   selector: 'rsb-board',
   templateUrl: './board.component.html',
-  styleUrls: ['./board.component.css'],
+  styleUrls: ['./board.component.scss'],
   animations: [
     trigger('collapse', [
       state(BoardComponent.OPEN, style({})),

@@ -6,7 +6,7 @@ import {RetrospectiveService} from '../services/retrospective.service';
 @Component({
   selector: 'rsb-retrospective',
   templateUrl: './retrospective.component.html',
-  styleUrls: ['./retrospective.component.css']
+  styleUrls: ['./retrospective.component.scss']
 })
 export class RetrospectiveComponent implements OnInit {
 
