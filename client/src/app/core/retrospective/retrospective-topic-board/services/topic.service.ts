@@ -28,7 +28,6 @@ export class TopicService {
     comment.anonymous = false;
     comment.topicUuid = this._topic.uuid;
     comment.mode = StickyNoteMode.New;
-    console.log('create new comment');
     this._topic.comments.push(comment);
   }
 
@@ -36,6 +35,30 @@ export class TopicService {
     if (stickyNote.mode === StickyNoteMode.New) {
       this.createNewComment(stickyNote);
     }
+  }
+
+  public deleteComment(stickyNote: IStickyNote) {
+    console.log('delete Comment');
+    if (stickyNote.uuid == null) {
+      let index = this._topic.comments.indexOf(stickyNote);
+      if (index > -1) {
+        this._topic.comments.splice(index, 1);
+      }
+    } else {
+      this.retrospectiveService.deleteComment(this._topic.uuid, stickyNote.uuid);
+    }
+  }
+
+  public reloadStickyNote(stickyNote: IStickyNote) {
+    this.retrospectiveService.getComment(stickyNote.uuid)
+      .first()
+      .map(this.mapIBasicRetrospectiveCommentToIStickyNote)
+      .subscribe((resetNote: IStickyNote) => {
+        let index = this._topic.comments.map(comment => {
+          return comment.uuid;
+        }).indexOf(resetNote.uuid);
+        this.comments[index] = resetNote;
+      });
   }
 
   private createNewComment(stickyNote: IStickyNote) {
@@ -75,9 +98,9 @@ export class TopicService {
     }).map(this.mapIBasicRetrospectiveCommentToIStickyNote);
   }
 
-  private mapIBasicRetrospectiveCommentToIStickyNote(comment: IBasicRetrospectiveComment<IRetrospectiveUser>): IStickyNote {
+  private mapIBasicRetrospectiveCommentToIStickyNote(comment: IBasicRetrospectiveComment < IRetrospectiveUser >): IStickyNote {
     let sticky: IStickyNote = <IStickyNote>comment;
-    if (sticky.mode === null) {
+    if (sticky.mode == null) {
       sticky.mode = StickyNoteMode.Display;
     }
     return sticky;

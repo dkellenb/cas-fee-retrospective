@@ -5,6 +5,7 @@ export class IconButtonType {
   public static ADD: IconButtonType = new IconButtonType('icon-button__icon_add', false);
   public static ABOARD: IconButtonType = new IconButtonType('icon-button__icon_aboard', false);
   public static DELETE: IconButtonType = new IconButtonType('icon-button__icon_delete', false);
+  public static EDIT: IconButtonType = new IconButtonType('icon-button__icon_edit', false);
   public static CHECK_MARK: IconButtonType = new IconButtonType('icon-button__icon_check-mark', false);
   public static ARROW_UP: IconButtonType = new IconButtonType('icon-button__icon_collapsible_close', false);
   public static ARROW_DOWN: IconButtonType = new IconButtonType('icon-button__icon_collapsible_open', false);

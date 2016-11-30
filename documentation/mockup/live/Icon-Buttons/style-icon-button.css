@@ -34,7 +34,11 @@
 }
 
 .icon-button__icon_delete:before {
-    content: '\2717';
+    content: '\01F5D1';
+}
+
+.icon-button__icon_edit:before {
+    content: '\270E';
 }
 
 .icon-button__icon_check-mark:before {

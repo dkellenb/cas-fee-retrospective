@@ -27,7 +27,12 @@ export class StickyNoteComponent implements OnInit {
   }
 
   public aboardEdit(): void {
-
+    console.log('aboard edit: ' + this.stickyNote);
+    if (this.stickyNote.uuid == null) {
+      this.topicService.deleteComment(this.stickyNote);
+    } else {
+      this.topicService.reloadStickyNote(this.stickyNote);
+    }
   }
 
   public vote(): void {
