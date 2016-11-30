@@ -16,7 +16,6 @@ export class CarouselElementDirective {
 
   public updateElement(): void {
     if (this._isActive) {
-      console.log('scale: ' + this.scale + ' left:' + this.leftPostion);
       this.renderer.setElementStyle(this.el.nativeElement, 'left', this.leftPostion + '%');
       this.renderer.setElementStyle(this.el.nativeElement, 'z-index', '' + this.zIndex);
       this.renderer.setElementStyle(this.el.nativeElement, 'transform', 'translate(-50%, 0) scale(' + this.scale + ')');
@@ -32,7 +31,6 @@ export class CarouselElementDirective {
   }
 
   public set order(value) {
-    console.log(value);
     this._order = value;
     this._absOrder = Math.abs(value);
   }

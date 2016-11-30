@@ -86,8 +86,9 @@ export class BoardTitleDirective {
 /**
  * Buttons in Buttonset of the Board
  */
+
 @Directive({
-  selector: 'rsb-board-title'
+  selector: 'rsb-board-buttons'
 })
 export class BoardButtonsDirective {
 }

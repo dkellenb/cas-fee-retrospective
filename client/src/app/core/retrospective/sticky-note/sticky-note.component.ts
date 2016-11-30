@@ -1,6 +1,7 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {IBasicRetrospectiveComment, IRetrospectiveUser} from '../model';
-import {IconButtonType} from '../icon-button';
+import {IconButtonType} from '../../../shared';
+import {IStickyNote} from './sticky-note.interface';
+import {StickyNoteMode} from './sticky-note-mode.enum';
 
 @Component({
   selector: 'rsb-sticky-note',
@@ -13,13 +14,13 @@ export class StickyNoteComponent implements OnInit {
   private iconButtonType = IconButtonType;
 
   @Input()
-  private stickyNote: IBasicRetrospectiveComment<IRetrospectiveUser>;
+  private stickyNote: IStickyNote;
 
   @Input()
   private mode: StickyNoteMode = StickyNoteMode.Display;
 
   constructor() {
-    this.stickyNote = <IBasicRetrospectiveComment<IRetrospectiveUser>>{};
+    this.stickyNote = <IStickyNote>{};
   }
 
   ngOnInit() {
@@ -40,8 +41,4 @@ export class StickyNoteComponent implements OnInit {
   public get isDisplayMode(): boolean {
     return this.mode === StickyNoteMode.Display;
   }
-}
-
-export enum StickyNoteMode {
-  Edit, Vote, New, Display
 }

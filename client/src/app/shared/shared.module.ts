@@ -19,7 +19,6 @@ import {ButtonSetComponent, ButtonSetElementDirective} from './button-set';
 import {ButtonSetTextComponent} from './button-set-text';
 import {FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective} from './form';
 import {ConfigurationService, AuthenticationService} from './services';
-import {StickyNoteComponent} from './sticky-note/sticky-note.component';
 import {GalleryComponent, GalleryElementComponent} from './gallery';
 import {CarouselModule} from './carousel';
 import {StickyNoteService} from './services/sticky-note.service';
@@ -31,7 +30,7 @@ import {UserStatusComponent} from './user-status/user-status.component';
     HeaderBarComponent, HeaderBarTitleDirective, HeaderBarMenuDirective,
     TextInputComponent,
     ButtonSetComponent, ButtonSetElementDirective, ButtonSetTextComponent, ButtonSetTextComponent,
-    FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective, StickyNoteComponent,
+    FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective,
     GalleryComponent, GalleryElementComponent,
     UserStatusComponent],
   imports: [CommonModule, HttpModule, RouterModule, FormsModule, CarouselModule],
@@ -42,8 +41,9 @@ import {UserStatusComponent} from './user-status/user-status.component';
     TextInputComponent,
     ButtonSetComponent, ButtonSetElementDirective, ButtonSetTextComponent,
     FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective,
-    StickyNoteComponent, GalleryComponent, GalleryElementComponent, CarouselModule,
-    UserStatusComponent
+    GalleryComponent, GalleryElementComponent, CarouselModule,
+    UserStatusComponent,
+    SplitBarComponent, SplitBarContainerLeftDirective, SplitBarContainerRightDirective
   ],
   providers: [
     ConfigurationService, AuthenticationService, StickyNoteService,

@@ -1,21 +1,26 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, DoCheck} from '@angular/core';
 import {IBasicRetrospectiveComment, IRetrospectiveUser} from '../../../shared/model';
 import {IconButtonType} from '../../../shared/';
-import {RetrospectiveService} from '../../services/retrospective.service';
+import {TopicService} from '../retrospective-topic-board/topic.service';
 
 @Component({
   selector: 'rsb-comment-segment',
   templateUrl: 'comment-segment.component.html',
   styleUrls: ['comment-segment.component.css']
 })
-export class CommentSegmentComponent implements OnInit {
-
+export class CommentSegmentComponent implements OnInit, DoCheck {
   public iconButtonType = IconButtonType;
 
-  @Input()
-  public comments: IBasicRetrospectiveComment<IRetrospectiveUser>[];
+  private numberOfComments: number = 0;
 
-  constructor(private retrospectiveService: RetrospectiveService) {
+  constructor(private topicService: TopicService) {
+  }
+
+  ngDoCheck(): void {
+    if (this.numberOfComments < this.comments.length) {
+      this.numberOfComments = this.comments.length;
+      console.log('new Comment has been added');
+    }
   }
 
   ngOnInit() {
@@ -23,12 +28,21 @@ export class CommentSegmentComponent implements OnInit {
 
 
   public createComment(): void {
-    this.comments.push(<IBasicRetrospectiveComment<IRetrospectiveUser>>{});
+    this.topicService.createNewComment();
   }
 
 
   public get hasComments(): boolean {
     return this.comments != null && this.comments.length > 0;
+  }
+
+  public get topicName(): string {
+    return this.topicService.topicName;
+  }
+
+
+  public get comments(): IBasicRetrospectiveComment<IRetrospectiveUser>[] {
+    return this.topicService.ownComments;
   }
 
 }

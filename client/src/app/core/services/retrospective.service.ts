@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {UserService} from './user.service';
 import {
   CreateRetrospectiveJSON, IBasicRetrospective, IRetrospectiveUser,
-  IBasicRetrospectiveComment, UpdateCommentJSON
+  IBasicRetrospectiveComment, UpdateCommentJSON, CreateCommentJSON
 } from '../../shared/model';
 import {ConfigurationService, AuthenticationService} from '../../shared/';
 import {Observable} from 'rxjs';
@@ -123,8 +123,22 @@ export class RetrospectiveService {
     });
   }
 
-  public updateComment(retrospectiveId: string, topicId: string, commentId: string, update: UpdateCommentJSON):
-      Observable<IBasicRetrospectiveComment<IRetrospectiveUser>> {
+  public createComment(retrospectiveId: string,
+                       topicId: string,
+                       create: CreateCommentJSON): Observable<IBasicRetrospectiveComment<IRetrospectiveUser>> {
+    return this.authHttp.post(this.createCommentEndpoint(retrospectiveId, topicId), create).map(response => {
+      if (response.status === 200) {
+        return response.json();
+      } else {
+        throw new Error(`Could not create comment on retro "${retrospectiveId}"`);
+      }
+    });
+  }
+
+  public updateComment(retrospectiveId: string,
+                       topicId: string,
+                       commentId: string,
+                       update: UpdateCommentJSON): Observable<IBasicRetrospectiveComment<IRetrospectiveUser>> {
     return this.authHttp.put(this.createCommentIdEndpoint(retrospectiveId, topicId, commentId), update).map(response => {
       if (response.status === 200) {
         return response.json();
@@ -223,7 +237,11 @@ export class RetrospectiveService {
     return this.createRetrospectiveIdEndpoint(retroId) + '/topics/' + topicId;
   }
 
+  private createCommentEndpoint(retroId: string, topicId: string) {
+    return this.createTopicIdEndpoint(retroId, topicId) + '/comments';
+  }
+
   private createCommentIdEndpoint(retroId: string, topicId: string, commentId: string) {
-    return this.createTopicIdEndpoint(retroId, topicId) + '/comments/' + commentId;
+    return this.createCommentEndpoint(retroId, topicId) + '/' + commentId;
   }
 }
