@@ -1,0 +1,13 @@
+<div class="comment-segment">
+  <!--If own comments present-->
+  <rsb-carousel *ngIf="hasComments">
+    <div rsbCarouselElement *ngFor="let comment of comments">
+      <rsb-sticky-note [stickyNote]="comment"></rsb-sticky-note>
+    </div>
+  </rsb-carousel>
+
+  <!--No own comments present-->
+  <div *ngIf="!hasComments" class="comment-segment__empty-space">
+    <rsb-icon-button [buttonType]="iconButtonType.ADD" (click)="createComment()"></rsb-icon-button>
+  </div>
+</div>

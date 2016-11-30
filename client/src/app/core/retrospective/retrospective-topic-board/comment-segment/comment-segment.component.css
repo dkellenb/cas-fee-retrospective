@@ -4,3 +4,8 @@
   height: 8.5rem;
   border-bottom: 1px solid #999999;
 }
+
+.comment-segment__empty-space {
+  text-align: center;
+  line-height: 7.25rem;
+}

@@ -5,7 +5,7 @@ import { RetrospectiveTopicBoardComponent } from './retrospective-topic-board.co
 
 describe('Component: RetrospectiveTopicBoard', () => {
   it('should create an instance', () => {
-    let component = new RetrospectiveTopicBoardComponent();
+    let component = new RetrospectiveTopicBoardComponent(null);
     expect(component).toBeTruthy();
   });
 });

@@ -8,6 +8,5 @@ export * from './button-set-text';
 export * from './form';
 export * from './services';
 export * from './html-uid-generator';
-export * from './sticky-note';
 export * from './gallery';
 export * from './user-status';
