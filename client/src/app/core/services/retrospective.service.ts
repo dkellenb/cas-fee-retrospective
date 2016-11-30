@@ -126,7 +126,7 @@ export class RetrospectiveService {
   public createComment(topicId: string,
                        create: CreateCommentJSON): Observable<IBasicRetrospectiveComment<IRetrospectiveUser>> {
     return this.authHttp.post(this.createCommentEndpoint(this._currentRetrospective.uuid, topicId), create).map(response => {
-      if (response.status === 200) {
+      if (response.status === 201) {
         return response.json();
       } else {
         throw new Error(`Could not create comment on retro "${this._currentRetrospective.uuid}"`);
