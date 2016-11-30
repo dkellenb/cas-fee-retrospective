@@ -40,6 +40,9 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
     if (this.getNumberOfElements() <= 0) {
       return;
     }
+    if (this.getNumberOfElements() <= this.topElement) {
+      this.topElement = (this.getNumberOfElements() - 1);
+    }
     let stepSize = this.calcStepSize(this.getNumberOfElements());
     this.carouselElements.forEach(function (carouselElement: CarouselElementDirective, index: number) {
       carouselElement.order = index - this.topElement;
