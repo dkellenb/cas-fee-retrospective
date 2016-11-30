@@ -3,13 +3,16 @@
   <rsb-board-body>
     <rsb-form>
       <rsb-form-body>
-        <rsb-text-input [labelText]="'Session-Key'" [id]="'joinSessionKey'"></rsb-text-input>
-        <rsb-text-input *ngIf="!isUserLoggedIn" [labelText]="'Shortname'"
-                        [id]="'joinSessionShortName'"></rsb-text-input>
+        <rsb-text-input [labelText]="'Session-Key'" [id]="'joinSessionKey'"
+                        [(ngModel)]="sessionKey"></rsb-text-input>
+        <rsb-text-input *ngIf="!isUserLoggedIn"
+                        [labelText]="'Shortname'"
+                        [id]="'joinSessionShortName'"
+                        [(ngModel)]="shortName"></rsb-text-input>
       </rsb-form-body>
       <rsb-form-submit>
         <rsb-icon-button [lableText]="'Join existing Session'" rsb-button-set-element
-                         [buttonType]="iconButtonType.ARROW_RIGHT"></rsb-icon-button>
+                         [buttonType]="iconButtonType.ARROW_RIGHT" (click)="joinSession()"></rsb-icon-button>
       </rsb-form-submit>
     </rsb-form>
   </rsb-board-body>

@@ -10,6 +10,14 @@ export class TopicService {
 
   private _topic: IBasicRetrospectiveTopic<IRetrospectiveUser>;
 
+  private static mapIBasicRetrospectiveCommentToIStickyNote(comment: IBasicRetrospectiveComment < IRetrospectiveUser >): IStickyNote {
+    let sticky: IStickyNote = <IStickyNote>comment;
+    if (sticky.mode == null) {
+      sticky.mode = StickyNoteMode.Display;
+    }
+    return sticky;
+  }
+
   constructor(private authService: AuthenticationService,
               private retrospectiveService: RetrospectiveService) {
   }
@@ -23,6 +31,9 @@ export class TopicService {
   }
 
   public addNewEmptyComment() {
+    if (this.hasCommentInEditMode) {
+      return;
+    }
     let comment: IStickyNote = <IStickyNote>{};
     comment.author = this.getLoggedInRetrospectiveUser();
     comment.anonymous = false;
@@ -48,7 +59,9 @@ export class TopicService {
       }
     } else {
       this.retrospectiveService.deleteComment(this._topic.uuid, stickyNote.uuid).first().subscribe(success => {
-          console.log('Comment deleted on Server with id ' + stickyNote.uuid);
+          if (success) {
+            console.log('Comment deleted on Server with id ' + stickyNote.uuid);
+          }
         }
       );
     }
@@ -57,7 +70,7 @@ export class TopicService {
   public reloadStickyNote(stickyNote: IStickyNote) {
     this.retrospectiveService.getComment(stickyNote.uuid)
       .first()
-      .map(this.mapIBasicRetrospectiveCommentToIStickyNote)
+      .map(TopicService.mapIBasicRetrospectiveCommentToIStickyNote)
       .subscribe((resetNote: IStickyNote) => {
         let index = this._topic.comments.map(comment => {
           return comment.uuid;
@@ -72,7 +85,7 @@ export class TopicService {
     comment.description = stickyNote.description;
     comment.anonymous = stickyNote.author !== null;
     this.retrospectiveService.createComment(this._topic.uuid, comment)
-      .map(this.mapIBasicRetrospectiveCommentToIStickyNote)
+      .map(TopicService.mapIBasicRetrospectiveCommentToIStickyNote)
       .first()
       .subscribe((returnStickyNote: IStickyNote) => {
         stickyNote.uuid = returnStickyNote.uuid;
@@ -87,7 +100,7 @@ export class TopicService {
     comment.anonymous = stickyNote.author !== null;
     this.retrospectiveService.updateComment(this._topic.uuid, stickyNote.uuid, comment)
       .first()
-      .subscribe((returnStickyNote: IStickyNote) => {
+      .subscribe(() => {
         stickyNote.mode = StickyNoteMode.Display;
       });
   }
@@ -104,24 +117,19 @@ export class TopicService {
     return retroUser;
   }
 
-
   public get comments(): IStickyNote[] {
-    return this._topic.comments.map(this.mapIBasicRetrospectiveCommentToIStickyNote);
+    return this._topic.comments.map(TopicService.mapIBasicRetrospectiveCommentToIStickyNote);
   }
 
   public get ownComments(): IStickyNote[] {
     return this._topic.comments.filter((comment: IBasicRetrospectiveComment<IRetrospectiveUser>) => {
       return comment.author.uuid === this.authService.getLoggedInUser().uuid;
-    }).map(this.mapIBasicRetrospectiveCommentToIStickyNote);
+    }).map(TopicService.mapIBasicRetrospectiveCommentToIStickyNote);
   }
 
-  private mapIBasicRetrospectiveCommentToIStickyNote(comment: IBasicRetrospectiveComment < IRetrospectiveUser >): IStickyNote {
-    let sticky: IStickyNote = <IStickyNote>comment;
-    if (sticky.mode == null) {
-      sticky.mode = StickyNoteMode.Display;
-    }
-    return sticky;
+  public get hasCommentInEditMode(): boolean {
+    return this.comments.find((stickyNote: IStickyNote) => {
+        return (stickyNote.mode === StickyNoteMode.Edit || stickyNote.mode === StickyNoteMode.New);
+      }) != null;
   }
-
-
 }

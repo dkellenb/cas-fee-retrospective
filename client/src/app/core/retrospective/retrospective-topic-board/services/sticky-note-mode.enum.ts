@@ -1,3 +1,3 @@
 export enum StickyNoteMode {
-  Edit, Vote, New, Display, Editable
+  Edit, New, Vote, Display, Editable
 }

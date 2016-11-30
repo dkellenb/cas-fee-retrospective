@@ -1,5 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {IconButtonType, AuthenticationService} from '../../../shared';
+import {Router, ActivatedRoute} from '@angular/router';
+import {RetrospectiveService} from '../../services';
 
 @Component({
   selector: 'rsb-join-session',
@@ -10,15 +12,28 @@ export class JoinSessionComponent implements OnInit {
 
   public iconButtonType = IconButtonType;
 
-  constructor(private authService: AuthenticationService) {
+  public shortName;
+  public sessionKey;
+
+  constructor(private authService: AuthenticationService,
+              private retrospectiveService: RetrospectiveService,
+              private router: Router,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
   }
 
+  public joinSession(): void {
+    this.retrospectiveService.joinRetrospective(this.sessionKey, this.shortName).subscribe(sucess => {
+      if (sucess) {
+        this.router.navigate([this.sessionKey], {relativeTo: this.route});
+      }
+    });
+  }
+
   public get isUserLoggedIn(): boolean {
     return this.authService.isUserLoggedIn();
   }
-
 
 }

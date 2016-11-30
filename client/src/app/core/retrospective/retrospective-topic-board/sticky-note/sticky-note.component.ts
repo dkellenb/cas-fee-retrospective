@@ -1,11 +1,23 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, trigger, state, transition, style, animate} from '@angular/core';
 import {IconButtonType} from '../../../../shared';
 import {TopicService, IStickyNote, StickyNoteMode} from '../services/';
 
 @Component({
   selector: 'rsb-sticky-note',
   templateUrl: './sticky-note.component.html',
-  styleUrls: ['./sticky-note.component.scss']
+  styleUrls: ['./sticky-note.component.scss'],
+  animations: [
+    trigger('flyInOut', [
+      state('in', style({transform: 'translateX(0)'})),
+      transition('void => *', [
+        style({transform: 'translateX(-100%)'}),
+        animate(100)
+      ]),
+      transition('* => void', [
+        animate(100, style({transform: 'translateX(100%)'}))
+      ])
+    ])
+  ]
 })
 export class StickyNoteComponent implements OnInit {
 
@@ -68,7 +80,7 @@ export class StickyNoteComponent implements OnInit {
   }
 
   public get showEditButton(): boolean {
-    return this.isEditableMode;
+    return this.isEditableMode && !this.topicService.hasCommentInEditMode;
   }
 
   public get showDeleteButton(): boolean {

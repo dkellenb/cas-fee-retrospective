@@ -41,7 +41,7 @@ export class RetrospectiveService {
           if (response.status === 204) {
             return true;
           } else {
-            console.log(`Couldn't joint retrospective "${retrospectiveId}"`);
+            console.log(`Couldn't join retrospective "${retrospectiveId}"`);
             return false;
           }
         }, e => {
