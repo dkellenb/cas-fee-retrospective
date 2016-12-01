@@ -1,7 +1,8 @@
 import {Injectable} from '@angular/core';
 import {IBasicRetrospectiveTopic, IRetrospectiveUser, IUser, IBasicRetrospectiveComment} from '../../../../shared/model';
 import {AuthenticationService} from '../../../../shared/services/authentication.service';
-import {IStickyNote, StickyNoteMode} from './';
+import {StickyNoteMode} from './sticky-note-mode.enum';
+import {IStickyNote} from './sticky-note.interface';
 import {RetrospectiveService} from '../../../services/retrospective.service';
 import {CreateCommentJSON, UpdateCommentJSON} from '../../../../shared/model/RetrospectiveDomainModel';
 

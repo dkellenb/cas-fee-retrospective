@@ -1,7 +1,6 @@
 import {Component, OnInit, DoCheck} from '@angular/core';
 import {IconButtonType} from '../../../../shared/';
-import {TopicService, IStickyNote} from '../services';
-import {StickyNoteMode} from '../services/sticky-note-mode.enum';
+import {TopicService, IStickyNote, StickyNoteMode} from '../services';
 
 @Component({
   selector: 'rsb-comment-segment',
