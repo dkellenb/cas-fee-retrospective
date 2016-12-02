@@ -1,4 +1,7 @@
-import {Component, OnInit, ContentChild, forwardRef, AfterContentInit, ViewChild, AfterViewInit} from '@angular/core';
+import {
+  Component, OnInit, ContentChild, forwardRef, AfterContentInit, ViewChild, AfterViewInit,
+  EventEmitter
+} from '@angular/core';
 import {IconButtonType, CarouselComponent} from '../../../../shared/';
 import {TopicService, IStickyNote, StickyNoteMode} from '../services';
 
@@ -20,7 +23,7 @@ export class CommentSegmentComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     console.log(this.commentCarousel);
-    this.topicService.registerForNewCommentEvent().subscribe((position: number) => {
+    this.topicService.newComment$.subscribe((position: number) => {
       //at First comment no Carousel exists
       if (this.commentCarousel != null) {
         this.commentCarousel.moveCarouselToPosition(position);

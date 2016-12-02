@@ -1,4 +1,5 @@
-import {Directive, Renderer, ElementRef, OnChanges} from '@angular/core';
+import {Directive, Renderer, ElementRef, OnChanges, EventEmitter} from '@angular/core';
+import {Subject} from "rxjs";
 
 @Directive({
   selector: '[rsbCarouselElement]'
@@ -10,9 +11,16 @@ export class CarouselElementDirective {
   private _stepSize = 0;
   private _scaleSize = 1;
   private _isActive = true;
-  private _isTopElement=false;
+  private _isTopElement = false;
+
+  public hasBeenClicked$: Subject<number>;
 
   constructor(private el: ElementRef, private renderer: Renderer) {
+    renderer.listen(el.nativeElement, 'click', (event) => {
+      if (!this.isTopElement && this.hasBeenClicked$ != null) {
+        this.hasBeenClicked$.next(this._order);
+      }
+    })
   }
 
   public updateElement(): void {

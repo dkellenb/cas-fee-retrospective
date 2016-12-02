@@ -1,16 +1,19 @@
-import {Component, OnInit, ContentChildren, QueryList, AfterViewInit, Input, OnChanges, DoCheck} from '@angular/core';
+import {Component, OnInit, ContentChildren, QueryList, AfterViewInit, Input, OnChanges} from '@angular/core';
 import {CarouselElementDirective} from './carousel-element.directive';
+import {Subject} from "rxjs";
 
 @Component({
   selector: 'rsb-carousel',
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss']
 })
-export class CarouselComponent implements OnInit, AfterViewInit, OnChanges, DoCheck {
+export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
 
   private range: number = 25;
 
   private topElement: number = 0;
+
+  private carouselElementHasBeenClicked$: Subject<number> = new Subject<number>();
 
   @ContentChildren(CarouselElementDirective)
   private carouselElements: QueryList<CarouselElementDirective>;
@@ -20,6 +23,11 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges, DoCh
 
   constructor() {
     this.topElement = 0;
+
+    this.carouselElementHasBeenClicked$.subscribe((offset: number) => {
+      this.topElement = this.topElement + offset;
+      this.updateCarouselElementPositions();
+    })
   }
 
   public ngOnInit() {
@@ -27,9 +35,6 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges, DoCh
 
   public ngOnChanges() {
     this.updateCarouselElementPositions();
-  }
-
-  public ngDoCheck(): void {
   }
 
   public ngAfterViewInit(): void {
@@ -58,6 +63,7 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges, DoCh
       carouselElement.isCarouselActive = this.isCarouselActive;
       carouselElement.isTopElement = (index == this.topElement);
       carouselElement.updateElement();
+      carouselElement.hasBeenClicked$ = this.carouselElementHasBeenClicked$;
     }.bind(this));
   }
 

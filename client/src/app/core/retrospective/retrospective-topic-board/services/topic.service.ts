@@ -10,7 +10,7 @@ import {StickyNoteMode} from './sticky-note-mode.enum';
 import {IStickyNote} from './sticky-note.interface';
 import {RetrospectiveService} from '../../../services/retrospective.service';
 import {CreateCommentJSON, UpdateCommentJSON} from '../../../../shared/model/RetrospectiveDomainModel';
-import {Observable, Observer} from "rxjs";
+import {Observable, Observer, Subject} from "rxjs";
 
 @Injectable()
 export class TopicService implements OnDestroy {
@@ -18,14 +18,10 @@ export class TopicService implements OnDestroy {
 
   private _topic: IBasicRetrospectiveTopic<IRetrospectiveUser>;
 
-  private newCommentEventObservable: Observable<number> = Observable.create((observer: Observer<number>) => {
-    this.newCommentEventObserver = observer;
-  });
-
-  private newCommentEventObserver: Observer<number>;
+  public newComment$: Subject<number> = new Subject<number>();
 
   public ngOnDestroy(): void {
-    this.newCommentEventObserver.complete();
+    this.newComment$.complete();
   }
 
   private static mapIBasicRetrospectiveCommentToIStickyNote(comment: IBasicRetrospectiveComment < IRetrospectiveUser >): IStickyNote {
@@ -57,7 +53,7 @@ export class TopicService implements OnDestroy {
     comment.anonymous = false;
     comment.topicUuid = this._topic.uuid;
     comment.mode = StickyNoteMode.New;
-    this.newCommentEventObserver.next((this._topic.comments.push(comment)-1));
+    this.newComment$.next((this._topic.comments.push(comment) - 1));
   }
 
   public saveComment(stickyNote: IStickyNote) {
@@ -155,10 +151,4 @@ export class TopicService implements OnDestroy {
         return (stickyNote.mode === StickyNoteMode.Edit || stickyNote.mode === StickyNoteMode.New);
       }) != null;
   }
-
-
-  public registerForNewCommentEvent(): Observable<number> {
-    return this.newCommentEventObservable;
-  }
-
 }
