@@ -1,15 +1,32 @@
-import {Injectable} from '@angular/core';
-import {IBasicRetrospectiveTopic, IRetrospectiveUser, IUser, IBasicRetrospectiveComment} from '../../../../shared/model';
+import {Injectable, OnDestroy} from '@angular/core';
+import {
+  IBasicRetrospectiveTopic,
+  IRetrospectiveUser,
+  IUser,
+  IBasicRetrospectiveComment
+} from '../../../../shared/model';
 import {AuthenticationService} from '../../../../shared/services/authentication.service';
 import {StickyNoteMode} from './sticky-note-mode.enum';
 import {IStickyNote} from './sticky-note.interface';
 import {RetrospectiveService} from '../../../services/retrospective.service';
 import {CreateCommentJSON, UpdateCommentJSON} from '../../../../shared/model/RetrospectiveDomainModel';
+import {Observable, Observer} from "rxjs";
 
 @Injectable()
-export class TopicService {
+export class TopicService implements OnDestroy {
+
 
   private _topic: IBasicRetrospectiveTopic<IRetrospectiveUser>;
+
+  private newCommentEventObservable: Observable<number> = Observable.create((observer: Observer<number>) => {
+    this.newCommentEventObserver = observer;
+  });
+
+  private newCommentEventObserver: Observer<number>;
+
+  public ngOnDestroy(): void {
+    this.newCommentEventObserver.complete();
+  }
 
   private static mapIBasicRetrospectiveCommentToIStickyNote(comment: IBasicRetrospectiveComment < IRetrospectiveUser >): IStickyNote {
     let sticky: IStickyNote = <IStickyNote>comment;
@@ -40,7 +57,7 @@ export class TopicService {
     comment.anonymous = false;
     comment.topicUuid = this._topic.uuid;
     comment.mode = StickyNoteMode.New;
-    this._topic.comments.push(comment);
+    this.newCommentEventObserver.next((this._topic.comments.push(comment)-1));
   }
 
   public saveComment(stickyNote: IStickyNote) {
@@ -90,6 +107,11 @@ export class TopicService {
       .first()
       .subscribe((returnStickyNote: IStickyNote) => {
         stickyNote.uuid = returnStickyNote.uuid;
+        stickyNote.topicUuid = returnStickyNote.topicUuid;
+        stickyNote.title = returnStickyNote.title;
+        stickyNote.description = returnStickyNote.description;
+        stickyNote.author = returnStickyNote.author;
+        stickyNote.votes = returnStickyNote.votes;
         stickyNote.mode = StickyNoteMode.Display;
       });
   }
@@ -133,4 +155,10 @@ export class TopicService {
         return (stickyNote.mode === StickyNoteMode.Edit || stickyNote.mode === StickyNoteMode.New);
       }) != null;
   }
+
+
+  public registerForNewCommentEvent(): Observable<number> {
+    return this.newCommentEventObservable;
+  }
+
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit, ContentChildren, QueryList, AfterViewInit, Input, OnChanges} from '@angular/core';
+import {Component, OnInit, ContentChildren, QueryList, AfterViewInit, Input, OnChanges, DoCheck} from '@angular/core';
 import {CarouselElementDirective} from './carousel-element.directive';
 
 @Component({
@@ -6,9 +6,10 @@ import {CarouselElementDirective} from './carousel-element.directive';
   templateUrl: './carousel.component.html',
   styleUrls: ['./carousel.component.scss']
 })
-export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
+export class CarouselComponent implements OnInit, AfterViewInit, OnChanges, DoCheck {
 
   private range: number = 25;
+
   private topElement: number = 0;
 
   @ContentChildren(CarouselElementDirective)
@@ -21,19 +22,26 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
     this.topElement = 0;
   }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
 
-  ngOnChanges() {
+  public ngOnChanges() {
     this.updateCarouselElementPositions();
   }
 
-  ngAfterViewInit(): void {
+  public ngDoCheck(): void {
+  }
+
+  public ngAfterViewInit(): void {
     this.updateCarouselElementPositions();
     this.carouselElements.changes.subscribe(() => {
         this.updateCarouselElementPositions();
       }
     );
+  }
+
+  public moveCarouselToPosition(position: number) {
+    this.topElement = position;
   }
 
   private updateCarouselElementPositions() {
@@ -48,25 +56,26 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
       carouselElement.order = index - this.topElement;
       carouselElement.stepSize = stepSize;
       carouselElement.isCarouselActive = this.isCarouselActive;
+      carouselElement.isTopElement = (index == this.topElement);
       carouselElement.updateElement();
     }.bind(this));
   }
 
-  public moveCarouselRight(): void {
+  private moveCarouselRight(): void {
     if (this.topElement < (this.getNumberOfElements() - 1)) {
       this.topElement++;
     }
     this.updateCarouselElementPositions();
   }
 
-  public moveCarouselLeft(): void {
+  private moveCarouselLeft(): void {
     if (this.topElement > 0) {
       this.topElement--;
     }
     this.updateCarouselElementPositions();
   }
 
-  public showNavigationArrows(): boolean {
+  private showNavigationArrows(): boolean {
     return (this.getNumberOfElements() > 1)
       && this.carouselActive;
   }

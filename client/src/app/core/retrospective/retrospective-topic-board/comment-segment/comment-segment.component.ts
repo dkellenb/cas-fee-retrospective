@@ -1,5 +1,5 @@
-import {Component, OnInit, DoCheck} from '@angular/core';
-import {IconButtonType} from '../../../../shared/';
+import {Component, OnInit, ContentChild, forwardRef, AfterContentInit, ViewChild, AfterViewInit} from '@angular/core';
+import {IconButtonType, CarouselComponent} from '../../../../shared/';
 import {TopicService, IStickyNote, StickyNoteMode} from '../services';
 
 @Component({
@@ -7,37 +7,34 @@ import {TopicService, IStickyNote, StickyNoteMode} from '../services';
   templateUrl: './comment-segment.component.html',
   styleUrls: ['./comment-segment.component.css']
 })
-export class CommentSegmentComponent implements OnInit, DoCheck {
+export class CommentSegmentComponent implements OnInit, AfterViewInit {
   public iconButtonType = IconButtonType;
 
-  private numberOfComments: number = 0;
+  @ViewChild(CarouselComponent) public commentCarousel: CarouselComponent;
 
   constructor(private topicService: TopicService) {
   }
 
-  ngDoCheck(): void {
-    if (this.numberOfComments < this.comments.length) {
-      this.numberOfComments = this.comments.length;
-      console.log('new Comment has been added');
-    }
+  ngOnInit() {
   }
 
-  ngOnInit() {
+  ngAfterViewInit(): void {
+    console.log(this.commentCarousel);
+    this.topicService.registerForNewCommentEvent().subscribe((position: number) => {
+      //at First comment no Carousel exists
+      if (this.commentCarousel != null) {
+        this.commentCarousel.moveCarouselToPosition(position);
+      }
+    })
   }
 
   public createComment(): void {
     this.topicService.addNewEmptyComment();
   }
 
-
   public get hasComments(): boolean {
     return this.comments != null && this.comments.length > 0;
   }
-
-  public get topicName(): string {
-    return this.topicService.topicName;
-  }
-
 
   public get comments(): IStickyNote[] {
     return this.topicService.ownComments.map((stickyNote: IStickyNote) => {

@@ -10,6 +10,7 @@ export class CarouselElementDirective {
   private _stepSize = 0;
   private _scaleSize = 1;
   private _isActive = true;
+  private _isTopElement=false;
 
   constructor(private el: ElementRef, private renderer: Renderer) {
   }
@@ -50,5 +51,13 @@ export class CarouselElementDirective {
 
   private get scale(): number {
     return 1 - (this._absOrder * this._scaleSize);
+  }
+
+  get isTopElement(): boolean {
+    return this._isTopElement;
+  }
+
+  set isTopElement(value: boolean) {
+    this._isTopElement = value;
   }
 }

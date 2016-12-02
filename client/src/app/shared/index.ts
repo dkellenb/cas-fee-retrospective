@@ -10,3 +10,4 @@ export * from './services';
 export * from './html-uid-generator';
 export * from './gallery';
 export * from './user-status';
+export * from './carousel';

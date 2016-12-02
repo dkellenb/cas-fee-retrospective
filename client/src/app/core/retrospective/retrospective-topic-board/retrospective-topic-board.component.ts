@@ -1,6 +1,6 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, ContentChild, AfterViewInit} from '@angular/core';
 import {IBasicRetrospectiveTopic, IRetrospectiveUser, RetrospectiveStatus} from '../../../shared/model';
-import {IconButtonType} from '../../../shared';
+import {IconButtonType, CarouselComponent} from '../../../shared';
 import {TopicService} from './services/topic.service';
 @Component({
   selector: 'rsb-retrospective-topic-board',
