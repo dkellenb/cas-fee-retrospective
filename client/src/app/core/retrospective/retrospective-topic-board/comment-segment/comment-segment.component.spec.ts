@@ -5,7 +5,7 @@ import {CommentSegmentComponent} from './comment-segment.component';
 
 describe('Component: CommentSegment', () => {
   it('should create an instance', () => {
-    let component = new CommentSegmentComponent();
+    let component = new CommentSegmentComponent(null);
     expect(component).toBeTruthy();
   });
 });

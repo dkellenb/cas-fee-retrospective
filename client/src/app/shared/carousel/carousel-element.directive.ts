@@ -1,10 +1,18 @@
-import {Directive, Renderer, ElementRef, OnChanges, EventEmitter} from '@angular/core';
+import {
+  Directive, Renderer, ElementRef, OnChanges, EventEmitter, ViewChild, ViewChildren,
+  ContentChildren
+} from '@angular/core';
 import {Subject} from "rxjs";
+import {CarouselDisableElementDirective} from "./carousel-disable-element.directive";
 
 @Directive({
   selector: '[rsbCarouselElement]'
 })
 export class CarouselElementDirective {
+
+
+  @ContentChildren(CarouselDisableElementDirective)
+  disableElements: CarouselDisableElementDirective[];
 
   private _order = 0;
   private _absOrder = 0;
@@ -33,6 +41,7 @@ export class CarouselElementDirective {
     } else {
       this.el.nativeElement.style = '';
     }
+    console.log('possible disable: ' + (this.disableElements ? this.disableElements.length : 'none'));
   }
 
   public set isCarouselActive(active: boolean) {
