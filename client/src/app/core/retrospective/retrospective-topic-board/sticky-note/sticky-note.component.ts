@@ -6,29 +6,8 @@ import {TopicService, IStickyNote, StickyNoteMode} from '../services/';
   selector: 'rsb-sticky-note',
   templateUrl: './sticky-note.component.html',
   styleUrls: ['./sticky-note.component.scss'],
-  animations: [
-    trigger('flyInOut', [
-      state('in', style({opacity: 1, transform: 'translateX(0)'})),
-      transition(':enter', [
-        style({
-          opacity: 0,
-          transform: 'translateX(-100%)'
-        }),
-        animate('0.2s ease-in')
-      ]),
-      transition(':leave', [
-        animate('0.2s 10 ease-out', style({
-          opacity: 0,
-          transform: 'translateX(100%)'
-        }))
-      ])
-    ])
-  ]
 })
 export class StickyNoteComponent implements OnInit {
-
-
-  private showState: string;
 
   // noinspection TsLint
   private iconButtonType = IconButtonType;
@@ -41,7 +20,6 @@ export class StickyNoteComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.showState = 'in';
   }
 
   public saveStickyNote(): void {

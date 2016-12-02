@@ -85,7 +85,7 @@ export class TopicService {
     comment.title = stickyNote.title;
     comment.description = stickyNote.description;
     comment.anonymous = stickyNote.author !== null;
-    this.retrospectiveService.createComment(this._topic.uuid, comment)
+    this.retrospectiveService.createComment(this._topic.uuid, comment).first()
       .map(TopicService.mapIBasicRetrospectiveCommentToIStickyNote)
       .first()
       .subscribe((returnStickyNote: IStickyNote) => {

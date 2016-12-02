@@ -14,12 +14,11 @@ export class RetrospectiveService {
 
   private _currentRetrospective: IBasicRetrospective<IRetrospectiveUser>;
 
-  private static extractRetrospectiveIdFromLocation(location: string): string {
+  private static extractIdFromLocation(location: string): string {
     if (location == null) {
       return null;
     }
     let id: string = location.substring((location.lastIndexOf('/') + 1), location.length);
-    console.log('id for retrospective is: ' + id);
     return id;
   }
 
@@ -65,7 +64,7 @@ export class RetrospectiveService {
     return this.setupUser(shortName).flatMap(success => {
       if (success) {
         return this.authHttp.post(this.configuration.retrospectiveEndpoint, retrospective).map(response => {
-          return RetrospectiveService.extractRetrospectiveIdFromLocation(response.headers.get('Location'));
+          return RetrospectiveService.extractIdFromLocation(response.headers.get('Location'));
         }, e => {
           console.log(e);
         });
@@ -125,9 +124,11 @@ export class RetrospectiveService {
 
   public createComment(topicId: string,
                        create: CreateCommentJSON): Observable<IBasicRetrospectiveComment<IRetrospectiveUser>> {
-    return this.authHttp.post(this.createCommentEndpoint(this._currentRetrospective.uuid, topicId), create).map(response => {
+    return this.authHttp.post(this.createCommentEndpoint(this._currentRetrospective.uuid, topicId), create)
+      .first()
+      .flatMap(response => {
       if (response.status === 201) {
-        return response.json();
+        return this.getComment(RetrospectiveService.extractIdFromLocation(response.headers.get('Location')));
       } else {
         throw new Error(`Could not create comment on retro "${this._currentRetrospective.uuid}"`);
       }
@@ -206,7 +207,9 @@ export class RetrospectiveService {
           if (commentIndex >= 0) {
             topics[0].comments[commentIndex] = comment;
           } else {
-            topics[0].comments.push(comment);
+            if (comment.author.uuid !== this.authService.getLoggedInUser().uuid) {
+              topics[0].comments.push(comment)
+            }
           }
         }
       }
