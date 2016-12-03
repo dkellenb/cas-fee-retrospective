@@ -29,7 +29,11 @@ export class RetrospectiveTopicBoardComponent implements OnInit {
     this.topicService.addNewEmptyComment();
   }
 
-  public get showAddCommentButton(): boolean {
+  private get showAddCommentButton(): boolean {
+    return this.retroStatus === RetrospectiveStatus.OPEN;
+  }
+
+  private get showCommentSegment() {
     return this.retroStatus === RetrospectiveStatus.OPEN;
   }
 }

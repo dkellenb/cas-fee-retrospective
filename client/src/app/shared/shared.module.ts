@@ -13,16 +13,15 @@ import {AUTH_PROVIDERS} from 'angular2-jwt';
 import {BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective} from './board';
 import {IconButtonComponent} from './icon-button';
 import {SplitBarComponent, SplitBarContainerRightDirective, SplitBarContainerLeftDirective} from './split-bar/';
-import {HeaderBarComponent, HeaderBarTitleDirective, HeaderBarMenuDirective} from './header-bar/header-bar.component';
-import {TextInputComponent} from './text-input/text-input.component';
+import {HeaderBarComponent, HeaderBarTitleDirective, HeaderBarMenuDirective} from './header-bar';
+import {TextInputComponent} from './text-input';
 import {ButtonSetComponent, ButtonSetElementDirective} from './button-set';
 import {ButtonSetTextComponent} from './button-set-text';
 import {FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective} from './form';
 import {ConfigurationService, AuthenticationService} from './services';
 import {GalleryComponent, GalleryElementComponent} from './gallery';
 import {CarouselModule} from './carousel';
-import {StickyNoteService} from './services/sticky-note.service';
-import {UserStatusComponent} from './user-status/user-status.component';
+import {UserStatusComponent} from './user-status';
 
 @NgModule({
   declarations: [BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective, IconButtonComponent,
@@ -46,7 +45,7 @@ import {UserStatusComponent} from './user-status/user-status.component';
     SplitBarComponent, SplitBarContainerLeftDirective, SplitBarContainerRightDirective
   ],
   providers: [
-    ConfigurationService, AuthenticationService, StickyNoteService,
+    ConfigurationService, AuthenticationService,
     AUTH_PROVIDERS
   ]
 })

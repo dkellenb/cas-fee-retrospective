@@ -5,6 +5,7 @@ import {StickyNoteComponent} from './sticky-note/sticky-note.component';
 import {CommentSegmentComponent} from './comment-segment/comment-segment.component';
 import {CommentStickyNoteStackComponent} from './comment-sticky-note-stack/comment-sticky-note-stack.component';
 import {SharedModule} from '../../../shared';
+import { CommentSurfaceComponent } from './comment-surface/comment-surface.component';
 
 @NgModule({
   imports: [
@@ -13,8 +14,8 @@ import {SharedModule} from '../../../shared';
   ],
   declarations: [RetrospectiveTopicBoardComponent,
     CommentSegmentComponent,
-    CommentStickyNoteStackComponent,
-    StickyNoteComponent],
+    StickyNoteComponent,
+    CommentSurfaceComponent],
   exports: [RetrospectiveTopicBoardComponent]
 })
 export class RetrospectiveTopicBoardModule {
