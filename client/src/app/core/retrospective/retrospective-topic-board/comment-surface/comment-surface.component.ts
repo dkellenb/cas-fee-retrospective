@@ -1,7 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {ToPromiseSignature} from 'rxjs/operator/toPromise';
-import {TopicService} from '../services/topic.service';
 import {RetrospectiveStatus} from '../../../../shared/model/RetrospectiveDomainModel';
+import {IStickyNote, TopicService} from '../services/';
 
 @Component({
   selector: 'rsb-comment-surface',
@@ -17,6 +16,14 @@ export class CommentSurfaceComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  public get comments(): IStickyNote[] {
+    return this.topicService.comments;
+  }
+
+  private get isCommentStack(): boolean {
+    return this.mode === RetrospectiveStatus.OPEN;
   }
 
 }

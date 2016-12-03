@@ -208,7 +208,7 @@ export class RetrospectiveService {
             topics[0].comments[commentIndex] = comment;
           } else {
             if (comment.author.uuid !== this.authService.getLoggedInUser().uuid) {
-              topics[0].comments.push(comment)
+              topics[0].comments.push(comment);
             }
           }
         }

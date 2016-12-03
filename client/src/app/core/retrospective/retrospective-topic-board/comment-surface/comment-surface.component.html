@@ -1,3 +1,5 @@
-<div class="comment-surface"><p>
-  comment-sticky-note-stack works! {{countEvent}}
-</p></div>
+<div class="comment-surface gallery gallery__elements">
+  <div class="gallery__element" *ngFor="let comment of comments">
+    <rsb-sticky-note [stickyNote]="comment" [covered]="isCommentStack"></rsb-sticky-note>
+  </div>
+</div>

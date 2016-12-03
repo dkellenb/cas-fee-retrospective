@@ -1,4 +1,4 @@
-<div class="sticky-note">
+<div class="sticky-note" [ngClass]="{'sticky-note__content_covered': covered}">
   <div *ngIf="!covered" class="sticky-note__header">
     <h3 *ngIf="!showForm" class="title title__content_third">{{stickyNote.title}}</h3>
     <rsb-text-input *ngIf="showForm" [(ngModel)]="stickyNote.title"></rsb-text-input>

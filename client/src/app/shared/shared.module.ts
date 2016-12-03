@@ -19,7 +19,6 @@ import {ButtonSetComponent, ButtonSetElementDirective} from './button-set';
 import {ButtonSetTextComponent} from './button-set-text';
 import {FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective} from './form';
 import {ConfigurationService, AuthenticationService} from './services';
-import {GalleryComponent, GalleryElementComponent} from './gallery';
 import {CarouselModule} from './carousel';
 import {UserStatusComponent} from './user-status';
 
@@ -30,7 +29,6 @@ import {UserStatusComponent} from './user-status';
     TextInputComponent,
     ButtonSetComponent, ButtonSetElementDirective, ButtonSetTextComponent, ButtonSetTextComponent,
     FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective,
-    GalleryComponent, GalleryElementComponent,
     UserStatusComponent],
   imports: [CommonModule, HttpModule, RouterModule, FormsModule, CarouselModule],
   exports: [CommonModule, HttpModule, RouterModule, FormsModule,
@@ -39,8 +37,8 @@ import {UserStatusComponent} from './user-status';
     HeaderBarComponent, HeaderBarTitleDirective, HeaderBarMenuDirective,
     TextInputComponent,
     ButtonSetComponent, ButtonSetElementDirective, ButtonSetTextComponent,
-    FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective,
-    GalleryComponent, GalleryElementComponent, CarouselModule,
+    FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective
+    , CarouselModule,
     UserStatusComponent,
     SplitBarComponent, SplitBarContainerLeftDirective, SplitBarContainerRightDirective
   ],
