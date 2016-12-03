@@ -1,4 +1,4 @@
-import {Component, OnInit, ContentChildren, QueryList, AfterViewInit, Input, OnChanges} from '@angular/core';
+import {Component, OnInit, ContentChildren, QueryList, AfterViewInit, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {CarouselElementDirective} from './carousel-element.directive';
 import {Subject} from 'rxjs';
 
@@ -33,13 +33,17 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
   public ngOnInit() {
   }
 
-  public ngOnChanges() {
+  public ngOnChanges(changes: SimpleChanges) {
     this.updateCarouselElementPositions();
   }
 
   public ngAfterViewInit(): void {
     this.updateCarouselElementPositions();
     this.carouselElements.changes.subscribe(() => {
+        // if last element was removed and was top element set to next last element the top element.
+        if (this.getNumberOfElements() <= this.topElement) {
+          this.topElement = (this.getNumberOfElements() - 1);
+        }
         this.updateCarouselElementPositions();
       }
     );
@@ -47,21 +51,19 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
 
   public moveCarouselToPosition(position: number) {
     this.topElement = position;
+    this.updateCarouselElementPositions();
   }
 
   private updateCarouselElementPositions() {
     if (this.getNumberOfElements() <= 0) {
       return;
     }
-    if (this.getNumberOfElements() <= this.topElement) {
-      this.topElement = (this.getNumberOfElements() - 1);
-    }
     let stepSize = this.calcStepSize(this.getNumberOfElements());
     this.carouselElements.forEach(function (carouselElement: CarouselElementDirective, index: number) {
       carouselElement.order = index - this.topElement;
       carouselElement.stepSize = stepSize;
       carouselElement.isCarouselActive = this.isCarouselActive;
-      carouselElement.isTopElement = (index == this.topElement);
+      carouselElement.isTopElement = (index === this.topElement);
       carouselElement.updateElement();
       carouselElement.hasBeenClicked$ = this.carouselElementHasBeenClicked$;
     }.bind(this));

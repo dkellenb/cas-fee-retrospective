@@ -45,9 +45,13 @@ export class TopicService implements OnDestroy {
   }
 
   public addNewEmptyComment(): void {
-    if (this.hasCommentInEditMode) {
-      return;
+    let indexOfEdit: number = this.findIndexOfCommentInEditMode();
+    if (indexOfEdit > -1) {
+      console.log(indexOfEdit);
+      this.newComment$.next(indexOfEdit);
+      return; // there is already on note in Edit Mode move to this;
     }
+
     let comment: IStickyNote = <IStickyNote>{};
     comment.author = this.getLoggedInRetrospectiveUser();
     comment.anonymous = false;
@@ -65,7 +69,6 @@ export class TopicService implements OnDestroy {
   }
 
   public deleteComment(stickyNote: IStickyNote): void {
-    console.log('delete Comment');
     if (stickyNote.uuid == null) {
       let index = this._topic.comments.indexOf(stickyNote);
       if (index > -1) {
@@ -148,6 +151,12 @@ export class TopicService implements OnDestroy {
     return this.comments.find((stickyNote: IStickyNote) => {
         return (stickyNote.mode === StickyNoteMode.Edit || stickyNote.mode === StickyNoteMode.New);
       }) != null;
+  }
+
+  public findIndexOfCommentInEditMode(): number {
+    return this.comments.map((stickyNote: IStickyNote) => {
+      return stickyNote.mode === StickyNoteMode.Edit || stickyNote.mode === StickyNoteMode.New;
+    }).indexOf(true);
   }
 
 

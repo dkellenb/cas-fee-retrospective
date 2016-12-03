@@ -21,7 +21,6 @@ export class DisableElementDirective implements OnDestroy, OnInit {
   }
 
   private setDisabled(value: boolean) {
-    console.log('was called');
     if (value) {
       this.el.nativeElement.setAttribute('disabled', '');
     } else {

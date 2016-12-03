@@ -22,13 +22,12 @@ export class CommentSegmentComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log(this.commentCarousel);
     this.topicService.newComment$.subscribe((position: number) => {
-      //at First comment no Carousel exists
+      // at first comment no Carousel exists
       if (this.commentCarousel != null) {
         this.commentCarousel.moveCarouselToPosition(position);
       }
-    })
+    });
   }
 
   public createComment(): void {
