@@ -1,13 +1,13 @@
 <div class="sticky-note">
-  <div class="sticky-note__header">
+  <div *ngIf="!covered" class="sticky-note__header">
     <h3 *ngIf="!showForm" class="title title__content_third">{{stickyNote.title}}</h3>
     <rsb-text-input *ngIf="showForm" [(ngModel)]="stickyNote.title"></rsb-text-input>
   </div>
-  <div class="sticky-note__body">
+  <div *ngIf="!covered" class="sticky-note__body">
     <p *ngIf="!showForm">{{stickyNote.description}}</p>
     <rsb-text-input *ngIf="showForm" [(ngModel)]="stickyNote.description" [isTextArea]="true"></rsb-text-input>
   </div>
-  <div class="sticky-note__footer">
+  <div *ngIf="covered" class="sticky-note__footer">
     <rsb-split-bar>
       <rsb-split-bar-container-left>
         <span *ngIf="showAuthor" class="text text__content_small">{{stickyNote.author.shortName}}</span>

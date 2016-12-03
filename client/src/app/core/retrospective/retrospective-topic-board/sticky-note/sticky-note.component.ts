@@ -15,6 +15,9 @@ export class StickyNoteComponent implements OnInit {
   @Input()
   private stickyNote: IStickyNote;
 
+  @Input()
+  private covered: boolean = false;
+
   constructor(private topicService: TopicService) {
 
   }
