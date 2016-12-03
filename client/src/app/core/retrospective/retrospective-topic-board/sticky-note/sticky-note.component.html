@@ -7,7 +7,7 @@
     <p *ngIf="!showForm">{{stickyNote.description}}</p>
     <rsb-text-input *ngIf="showForm" [(ngModel)]="stickyNote.description" [isTextArea]="true"></rsb-text-input>
   </div>
-  <div *ngIf="covered" class="sticky-note__footer">
+  <div *ngIf="!covered" class="sticky-note__footer">
     <rsb-split-bar>
       <rsb-split-bar-container-left>
         <span *ngIf="showAuthor" class="text text__content_small">{{stickyNote.author.shortName}}</span>
