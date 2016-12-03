@@ -1,4 +1,4 @@
 .comment-surface {
-  width: 30vw;
-  height: 30vw;
+  width: 100%;
+  min-height: 30vw;
 }

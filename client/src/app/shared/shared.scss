@@ -49,6 +49,7 @@ $panel-background-color: #eeeeee;
 
 .gallery__elements {
   padding: 0.625rem 0 0.625rem 0.625rem; /*10px*/
+  box-sizing: border-box;
   position: relative;
   text-align: center;
   font-size: 0; /*white space killer*/
