@@ -28,7 +28,7 @@ export class CarouselElementDirective {
       if (!this.isTopElement && this.hasBeenClicked$ != null) {
         this.hasBeenClicked$.next(this._order);
       }
-    })
+    });
   }
 
   public updateElement(): void {

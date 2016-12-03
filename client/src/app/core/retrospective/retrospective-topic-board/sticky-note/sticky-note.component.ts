@@ -80,6 +80,6 @@ export class StickyNoteComponent implements OnInit {
   }
 
   public get showAuthor() {
-    return !this.stickyNote.anonymous && this.stickyNote.author !== null;
+    return this.stickyNote.author !== null;
   }
 }
