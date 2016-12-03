@@ -14,6 +14,11 @@
   background: $input-background-color__focus;
 }
 
+.input__textfield:disabled {
+  background: $input-background-color__disabled;
+}
+
+
 .input__textfield_large {
   width: 16rem;
 }
