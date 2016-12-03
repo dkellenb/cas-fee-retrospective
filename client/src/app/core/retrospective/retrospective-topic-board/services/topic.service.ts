@@ -10,7 +10,7 @@ import {StickyNoteMode} from './sticky-note-mode.enum';
 import {IStickyNote} from './sticky-note.interface';
 import {RetrospectiveService} from '../../../services/retrospective.service';
 import {CreateCommentJSON, UpdateCommentJSON} from '../../../../shared/model/RetrospectiveDomainModel';
-import {Observable, Observer, Subject} from "rxjs";
+import {Subject} from "rxjs";
 
 @Injectable()
 export class TopicService implements OnDestroy {
@@ -20,16 +20,16 @@ export class TopicService implements OnDestroy {
 
   public newComment$: Subject<number> = new Subject<number>();
 
-  public ngOnDestroy(): void {
-    this.newComment$.complete();
-  }
-
   private static mapIBasicRetrospectiveCommentToIStickyNote(comment: IBasicRetrospectiveComment < IRetrospectiveUser >): IStickyNote {
     let sticky: IStickyNote = <IStickyNote>comment;
     if (sticky.mode == null) {
       sticky.mode = StickyNoteMode.Display;
     }
     return sticky;
+  }
+
+  public ngOnDestroy(): void {
+    this.newComment$.complete();
   }
 
   constructor(private authService: AuthenticationService,

@@ -3,6 +3,6 @@
   <label *ngIf="hasErrorMessage()" [attr.for]="id" class="input__error-message">{{inputErrorMessage}}</label>
   <input  *ngIf="!isTextArea" rsbCarouselDisableElement [id]="id" type="text" class="input__textfield"
          [class.input__textfield_error]="hasErrorMessage()" [(ngModel)]="value">
-  <textarea *ngIf="isTextArea" rsbCarouselDisableElement [id]="id" class="input__textfield"
+  <textarea *ngIf="isTextArea" rsbCarouselDisableElement [id]="id" class="input__textfield input__textfield_textarea"
             [class.input__textfield_error]="hasErrorMessage()" [(ngModel)]="value"></textarea>
 </div>
