@@ -23,7 +23,6 @@ import {GalleryComponent, GalleryElementComponent} from './gallery';
 import {CarouselModule} from './carousel';
 import {StickyNoteService} from './services/sticky-note.service';
 import {UserStatusComponent} from './user-status/user-status.component';
-import {DisableService} from './disable-element/disable.service';
 
 @NgModule({
   declarations: [BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective, IconButtonComponent,
@@ -47,7 +46,7 @@ import {DisableService} from './disable-element/disable.service';
     SplitBarComponent, SplitBarContainerLeftDirective, SplitBarContainerRightDirective
   ],
   providers: [
-    ConfigurationService, AuthenticationService, StickyNoteService, DisableService,
+    ConfigurationService, AuthenticationService, StickyNoteService,
     AUTH_PROVIDERS
   ]
 })

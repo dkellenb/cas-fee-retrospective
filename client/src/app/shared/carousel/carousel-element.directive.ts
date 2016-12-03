@@ -35,7 +35,7 @@ export class CarouselElementDirective {
     } else {
       this.el.nativeElement.style = '';
     }
-    this.disableService.disableSubElements(!this._isTopElement);
+    this.disableService.disableSubElements(!this._isTopElement && this._isActive);
   }
 
   public set isCarouselActive(active: boolean) {

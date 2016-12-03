@@ -1,4 +1,4 @@
-import {Directive, Renderer, ElementRef, OnDestroy} from '@angular/core';
+import {Directive, Renderer, ElementRef, OnDestroy, Inject, OnInit, ReflectiveInjector, ResolvedReflectiveProvider, Optional} from '@angular/core';
 import {DisableService} from './disable.service';
 import {Subscription} from 'rxjs';
 
@@ -8,36 +8,30 @@ import {Subscription} from 'rxjs';
 /**
  * Disable a Element if it is not on top of the carousel.
  */
-export class DisableElementDirective implements OnDestroy {
-  private _isDisabled: boolean;
-
-
+export class DisableElementDirective implements OnDestroy, OnInit {
   private _subscrition: Subscription;
 
-  constructor(private el: ElementRef, private renderer: Renderer, disableService: DisableService) {
-    if (disableService != null) {
-      this._subscrition = disableService.hasBeenDisabled$.subscribe(this.setDisabled.bind(this));
+  constructor(private el: ElementRef, private renderer: Renderer, @Optional() private disableService: DisableService) {
+  }
+
+  ngOnInit(): void {
+    if (this.disableService != null) {
+      this._subscrition = this.disableService.hasBeenDisabled$.subscribe(this.setDisabled.bind(this));
     }
   }
 
   private setDisabled(value: boolean) {
-    console.log('disabled:' + value);
-    console.log(this.el);
-    console.log(this.renderer);
-
-    if (this.el != null) {
-      this._isDisabled = value;
-      if (this._isDisabled) {
-        console.log('set disable');
-        this.el.nativeElement.setAttribute('disabled', '');
-      } else {
-        this.el.nativeElement.removeAttribute('disabled');
-      }
-      this._isDisabled = value;
+    console.log('was called');
+    if (value) {
+      this.el.nativeElement.setAttribute('disabled', '');
+    } else {
+      this.el.nativeElement.removeAttribute('disabled');
     }
   }
 
   public ngOnDestroy(): void {
-    this._subscrition.unsubscribe();
+    if (this._subscrition != null) {
+      this._subscrition.unsubscribe();
+    }
   }
 }
