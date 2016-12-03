@@ -10,7 +10,7 @@ import {StickyNoteMode} from './sticky-note-mode.enum';
 import {IStickyNote} from './sticky-note.interface';
 import {RetrospectiveService} from '../../../services/retrospective.service';
 import {CreateCommentJSON, UpdateCommentJSON} from '../../../../shared/model/RetrospectiveDomainModel';
-import {Subject} from "rxjs";
+import {Subject} from 'rxjs';
 
 @Injectable()
 export class TopicService implements OnDestroy {
@@ -44,7 +44,7 @@ export class TopicService implements OnDestroy {
     return this._topic.name;
   }
 
-  public addNewEmptyComment() {
+  public addNewEmptyComment(): void {
     if (this.hasCommentInEditMode) {
       return;
     }
@@ -56,7 +56,7 @@ export class TopicService implements OnDestroy {
     this.newComment$.next((this._topic.comments.push(comment) - 1));
   }
 
-  public saveComment(stickyNote: IStickyNote) {
+  public saveComment(stickyNote: IStickyNote): void {
     if (stickyNote.mode === StickyNoteMode.New) {
       this.createNewComment(stickyNote);
     } else {
@@ -64,7 +64,7 @@ export class TopicService implements OnDestroy {
     }
   }
 
-  public deleteComment(stickyNote: IStickyNote) {
+  public deleteComment(stickyNote: IStickyNote): void {
     console.log('delete Comment');
     if (stickyNote.uuid == null) {
       let index = this._topic.comments.indexOf(stickyNote);
@@ -81,7 +81,7 @@ export class TopicService implements OnDestroy {
     }
   }
 
-  public reloadStickyNote(stickyNote: IStickyNote) {
+  public reloadStickyNote(stickyNote: IStickyNote): void {
     this.retrospectiveService.getComment(stickyNote.uuid)
       .first()
       .map(TopicService.mapIBasicRetrospectiveCommentToIStickyNote)
@@ -151,11 +151,9 @@ export class TopicService implements OnDestroy {
   }
 
 
-  private findIndexOfCommentByUuid(uuid: string) {
-    let index = this._topic.comments.map(comment => {
+  private findIndexOfCommentByUuid(uuid: string): number {
+    return this._topic.comments.map(comment => {
       return comment.uuid;
     }).indexOf(uuid);
-    console.log('index'+index);
-    return index;
   }
 }
