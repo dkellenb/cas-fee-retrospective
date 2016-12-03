@@ -86,10 +86,8 @@ export class TopicService implements OnDestroy {
       .first()
       .map(TopicService.mapIBasicRetrospectiveCommentToIStickyNote)
       .subscribe((resetNote: IStickyNote) => {
-        let index = this._topic.comments.map(comment => {
-          return comment.uuid;
-        }).indexOf(resetNote.uuid);
-        this.comments[index] = resetNote;
+        resetNote.mode = StickyNoteMode.Display;
+        this._topic.comments[this.findIndexOfCommentByUuid(stickyNote.uuid)] = resetNote;
       });
   }
 
@@ -150,5 +148,14 @@ export class TopicService implements OnDestroy {
     return this.comments.find((stickyNote: IStickyNote) => {
         return (stickyNote.mode === StickyNoteMode.Edit || stickyNote.mode === StickyNoteMode.New);
       }) != null;
+  }
+
+
+  private findIndexOfCommentByUuid(uuid: string) {
+    let index = this._topic.comments.map(comment => {
+      return comment.uuid;
+    }).indexOf(uuid);
+    console.log('index'+index);
+    return index;
   }
 }
