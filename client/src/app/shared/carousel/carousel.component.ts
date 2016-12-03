@@ -1,6 +1,6 @@
 import {Component, OnInit, ContentChildren, QueryList, AfterViewInit, Input, OnChanges} from '@angular/core';
 import {CarouselElementDirective} from './carousel-element.directive';
-import {Subject} from "rxjs";
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'rsb-carousel',
@@ -27,7 +27,7 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
     this.carouselElementHasBeenClicked$.subscribe((offset: number) => {
       this.topElement = this.topElement + offset;
       this.updateCarouselElementPositions();
-    })
+    });
   }
 
   public ngOnInit() {

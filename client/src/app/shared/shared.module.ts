@@ -7,7 +7,7 @@ import {RouterModule} from '@angular/router';
 import {FormsModule}   from '@angular/forms';
 
 // 3rd party
-import { AUTH_PROVIDERS } from 'angular2-jwt';
+import {AUTH_PROVIDERS} from 'angular2-jwt';
 
 // Shared
 import {BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective} from './board';
@@ -23,6 +23,7 @@ import {GalleryComponent, GalleryElementComponent} from './gallery';
 import {CarouselModule} from './carousel';
 import {StickyNoteService} from './services/sticky-note.service';
 import {UserStatusComponent} from './user-status/user-status.component';
+import {DisableService} from './disable-element/disable.service';
 
 @NgModule({
   declarations: [BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective, IconButtonComponent,
@@ -46,7 +47,7 @@ import {UserStatusComponent} from './user-status/user-status.component';
     SplitBarComponent, SplitBarContainerLeftDirective, SplitBarContainerRightDirective
   ],
   providers: [
-    ConfigurationService, AuthenticationService, StickyNoteService,
+    ConfigurationService, AuthenticationService, StickyNoteService, DisableService,
     AUTH_PROVIDERS
   ]
 })

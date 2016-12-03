@@ -1,18 +1,12 @@
-import {
-  Directive, Renderer, ElementRef, OnChanges, EventEmitter, ViewChild, ViewChildren,
-  ContentChildren
-} from '@angular/core';
-import {Subject} from "rxjs";
-import {CarouselDisableElementDirective} from "./carousel-disable-element.directive";
+import {Directive, Renderer, ElementRef} from '@angular/core';
+import {Subject} from 'rxjs';
+import {DisableService} from '../disable-element/disable.service';
 
 @Directive({
-  selector: '[rsbCarouselElement]'
+  selector: '[rsbCarouselElement]',
+  providers: [DisableService]
 })
 export class CarouselElementDirective {
-
-
-  @ContentChildren(CarouselDisableElementDirective)
-  disableElements: CarouselDisableElementDirective[];
 
   private _order = 0;
   private _absOrder = 0;
@@ -23,7 +17,7 @@ export class CarouselElementDirective {
 
   public hasBeenClicked$: Subject<number>;
 
-  constructor(private el: ElementRef, private renderer: Renderer) {
+  constructor(private el: ElementRef, private renderer: Renderer, private disableService: DisableService) {
     renderer.listen(el.nativeElement, 'click', (event) => {
       if (!this.isTopElement && this.hasBeenClicked$ != null) {
         this.hasBeenClicked$.next(this._order);
@@ -41,7 +35,7 @@ export class CarouselElementDirective {
     } else {
       this.el.nativeElement.style = '';
     }
-    console.log('possible disable: ' + (this.disableElements ? this.disableElements.length : 'none'));
+    this.disableService.disableSubElements(!this._isTopElement);
   }
 
   public set isCarouselActive(active: boolean) {
