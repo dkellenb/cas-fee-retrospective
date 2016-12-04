@@ -4,7 +4,7 @@ import TYPES from '../constant/types';
 import {UserRepository, RetrospectiveRepository, RetrospectiveDbModel} from '../repository/';
 import {
   RetrospectiveStatus, UpdateRetrospectiveJSON, IBasicRetrospective,
-  CreateCommentJSON, UpdateCommentJSON
+  CreateCommentJSON, UpdateCommentJSON, ChangeStatusJSON
 } from '../../../client/src/app/shared/model/RetrospectiveDomainModel';
 import {
   IPersistedRetrospectiveDbModel, PersistedRetrospectiveTopic,
@@ -138,6 +138,25 @@ export class RetrospectiveService {
                 resolve();
               }
             });
+          }
+        }
+      });
+    });
+  }
+
+  public changeStatus(currentUser: IUser, retrospectiveId: string, action: ChangeStatusJSON): Promise<IPersistedRetrospectiveDbModel> {
+    return new Promise<IPersistedRetrospectiveDbModel>((resolve, reject) => {
+      this.doRetrospectiveAction(currentUser, retrospectiveId, (error, persistedRetrospective, persistedUser) => {
+        if (error) {
+          reject(error);
+        } else {
+          if (persistedRetrospective.manager !== persistedUser._id && currentUser.systemRole !== UserRole.ADMIN) {
+            reject('User "' + currentUser.uuid + '" is not allowed to edit retrospective "' + retrospectiveId + '"');
+          } else {
+            persistedRetrospective.status = action.status;
+            persistedRetrospective.save();
+            this.webSocketService.retrospectiveStatusChanged(retrospectiveId, action.status);
+            resolve(persistedRetrospective);
           }
         }
       });

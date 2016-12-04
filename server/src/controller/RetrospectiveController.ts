@@ -7,6 +7,7 @@ import {
   CreateRetrospectiveJSON,
   UpdateRetrospectiveJSON, CreateCommentJSON, UpdateCommentJSON
 } from '../../../client/src/app/shared/model/';
+import {ChangeStatusJSON} from '../../../client/src/app/shared/model/RetrospectiveDomainModel';
 
 @injectable()
 @Controller('/rest/retrospectives')
@@ -67,6 +68,28 @@ export class RetrospectiveController {
     this.userService.getJwtUser(request)
       .then((currentUser) => this.retrospectiveService.deleteRetrospective(currentUser, request.params.id))
       .then(() => response.sendStatus(204))
+      .catch((err) => {
+        console.log(err);
+        response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});
+      });
+  }
+
+  @Get('/:id/status')
+  public getRetrospectiveStatus(request: Request, response: Response): void {
+    this.userService.getJwtUser(request)
+      .then((currentUser) => this.retrospectiveService.getPublicRetrospectiveSecured(currentUser, request.params.id))
+      .then((retrospective) => response.send({ status: retrospective.status }))
+      .catch((err) => {
+        console.log(err);
+        response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});
+      });
+  }
+
+  @Put('/:id/status')
+  public updateRetrospectiveStatus(request: Request, response: Response): void {
+    this.userService.getJwtUser(request)
+      .then((currentUser) => this.retrospectiveService.changeStatus(currentUser, request.params.id, <ChangeStatusJSON>request.body))
+      .then((retrospective) => response.sendStatus(204))
       .catch((err) => {
         console.log(err);
         response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});

@@ -34,8 +34,8 @@ URL: `/rest/retrospectives/:id/status`
 
 | +URL     | CMD    | Auth | Done | Description                                                       |
 |----------|--------|------|------|-------------------------------------------------------------------|
-|          | GET    |      |      | The current status of the retrospective                           |
-|          | PUT    |      |      | Change status of the retrospective                                |
+|          | GET    | X    | X    | The current status of the retrospective                           |
+|          | PUT    | X    | X    | Change status of the retrospective                                |
 
 ### Retrospective Management: Attendees
 
