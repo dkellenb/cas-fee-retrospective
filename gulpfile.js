@@ -32,6 +32,7 @@ gulp.task('client-build', function (cb) {
             console.log('ng build exited with code ' + code);
             cb(code);
         }
+        process.chdir('..');
         cb();
     });
 });
@@ -43,6 +44,18 @@ gulp.task('server-clean', function() {
 gulp.task('server-install', function() {
     return gulp.src(['/server/pacakge.json'])
        .pipe(install());
+});
+gulp.task('server-build', function(cb) {
+    process.chdir('server');
+    var ngBuild = spawn('gulp', ['default'], {stdio: 'inherit'});
+    ngBuild.on('close', function (code) {
+        if (code !== 0) {
+            console.log('gulp default exited with code ' + code);
+            cb(code);
+        }
+        process.chdir('..');
+        cb();
+    });
 });
 gulp.task('server-start', function() {
     process.chdir('server');
@@ -61,7 +74,12 @@ gulp.task('initial',
         ['client-gulpClean', 'server-clean'],
         'client-install',
         'server-install',
-        'client-build'
+        'client-build',
+        'server-build'
     )
 );
 gulp.task('run', ['server-start']);
+
+gulp.task('build-and-run',
+    gulpSequence('initial', 'server-start')
+);

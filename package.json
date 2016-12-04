@@ -14,7 +14,7 @@
     "typescript": "^2.0.10"
   },
   "scripts": {
-    "start": "ts-node server/src/server.ts"
+    "start": "gulp build-and-run"
   },
   "repository": {
     "type": "git",
