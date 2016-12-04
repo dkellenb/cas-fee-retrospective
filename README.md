@@ -6,7 +6,6 @@ This repository contains the project work of the two students [Daniel Kellenberg
 ### Installation
 1. `git co https://github.com/dkellenb/cas-fee-retrospective`
 1. `npm install -g gulp`
-1. `npm install -g ts-node`
 1. `gulp build`
 
 ### Configuration

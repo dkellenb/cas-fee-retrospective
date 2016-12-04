@@ -14,7 +14,8 @@
     "typescript": "^2.0.10"
   },
   "scripts": {
-    "start": "node node_modules/gulp/bin/gulp build-and-run"
+    "heroku-postbuild": "gulp initial",
+    "start": "gulp run"
   },
   "repository": {
     "type": "git",
