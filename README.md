@@ -7,7 +7,7 @@ This repository contains the project work of the two students [Daniel Kellenberg
 1. `git co https://github.com/dkellenb/cas-fee-retrospective`
 1. `npm install -g gulp`
 1. `npm install -g ts-node`
-1. `gulp initial`
+1. `gulp build`
 
 ### Configuration
 Copy file `server/server-config-template.json` to `server/server-config.json` and adapt it to your needs.

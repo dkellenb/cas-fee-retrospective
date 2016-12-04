@@ -69,7 +69,7 @@ gulp.task('server-start', function() {
     });
 });
 
-gulp.task('initial',
+gulp.task('build',
     gulpSequence(
         ['client-gulpClean', 'server-clean'],
         'client-install',
