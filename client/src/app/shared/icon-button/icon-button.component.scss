@@ -16,6 +16,8 @@
   text-align: center;
   box-sizing: content-box;
   vertical-align: middle;
+
+  cursor: pointer;
 }
 
 .icon-button:hover {
@@ -27,6 +29,7 @@
   border-color: $icon-border-color__disabled;
   background: $icon-background-color__disabled;
   color: $icon-border-color__disabled;
+  cursor: default;
 }
 
 

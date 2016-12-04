@@ -68,3 +68,10 @@ $panel-background-color: #eeeeee;
     height: 6rem;
   }
 }
+
+// Initial button
+html .comment-segment__empty-space .icon-button__icon_add {
+  font-size: 2.5rem;
+  width: 3rem;
+  height: 3rem;
+}
