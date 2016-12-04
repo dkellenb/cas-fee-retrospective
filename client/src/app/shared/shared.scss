@@ -8,15 +8,20 @@ $input-border-color__focus: #999999;
 
 $input-background-color: #ffffcc;
 $input-background-color__focus: #ffffff;
+$input-background-color__disabled: #eeeec2;
 
 $icon-border-color: #666666;
 $icon-border-width: 2px;
 $icon-text-color: #666666;
-$icon-background-color: #C0C0C0;
+$icon-background-color: #c0c0c0;
 
-$icon-text-color__hover: #999999;
-$icon-background-color__hover: #C0C0C0;
+$icon-text-color__hover: #c0c0c0;
+$icon-background-color__hover: #666666;
 $icon-background-color__success: #6dd15c;
+
+$icon-border-color__disabled: #c0c0c0;
+$icon-text-color__disabled: #c0c0c0;
+$icon-background-color__disabled: #dddddd;
 
 $error-color: #d40000;
 
@@ -24,7 +29,6 @@ $link-color: #0000bb;
 
 $panel-border-color: #999999;
 $panel-background-color: #eeeeee;
-
 
 /**
  * FORM ELEMENTS
@@ -37,5 +41,22 @@ $panel-background-color: #eeeeee;
   border-radius: 0.25rem;
   padding: 0 0.25rem;
   box-sizing: border-box;
+}
+
+.gallery {
+
+}
+
+.gallery__elements {
+  padding: 0.625rem 0 0.625rem 0.625rem; /*10px*/
+  box-sizing: border-box;
+  position: relative;
+  text-align: center;
+  font-size: 0; /*white space killer*/
+}
+
+.gallery__element {
+  display: inline-block;
+  margin: 0.625rem 0.625rem 0 0; /*10px*/
 }
 

@@ -1,8 +1,8 @@
-<div class="input" rsb-form-element>
+<div class="input" rsbFormElement>
   <label [attr.for]="id" class="input__label">{{labelText}}</label>
   <label *ngIf="hasErrorMessage()" [attr.for]="id" class="input__error-message">{{inputErrorMessage}}</label>
-  <input *ngIf="!isTextArea" [id]="id" type="text" class="input__textfield"
+  <input  *ngIf="!isTextArea" rsbDisableElement [id]="id" type="text" class="input__textfield"
          [class.input__textfield_error]="hasErrorMessage()" [(ngModel)]="value">
-  <textarea *ngIf="isTextArea" [id]="id" rows="5" class="input__textfield"
+  <textarea *ngIf="isTextArea" rsbDisableElement [id]="id" class="input__textfield input__textfield_textarea"
             [class.input__textfield_error]="hasErrorMessage()" [(ngModel)]="value"></textarea>
 </div>

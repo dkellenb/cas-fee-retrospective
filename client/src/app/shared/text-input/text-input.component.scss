@@ -1,9 +1,5 @@
 @import '../shared.scss';
 
-.form {
-
-}
-
 .input {
   display: block;
 }
@@ -17,6 +13,11 @@
   border-color: $input-border-color__focus;
   background: $input-background-color__focus;
 }
+
+.input__textfield:disabled {
+  background: $input-background-color__disabled;
+}
+
 
 .input__textfield_large {
   width: 16rem;
@@ -46,5 +47,10 @@
 .input__textfield_error:focus {
   background: $input-background-color__focus;
 }
+
+.input__textfield_textarea {
+  resize: none;
+}
+
 
 

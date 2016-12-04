@@ -12,7 +12,6 @@ export class WebSocketService {
   }
 
   get(retrospectiveId: string): Observable<WebSocketAction> {
-    console.log('Why i am called?');
     if (!this.socket) {
       this.socket = io.connect(this.configurationService.serverHostUrl, {
         path: this.configurationService.webSocketUrl

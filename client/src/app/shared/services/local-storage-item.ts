@@ -17,7 +17,7 @@ export class LocalStorageItem<T> {
   }
 
   isStored(): boolean {
-    return !(localStorage.getItem(this._key) === null);
+    return !(localStorage.getItem(this._key) == null);
   }
 
   deleteCache() {

@@ -1,5 +1,6 @@
-import {Component, OnInit, ContentChildren, QueryList, AfterViewInit, Input, OnChanges} from '@angular/core';
+import {Component, OnInit, ContentChildren, QueryList, AfterViewInit, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {CarouselElementDirective} from './carousel-element.directive';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'rsb-carousel',
@@ -9,7 +10,10 @@ import {CarouselElementDirective} from './carousel-element.directive';
 export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
 
   private range: number = 25;
+
   private topElement: number = 0;
+
+  private carouselElementHasBeenClicked$: Subject<number> = new Subject<number>();
 
   @ContentChildren(CarouselElementDirective)
   private carouselElements: QueryList<CarouselElementDirective>;
@@ -19,21 +23,35 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
 
   constructor() {
     this.topElement = 0;
+
+    this.carouselElementHasBeenClicked$.subscribe((offset: number) => {
+      this.topElement = this.topElement + offset;
+      this.updateCarouselElementPositions();
+    });
   }
 
-  ngOnInit() {
+  public ngOnInit() {
   }
 
-  ngOnChanges() {
+  public ngOnChanges(changes: SimpleChanges) {
     this.updateCarouselElementPositions();
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.updateCarouselElementPositions();
     this.carouselElements.changes.subscribe(() => {
+        // if last element was removed and was top element set to next last element the top element.
+        if (this.getNumberOfElements() <= this.topElement) {
+          this.topElement = (this.getNumberOfElements() - 1);
+        }
         this.updateCarouselElementPositions();
       }
     );
+  }
+
+  public moveCarouselToPosition(position: number) {
+    this.topElement = position;
+    this.updateCarouselElementPositions();
   }
 
   private updateCarouselElementPositions() {
@@ -45,25 +63,27 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
       carouselElement.order = index - this.topElement;
       carouselElement.stepSize = stepSize;
       carouselElement.isCarouselActive = this.isCarouselActive;
+      carouselElement.isTopElement = (index === this.topElement);
       carouselElement.updateElement();
+      carouselElement.hasBeenClicked$ = this.carouselElementHasBeenClicked$;
     }.bind(this));
   }
 
-  public moveCarouselRight(): void {
+  private moveCarouselRight(): void {
     if (this.topElement < (this.getNumberOfElements() - 1)) {
       this.topElement++;
     }
     this.updateCarouselElementPositions();
   }
 
-  public moveCarouselLeft(): void {
+  private moveCarouselLeft(): void {
     if (this.topElement > 0) {
       this.topElement--;
     }
     this.updateCarouselElementPositions();
   }
 
-  public showNavigationArrows(): boolean {
+  private showNavigationArrows(): boolean {
     return (this.getNumberOfElements() > 1)
       && this.carouselActive;
   }

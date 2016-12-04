@@ -1,2 +1,2 @@
 <label class="icon-button__lable" *ngIf="hasLable" [attr.for]="htmlUid">{{lableText}}</label>
-<button [attr.id]="htmlUid" class="icon-button {{htmlClassName}}" (click)="isToggleButton&&performToggle()"></button>
+<button rsbDisableElement [attr.id]="htmlUid" class="icon-button {{htmlClassName}}" (click)="isToggleButton&&performToggle()"></button>

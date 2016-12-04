@@ -23,6 +23,13 @@
   color: $icon-text-color__hover;
 }
 
+.icon-button:disabled{
+  border-color: $icon-border-color__disabled;
+  background: $icon-background-color__disabled;
+  color: $icon-border-color__disabled;
+}
+
+
 .icon-button__lable {
   padding: 0 0.25rem;
   vertical-align: middle;
@@ -41,7 +48,11 @@
 }
 
 .icon-button__icon_delete:before {
-  content: '\2717';
+  content: '\01F5D1';
+}
+
+.icon-button__icon_edit:before {
+  content: '\270E';
 }
 
 .icon-button__icon_check-mark:before {

@@ -1,7 +1,10 @@
-import {Directive, Renderer, ElementRef, OnChanges} from '@angular/core';
+import {Directive, Renderer, ElementRef} from '@angular/core';
+import {Subject} from 'rxjs';
+import {DisableService} from '../disable-element/disable.service';
 
 @Directive({
-  selector: '[rsbCarouselElement]'
+  selector: '[rsbCarouselElement]',
+  providers: [DisableService]
 })
 export class CarouselElementDirective {
 
@@ -10,8 +13,16 @@ export class CarouselElementDirective {
   private _stepSize = 0;
   private _scaleSize = 1;
   private _isActive = true;
+  private _isTopElement = false;
 
-  constructor(private el: ElementRef, private renderer: Renderer) {
+  public hasBeenClicked$: Subject<number>;
+
+  constructor(private el: ElementRef, private renderer: Renderer, private disableService: DisableService) {
+    renderer.listen(el.nativeElement, 'click', (event) => {
+      if (!this.isTopElement && this.hasBeenClicked$ != null) {
+        this.hasBeenClicked$.next(this._order);
+      }
+    });
   }
 
   public updateElement(): void {
@@ -24,6 +35,7 @@ export class CarouselElementDirective {
     } else {
       this.el.nativeElement.style = '';
     }
+    this.disableService.disableSubElements(!this._isTopElement && this._isActive);
   }
 
   public set isCarouselActive(active: boolean) {
@@ -50,5 +62,13 @@ export class CarouselElementDirective {
 
   private get scale(): number {
     return 1 - (this._absOrder * this._scaleSize);
+  }
+
+  get isTopElement(): boolean {
+    return this._isTopElement;
+  }
+
+  set isTopElement(value: boolean) {
+    this._isTopElement = value;
   }
 }

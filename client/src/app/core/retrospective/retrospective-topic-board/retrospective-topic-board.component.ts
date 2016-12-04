@@ -1,6 +1,6 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, ContentChild, AfterViewInit} from '@angular/core';
 import {IBasicRetrospectiveTopic, IRetrospectiveUser, RetrospectiveStatus} from '../../../shared/model';
-import {IconButtonType} from '../../../shared';
+import {IconButtonType, CarouselComponent} from '../../../shared';
 import {TopicService} from './services/topic.service';
 @Component({
   selector: 'rsb-retrospective-topic-board',
@@ -26,10 +26,14 @@ export class RetrospectiveTopicBoardComponent implements OnInit {
   }
 
   public addComment(): void {
-    this.topicService.createNewComment();
+    this.topicService.addNewEmptyComment();
   }
 
-  public get showAddCommentButton(): boolean {
+  private get showAddCommentButton(): boolean {
+    return this.retroStatus === RetrospectiveStatus.OPEN;
+  }
+
+  private get showCommentSegment() {
     return this.retroStatus === RetrospectiveStatus.OPEN;
   }
 }
