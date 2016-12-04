@@ -1,8 +1,8 @@
 import { injectable, inject } from 'inversify';
 import TYPES from '../constant/types';
 import { Request } from 'express';
-import { IUser, UserRole, CreateUserJSON, UpdateUserJSON } from '../../../client/src/app/shared/model';
-import { UUID, ErrorWithMessage } from '../../../client/src/app/shared/util';
+import { IUser, UserRole, CreateUserJSON, UpdateUserJSON } from '../../../client/src/app/shared/model/';
+import { UUID, ErrorWithMessage } from '../../../client/src/app/shared/util/';
 import { UserRepository } from '../repository/UserRepository';
 import { UserJwtService } from './UserJwtService';
 import { IPersistedUser, PersistedUser, UserToken, User } from '../repository/model/UserDbModel';
@@ -11,7 +11,7 @@ import { PublicUser, UserJwt } from './model/User';
 @injectable()
 export class UserService {
 
-  static convertUserToPublicUser(persistedUser: IPersistedUser):PublicUser {
+  static convertUserToPublicUser(persistedUser: IPersistedUser): PublicUser {
     let publicUser = new PublicUser();
     publicUser.uuid = persistedUser.uuid;
     publicUser.name = persistedUser.name;
@@ -19,7 +19,7 @@ export class UserService {
     return publicUser;
   }
 
-  static convertUserToIUser(persistedUser: IPersistedUser):IUser {
+  static convertUserToIUser(persistedUser: IPersistedUser): IUser {
     let user = new User();
     user.uuid = persistedUser.uuid;
     user.name = persistedUser.name;

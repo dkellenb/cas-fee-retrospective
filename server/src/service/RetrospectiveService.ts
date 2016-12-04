@@ -1,5 +1,5 @@
 import { injectable, inject } from 'inversify';
-import { CreateRetrospectiveJSON, IUser } from '../../../client/src/app/shared/model';
+import { CreateRetrospectiveJSON, IUser } from '../../../client/src/app/shared/model/';
 import TYPES from '../constant/types';
 import {UserRepository, RetrospectiveRepository, RetrospectiveDbModel} from '../repository/';
 import {

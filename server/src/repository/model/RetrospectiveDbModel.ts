@@ -2,9 +2,9 @@ import * as mongoose from 'mongoose';
 import * as mongodb from 'mongodb';
 import {IPersistedUser} from './UserDbModel';
 import {IRetrospectiveVote, IBasicRetrospective, IBasicRetrospectiveTopic, IBasicRetrospectiveComment}
-  from '../../../../client/src/app/shared/model';
+  from '../../../../client/src/app/shared/model/';
 import {UUID}
-  from '../../../../client/src/app/shared/util';
+  from '../../../../client/src/app/shared/util/';
 
 
 export interface IPersistedRetrospective extends IBasicRetrospective<mongodb.ObjectID> {

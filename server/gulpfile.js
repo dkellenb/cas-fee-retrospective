@@ -10,6 +10,7 @@ var gulp            = require('gulp'),
     sequence        = require('gulp-sequence'),
     concat          = require('gulp-concat'),
     mocha           = require('gulp-mocha'),
+    replace         = require('gulp-replace'),
     del             = require('del'),
     babel           = require('babel-register'),
     reflectMetadata = require('reflect-metadata'); // needed for typescript compilation
@@ -23,16 +24,12 @@ var srcExternal = [
     'typings/**/*.ts', 'node_modules/**/*.d.ts'
 ];
 var srcApp = [
-    __dirname + '/src/**/**.ts',
-    __dirname + '../shared/src/**/**.ts'
+    __dirname + '/src/**/**.ts'
 ];
 var srcTest = [
-    __dirname + '/test/**/**.ts',
-    __dirname + '../shared/test/**/**.ts'
+    __dirname + '/test/**/**.ts'
 ];
 var srcAll = srcApp.concat(srcTest);
-var srcCompileApp = srcApp.concat(srcExternal);
-var srcCompileTest = srcApp.concat(srcTest).concat(srcExternal);
 
 //******************************************************************************
 //* LINT
@@ -59,9 +56,12 @@ gulp.task('del', function() {
 });
 
 gulp.task('build-source', function() {
-    return tsProject.src()
-        .pipe(tsc(tsProject))
-        .js
+    var tsResult = gulp.src(['src/**/*.ts',
+        '../client/src/app/**/shared/model/*.ts',
+        '../client/src/app/**/shared/util/*.ts'])
+        .pipe(tsc(tsProject));
+    return tsResult.js
+        .pipe(replace('../../client/src/app/shared/', 'shared/'))
         .pipe(gulp.dest(__dirname + '/build/'));
 });
 
@@ -71,28 +71,10 @@ gulp.task('build', function (cb) {
 
 
 //******************************************************************************
-//* TEST
-//******************************************************************************
-
-gulp.task('test', function (cb) {
-    sequence('build-source', 'run-tests')(cb)
-});
-
-gulp.task('run-tests', function() {
-    return gulp.src(__dirname + '/build/**/*.spec.js')
-        .pipe(mocha({
-            reporter: 'progress',
-            compilers:babel
-        }));
-});
-
-
-
-//******************************************************************************
 //* DEFAULT
 //******************************************************************************
 gulp.task('default', function (cb) {
-    sequence('del', 'build-source', 'lint', 'run-tests')(cb)
+    sequence('del', 'build-source', 'lint')(cb)
 });
 
 gulp.task('watch', function() {

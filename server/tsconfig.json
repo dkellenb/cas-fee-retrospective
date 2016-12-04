@@ -20,9 +20,8 @@
   },
   "include": [
     "src/**/*",
-    "../shared/src/**/*",
     "test/**/*",
-    "../shared/test/**/*"
+    "../client/src/app/shared/model/*.ts"
   ],
   "exclude": [
     "node_modules"

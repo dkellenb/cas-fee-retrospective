@@ -25,27 +25,27 @@ export class WebSocketService {
   }
 
   public userAddedToRetrospective(retrospectiveId: string, userId: string) {
-    console.log(`[WS] retrospective '${retrospectiveId}': add user '${userId}'`)
+    console.log(`[WS] retrospective '${retrospectiveId}': add user '${userId}'`);
     this.socketIO.sockets.in(retrospectiveId).emit('newUser', userId);
   }
 
   public commentAddedToRetrospective(retrospectiveId: string, commentId: string) {
-    console.log(`[WS] retrospective '${retrospectiveId}': add comment '${commentId}'`)
+    console.log(`[WS] retrospective '${retrospectiveId}': add comment '${commentId}'`);
     this.socketIO.sockets.in(retrospectiveId).emit('newComment', commentId);
   }
 
   public commentUpdatedOnRetrospective(retrospectiveId: string, commentId: string) {
-    console.log(`[WS] retrospective '${retrospectiveId}': update comment '${commentId}'`)
+    console.log(`[WS] retrospective '${retrospectiveId}': update comment '${commentId}'`);
     this.socketIO.sockets.in(retrospectiveId).emit('updatedComment', commentId);
   }
 
   public commentRemovedFromRetrospective(retrospectiveId: string, commentId: string) {
-    console.log(`[WS] retrospective '${retrospectiveId}': delete comment '${commentId}'`)
+    console.log(`[WS] retrospective '${retrospectiveId}': delete comment '${commentId}'`);
     this.socketIO.sockets.in(retrospectiveId).emit('deletedComment', commentId);
   }
 
   public retrospectiveStatusChanged(retrospectiveId: string, newStatus: RetrospectiveStatus) {
-    console.log(`[WS] retrospective '${retrospectiveId}': change status '${newStatus}'`)
+    console.log(`[WS] retrospective '${retrospectiveId}': change status '${newStatus}'`);
     this.socketIO.sockets.in(retrospectiveId).emit('statusChanged', newStatus);
   }
 
