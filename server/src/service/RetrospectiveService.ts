@@ -109,7 +109,7 @@ export class RetrospectiveService {
         if (error) {
           reject(error);
         } else {
-          if (persistedRetrospective.manager !== persistedUser._id) {
+          if (persistedRetrospective.manager !== persistedUser._id && currentUser.systemRole !== UserRole.ADMIN) {
             reject('User "' + currentUser.uuid + '" is not allowed to edit retrospective "' + retrospectiveId + '"');
           } else {
             persistedRetrospective.name = updateRetrospective.name;
@@ -128,7 +128,7 @@ export class RetrospectiveService {
         if (error) {
           reject(error);
         } else {
-          if (persistedRetrospective.manager !== persistedUser._id) {
+          if (persistedRetrospective.manager !== persistedUser._id && currentUser.systemRole !== UserRole.ADMIN) {
             reject('User "' + currentUser.uuid + '" is not allowed to edit retrospective "' + retrospectiveId + '"');
           } else {
             this.retrospectiveRepository.delete(persistedRetrospective._id, (deleteError, result) => {

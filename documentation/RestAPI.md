@@ -22,11 +22,11 @@ URL: `/rest/retrospectives`
 
 | +URL     | CMD    | Auth | Done | Description                                                       |
 |----------|--------|------|------|-------------------------------------------------------------------|
-|          | GET    | X    |      | Returns all retrospectives the authenticated user has access to   |
+|          | GET    | X    | Part | Returns all retrospectives the authenticated user has access to   |
 |          | POST   |      | OK   | Creates a new retrospective                                       |
 | :id      | GET    | X    | OK   | Get details about the retrospective                               |
-| :id      | PUT    | X    |      | Updates the configuration of a retrospective                      |
-| :id      | DELETE | X    |      | Deletes the retrospective if the authenticated user can manage it |
+| :id      | PUT    | X    | OK   | Updates the configuration of a retrospective                      |
+| :id      | DELETE | X    | OK   | Deletes the retrospective if the authenticated user can manage it |
 
 ### Retrospective Management: Change status
 
