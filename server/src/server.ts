@@ -129,6 +129,8 @@ class RetroServer {
       console.log('REST Services available on:');
       console.log(hostname + ':' + port + '/rest/users');
       console.log(hostname + ':' + port + '/rest/retrospectives');
+      console.log('Full REST Documentation is availble on ../documentation/RestAPI.md');
+      console.log('');
     });
   }
 

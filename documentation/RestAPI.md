@@ -34,8 +34,8 @@ URL: `/rest/retrospectives/:id/status`
 
 | +URL     | CMD    | Auth | Done | Description                                                       |
 |----------|--------|------|------|-------------------------------------------------------------------|
-|          | GET    | X    | X    | The current status of the retrospective                           |
-|          | PUT    | X    | X    | Change status of the retrospective                                |
+|          | GET    | X    | OK   | The current status of the retrospective                           |
+|          | PUT    | X    | OK   | Change status of the retrospective                                |
 
 ### Retrospective Management: Attendees
 
@@ -86,7 +86,7 @@ URL `/rest/user`
 
 | +URL     | CMD    | Auth | Done | Description                                                       |
 |----------|--------|------|------|-------------------------------------------------------------------|
-|          | GET    | X    |      | Retrieve all users (incl. filter possibilites)                    |
+|          | GET    | X    | Part | Retrieve all users (incl. filter possibilites)                    |
 |          | POST   |      | OK   | Create new user and JWT token, in order to identify a user        |
 | current  | GET    | X    | OK   | Get the current user                                              |
 | :id      | GET    | X    | OK   | Gets the some details about the user (only public attributes)     |
