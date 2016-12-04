@@ -23,7 +23,7 @@ export class RetrospectiveComponent implements OnInit {
         this.retrospective = retrospective;
         console.log('load Retrospective with UUID: ' + this.retrospective.uuid);
       }, e => {
-        console.log('Wasn\'t able to finde Retrospective');
+        console.log('Wasn\'t able to find Retrospective');
         this.router.navigate(['']);
       });
   }

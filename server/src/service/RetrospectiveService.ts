@@ -63,7 +63,7 @@ export class RetrospectiveService {
     return new Promise<PublicRetrospective>((resolve, reject) => {
       this.getRetrospective(uuid)
         .then((retrospective) => {
-          if (retrospective.attendees.find((attendee) => attendee.uuid === currentUser.uuid)) {
+          if (retrospective.attendees.find((attendee) => attendee.uuid === currentUser.uuid) || currentUser.systemRole === UserRole.ADMIN) {
             resolve(retrospective);
           } else {
             reject('Illegal access to retrospective ' + uuid);
@@ -187,13 +187,16 @@ export class RetrospectiveService {
         if (error) {
           reject(error);
         } else {
-          if (persistedRetrospective.attendees.find((attendeeId) => {
-              console.log(attendeeId + ' vs ' + persistedUser._id);
-              return attendeeId === persistedUser._id;
-            }) === null) {
+          let userPartOfAttendees = persistedRetrospective.attendees.find((attendeeId) => {
+            console.log(attendeeId + ' vs ' + persistedUser._id + ' : ' + (attendeeId === persistedUser._id));
+            return attendeeId === persistedUser._id;
+          });
+          if (!userPartOfAttendees) {
             console.log('Register user ' + currentUser.uuid + ' to ' + retrospectiveId);
             persistedRetrospective.attendees.push(persistedUser._id);
             persistedRetrospective.save();
+          } else {
+            console.log(persistedUser._id + ' already found in ' + persistedRetrospective.attendees);
           }
           this.webSocketService.userAddedToRetrospective(retrospectiveId, currentUser.uuid);
           resolve(persistedRetrospective);
@@ -237,6 +240,7 @@ export class RetrospectiveService {
           pComment.description = updateComment.description || pComment.description;
           pComment.anonymous = updateComment.anonymous || pComment.anonymous;
           pRetrospective.save();
+          this.webSocketService.commentUpdatedOnRetrospective(retroId, pComment.uuid);
           resolve(pComment);
         }
       });
@@ -251,6 +255,7 @@ export class RetrospectiveService {
         } else {
           pTopic.comments = pTopic.comments.filter((comment) => comment.uuid !== commentId);
           pRetrospective.save();
+          this.webSocketService.commentRemovedFromRetrospective(retroId, pComment.uuid);
           resolve();
         }
       });

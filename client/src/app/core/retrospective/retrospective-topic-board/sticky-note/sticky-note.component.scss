@@ -26,9 +26,10 @@ $sticky-note-gradient-3: #ffff8e;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffcc', endColorstr='#ffff8e', GradientType=1); /* IE6-9 fallback on horizontal gradient */
 }
 
-.sticky-note__content_covered{
+.sticky-note__content_covered {
   width: 4rem; /*132px*/
   height: 4rem; /*132px*/
+  animation: 0.5s sticky-note-animation;
 }
 
 .sticky-note__header {
@@ -50,4 +51,9 @@ $sticky-note-gradient-3: #ffff8e;
 
 .sticky-note__author {
   width: 4.375rem; /*70px*/
+}
+
+@keyframes sticky-note-animation {
+  from {transform: scale(0.1)}
+  to {transform: scale(1)}
 }
