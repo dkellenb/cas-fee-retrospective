@@ -51,4 +51,9 @@ export class AbstractRepository<T extends mongoose.Document> {
     this._model.findById( _id, callback);
   }
 
+  findAll(callback: (error: any, result: T) => void) {
+    console.log('AbstractRepository#findAll');
+    this._model.find(callback);
+  }
+
 }
