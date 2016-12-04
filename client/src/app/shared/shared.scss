@@ -60,3 +60,11 @@ $panel-background-color: #eeeeee;
   margin: 0.625rem 0.625rem 0 0; /*10px*/
 }
 
+/**
+ * FIXME: Check how we can have cross-cutting styles
+ */
+@media screen and (min-width:900px) {
+  .sticky-note textarea {
+    height: 6rem;
+  }
+}

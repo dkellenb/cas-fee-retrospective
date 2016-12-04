@@ -40,8 +40,9 @@ $sticky-note-gradient-3: #ffff8e;
 }
 
 .sticky-note__body {
-  padding: 0.25rem;
   order: 2; /*flexbox*/
+  padding: 0.25rem;
+  overflow: auto;
 }
 
 .sticky-note__footer {
@@ -56,4 +57,19 @@ $sticky-note-gradient-3: #ffff8e;
 @keyframes sticky-note-animation {
   from {transform: scale(0.1)}
   to {transform: scale(1)}
+}
+
+@media screen and (min-width:900px) {
+  .sticky-note {
+    width: 12rem;
+    height: 12rem;
+  }
+  .sticky-note textarea {
+    font-weight: bold;
+  }
+  .sticky-note__content_covered {
+    width: 4rem;
+    height: 4rem;
+  }
+
 }
