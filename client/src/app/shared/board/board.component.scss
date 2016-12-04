@@ -6,7 +6,7 @@ $gradient-start-q: '#fafafa';
 $gradient-end-alpha: rgba(238, 238, 238, 1);
 
 .board {
-  min-width: 18.75rem; /*300px*/
+  min-width: 280px;
   width: 100%;
   border: solid 1px $panel-border-color;
   border-radius: 0.125rem;
