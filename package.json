@@ -25,5 +25,8 @@
   "bugs": {
     "url": "https://github.com/dkellenb/cas-fee-retrospective/issues"
   },
-  "homepage": "https://github.com/dkellenb/cas-fee-retrospective#readme"
+  "homepage": "https://github.com/dkellenb/cas-fee-retrospective#readme",
+  "engines": {
+    "node": "6.9.0"
+  }
 }
