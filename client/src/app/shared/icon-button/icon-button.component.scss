@@ -20,18 +20,22 @@
   cursor: pointer;
 }
 
+.icon-button:before {
+  font-family: FontAwesome, serif;
+  vertical-align: middle;
+}
+
 .icon-button:hover {
   background: $icon-background-color__hover;
   color: $icon-text-color__hover;
 }
 
-.icon-button:disabled{
+.icon-button:disabled {
   border-color: $icon-border-color__disabled;
   background: $icon-background-color__disabled;
   color: $icon-border-color__disabled;
   cursor: default;
 }
-
 
 .icon-button__lable {
   padding: 0 0.25rem;
@@ -43,7 +47,7 @@
 }
 
 .icon-button__icon_add:before {
-  content: '+';
+  content: '\f067';
 }
 
 .icon-button__icon_aboard:before {
@@ -51,11 +55,11 @@
 }
 
 .icon-button__icon_delete:before {
-  content: '\01F5D1';
+  content: '\f014';
 }
 
 .icon-button__icon_edit:before {
-  content: '\270E';
+  content: '\f040';
 }
 
 .icon-button__icon_check-mark:before {
@@ -81,6 +85,6 @@
 
 /*ToDo create svn for thump-up*/
 .icon-button__icon_vote-up:before {
-  content: '👍';
+  content: '\f087';
 }
 
