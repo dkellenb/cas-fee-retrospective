@@ -18,8 +18,7 @@ export class RetrospectiveService {
     if (location == null) {
       return null;
     }
-    let id: string = location.substring((location.lastIndexOf('/') + 1), location.length);
-    return id;
+    return location.substring((location.lastIndexOf('/') + 1), location.length);
   }
 
   constructor(private userService: UserService,
