@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {NotificationMessage} from "../notification-message/notification-message";
 
 @Component({
   selector: 'app-notifier',
@@ -7,9 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NotifierComponent implements OnInit {
 
-  constructor() { }
+
+  private _currendNotificationMessage: NotificationMessage;
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
 
+
+  private get hasMessage(): boolean {
+    return this._currendNotificationMessage != null;
+  }
 }
