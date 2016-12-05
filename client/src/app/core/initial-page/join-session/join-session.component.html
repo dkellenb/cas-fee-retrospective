@@ -3,6 +3,7 @@
   <rsb-board-body>
     <rsb-form>
       <rsb-form-body>
+        <rsb-notification-message [message]="successMessage"></rsb-notification-message>
         <rsb-text-input [labelText]="'Session-Key'" [id]="'joinSessionKey'"
                         [(ngModel)]="sessionKey"></rsb-text-input>
         <rsb-text-input *ngIf="!isUserLoggedIn"

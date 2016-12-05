@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {IconButtonType, AuthenticationService} from '../../../shared';
 import {Router, ActivatedRoute} from '@angular/router';
 import {RetrospectiveService} from '../../services';
+import {NotificationMessage} from '../../../shared/notification-message/notification-message';
+import {NotificationMessageType} from '../../../shared/notification-message/notification-message-type';
 
 @Component({
   selector: 'rsb-join-session',
@@ -36,4 +38,8 @@ export class JoinSessionComponent implements OnInit {
     return this.authService.isUserLoggedIn();
   }
 
+
+  public get successMessage(): NotificationMessage {
+    return new NotificationMessage(NotificationMessageType.SUCCESS, 'This was a Sucess');
+  }
 }

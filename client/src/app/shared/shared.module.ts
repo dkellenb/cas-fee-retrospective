@@ -21,6 +21,7 @@ import {FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDir
 import {ConfigurationService, AuthenticationService} from './services';
 import {CarouselModule} from './carousel';
 import {UserStatusComponent} from './user-status';
+import { NotificationMessageComponent } from './notification-message/notification-message.component';
 
 @NgModule({
   declarations: [BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective, IconButtonComponent,
@@ -29,7 +30,8 @@ import {UserStatusComponent} from './user-status';
     TextInputComponent,
     ButtonSetComponent, ButtonSetElementDirective, ButtonSetTextComponent, ButtonSetTextComponent,
     FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective,
-    UserStatusComponent],
+    UserStatusComponent,
+    NotificationMessageComponent],
   imports: [CommonModule, HttpModule, RouterModule, FormsModule, CarouselModule],
   exports: [CommonModule, HttpModule, RouterModule, FormsModule,
     BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective,
@@ -40,7 +42,8 @@ import {UserStatusComponent} from './user-status';
     FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective
     , CarouselModule,
     UserStatusComponent,
-    SplitBarComponent, SplitBarContainerLeftDirective, SplitBarContainerRightDirective
+    SplitBarComponent, SplitBarContainerLeftDirective, SplitBarContainerRightDirective,
+    NotificationMessageComponent
   ],
   providers: [
     ConfigurationService, AuthenticationService,

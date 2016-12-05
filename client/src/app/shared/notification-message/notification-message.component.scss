@@ -1,0 +1,73 @@
+.notification-message {
+  padding: 10px;
+  margin: 10px 0;
+}
+
+.notification-message__text {
+}
+
+.notification-message__text:before{
+  font-family: FontAwesome, serif;
+  font-style: normal;
+  font-weight: 400;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1em;
+  margin-left: .2em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale
+}
+
+.notification-message__content_info span{
+  color: #00529B;
+}
+
+.notification-message__content_success span {
+  color: #4F8A10;
+}
+
+.notification-message__content_warning span {
+  color: #9F6000;
+}
+
+.notification-message__content_warning span {
+  color: #9F6000;
+}
+
+.notification-message__content_info span:before {
+  content: "\f05a";
+}
+
+.notification-message__content_success span:before {
+  content: '\f058';
+}
+
+.notification-message__content_warning span:before {
+  content: '\f071';
+}
+
+.notification-message__content_error span:before {
+  content: '\f057';
+}
+
+.notification-message__content_info {
+  background-color: #BDE5F8;
+}
+
+.notification-message__content_success {
+  background-color: #DFF2BF;
+}
+
+.notification-message__content_warning {
+  background-color: #FEEFB3;
+}
+
+.notification-message__content_error {
+  background-color: #FFBABA;
+}
