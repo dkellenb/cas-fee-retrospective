@@ -1,17 +1,17 @@
 <rsb-board>
-  <rsb-board-title>Create new Retrospective Board Session</rsb-board-title>
+  <rsb-board-title>Create Retrospective</rsb-board-title>
   <rsb-board-body>
     <rsb-form>
       <rsb-form-body>
-        <rsb-text-input [labelText]="'Title for Session'" [id]="'createSessionTitle'"
+        <rsb-text-input [labelText]="'Title for Retrospective'" [id]="'createSessionTitle'"
                         [(ngModel)]="sessionTitle"></rsb-text-input>
-        <rsb-text-input [labelText]="'Description of Session'" [isTextArea]="true"
+        <rsb-text-input [labelText]="'Description of Retrospective'" [isTextArea]="true"
                         [id]="'createSessionDesc'" [(ngModel)]="sessionDesc"></rsb-text-input>
         <rsb-text-input *ngIf="!isUserLoggedIn" [labelText]="'Shortname'"
                         [id]="'createSessionShortName'" [(ngModel)]="shortName"></rsb-text-input>
       </rsb-form-body>
       <rsb-form-submit>
-        <rsb-icon-button [lableText]="'Create new Session'" rsb-button-set-element
+        <rsb-icon-button [lableText]="'Create new Retrospective'" rsb-button-set-element
                          [buttonType]="iconButtonType.ARROW_RIGHT" (click)="createSession()"></rsb-icon-button>
       </rsb-form-submit>
     </rsb-form>

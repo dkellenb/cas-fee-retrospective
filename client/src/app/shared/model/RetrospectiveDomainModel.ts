@@ -58,3 +58,7 @@ export interface UpdateCommentJSON {
   description: string;
   anonymous?: boolean;
 }
+
+export interface ChangeStatusJSON {
+  status: RetrospectiveStatus;
+}

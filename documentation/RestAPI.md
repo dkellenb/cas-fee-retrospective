@@ -22,11 +22,11 @@ URL: `/rest/retrospectives`
 
 | +URL     | CMD    | Auth | Done | Description                                                       |
 |----------|--------|------|------|-------------------------------------------------------------------|
-|          | GET    | X    |      | Returns all retrospectives the authenticated user has access to   |
+|          | GET    | X    | Part | Returns all retrospectives the authenticated user has access to   |
 |          | POST   |      | OK   | Creates a new retrospective                                       |
 | :id      | GET    | X    | OK   | Get details about the retrospective                               |
-| :id      | PUT    | X    |      | Updates the configuration of a retrospective                      |
-| :id      | DELETE | X    |      | Deletes the retrospective if the authenticated user can manage it |
+| :id      | PUT    | X    | OK   | Updates the configuration of a retrospective                      |
+| :id      | DELETE | X    | OK   | Deletes the retrospective if the authenticated user can manage it |
 
 ### Retrospective Management: Change status
 
@@ -34,8 +34,8 @@ URL: `/rest/retrospectives/:id/status`
 
 | +URL     | CMD    | Auth | Done | Description                                                       |
 |----------|--------|------|------|-------------------------------------------------------------------|
-|          | GET    |      |      | The current status of the retrospective                           |
-|          | PUT    |      |      | Change status of the retrospective                                |
+|          | GET    | X    | OK   | The current status of the retrospective                           |
+|          | PUT    | X    | OK   | Change status of the retrospective                                |
 
 ### Retrospective Management: Attendees
 
@@ -86,7 +86,7 @@ URL `/rest/user`
 
 | +URL     | CMD    | Auth | Done | Description                                                       |
 |----------|--------|------|------|-------------------------------------------------------------------|
-|          | GET    | X    |      | Retrieve all users (incl. filter possibilites)                    |
+|          | GET    | X    | Part | Retrieve all users (incl. filter possibilites)                    |
 |          | POST   |      | OK   | Create new user and JWT token, in order to identify a user        |
 | current  | GET    | X    | OK   | Get the current user                                              |
 | :id      | GET    | X    | OK   | Gets the some details about the user (only public attributes)     |

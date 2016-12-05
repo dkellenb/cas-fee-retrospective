@@ -14,7 +14,8 @@
     "typescript": "^2.0.10"
   },
   "scripts": {
-    "start": "ts-node server/src/server.ts"
+    "heroku-postbuild": "gulp initial",
+    "start": "gulp run"
   },
   "repository": {
     "type": "git",
@@ -25,5 +26,8 @@
   "bugs": {
     "url": "https://github.com/dkellenb/cas-fee-retrospective/issues"
   },
-  "homepage": "https://github.com/dkellenb/cas-fee-retrospective#readme"
+  "homepage": "https://github.com/dkellenb/cas-fee-retrospective#readme",
+  "engines": {
+    "node": "6.9.0"
+  }
 }

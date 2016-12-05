@@ -9,3 +9,9 @@
   text-align: center;
   line-height: 7.25rem;
 }
+
+@media screen and (min-width:900px) {
+  .comment-segment {
+    height: 12rem;
+  }
+}

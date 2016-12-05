@@ -4,9 +4,10 @@
   "description": "CAS FEE Retrospective - Server",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node --debug src/server.ts",
+    "start": "node build/server.js",
+    "start:ts": "ts-node --debug src/server.ts",
     "lint": "tslint \"src/**/*.ts\"",
-    "test": "nyc -r=text -i ts-node/register -e .ts mocha -t 5000 --require ts-node/register --require reflect-metadata/Reflect",
+    "test": "nyc -r=text -i ts-node/register -e .ts mocha -t 2500 --require ts-node/register --require reflect-metadata/Reflect",
     "test:all": "npm test test/**/*.spec.ts"
   },
   "babel": {
@@ -53,6 +54,7 @@
     "gulp-concat": "^2.6.0",
     "gulp-jasmine": "^2.4.1",
     "gulp-mocha": "^3.0.1",
+    "gulp-replace": "^0.5.4",
     "gulp-sequence": "^0.4.6",
     "gulp-tslint": "^6.1.2",
     "gulp-typescript": "^2.13.6",

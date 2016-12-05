@@ -27,9 +27,9 @@ export class JoinSessionComponent implements OnInit {
   }
 
   public joinSession(): void {
-    this.retrospectiveService.joinRetrospective(this.sessionKey, this.shortName).subscribe(sucess => {
+    this.retrospectiveService.joinRetrospective(this.sessionKey.trim(), this.shortName).subscribe(sucess => {
       if (sucess) {
-        this.router.navigate([this.sessionKey], {relativeTo: this.route});
+        this.router.navigate([this.sessionKey.trim()], {relativeTo: this.route});
       }
     });
   }

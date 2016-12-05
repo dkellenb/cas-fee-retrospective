@@ -34,7 +34,7 @@ export class RetrospectiveService {
   }
 
   public joinRetrospective(retrospectiveId: string, shortName?: string): Observable<boolean> {
-    return this.setupUser(shortName).flatMap(success => {
+    return this.setupUserIfNeeded(shortName).flatMap(success => {
       if (success) {
         return this.authHttp.post(this.createRetrospectiveIdEndpoint(retrospectiveId) + '/attendees', '').map(response => {
           if (response.status === 204) {
@@ -61,7 +61,7 @@ export class RetrospectiveService {
     retrospective.description = sessionDescription;
     retrospective.name = sessionTitle;
 
-    return this.setupUser(shortName).flatMap(success => {
+    return this.setupUserIfNeeded(shortName).flatMap(success => {
       if (success) {
         return this.authHttp.post(this.configuration.retrospectiveEndpoint, retrospective).map(response => {
           return RetrospectiveService.extractIdFromLocation(response.headers.get('Location'));
@@ -74,7 +74,7 @@ export class RetrospectiveService {
     });
   }
 
-  private setupUser(shortName?: string): Observable<boolean> {
+  private setupUserIfNeeded(shortName?: string): Observable<boolean> {
     if (!this.authService.isUserLoggedIn()) {
       if (shortName == null) {
         throw new Error('No User Logged in an there is no shortName for create new User');
@@ -148,12 +148,12 @@ export class RetrospectiveService {
   }
 
   public deleteComment(topicId: string, commentId: string): Observable<boolean> {
-    console.log('delete on Server Comment' + commentId);
+    console.log(`Delete on server comment '${commentId}'`);
     return this.authHttp.delete(this.createCommentIdEndpoint(this._currentRetrospective.uuid, topicId, commentId)).map(response => {
       if (response.status === 204) {
         return true;
       } else {
-        throw new Error(`Could not delete comment "${commentId}" on retro "${this._currentRetrospective.uuid}"`);
+        throw new Error(`Could not delete comment '${commentId}' on retro '${this._currentRetrospective.uuid}'`);
       }
     });
   }

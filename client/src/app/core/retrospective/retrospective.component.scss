@@ -2,16 +2,24 @@
 
 .board-grid {
   display: flex;
+  flex-wrap:wrap;
+  flex-direction:row;
   margin: 0 -1rem;
 }
 
 .board-grid__element {
-  flex-grow: 1;
-  flex-basis: 0;
-  padding: 0 1rem;
+  flex: 1;
+  flex-basis: 300px;
+  padding: 0;
+  margin: 0 1rem;
 }
 
 rsb-comment-segment {
   border-bottom: 1px solid $panel-border-color;
 }
 
+@media screen and (min-width:900px) {
+  .board-grid {
+    flex-wrap: nowrap;
+  }
+}

@@ -7,6 +7,7 @@ import {
   CreateRetrospectiveJSON,
   UpdateRetrospectiveJSON, CreateCommentJSON, UpdateCommentJSON
 } from '../../../client/src/app/shared/model/';
+import {ChangeStatusJSON} from '../../../client/src/app/shared/model/RetrospectiveDomainModel';
 
 @injectable()
 @Controller('/rest/retrospectives')
@@ -16,8 +17,6 @@ export class RetrospectiveController {
     @inject(TYPES.RetrospectiveService) private retrospectiveService: RetrospectiveService,
     @inject(TYPES.UserService) private userService: UserService
   ) { }
-
-  // TODO: send the correct http docde for error cases
 
   @Get('/')
   public getRetrospectives(request: Request, response: Response): void {
@@ -44,7 +43,7 @@ export class RetrospectiveController {
   @Get('/:id')
   public getRetrospective(request: Request, response: Response): void {
     this.userService.getJwtUser(request)
-      .then((currentUser) => this.retrospectiveService.getRetrospectiveSecured(currentUser, request.params.id))
+      .then((currentUser) => this.retrospectiveService.getPublicRetrospectiveSecured(currentUser, request.params.id))
       .then((retrospective) => response.send(retrospective))
       .catch((err) => {
         console.log(err);
@@ -75,10 +74,32 @@ export class RetrospectiveController {
       });
   }
 
+  @Get('/:id/status')
+  public getRetrospectiveStatus(request: Request, response: Response): void {
+    this.userService.getJwtUser(request)
+      .then((currentUser) => this.retrospectiveService.getPublicRetrospectiveSecured(currentUser, request.params.id))
+      .then((retrospective) => response.send({ status: retrospective.status }))
+      .catch((err) => {
+        console.log(err);
+        response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});
+      });
+  }
+
+  @Put('/:id/status')
+  public updateRetrospectiveStatus(request: Request, response: Response): void {
+    this.userService.getJwtUser(request)
+      .then((currentUser) => this.retrospectiveService.changeStatus(currentUser, request.params.id, <ChangeStatusJSON>request.body))
+      .then((retrospective) => response.sendStatus(204))
+      .catch((err) => {
+        console.log(err);
+        response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});
+      });
+  }
+
   @Get('/:id/attendees')
   public getRetrospectiveAttendees(request: Request, response: Response) {
     this.userService.getJwtUser(request)
-      .then((currentUser) => this.retrospectiveService.getRetrospectiveSecured(currentUser, request.params.id))
+      .then((currentUser) => this.retrospectiveService.getPublicRetrospectiveSecured(currentUser, request.params.id))
       .then((retrospective) => response.send(retrospective.attendees))
       .catch((err) => {
         console.log(err);
@@ -89,7 +110,7 @@ export class RetrospectiveController {
   @Get('/:id/attendees/:userid')
   public getRetrospectiveUser(request: Request, response: Response): void {
     this.userService.getJwtUser(request)
-      .then((currentUser) => this.retrospectiveService.getRetrospectiveSecured(currentUser, request.params.id))
+      .then((currentUser) => this.retrospectiveService.getPublicRetrospectiveSecured(currentUser, request.params.id))
       .then((retrospective) => {
         let filteredAttendee = retrospective.attendees.filter((attendee) => attendee.uuid === request.params.userid);
         response.send(filteredAttendee);
@@ -113,7 +134,7 @@ export class RetrospectiveController {
   @Get('/:id/comments/:cid')
   public findComment(request: Request, response: Response): void {
     this.userService.getJwtUser(request)
-      .then((currentUser) => this.retrospectiveService.getRetrospectiveSecured(currentUser, request.params.id))
+      .then((currentUser) => this.retrospectiveService.getPublicRetrospectiveSecured(currentUser, request.params.id))
       .then((retrospective) => [].concat.apply([], retrospective.topics.map((topic) => topic.comments))
         .find((comment) => comment.uuid === request.params.cid))
       .then((comment) => response.send(comment))
@@ -126,7 +147,7 @@ export class RetrospectiveController {
   @Get('/:id/topics')
   public getTopics(request: Request, response: Response): void {
     this.userService.getJwtUser(request)
-      .then((currentUser) => this.retrospectiveService.getRetrospectiveSecured(currentUser, request.params.id))
+      .then((currentUser) => this.retrospectiveService.getPublicRetrospectiveSecured(currentUser, request.params.id))
       .then((retrospective) => response.send(retrospective.topics))
       .catch((err) => {
         console.log(err);
@@ -137,7 +158,7 @@ export class RetrospectiveController {
   @Get('/:id/topics/:topicid')
   public getTopic(request: Request, response: Response): void {
     this.userService.getJwtUser(request)
-      .then((currentUser) => this.retrospectiveService.getRetrospectiveSecured(currentUser, request.params.id))
+      .then((currentUser) => this.retrospectiveService.getPublicRetrospectiveSecured(currentUser, request.params.id))
       .then((retrospective) => response.send(retrospective.topics.find((topic) => topic.uuid === request.params.topicid)))
       .catch((err) => {
         console.log(err);
@@ -148,7 +169,7 @@ export class RetrospectiveController {
   @Get('/:id/topics/:topicid/comments')
   public getComments(request: Request, response: Response): void {
     this.userService.getJwtUser(request)
-      .then((currentUser) => this.retrospectiveService.getRetrospectiveSecured(currentUser, request.params.id))
+      .then((currentUser) => this.retrospectiveService.getPublicRetrospectiveSecured(currentUser, request.params.id))
       .then((retrospective) => retrospective.topics.find((topic) => topic.uuid === request.params.topicid))
       .then((topic) => {
         if (topic) {
@@ -180,7 +201,7 @@ export class RetrospectiveController {
   @Get('/:id/topics/:topicid/comments/:cid')
   public getComment(request: Request, response: Response): void {
     this.userService.getJwtUser(request)
-      .then((currentUser) => this.retrospectiveService.getRetrospectiveSecured(currentUser, request.params.id))
+      .then((currentUser) => this.retrospectiveService.getPublicRetrospectiveSecured(currentUser, request.params.id))
       .then((retrospective) => retrospective.topics.find((topic) => topic.uuid === request.params.topicid))
       .then((topic) => {
         if (topic) {

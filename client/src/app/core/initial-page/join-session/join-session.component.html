@@ -3,8 +3,7 @@
   <rsb-board-body>
     <rsb-form>
       <rsb-form-body>
-        <rsb-notification-message [message]="successMessage"></rsb-notification-message>
-        <rsb-text-input [labelText]="'Session-Key'" [id]="'joinSessionKey'"
+        <rsb-text-input [labelText]="'Retrospective-Key'" [id]="'joinSessionKey'"
                         [(ngModel)]="sessionKey"></rsb-text-input>
         <rsb-text-input *ngIf="!isUserLoggedIn"
                         [labelText]="'Shortname'"
@@ -12,7 +11,7 @@
                         [(ngModel)]="shortName"></rsb-text-input>
       </rsb-form-body>
       <rsb-form-submit>
-        <rsb-icon-button [lableText]="'Join existing Session'" rsb-button-set-element
+        <rsb-icon-button [lableText]="'Join existing Retrospective'" rsb-button-set-element
                          [buttonType]="iconButtonType.ARROW_RIGHT" (click)="joinSession()"></rsb-icon-button>
       </rsb-form-submit>
     </rsb-form>

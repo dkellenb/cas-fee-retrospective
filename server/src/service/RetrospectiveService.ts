@@ -1,10 +1,10 @@
 import { injectable, inject } from 'inversify';
-import { CreateRetrospectiveJSON, IUser } from '../../../client/src/app/shared/model';
+import { CreateRetrospectiveJSON, IUser } from '../../../client/src/app/shared/model/';
 import TYPES from '../constant/types';
 import {UserRepository, RetrospectiveRepository, RetrospectiveDbModel} from '../repository/';
 import {
   RetrospectiveStatus, UpdateRetrospectiveJSON, IBasicRetrospective,
-  CreateCommentJSON, UpdateCommentJSON
+  CreateCommentJSON, UpdateCommentJSON, ChangeStatusJSON
 } from '../../../client/src/app/shared/model/RetrospectiveDomainModel';
 import {
   IPersistedRetrospectiveDbModel, PersistedRetrospectiveTopic,
@@ -31,7 +31,17 @@ export class RetrospectiveService {
 
   public getRetrospectives(currentUser: IUser): Promise<IBasicRetrospective<RetrospectiveUser>[]> {
     return new Promise<IPersistedRetrospectiveDbModel>((resolve, reject) => {
-      // TODO IMPLEMENT
+      if (currentUser.systemRole !== UserRole.ADMIN) {
+        reject('Only system admin can see all persisted retrospectives');
+      } else {
+        this.retrospectiveRepository.findAll((error, result) => {
+          if (error) {
+            reject(error);
+          } else {
+            resolve(result);
+          }
+        });
+      }
     });
   }
 
@@ -49,11 +59,11 @@ export class RetrospectiveService {
     });
   }
 
-  public getRetrospectiveSecured(currentUser: IUser, uuid: string): Promise<PublicRetrospective> {
+  public getPublicRetrospectiveSecured(currentUser: IUser, uuid: string): Promise<PublicRetrospective> {
     return new Promise<PublicRetrospective>((resolve, reject) => {
       this.getRetrospective(uuid)
         .then((retrospective) => {
-          if (retrospective.attendees.find((attendee) => attendee.uuid === currentUser.uuid)) {
+          if (retrospective.attendees.find((attendee) => attendee.uuid === currentUser.uuid) || currentUser.systemRole === UserRole.ADMIN) {
             resolve(retrospective);
           } else {
             reject('Illegal access to retrospective ' + uuid);
@@ -92,20 +102,70 @@ export class RetrospectiveService {
     });
   }
 
-  public updateRetrospective(currentUser: IUser, id: string, retrospective: UpdateRetrospectiveJSON):
-       IBasicRetrospective<RetrospectiveUser> {
-    // TODO IMPLEMENT
-    return null;
+  public updateRetrospective(currentUser: IUser, retrospectiveId: string, updateRetrospective: UpdateRetrospectiveJSON):
+       Promise<IPersistedRetrospectiveDbModel> {
+    return new Promise<IPersistedRetrospectiveDbModel>((resolve, reject) => {
+      this.doRetrospectiveAction(currentUser, retrospectiveId, (error, persistedRetrospective, persistedUser) => {
+        if (error) {
+          reject(error);
+        } else {
+          if (persistedRetrospective.manager !== persistedUser._id && currentUser.systemRole !== UserRole.ADMIN) {
+            reject('User "' + currentUser.uuid + '" is not allowed to edit retrospective "' + retrospectiveId + '"');
+          } else {
+            persistedRetrospective.name = updateRetrospective.name;
+            persistedRetrospective.description = updateRetrospective.description;
+            persistedRetrospective.save();
+            resolve(persistedRetrospective);
+          }
+        }
+      });
+    });
   }
 
-  public deleteRetrospective(currentUser: IUser, id: string): string {
-    // TODO IMPLEMENT
-    return null;
+  public deleteRetrospective(currentUser: IUser, retrospectiveId: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.doRetrospectiveAction(currentUser, retrospectiveId, (error, persistedRetrospective, persistedUser) => {
+        if (error) {
+          reject(error);
+        } else {
+          if (persistedRetrospective.manager !== persistedUser._id && currentUser.systemRole !== UserRole.ADMIN) {
+            reject('User "' + currentUser.uuid + '" is not allowed to edit retrospective "' + retrospectiveId + '"');
+          } else {
+            this.retrospectiveRepository.delete(persistedRetrospective._id, (deleteError, result) => {
+              if (deleteError) {
+                reject(deleteError);
+              } else {
+                resolve();
+              }
+            });
+          }
+        }
+      });
+    });
+  }
+
+  public changeStatus(currentUser: IUser, retrospectiveId: string, action: ChangeStatusJSON): Promise<IPersistedRetrospectiveDbModel> {
+    return new Promise<IPersistedRetrospectiveDbModel>((resolve, reject) => {
+      this.doRetrospectiveAction(currentUser, retrospectiveId, (error, persistedRetrospective, persistedUser) => {
+        if (error) {
+          reject(error);
+        } else {
+          if (persistedRetrospective.manager !== persistedUser._id && currentUser.systemRole !== UserRole.ADMIN) {
+            reject('User "' + currentUser.uuid + '" is not allowed to edit retrospective "' + retrospectiveId + '"');
+          } else {
+            persistedRetrospective.status = action.status;
+            persistedRetrospective.save();
+            this.webSocketService.retrospectiveStatusChanged(retrospectiveId, action.status);
+            resolve(persistedRetrospective);
+          }
+        }
+      });
+    });
   }
 
   public getRetrospectiveUsers(currentUser: IUser, id: string): Promise<RetrospectiveUser[]> {
     return new Promise<RetrospectiveUser[]>((resolve, reject) => {
-      this.getRetrospectiveSecured(currentUser, id).then((retrospective) => {
+      this.getPublicRetrospectiveSecured(currentUser, id).then((retrospective) => {
         // as get retrospective secured return all references loaded, we can safely cast here and two lines bellow
         resolve(retrospective.attendees);
       }).catch((err) => reject(err));
@@ -114,7 +174,7 @@ export class RetrospectiveService {
 
   public getRetrospectiveUser(currentUser: IUser, id: string, uuid: string): Promise<RetrospectiveUser> {
     return new Promise<RetrospectiveUser>((resolve, reject) => {
-      this.getRetrospectiveSecured(currentUser, id).then((retrospective) => {
+      this.getPublicRetrospectiveSecured(currentUser, id).then((retrospective) => {
         // as get retrospective secured return all references loaded, we can safely cast here and two lines bellow
         resolve(retrospective.attendees.find((attendee) => attendee.uuid === uuid));
       }).catch((err) => reject(err));
@@ -127,13 +187,16 @@ export class RetrospectiveService {
         if (error) {
           reject(error);
         } else {
-          if (persistedRetrospective.attendees.find((attendeeId) => {
-              console.log(attendeeId + ' vs ' + persistedUser._id);
-              return attendeeId === persistedUser._id;
-            }) === null) {
+          let userPartOfAttendees = persistedRetrospective.attendees.find((attendeeId) => {
+            console.log(attendeeId + ' vs ' + persistedUser._id + ' : ' + (attendeeId === persistedUser._id));
+            return attendeeId === persistedUser._id;
+          });
+          if (!userPartOfAttendees) {
             console.log('Register user ' + currentUser.uuid + ' to ' + retrospectiveId);
             persistedRetrospective.attendees.push(persistedUser._id);
             persistedRetrospective.save();
+          } else {
+            console.log(persistedUser._id + ' already found in ' + persistedRetrospective.attendees);
           }
           this.webSocketService.userAddedToRetrospective(retrospectiveId, currentUser.uuid);
           resolve(persistedRetrospective);
@@ -175,7 +238,9 @@ export class RetrospectiveService {
         } else {
           pComment.title = updateComment.title || pComment.title;
           pComment.description = updateComment.description || pComment.description;
+          pComment.anonymous = updateComment.anonymous || pComment.anonymous;
           pRetrospective.save();
+          this.webSocketService.commentUpdatedOnRetrospective(retroId, pComment.uuid);
           resolve(pComment);
         }
       });
@@ -190,6 +255,7 @@ export class RetrospectiveService {
         } else {
           pTopic.comments = pTopic.comments.filter((comment) => comment.uuid !== commentId);
           pRetrospective.save();
+          this.webSocketService.commentRemovedFromRetrospective(retroId, pComment.uuid);
           resolve();
         }
       });
