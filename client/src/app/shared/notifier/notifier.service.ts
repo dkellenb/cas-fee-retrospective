@@ -1,8 +1,15 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
+import {NotificationMessage} from "../notification-message/notification-message";
+import {Subject} from "rxjs";
 
 @Injectable()
 export class NotifierService {
 
-  constructor() { }
+  public showNextNotificationMessage$: Subject<NotificationMessage> = new Subject<NotificationMessage>();
+
+
+  constructor() {
+  }
+
 
 }
