@@ -220,7 +220,7 @@ export class RetrospectiveService {
     this._currentRetrospective.topics.forEach((topic) => {
       let commentIndex = topic.comments.findIndex((c) => c.uuid === commentId);
       if (commentIndex >= 0) {
-        topic.comments = topic.comments.splice(commentIndex, 1);
+        topic.comments.splice(commentIndex, 1);
       }
     });
   }
