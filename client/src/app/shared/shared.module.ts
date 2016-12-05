@@ -21,7 +21,8 @@ import {FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDir
 import {ConfigurationService, AuthenticationService} from './services';
 import {CarouselModule} from './carousel';
 import {UserStatusComponent} from './user-status';
-import { NotificationMessageComponent } from './notification-message/notification-message.component';
+import {NotificationMessageComponent} from './notification-message/notification-message.component';
+import {NotifierComponent} from './notifier/notifier.component';
 
 @NgModule({
   declarations: [BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective, IconButtonComponent,
@@ -31,7 +32,8 @@ import { NotificationMessageComponent } from './notification-message/notificatio
     ButtonSetComponent, ButtonSetElementDirective, ButtonSetTextComponent, ButtonSetTextComponent,
     FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective,
     UserStatusComponent,
-    NotificationMessageComponent],
+    NotificationMessageComponent,
+    NotifierComponent],
   imports: [CommonModule, HttpModule, RouterModule, FormsModule, CarouselModule],
   exports: [CommonModule, HttpModule, RouterModule, FormsModule,
     BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective,
@@ -43,7 +45,7 @@ import { NotificationMessageComponent } from './notification-message/notificatio
     , CarouselModule,
     UserStatusComponent,
     SplitBarComponent, SplitBarContainerLeftDirective, SplitBarContainerRightDirective,
-    NotificationMessageComponent
+    NotificationMessageComponent, NotifierComponent
   ],
   providers: [
     ConfigurationService, AuthenticationService,
