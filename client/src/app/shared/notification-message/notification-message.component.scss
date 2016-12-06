@@ -9,53 +9,55 @@
   vertical-align: middle;
 }
 
-.notification-message__text:before {
+.notification-message__icon {
+  padding: 0 0.5rem;
+  font-size: 1.2rem;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.notification-message__icon:before {
   font-family: FontAwesome, serif;
   font-style: normal;
   font-weight: 400;
   speak: none;
-  display: inline-block;
   text-decoration: inherit;
-  width: 1em;
-  margin-right: .2em;
   text-align: center;
   font-variant: normal;
   text-transform: none;
-  line-height: 1em;
-  margin-left: .2em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale
 }
 
-.notification-message__content_info span {
+.notification-message__content_info span, .notification-message__content_info .notification-message__icon {
   color: #00529B;
 }
 
-.notification-message__content_success span {
+.notification-message__content_success span, .notification-message__content_success .notification-message__icon {
   color: #4F8A10;
 }
 
-.notification-message__content_warning span {
+.notification-message__content_warning span, .notification-message__content_warning .notification-message__icon {
   color: #9F6000;
 }
 
-.notification-message__content_warning span {
+.notification-message__content_warning span, .notification-message__content_error .notification-message__icon {
   color: #9F6000;
 }
 
-.notification-message__content_info span:before {
+.notification-message__content_info .notification-message__icon:before {
   content: "\f05a";
 }
 
-.notification-message__content_success span:before {
+.notification-message__content_success .notification-message__icon:before {
   content: '\f058';
 }
 
-.notification-message__content_warning span:before {
+.notification-message__content_warning .notification-message__icon:before {
   content: '\f071';
 }
 
-.notification-message__content_error span:before {
+.notification-message__content_error .notification-message__icon:before {
   content: '\f057';
 }
 
