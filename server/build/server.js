@@ -87,8 +87,8 @@ var RetroServer = (function () {
     };
     RetroServer.prototype.initHttpServer = function () {
         console.log('Init HTTP Server');
-        var hostname = nconf.get('hostname');
-        var port = process.env.PORT || parseInt(nconf.get('port'), 10);
+        var hostname = process.env.APP_HOSTNAME || nconf.get('hostname');
+        var port = parseInt(process.env.PORT) || parseInt(nconf.get('port'), 10);
         this.serverInstance = this.app.listen(port, hostname, function () {
             console.log('Server started on port ' + port);
             console.log('');
