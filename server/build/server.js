@@ -89,7 +89,7 @@ var RetroServer = (function () {
         console.log('Init HTTP Server');
         var hostname = process.env.APP_HOSTNAME || nconf.get('hostname');
         var port = parseInt(process.env.PORT) || parseInt(nconf.get('port'), 10);
-        this.serverInstance = this.app.listen(port, hostname, function () {
+        this.serverInstance = this.app.listen(port, function () {
             console.log('Server started on port ' + port);
             console.log('');
             console.log('REST Services available on:');
