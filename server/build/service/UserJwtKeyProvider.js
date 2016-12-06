@@ -15,7 +15,7 @@ var UserStaticJwtKeyProvider = (function () {
     }
     UserStaticJwtKeyProvider.prototype.getKey = function () {
         if (!UserStaticJwtKeyProvider.key) {
-            UserStaticJwtKeyProvider.key = nconf.get('jwt-key');
+            UserStaticJwtKeyProvider.key = process.env.JWT_KEY || nconf.get('jwt-key');
         }
         return UserStaticJwtKeyProvider.key;
     };
