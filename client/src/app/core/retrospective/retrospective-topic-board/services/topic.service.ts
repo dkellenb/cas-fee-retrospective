@@ -112,7 +112,7 @@ export class TopicService implements OnDestroy {
           stickyNote.author = returnStickyNote.author;
           stickyNote.votes = returnStickyNote.votes;
           stickyNote.mode = StickyNoteMode.Display;
-          return new NotificationMessage(NotificationMessageType.SUCCESS, 'New Comment has been commited to the Retrospective', 10000);
+          return new NotificationMessage(NotificationMessageType.SUCCESS, 'New Comment has been commited to the Retrospective', 5);
         },
         e => {
           console.log(e);
