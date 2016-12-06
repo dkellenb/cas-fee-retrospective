@@ -84,7 +84,7 @@ var RetroServer = (function () {
                 extended: true
             }));
             app.use(bodyParser.json());
-            app.use(express.static('../client/dist'));
+            app.use(express.static('public'));
         });
         this.inversifyExpressServer = server;
         this.app = server.build();
