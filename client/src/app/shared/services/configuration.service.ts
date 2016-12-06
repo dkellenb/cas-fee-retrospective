@@ -1,10 +1,11 @@
 import {Injectable} from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 @Injectable()
 export class ConfigurationService {
 
 
-  private static serverHostUrl: string = 'http://localhost:3000';
+  private static serverHostUrl: string = environment.serverUrl;
 
   private static serverRestApiBaseUrl: string = ConfigurationService.serverHostUrl + '/rest';
 
