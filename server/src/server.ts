@@ -88,7 +88,9 @@ class RetroServer {
       app.use(function (req, res, next) {
 
         // Website you wish to allow to connect
-        res.setHeader('Access-Control-Allow-Origin', 'http://' + nconf.get('hostname') + ':' + nconf.get('ui-port'));
+        if (nconf.get('overwrite-allow-origin')) {
+          res.setHeader('Access-Control-Allow-Origin', 'http://' + nconf.get('hostname') + ':' + nconf.get('ui-port'));
+        }
 
         // Request methods you wish to allow
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -111,7 +113,7 @@ class RetroServer {
         extended: true
       }));
       app.use(bodyParser.json());
-      app.use(express.static('../client/dist'));
+      app.use(express.static('./build/public'));
     });
 
 
@@ -121,9 +123,9 @@ class RetroServer {
 
   private initHttpServer(): void {
     console.log('Init HTTP Server');
-    let hostname = nconf.get('hostname');
-    let port = process.env.PORT || parseInt(nconf.get('port'), 10);
-    this.serverInstance = this.app.listen(port, hostname, () => {
+    let hostname = process.env.APP_HOSTNAME || nconf.get('hostname');
+    let port = parseInt(process.env.PORT, 10) || parseInt(nconf.get('port'), 10);
+    this.serverInstance = this.app.listen(port, () => {
       console.log('Server started on port ' + port);
       console.log('');
       console.log('REST Services available on:');

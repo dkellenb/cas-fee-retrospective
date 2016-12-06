@@ -16,3 +16,10 @@ Next compile it and commit generated files ({{client/dist}} and {{server/build}}
 1. `$ git commit`
 1. `$ git push heroku master`
 
+## Needed heroku environment variables
+
+| Variable Name | Description                  | Example |
+|---------------|------------------------------|---------|
+| MONGODB_URI   | Database URL                 | mongodb://user:pass@host/database |
+| APP_HOSTNAME  | Startup Host Name            | localhost |
+| JWT_KEY       | JSON WebToken Encryption Key | çjd8f_4$8fja8df382hvcASDUwe |

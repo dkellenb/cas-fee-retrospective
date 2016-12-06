@@ -50,7 +50,7 @@ gulp.task('client-heroku-build', function (cb) {
 });
 
 gulp.task('server-clean', function() {
-    gulp.src(['server/src/**/*.js', 'server/src/**/*.map'])
+    gulp.src(['server/src/**/*.js', 'server/src/**/*.map', 'server/build'])
         .pipe(gulpClean());
 });
 gulp.task('server-install', function() {
@@ -68,6 +68,10 @@ gulp.task('server-build', function(cb) {
         process.chdir('..');
         cb();
     });
+});
+gulp.task('client-heroku-build-to-server', function() {
+    gulp.src('client/dist/**/*')
+        .pipe(gulp.dest('server/build/public'));
 });
 gulp.task('server-ts-start', function() {
     process.chdir('server');
@@ -96,7 +100,8 @@ gulp.task('heroku-build',
         'client-install',
         'server-install',
         'client-heroku-build',
-        'server-build'
+        'server-build',
+        'client-heroku-build-to-server'
     )
 );
 
