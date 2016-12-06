@@ -31,5 +31,6 @@ This page is intended to show what we learned and have built in into this applic
   - noSQL Database MongoDB
   - Use TypeScript directly using *ts-node*
   - Using mocks
+  - Deployable to Heroku
 
   
