@@ -47,7 +47,7 @@ gulp.task('server-install', function() {
 });
 gulp.task('server-build', function(cb) {
     process.chdir('server');
-    var ngBuild = spawn('gulp', ['default'], {stdio: 'inherit'});
+    var ngBuild = spawn('gulp', ['build-source'], {stdio: 'inherit'});
     ngBuild.on('close', function (code) {
         if (code !== 0) {
             console.log('gulp default exited with code ' + code);
@@ -57,7 +57,7 @@ gulp.task('server-build', function(cb) {
         cb();
     });
 });
-gulp.task('server-start', function() {
+gulp.task('server-ts-start', function() {
     process.chdir('server');
     var ngBuild = spawn('ts-node', ['./src/server.ts'], {stdio: 'inherit'});
     ngBuild.on('close', function (code) {
@@ -78,8 +78,8 @@ gulp.task('build',
         'server-build'
     )
 );
-gulp.task('run', ['server-start']);
+gulp.task('run', ['server-ts-start']);
 
 gulp.task('build-and-run',
-    gulpSequence('initial', 'server-start')
+    gulpSequence('build', 'server-ts-start')
 );
