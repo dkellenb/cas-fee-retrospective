@@ -60,10 +60,6 @@ var RetroServer = (function () {
         console.log('Setup InversifyExpressServer');
         var server = new inversify_express_utils_1.InversifyExpressServer(this.kernel);
         server.setConfig(function (app) {
-            app.use(function (req, res, next) {
-                console.log('Request received: ' + req.url);
-                next();
-            });
             // Add headers
             app.use(function (req, res, next) {
                 // Website you wish to allow to connect
