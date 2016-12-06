@@ -26,7 +26,19 @@ gulp.task('client-install', function () {
 });
 gulp.task('client-build', function (cb) {
     process.chdir('client');
-    var ngBuild = spawn('ng', ['build', 'prod'], {stdio: 'inherit'});
+    var ngBuild = spawn('ng', ['build'], {stdio: 'inherit'});
+    ngBuild.on('close', function (code) {
+        if (code !== 0) {
+            console.log('ng build exited with code ' + code);
+            cb(code);
+        }
+        process.chdir('..');
+        cb();
+    });
+});
+gulp.task('client-heroku-build', function (cb) {
+    process.chdir('client');
+    var ngBuild = spawn('ng', ['build', '-prod'], {stdio: 'inherit'});
     ngBuild.on('close', function (code) {
         if (code !== 0) {
             console.log('ng build exited with code ' + code);
@@ -78,6 +90,16 @@ gulp.task('build',
         'server-build'
     )
 );
+gulp.task('heroku-build',
+    gulpSequence(
+        ['client-gulpClean', 'server-clean'],
+        'client-install',
+        'server-install',
+        'client-heroku-build',
+        'server-build'
+    )
+);
+
 gulp.task('run', ['server-ts-start']);
 
 gulp.task('build-and-run',
