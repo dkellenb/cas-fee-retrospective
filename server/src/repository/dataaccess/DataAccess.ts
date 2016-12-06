@@ -12,7 +12,7 @@ export class DataAccess {
       return this.mongooseInstance;
     }
 
-    this.dbConnectionUrl = process.env.MONGODB_URI || nconf.get('mongodbUrl')
+    this.dbConnectionUrl = process.env.MONGODB_URI || nconf.get('mongodbUrl');
 
     this.mongooseConnection  = Mongoose.connection;
     this.mongooseConnection.once('open', () => {

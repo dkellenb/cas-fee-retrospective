@@ -124,7 +124,7 @@ class RetroServer {
   private initHttpServer(): void {
     console.log('Init HTTP Server');
     let hostname = process.env.APP_HOSTNAME || nconf.get('hostname');
-    let port = parseInt(process.env.PORT) || parseInt(nconf.get('port'), 10);
+    let port = parseInt(process.env.PORT, 10) || parseInt(nconf.get('port'), 10);
     this.serverInstance = this.app.listen(port, () => {
       console.log('Server started on port ' + port);
       console.log('');
