@@ -3,11 +3,13 @@ import {
   OnChanges
 } from '@angular/core';
 import {IconButtonType} from '../icon-button';
+import {NotifierService} from '../notifier/notifier.service';
 
 @Component({
   selector: 'rsb-board',
   templateUrl: './board.component.html',
   styleUrls: ['./board.component.scss'],
+  providers: [NotifierService],
   animations: [
     trigger('collapse', [
       state(BoardComponent.OPEN, style({})),

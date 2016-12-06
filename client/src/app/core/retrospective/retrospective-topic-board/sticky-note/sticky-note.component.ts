@@ -1,5 +1,5 @@
-import {Component, OnInit, Input, trigger, state, transition, style, animate} from '@angular/core';
-import {IconButtonType} from '../../../../shared';
+import {Component, OnInit, Input} from '@angular/core';
+import {IconButtonType, NotifierService} from '../../../../shared';
 import {TopicService, IStickyNote, StickyNoteMode} from '../services/';
 
 @Component({
@@ -9,16 +9,21 @@ import {TopicService, IStickyNote, StickyNoteMode} from '../services/';
 })
 export class StickyNoteComponent implements OnInit {
 
-  // noinspection TsLint
+  // noinspection TsLint used in template
   private iconButtonType = IconButtonType;
 
   @Input()
   private stickyNote: IStickyNote;
 
+  // noinspection TsLint used in template
   @Input()
   private covered: boolean = false;
 
-  constructor(private topicService: TopicService) {
+  private _isWaitingForCommit = false;
+
+
+  constructor(private topicService: TopicService,
+              private notificationService: NotifierService) {
 
   }
 
@@ -26,7 +31,13 @@ export class StickyNoteComponent implements OnInit {
   }
 
   public saveStickyNote(): void {
-    this.topicService.saveComment(this.stickyNote);
+    if (!this._isWaitingForCommit) {
+      this._isWaitingForCommit = true;
+      this.topicService.saveComment(this.stickyNote).first().subscribe((notificationMessage) => {
+        this._isWaitingForCommit = false;
+        this.notificationService.pushNextMessage(notificationMessage);
+      });
+    }
   }
 
   public aboardEdit(): void {

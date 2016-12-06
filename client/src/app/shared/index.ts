@@ -11,3 +11,4 @@ export * from './html-uid-generator';
 export * from './user-status';
 export * from './carousel';
 export * from './notification-message';
+export * from './notifier';

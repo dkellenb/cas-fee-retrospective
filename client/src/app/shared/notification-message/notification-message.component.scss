@@ -1,12 +1,15 @@
 .notification-message {
-  padding: 10px;
-  margin: 10px 0;
+  height: 3rem;
+  display: table;
+  width: 100%;
 }
 
 .notification-message__text {
+  display: table-cell;
+  vertical-align: middle;
 }
 
-.notification-message__text:before{
+.notification-message__text:before {
   font-family: FontAwesome, serif;
   font-style: normal;
   font-weight: 400;
@@ -24,7 +27,7 @@
   -moz-osx-font-smoothing: grayscale
 }
 
-.notification-message__content_info span{
+.notification-message__content_info span {
   color: #00529B;
 }
 

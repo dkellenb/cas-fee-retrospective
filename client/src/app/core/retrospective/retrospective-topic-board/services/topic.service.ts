@@ -1,4 +1,4 @@
-import {Injectable, OnDestroy} from '@angular/core';
+import {Injectable, OnDestroy, Optional} from '@angular/core';
 import {
   IBasicRetrospectiveTopic,
   IRetrospectiveUser,
@@ -10,7 +10,10 @@ import {StickyNoteMode} from './sticky-note-mode.enum';
 import {IStickyNote} from './sticky-note.interface';
 import {RetrospectiveService} from '../../../services/retrospective.service';
 import {CreateCommentJSON, UpdateCommentJSON} from '../../../../shared/model/RetrospectiveDomainModel';
-import {Subject} from 'rxjs';
+import {Subject, Observable, Observer} from 'rxjs';
+import {NotifierService} from "../../../../shared/notifier/notifier.service";
+import {NotificationMessage} from "../../../../shared/notification-message/notification-message";
+import {NotificationMessageType} from "../../../../shared/notification-message/notification-message-type";
 
 @Injectable()
 export class TopicService implements OnDestroy {
@@ -28,12 +31,12 @@ export class TopicService implements OnDestroy {
     return sticky;
   }
 
-  public ngOnDestroy(): void {
-    this.newComment$.complete();
-  }
-
   constructor(private authService: AuthenticationService,
               private retrospectiveService: RetrospectiveService) {
+  }
+
+  public ngOnDestroy(): void {
+    this.newComment$.complete();
   }
 
   public set topic(value: IBasicRetrospectiveTopic<IRetrospectiveUser>) {
@@ -60,11 +63,11 @@ export class TopicService implements OnDestroy {
     this.newComment$.next((this._topic.comments.push(comment) - 1));
   }
 
-  public saveComment(stickyNote: IStickyNote): void {
+  public saveComment(stickyNote: IStickyNote): Observable<NotificationMessage> {
     if (stickyNote.mode === StickyNoteMode.New) {
-      this.createNewComment(stickyNote);
+      return this.createNewComment(stickyNote);
     } else {
-      this.updateComment(stickyNote);
+      return this.updateComment(stickyNote);
     }
   }
 
@@ -94,34 +97,38 @@ export class TopicService implements OnDestroy {
       });
   }
 
-  private createNewComment(stickyNote: IStickyNote): void {
+  private createNewComment(stickyNote: IStickyNote): Observable<NotificationMessage> {
     let comment: CreateCommentJSON = <CreateCommentJSON>{};
     comment.title = stickyNote.title;
     comment.description = stickyNote.description;
     comment.anonymous = stickyNote.author !== null;
-    this.retrospectiveService.createComment(this._topic.uuid, comment).first()
+    return this.retrospectiveService.createComment(this._topic.uuid, comment).first()
       .map(TopicService.mapIBasicRetrospectiveCommentToIStickyNote)
-      .first()
-      .subscribe((returnStickyNote: IStickyNote) => {
-        stickyNote.uuid = returnStickyNote.uuid;
-        stickyNote.topicUuid = returnStickyNote.topicUuid;
-        stickyNote.title = returnStickyNote.title;
-        stickyNote.description = returnStickyNote.description;
-        stickyNote.author = returnStickyNote.author;
-        stickyNote.votes = returnStickyNote.votes;
-        stickyNote.mode = StickyNoteMode.Display;
-      });
+      .map((returnStickyNote: IStickyNote) => {
+          stickyNote.uuid = returnStickyNote.uuid;
+          stickyNote.topicUuid = returnStickyNote.topicUuid;
+          stickyNote.title = returnStickyNote.title;
+          stickyNote.description = returnStickyNote.description;
+          stickyNote.author = returnStickyNote.author;
+          stickyNote.votes = returnStickyNote.votes;
+          stickyNote.mode = StickyNoteMode.Display;
+          return new NotificationMessage(NotificationMessageType.SUCCESS, 'New Comment has been commited to the Retrospective', 10000);
+        },
+        e => {
+          console.log(e);
+          return new NotificationMessage(NotificationMessageType.ERROR, 'Commit was not sucessfull', 5);
+        });
   }
 
-  private updateComment(stickyNote: IStickyNote): void {
+  private updateComment(stickyNote: IStickyNote): Observable<NotificationMessage> {
     let comment: UpdateCommentJSON = <UpdateCommentJSON>{};
     comment.title = stickyNote.title;
     comment.description = stickyNote.description;
     comment.anonymous = stickyNote.author !== null;
-    this.retrospectiveService.updateComment(this._topic.uuid, stickyNote.uuid, comment)
-      .first()
-      .subscribe(() => {
+    return this.retrospectiveService.updateComment(this._topic.uuid, stickyNote.uuid, comment)
+      .map(() => {
         stickyNote.mode = StickyNoteMode.Display;
+        return new NotificationMessage(NotificationMessageType.SUCCESS, 'Comment has been changed', 5);
       });
   }
 
