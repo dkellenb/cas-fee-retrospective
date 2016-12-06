@@ -60,6 +60,10 @@ $panel-background-color: #eeeeee;
   margin: 0.625rem 0.625rem 0 0; /*10px*/
 }
 
+.form .form__element{
+  margin-bottom: 0.5rem;
+}
+
 .no_select {
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Chrome/Safari/Opera */

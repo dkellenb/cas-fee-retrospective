@@ -26,6 +26,9 @@ export class TextInputComponent implements OnInit, ControlValueAccessor {
   @Input()
   public isTextArea: boolean = false; // default to textfield;
 
+  @Input()
+  public isRequierd: boolean = false;
+
   private _value: string;
   private _onTouchedCallback;
   private _onChangeCallback;

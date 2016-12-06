@@ -4,11 +4,11 @@
     <rsb-form>
       <rsb-form-body>
         <rsb-text-input [labelText]="'Retrospective-Key'" [id]="'joinSessionKey'"
-                        [(ngModel)]="sessionKey"></rsb-text-input>
+                        [(ngModel)]="sessionKey" [isRequierd]="true"></rsb-text-input>
         <rsb-text-input *ngIf="!isUserLoggedIn"
                         [labelText]="'Shortname'"
                         [id]="'joinSessionShortName'"
-                        [(ngModel)]="shortName"></rsb-text-input>
+                        [(ngModel)]="shortName" [isRequierd]="true"></rsb-text-input>
       </rsb-form-body>
       <rsb-form-submit>
         <rsb-icon-button [lableText]="'Join existing Retrospective'" rsb-button-set-element
