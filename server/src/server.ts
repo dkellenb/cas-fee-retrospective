@@ -111,7 +111,7 @@ class RetroServer {
         extended: true
       }));
       app.use(bodyParser.json());
-      app.use(express.static('../client/dist'));
+      app.use(express.static('./build/public'));
     });
 
 
