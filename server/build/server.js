@@ -63,7 +63,9 @@ var RetroServer = (function () {
             // Add headers
             app.use(function (req, res, next) {
                 // Website you wish to allow to connect
-                res.setHeader('Access-Control-Allow-Origin', 'http://' + nconf.get('hostname') + ':' + nconf.get('ui-port'));
+                if (nconf.get('overwrite-allow-origin')) {
+                    res.setHeader('Access-Control-Allow-Origin', 'http://' + nconf.get('hostname') + ':' + nconf.get('ui-port'));
+                }
                 // Request methods you wish to allow
                 res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
                 // Request headers you wish to allow
