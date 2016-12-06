@@ -6,14 +6,16 @@ var DataAccess = (function () {
         DataAccess.connect();
     }
     DataAccess.connect = function () {
+        var _this = this;
         if (this.mongooseInstance) {
             return this.mongooseInstance;
         }
+        this.dbConnectionUrl = process.env.MONGODB_URI || nconf.get('mongodbUrl');
         this.mongooseConnection = Mongoose.connection;
         this.mongooseConnection.once('open', function () {
-            console.log('Connected to Mongo DB using ' + nconf.get('mongodbUrl'));
+            console.log('Connected to Mongo DB using ' + _this.dbConnectionUrl);
         });
-        this.mongooseInstance = Mongoose.connect(nconf.get('mongodbUrl'));
+        this.mongooseInstance = Mongoose.connect(this.dbConnectionUrl);
         return this.mongooseInstance;
     };
     return DataAccess;
