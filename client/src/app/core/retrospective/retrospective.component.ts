@@ -20,10 +20,16 @@ export class RetrospectiveComponent implements OnInit {
     let retroId;
     this.route.params.switchMap((params: Params) => {
       retroId = params['id'];
-      return this.retrospectiveService.getRetrospective(retroId);
+      return this.retrospectiveService.joinRetrospective(retroId);
     })
+      .flatMap((sucess: boolean) => {
+        if (sucess) {
+          return this.retrospectiveService.getRetrospective(retroId);
+        }
+        throw Error('Wasn\'t able to join retrospective');
+      })
       .first()
-      .subscribe(retrospective => {
+      .subscribe((retrospective: IBasicRetrospective<IRetrospectiveUser>) => {
         this.retrospective = retrospective;
         console.log('load Retrospective with UUID: ' + this.retrospective.uuid);
       }, e => {

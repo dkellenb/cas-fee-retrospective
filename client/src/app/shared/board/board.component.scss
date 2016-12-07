@@ -20,15 +20,14 @@ $gradient-end-alpha: rgba(238, 238, 238, 1);
 
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fafafa+0,eeeeee+100 */
   background: $gradient-start; /* Old browsers */
-  background:    -moz-linear-gradient(-45deg, $gradient-start-alpha 0%, $gradient-end-alpha 100%); /* FF3.6-15 */
+  background: -moz-linear-gradient(-45deg, $gradient-start-alpha 0%, $gradient-end-alpha 100%); /* FF3.6-15 */
   background: -webkit-linear-gradient(-45deg, $gradient-start-alpha 0%, $gradient-end-alpha 100%); /* Chrome10-25,Safari5.1-6 */
-  background:         linear-gradient(135deg, $gradient-start-alpha 0%, $gradient-end-alpha 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  background: linear-gradient(135deg, $gradient-start-alpha 0%, $gradient-end-alpha 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fafafa', endColorstr='#eeeeee', GradientType=1); /* IE6-9 fallback on horizontal gradient */
 }
 
 .board__header {
-  padding-left: 0.25rem; /*4px*/
-  height: 2rem;
+  padding: 0.125rem; /*2px*/
 }
 
 .board__body {
