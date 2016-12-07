@@ -1,0 +1,43 @@
+.user {
+  width: 12.5rem; /*200px*/
+  display: table;
+}
+
+.user__name {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: left;
+}
+
+.user__icon {
+  padding: 0 0.5rem;
+  font-size: 1.2rem;
+  display: table-cell;
+  vertical-align: middle;
+  width: 1.2rem;
+}
+
+.user__icon:before {
+  font-family: FontAwesome, serif;
+  font-style: normal;
+  font-weight: 400;
+  speak: none;
+  text-decoration: inherit;
+  text-align: center;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale
+}
+
+.user__icon_user:before {
+  content: '\f007';
+}
+
+.user__icon_manager:before {
+  content: '\f2c0';
+}
+
+.user__icon_admin:before {
+  content: '\f234';
+}

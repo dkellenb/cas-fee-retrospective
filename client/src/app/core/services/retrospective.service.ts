@@ -104,13 +104,14 @@ export class RetrospectiveService {
   }
 
   public getAttendee(attendeeId: string): Observable<IRetrospectiveUser> {
-    return this.authHttp.get(this.createAttendeeIdEndpoint(this._currentRetrospective.uuid, attendeeId)).map(response => {
-      if (response.status === 200) {
-        return response.json();
-      } else {
-        throw new Error(`Could not load attendee "${attendeeId}" on retro "${this._currentRetrospective.uuid}`);
-      }
-    });
+    return this.authHttp.get(this.createAttendeeIdEndpoint(this._currentRetrospective.uuid, attendeeId))
+      .map(response => {
+        if (response.status === 200) {
+          return response.json();
+        } else {
+          throw new Error(`Could not load attendee "${attendeeId}" on retro "${this._currentRetrospective.uuid}`);
+        }
+      });
   }
 
   public getComment(commentId: string): Observable<IBasicRetrospectiveComment<IRetrospectiveUser>> {
@@ -198,8 +199,11 @@ export class RetrospectiveService {
       (attendee: IRetrospectiveUser) => {
         let attendeeIndex = this._currentRetrospective.attendees.findIndex((a) => a.uuid === userId);
         if (attendeeIndex >= 0) {
+          console.log('found attende: ' + attendee.shortName + ' index:' + attendeeIndex);
           this._currentRetrospective.attendees[attendeeIndex] = attendee;
         } else {
+          console.log('new attende: ' + attendee.shortName);
+          console.log(attendee);
           this._currentRetrospective.attendees.push(attendee);
         }
       }

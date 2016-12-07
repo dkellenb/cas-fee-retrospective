@@ -116,7 +116,7 @@ export class RetrospectiveController {
         if (filteredAttendee.length === 0) {
           response.sendStatus(404);
         } else {
-          response.send(filteredAttendee[1]);
+          response.send(filteredAttendee[0]);
         }
       }).catch((err) => {
         console.log(err);

@@ -20,10 +20,15 @@ export class ControlPanelComponent implements OnInit {
   }
 
   public get users(): IRetrospectiveUser[] {
+
     if (this.retrospective != null) {
-      return this.retrospective.attendees;
+      // this.retrospective.attendees.forEach(user => {
+      //   console.log(user.shortName);
+      // });
+      return this.retrospective.attendees.map((user: IRetrospectiveUser) => {
+        return user;
+      });
     }
     return [];
   }
-
 }
