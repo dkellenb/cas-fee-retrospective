@@ -105,8 +105,13 @@ class RetroServer {
         // to the API (e.g. in case you use sessions)
         res.setHeader('Access-Control-Allow-Credentials', 'true');
 
-        // Pass to next layer of middleware
-        next();
+        // intercept OPTIONS method
+        if (req.method === 'OPTIONS') {
+          res.send(200);
+        } else {
+          // Pass to next layer of middleware
+          next();
+        }
       });
 
       app.use(bodyParser.urlencoded({

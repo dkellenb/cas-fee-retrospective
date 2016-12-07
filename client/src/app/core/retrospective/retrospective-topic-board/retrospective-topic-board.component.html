@@ -1,10 +1,12 @@
 <rsb-board>
   <rsb-board-title>{{topic.name}}</rsb-board-title>
   <rsb-board-buttons>
-    <rsb-icon-button *ngIf="showAddCommentButton" [buttonType]="iconButtonType.ADD" (click)="addComment()" (touch)="addComment()"></rsb-icon-button>
+    <rsb-icon-button *ngIf="showAddCommentButton" [buttonType]="iconButtonType.ADD" (click)="addComment()" (touch)="addComment()" (tab)="addComment()" (swipeLeft)="addComment()"></rsb-icon-button>
   </rsb-board-buttons>
   <rsb-board-body>
+    <rsb-form>
     <rsb-comment-segment *ngIf="showCommentSegment"></rsb-comment-segment>
+    </rsb-form>
     <rsb-comment-surface [mode]="retroStatus"></rsb-comment-surface>
   </rsb-board-body>
 </rsb-board>
