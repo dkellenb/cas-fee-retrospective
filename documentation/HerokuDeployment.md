@@ -22,4 +22,5 @@ Next compile it and commit generated files ({{client/dist}} and {{server/build}}
 |---------------|------------------------------|---------|
 | MONGODB_URI   | Database URL                 | mongodb://user:pass@host/database |
 | APP_HOSTNAME  | Startup Host Name            | localhost |
+| ALLOW_ORIGIN_HOST_NAME | Hostname which should be used for Access-Control-Allow-Origin | https://<yourapp>.<server>/ |
 | JWT_KEY       | JSON WebToken Encryption Key | çjd8f_4$8fja8df382hvcASDUwe |
