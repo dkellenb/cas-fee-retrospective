@@ -67,6 +67,9 @@ export class JoinSessionComponent implements OnInit {
   }
 
   public inputValidation(): boolean {
+    if (this.validationErrorMessage != null) {
+      this.validationErrorMessage.setMessageExpired();
+    }
     this.sessionKeyErrorMessage = this.sessionKey != null ? null : 'The Retrospective-Key for join a session is a requierd field';
     this.shortNameErrorMessage = this.shortName != null ? null : 'Shortname is a requierd field';
 
@@ -75,10 +78,6 @@ export class JoinSessionComponent implements OnInit {
       this.validationErrorMessage = new NotificationMessage(NotificationMessageType.WARNING, 'There are some validation errors.');
       this.notificationService.pushNextMessage(this.validationErrorMessage);
       return false;
-    }
-
-    if (this.validationErrorMessage != null) {
-      this.validationErrorMessage.setMessageExpired();
     }
     return true;
   }

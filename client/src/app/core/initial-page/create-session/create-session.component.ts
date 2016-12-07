@@ -57,6 +57,9 @@ export class CreateSessionComponent implements OnInit {
 
 
   public inputValidation(): boolean {
+    if (this.validationErrorMessage != null) {
+      this.validationErrorMessage.setMessageExpired();
+    }
     this.sessionTitleErrorMessage = this.sessionTitle != null ? null : 'Title for Retrospective is a requierd field';
     this.sessionDescErrorMessage = this.sessionDesc != null ? null : 'Description of Retrospective is a requierd field';
     this.shortNameErrorMessage = this.shortName != null ? null : 'Shortname is a requierd field';
@@ -67,10 +70,6 @@ export class CreateSessionComponent implements OnInit {
       this.validationErrorMessage = new NotificationMessage(NotificationMessageType.WARNING, 'There are some validation errors.');
       this.notificationService.pushNextMessage(this.validationErrorMessage);
       return false;
-    }
-
-    if (this.validationErrorMessage != null) {
-      this.validationErrorMessage.setMessageExpired();
     }
     return true;
   }

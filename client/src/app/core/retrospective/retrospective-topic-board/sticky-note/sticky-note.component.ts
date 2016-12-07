@@ -97,6 +97,9 @@ export class StickyNoteComponent implements OnInit {
   }
 
   public inputValidation(): boolean {
+    if (this.validationErrorMessage != null) {
+      this.validationErrorMessage.setMessageExpired();
+    }
     this.titleError = this.stickyNote.title == null || this.stickyNote.title.trim() === '';
     this.descError = this.stickyNote.description == null || this.stickyNote.description.trim() === '';
 
@@ -105,8 +108,6 @@ export class StickyNoteComponent implements OnInit {
         'There are missing infomration for this sticky-note');
       this.notificationService.pushNextMessage(this.validationErrorMessage);
       return false;
-    } else if (this.validationErrorMessage != null) {
-      this.validationErrorMessage.setMessageExpired();
     }
     return true;
   }

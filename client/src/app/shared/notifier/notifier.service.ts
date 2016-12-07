@@ -18,6 +18,7 @@ export class NotifierService implements OnDestroy {
   public pushNextMessage(message: NotificationMessage) {
     this.notificationMessages.push(message);
     this.sendNextMessage();
+    console.log('Waiting messages' + this.notificationMessages.length);
   }
 
   private sendNextMessage() {
@@ -28,7 +29,6 @@ export class NotifierService implements OnDestroy {
           this.sendNextMessage();
         }
       });
-      console.log('push Message');
       this.showNextNotificationMessage$.next(this.notificationMessages[0]);
     } else {
       // No more Messages
