@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 import {RetrospectiveComponent} from './retrospective.component';
 import {SharedModule} from '../../shared/shared.module';
 import {RetrospectiveTopicBoardModule} from './retrospective-topic-board';
+import { ControlPanelComponent } from './control-panel/control-panel.component';
 
 @NgModule({
   imports: [
@@ -11,7 +12,7 @@ import {RetrospectiveTopicBoardModule} from './retrospective-topic-board';
     RetrospectiveTopicBoardModule
   ],
   exports: [RetrospectiveComponent],
-  declarations: [RetrospectiveComponent]
+  declarations: [RetrospectiveComponent, ControlPanelComponent]
 })
 export class RetrospectiveModule {
 }
