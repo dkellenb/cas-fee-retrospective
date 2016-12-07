@@ -1,9 +1,9 @@
 <div class="carousel">
   <div *ngIf="showNavigationArrows()" class="carousel__nav-button carousel__nav-button-left">
-    <button class="carousel__nav-inner-button carousel__nav-inner-button-left" (click)="moveCarouselLeft()"></button>
+    <button class="carousel__nav-inner-button carousel__nav-inner-button-left" (click)="moveCarouselLeft()" (touch)="moveCarouselLeft()"></button>
   </div>
   <div *ngIf="showNavigationArrows()" class="carousel__nav-button carousel__nav-button-right">
-    <button class="carousel__nav-inner-button carousel__nav-inner-button-right" (click)="moveCarouselRight()"></button>
+    <button class="carousel__nav-inner-button carousel__nav-inner-button-right" (click)="moveCarouselRight()" (touch)="moveCarouselRight()"></button>
   </div>
   <ng-content></ng-content>
 </div>
