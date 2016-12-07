@@ -54,6 +54,14 @@ class RetroServer {
     this.initDb();
   }
 
+  private getHostName(): String {
+    return process.env.APP_HOSTNAME || nconf.get('hostname');
+  }
+
+  private getPort(): String {
+    return parseInt(process.env.PORT, 10) || parseInt(nconf.get('port'), 10);
+  }
+
   private loadConfig(): void {
     console.log('Load configuration');
     this.config = nconf.argv()
@@ -88,9 +96,7 @@ class RetroServer {
       app.use(function (req, res, next) {
 
         // Website you wish to allow to connect
-        if (nconf.get('overwrite-allow-origin')) {
-          res.setHeader('Access-Control-Allow-Origin', 'http://' + nconf.get('hostname') + ':' + nconf.get('ui-port'));
-        }
+        res.setHeader('Access-Control-Allow-Origin', this.getHostName() + ':' + this.getPort());
 
         // Request methods you wish to allow
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -128,8 +134,8 @@ class RetroServer {
 
   private initHttpServer(): void {
     console.log('Init HTTP Server');
-    let hostname = process.env.APP_HOSTNAME || nconf.get('hostname');
-    let port = parseInt(process.env.PORT, 10) || parseInt(nconf.get('port'), 10);
+    let hostname = this.getHostName();
+    let port = this.getPort();
     this.serverInstance = this.app.listen(port, () => {
       console.log('Server started on port ' + port);
       console.log('');
