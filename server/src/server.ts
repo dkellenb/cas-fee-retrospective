@@ -58,7 +58,7 @@ class RetroServer {
     return process.env.APP_HOSTNAME || nconf.get('hostname');
   }
 
-  private getPort(): String {
+  private getPort(): Number {
     return parseInt(process.env.PORT, 10) || parseInt(nconf.get('port'), 10);
   }
 
