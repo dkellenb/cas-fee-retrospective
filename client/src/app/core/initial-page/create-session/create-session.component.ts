@@ -15,13 +15,13 @@ export class CreateSessionComponent implements OnInit {
   public iconButtonType = IconButtonType;
 
   // Fields
-  public sessionTitle: string;
-  public sessionDesc: string;
-  public shortName: string;
+  public sessionTitle: string = null;
+  public sessionDesc: string = null;
+  public shortName: string = null;
   public validationErrorMessage: NotificationMessage;
-  public sessionTitleErrorMessage: string;
-  public sessionDescErrorMessage: string;
-  public shortNameErrorMessage: string;
+  public sessionTitleErrorMessage: string = null;
+  public sessionDescErrorMessage: string = null;
+  public shortNameErrorMessage: string = null;
 
   constructor(private authService: AuthenticationService,
               private retrospectiveService: RetrospectiveService,
@@ -41,7 +41,7 @@ export class CreateSessionComponent implements OnInit {
         },
         e => {
           console.log(e);
-          !this.notificationService.pushNextMessage(new NotificationMessage(NotificationMessageType.ERROR,
+          this.notificationService.pushNextMessage(new NotificationMessage(NotificationMessageType.ERROR,
             'There was a error while trying to create a new retrospective session on the Server.', 10));
         });
     }
@@ -70,8 +70,4 @@ export class CreateSessionComponent implements OnInit {
     }
     return true;
   }
-
-  private check
-
-
 }
