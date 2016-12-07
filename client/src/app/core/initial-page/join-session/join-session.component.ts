@@ -29,6 +29,18 @@ export class JoinSessionComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if (this.retrospectiveService.failedRetrospectiveId != null) {
+      this.sessionKey = this.retrospectiveService.failedRetrospectiveId;
+      if (this.isUserLoggedIn) {
+        this.sessionKeyErrorMessage = 'Could not find a Retrospective-Session with this Id';
+        this.validationErrorMessage = new NotificationMessage(NotificationMessageType.ERROR,
+          'Could not find a Retrospective-Session with the Id:' + this.retrospectiveService.failedRetrospectiveId);
+      } else {
+        this.shortNameErrorMessage = 'Please insert a Shortname';
+        this.validationErrorMessage = new NotificationMessage(NotificationMessageType.INFO, 'Need a Shortname for join the Retrospective Session');
+      }
+      this.notificationService.pushNextMessage(this.validationErrorMessage);
+    }
   }
 
   public joinSession(): void {

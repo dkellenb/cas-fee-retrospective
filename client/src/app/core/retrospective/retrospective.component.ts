@@ -17,13 +17,18 @@ export class RetrospectiveComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.route.params.switchMap((params: Params) => this.retrospectiveService.getRetrospective(params['id']))
+    let retroId;
+    this.route.params.switchMap((params: Params) => {
+      retroId = params['id'];
+      return this.retrospectiveService.getRetrospective(retroId);
+    })
       .first()
       .subscribe(retrospective => {
         this.retrospective = retrospective;
         console.log('load Retrospective with UUID: ' + this.retrospective.uuid);
       }, e => {
-        console.log('Wasn\'t able to find Retrospective');
+        console.log('Wasn\'t able to find Retrospective: ' + retroId);
+        this.retrospectiveService.failedRetrospectiveId = retroId;
         this.router.navigate(['']);
       });
   }
