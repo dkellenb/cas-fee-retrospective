@@ -19,4 +19,7 @@
     <rsb-notifier></rsb-notifier>
     <ng-content select="rsb-board-body"></ng-content>
   </div>
+  <div class="board__footer" [@collapse]="collapseFooter?collapsibleState:null">
+    <ng-content select="rsb-board-footer"></ng-content>
+  </div>
 </div>

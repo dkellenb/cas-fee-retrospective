@@ -23,10 +23,12 @@ import {CarouselModule} from './carousel';
 import {UserStatusComponent} from './user-status';
 import {NotificationMessageComponent} from './notification-message/notification-message.component';
 import {NotifierComponent} from './notifier/notifier.component';
-import { UserIconComponent } from './user-icon/user-icon.component';
+import {UserIconComponent} from './user-icon/user-icon.component';
+import {BoardFooterDirective} from './board/board.component';
 
 @NgModule({
-  declarations: [BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective, IconButtonComponent,
+  declarations: [BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective, BoardFooterDirective,
+    IconButtonComponent,
     SplitBarComponent, SplitBarContainerLeftDirective, SplitBarContainerRightDirective,
     HeaderBarComponent, HeaderBarTitleDirective, HeaderBarMenuDirective,
     TextInputComponent,
@@ -38,7 +40,7 @@ import { UserIconComponent } from './user-icon/user-icon.component';
     UserIconComponent],
   imports: [CommonModule, HttpModule, RouterModule, FormsModule, CarouselModule],
   exports: [CommonModule, HttpModule, RouterModule, FormsModule,
-    BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective,
+    BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective, BoardFooterDirective,
     IconButtonComponent,
     HeaderBarComponent, HeaderBarTitleDirective, HeaderBarMenuDirective,
     TextInputComponent,
