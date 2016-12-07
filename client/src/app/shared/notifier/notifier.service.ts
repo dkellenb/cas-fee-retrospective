@@ -18,7 +18,9 @@ export class NotifierService implements OnDestroy {
   public pushNextMessage(message: NotificationMessage) {
     this.notificationMessages.push(message);
     this.sendNextMessage();
-    console.log('Waiting messages' + this.notificationMessages.length);
+    this.notificationMessages.forEach((bla: NotificationMessage) => {
+      console.log(bla.message + ' expired: ' + bla.hasExpired);
+    });
   }
 
   private sendNextMessage() {
@@ -42,13 +44,12 @@ export class NotifierService implements OnDestroy {
         return !message.hasExpired;
       })
       .sort((message1: NotificationMessage, message2: NotificationMessage) => {
-        return message1.messgePriority > message2.messgePriority ? 1
-          : message1.messgePriority < message2.messgePriority ? -1
+        return message1.messgePriority < message2.messgePriority ? 1
+          : message1.messgePriority > message2.messgePriority ? -1
           : message1.createTime > message2.createTime ? 1
           : message1.createTime < message2.createTime ? -1
           : 0; // Default
       });
   }
-
 }
 

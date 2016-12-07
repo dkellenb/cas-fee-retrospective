@@ -52,6 +52,9 @@ export class StickyNoteComponent implements OnInit {
   }
 
   public aboardEdit(): void {
+    if (this.validationErrorMessage != null) {
+      this.validationErrorMessage.setMessageExpired();
+    }
     if (this.stickyNote.uuid == null) {
       this.deleteComment();
     } else if (!this._isWatingForReload) {
@@ -66,9 +69,6 @@ export class StickyNoteComponent implements OnInit {
           this.notificationService.pushNextMessage(new NotificationMessage(NotificationMessageType.ERROR,
             'There was a error while trying to reload comment', 10));
         });
-    }
-    if (this.validationErrorMessage != null) {
-      this.validationErrorMessage.setMessageExpired();
     }
   }
 
