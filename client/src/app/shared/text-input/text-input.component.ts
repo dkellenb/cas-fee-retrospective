@@ -26,13 +26,18 @@ export class TextInputComponent implements OnInit, ControlValueAccessor {
   @Input()
   public isTextArea: boolean = false; // default to textfield;
 
+  @Input()
+  public isRequierd: boolean = false;
+
+  @Input()
+  public hasError: boolean = false;
+
   private _value: string;
   private _onTouchedCallback;
   private _onChangeCallback;
 
   constructor() {
   }
-
 
   ngOnInit() {
     if (this.labelText === null) {
@@ -45,7 +50,7 @@ export class TextInputComponent implements OnInit, ControlValueAccessor {
     }
   }
 
-  public hasErrorMessage(): boolean {
+  public get hasErrorMessage(): boolean {
     return this.inputErrorMessage != null;
   }
 
@@ -62,7 +67,6 @@ export class TextInputComponent implements OnInit, ControlValueAccessor {
 
   /**
    * Implemented as part of ControlValueAccessor.
-   * TODO: internal
    */
   writeValue(value: any) {
     this._value = value;
@@ -70,7 +74,6 @@ export class TextInputComponent implements OnInit, ControlValueAccessor {
 
   /**
    * Implemented as part of ControlValueAccessor.
-   * TODO: internal
    */
   registerOnChange(fn: any) {
     this._onChangeCallback = fn;
@@ -78,7 +81,6 @@ export class TextInputComponent implements OnInit, ControlValueAccessor {
 
   /**
    * Implemented as part of ControlValueAccessor.
-   * TODO: internal
    */
   registerOnTouched(fn: any) {
     this._onTouchedCallback = fn;

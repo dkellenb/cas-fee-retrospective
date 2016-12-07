@@ -1,17 +1,16 @@
 @import '../shared.scss';
 
 .form {
-  padding-top: 1rem;
 }
 
-.form__element, :host > > > .form__element {
+.form  .form__element{
   margin-bottom: 0.5rem;
 }
 
 .form__body {
   max-width: 30rem;
   margin: 0 auto;
-  padding: 0 1rem 1rem 1rem;
+  padding: 0.5rem 1rem 2rem 1rem;
 }
 
 .form__submit {

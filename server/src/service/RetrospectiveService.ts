@@ -267,10 +267,14 @@ export class RetrospectiveService {
     this.retrospectiveRepository.findByUuid(retroId, (retrospectiveLoadError, persistedRetrospective) => {
       if (retrospectiveLoadError) {
         action(retrospectiveLoadError);
+      } else if (!persistedRetrospective) {
+        action('Persisted retrospective not found');
       } else {
         this.userRepository.findByUuid(currentUser.uuid, (userLoadError, persistedUser) => {
           if (userLoadError) {
             action(userLoadError);
+          } else if (!persistedUser) {
+            action('Persisted user not found');
           } else {
             action(null, persistedRetrospective, persistedUser);
           }

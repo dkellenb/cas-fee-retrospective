@@ -1,8 +1,8 @@
 <div class="input" rsbFormElement>
-  <label [attr.for]="id" class="input__label">{{labelText}}</label>
-  <label *ngIf="hasErrorMessage()" [attr.for]="id" class="input__error-message">{{inputErrorMessage}}</label>
-  <input  *ngIf="!isTextArea" rsbDisableElement [id]="id" type="text" class="input__textfield"
-         [class.input__textfield_error]="hasErrorMessage()" [(ngModel)]="value">
+  <label [attr.for]="id" class="input__label">{{labelText}}<abbr *ngIf="isRequierd" title="requierd"> *</abbr></label>
+  <label *ngIf="hasErrorMessage" [attr.for]="id" class="input__error-message">{{inputErrorMessage}}</label>
+  <input *ngIf="!isTextArea" rsbDisableElement [id]="id" type="text" class="input__textfield"
+         [class.input__textfield_error]="(hasErrorMessage||hasError)" [(ngModel)]="value" [required]="isRequired ? 'true' : null">
   <textarea *ngIf="isTextArea" rsbDisableElement [id]="id" class="input__textfield input__textfield_textarea"
-            [class.input__textfield_error]="hasErrorMessage()" [(ngModel)]="value"></textarea>
+            [class.input__textfield_error]="(hasErrorMessage||hasError)" [(ngModel)]="value" [required]="isRequired ? 'true' : null"></textarea>
 </div>

@@ -1,19 +1,16 @@
-<rsb-board>
-  <rsb-board-title>Join Retrospective Board Session</rsb-board-title>
-  <rsb-board-body>
-    <rsb-form>
-      <rsb-form-body>
-        <rsb-text-input [labelText]="'Retrospective-Key'" [id]="'joinSessionKey'"
-                        [(ngModel)]="sessionKey"></rsb-text-input>
-        <rsb-text-input *ngIf="!isUserLoggedIn"
-                        [labelText]="'Shortname'"
-                        [id]="'joinSessionShortName'"
-                        [(ngModel)]="shortName"></rsb-text-input>
-      </rsb-form-body>
-      <rsb-form-submit>
-        <rsb-icon-button [lableText]="'Join existing Retrospective'" rsb-button-set-element
-                         [buttonType]="iconButtonType.ARROW_RIGHT" (click)="joinSession()"></rsb-icon-button>
-      </rsb-form-submit>
-    </rsb-form>
-  </rsb-board-body>
-</rsb-board>
+<rsb-form>
+  <rsb-form-body>
+    <rsb-text-input [labelText]="'Retrospective-Key'" [id]="'joinSessionKey'"
+                    [(ngModel)]="sessionKey" [isRequierd]="true"
+                    [inputErrorMessage]="sessionKeyErrorMessage"></rsb-text-input>
+    <rsb-text-input *ngIf="!isUserLoggedIn"
+                    [labelText]="'Shortname'"
+                    [id]="'joinSessionShortName'"
+                    [(ngModel)]="shortName" [isRequierd]="true"
+                    [inputErrorMessage]="shortNameErrorMessage"></rsb-text-input>
+  </rsb-form-body>
+  <rsb-form-submit>
+    <rsb-icon-button [lableText]="'Join existing Retrospective'" rsb-button-set-element
+                     [buttonType]="iconButtonType.ARROW_RIGHT" (click)="joinSession()"></rsb-icon-button>
+  </rsb-form-submit>
+</rsb-form>

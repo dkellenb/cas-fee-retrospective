@@ -13,6 +13,7 @@ import {WebSocketService, WebSocketAction} from './web-socket.service';
 export class RetrospectiveService {
 
   private _currentRetrospective: IBasicRetrospective<IRetrospectiveUser>;
+  private _failedRetrospectiveId: string;
 
   private static extractIdFromLocation(location: string): string {
     if (location == null) {
@@ -97,6 +98,7 @@ export class RetrospectiveService {
     return this.authHttp.get(this.createRetrospectiveIdEndpoint(retrospectiveId)).map(response => {
       this._currentRetrospective = response.json();
       this.setupWebSocket(retrospectiveId);
+      this._failedRetrospectiveId = null;
       return this._currentRetrospective;
     });
   }
@@ -126,12 +128,12 @@ export class RetrospectiveService {
     return this.authHttp.post(this.createCommentEndpoint(this._currentRetrospective.uuid, topicId), create)
       .first()
       .flatMap(response => {
-      if (response.status === 201) {
-        return this.getComment(RetrospectiveService.extractIdFromLocation(response.headers.get('Location')));
-      } else {
-        throw new Error(`Could not create comment on retro "${this._currentRetrospective.uuid}"`);
-      }
-    });
+        if (response.status === 201) {
+          return this.getComment(RetrospectiveService.extractIdFromLocation(response.headers.get('Location')));
+        } else {
+          throw new Error(`Could not create comment on retro "${this._currentRetrospective.uuid}"`);
+        }
+      });
   }
 
   public updateComment(topicId: string,
@@ -155,6 +157,14 @@ export class RetrospectiveService {
         throw new Error(`Could not delete comment '${commentId}' on retro '${this._currentRetrospective.uuid}'`);
       }
     });
+  }
+
+  public  get failedRetrospectiveId(): string {
+    return this._failedRetrospectiveId;
+  }
+
+  public set failedRetrospectiveId(value: string) {
+    this._failedRetrospectiveId = value;
   }
 
   private setupWebSocket(retrospectiveId: string) {

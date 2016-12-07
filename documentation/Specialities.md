@@ -10,7 +10,7 @@ This page is intended to show what we learned and have built in into this applic
 1. Defined how a RestAPI should look like (see [Rest API](RestAPI.md))
 1. Parallel developed server / client
 1. TODO User testing (see [User testing](UserTesting.md))
-1. TODO Deployed on Heroku
+1. Deployed on Heroku (see https://cas-fee-retrospective.herokuapp.com/)
 
 ## Built in
 - General
@@ -31,5 +31,6 @@ This page is intended to show what we learned and have built in into this applic
   - noSQL Database MongoDB
   - Use TypeScript directly using *ts-node*
   - Using mocks
+  - Deployable to Heroku
 
   
