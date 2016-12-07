@@ -10,7 +10,6 @@
 var gulp            = require('gulp'),
     gulpClean       = require('gulp-clean'),
     gulpSequence    = require('gulp-sequence'),
-    gulpCopy        = require('gulp-copy'),
     spawn           = require('child_process').spawn,
     del             = require('del');
 

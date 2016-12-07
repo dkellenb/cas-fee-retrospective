@@ -15,10 +15,10 @@
       <rsb-split-bar-container-right>
         <rsb-button-set>
           <rsb-icon-button *ngIf="isVoteMode" [buttonType]="iconButtonType.VOTE" (click)="vote()"></rsb-icon-button>
-          <rsb-icon-button *ngIf="showForm" [buttonType]="iconButtonType.CHECK_MARK" (click)="saveStickyNote()" (touch)="saveStickyNote()"></rsb-icon-button>
-          <rsb-icon-button *ngIf="showForm" [buttonType]="iconButtonType.ABOARD" (click)="aboardEdit()" (touch)="aboardEdit()"></rsb-icon-button>
-          <rsb-icon-button *ngIf="showEditButton" [buttonType]="iconButtonType.EDIT" (click)="enterEditMode()" (touch)="enterEditMode()"></rsb-icon-button>
-          <rsb-icon-button *ngIf="showDeleteButton" [buttonType]="iconButtonType.DELETE" (click)="deleteComment()" (touch)="deleteComment()"></rsb-icon-button>
+          <rsb-icon-button *ngIf="showForm" [buttonType]="iconButtonType.CHECK_MARK" (click)="saveStickyNote()"></rsb-icon-button>
+          <rsb-icon-button *ngIf="showForm" [buttonType]="iconButtonType.ABOARD" (click)="aboardEdit()"></rsb-icon-button>
+          <rsb-icon-button *ngIf="showEditButton" [buttonType]="iconButtonType.EDIT" (click)="enterEditMode()"></rsb-icon-button>
+          <rsb-icon-button *ngIf="showDeleteButton" [buttonType]="iconButtonType.DELETE" (click)="deleteComment()"></rsb-icon-button>
         </rsb-button-set>
       </rsb-split-bar-container-right>
     </rsb-split-bar>
