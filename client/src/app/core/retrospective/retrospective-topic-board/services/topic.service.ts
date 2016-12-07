@@ -71,29 +71,36 @@ export class TopicService implements OnDestroy {
     }
   }
 
-  public deleteComment(stickyNote: IStickyNote): void {
+  public deleteComment(stickyNote: IStickyNote): Observable<NotificationMessage> {
     if (stickyNote.uuid == null) {
       let index = this._topic.comments.indexOf(stickyNote);
       if (index > -1) {
         this._topic.comments.splice(index, 1);
       }
+      return Observable.create((observer: Observer<NotificationMessage>) => {
+        observer.next(new NotificationMessage(NotificationMessageType.INFO, 'Comment was removed', 5));
+        observer.complete();
+      });
     } else {
-      this.retrospectiveService.deleteComment(this._topic.uuid, stickyNote.uuid).first().subscribe(success => {
-          if (success) {
-            console.log('Comment deleted on Server with id ' + stickyNote.uuid);
+      return this.retrospectiveService.deleteComment(this._topic.uuid, stickyNote.uuid)
+        .map(success => {
+            if (success) {
+              console.log('Comment deleted on Server with id ' + stickyNote.uuid);
+              return new NotificationMessage(NotificationMessageType.SUCCESS, 'Comment was deleted in retrospective', 5);
+            }
+            return new NotificationMessage(NotificationMessageType.WARNING, 'Was not able to delete comment in retrospective', 10);
           }
-        }
-      );
+        );
     }
   }
 
-  public reloadStickyNote(stickyNote: IStickyNote): void {
-    this.retrospectiveService.getComment(stickyNote.uuid)
-      .first()
+  public reloadStickyNote(stickyNote: IStickyNote): Observable<NotificationMessage> {
+    return this.retrospectiveService.getComment(stickyNote.uuid)
       .map(TopicService.mapIBasicRetrospectiveCommentToIStickyNote)
-      .subscribe((resetNote: IStickyNote) => {
+      .map((resetNote: IStickyNote) => {
         resetNote.mode = StickyNoteMode.Display;
         this._topic.comments[this.findIndexOfCommentByUuid(stickyNote.uuid)] = resetNote;
+        return new NotificationMessage(NotificationMessageType.INFO, 'No Changes were made to the comment', 5);
       });
   }
 
@@ -112,7 +119,7 @@ export class TopicService implements OnDestroy {
           stickyNote.author = returnStickyNote.author;
           stickyNote.votes = returnStickyNote.votes;
           stickyNote.mode = StickyNoteMode.Display;
-          return new NotificationMessage(NotificationMessageType.SUCCESS, 'New Comment has been commited to the Retrospective', 5);
+          return new NotificationMessage(NotificationMessageType.SUCCESS, 'New Comment has been commited to the Retrospective', 10);
         },
         e => {
           console.log(e);
