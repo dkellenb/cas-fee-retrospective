@@ -27,7 +27,7 @@ $gradient-end-alpha: rgba(238, 238, 238, 1);
 }
 
 .board__header {
-  padding: 0.125rem; /*2px*/
+  padding: 0.125rem 0.125rem 0.125rem 0.25rem; /*2px / 4px*/
 }
 
 .board__body {

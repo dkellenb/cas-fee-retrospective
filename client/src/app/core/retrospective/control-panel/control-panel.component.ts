@@ -6,7 +6,7 @@ import {IRetrospectiveUser} from '../../../shared/model/UserDomainModel';
 @Component({
   selector: 'rsb-control-panel',
   templateUrl: './control-panel.component.html',
-  styleUrls: ['./control-panel.component.css']
+  styleUrls: ['control-panel.component.scss']
 })
 export class ControlPanelComponent implements OnInit {
 
@@ -17,6 +17,13 @@ export class ControlPanelComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+
+  public get users(): IRetrospectiveUser[] {
+    if (this.retrospective != null) {
+      return this.retrospective.attendees;
+    }
+    return [];
   }
 
 }

@@ -1,3 +1,14 @@
 <div class="controlpanel">
-
+  <div class="controlpanel__description">
+    <h3 class="controlpanel__segment-title">Description</h3>
+    <p class="controlpanel__text">{{retrospective?.description}}</p>
+  </div>
+  <div class="controlpanel__users">
+    <h3 class="controlpanel__segment-title">Retrospective Session Members</h3>
+    <div class="gallery gallery__elements">
+      <div class="gallery__element" *ngFor="let user of users">
+        <div class="user"><span class="user__icon">{{user.uuid}}</span><span class="user__name">{{user.shortName}} ({{user.role}})</span></div>
+      </div>
+    </div>
+  </div>
 </div>
