@@ -36,6 +36,15 @@ var RetroServer = (function () {
     RetroServer.bootstrap = function () {
         return new RetroServer();
     };
+    RetroServer.prototype.getHostName = function () {
+        return process.env.APP_HOSTNAME || nconf.get('hostname');
+    };
+    RetroServer.prototype.getPort = function () {
+        return parseInt(process.env.PORT, 10) || parseInt(nconf.get('port'), 10);
+    };
+    RetroServer.prototype.getAllowOriginHostName = function () {
+        return process.env.ALLOW_ORIGIN_HOST_NAME || nconf.get('allow_origin_host_name');
+    };
     RetroServer.prototype.loadConfig = function () {
         console.log('Load configuration');
         this.config = nconf.argv()
@@ -58,14 +67,13 @@ var RetroServer = (function () {
     };
     RetroServer.prototype.setupInversifyExpressServer = function () {
         console.log('Setup InversifyExpressServer');
+        var self = this;
         var server = new inversify_express_utils_1.InversifyExpressServer(this.kernel);
         server.setConfig(function (app) {
             // Add headers
             app.use(function (req, res, next) {
                 // Website you wish to allow to connect
-                if (nconf.get('overwrite-allow-origin')) {
-                    res.setHeader('Access-Control-Allow-Origin', 'http://' + nconf.get('hostname') + ':' + nconf.get('ui-port'));
-                }
+                res.setHeader('Access-Control-Allow-Origin', '' + self.getAllowOriginHostName());
                 // Request methods you wish to allow
                 res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
                 // Request headers you wish to allow
@@ -75,8 +83,14 @@ var RetroServer = (function () {
                 // Set to true if you need the website to include cookies in the requests sent
                 // to the API (e.g. in case you use sessions)
                 res.setHeader('Access-Control-Allow-Credentials', 'true');
-                // Pass to next layer of middleware
-                next();
+                // intercept OPTIONS method
+                if (req.method === 'OPTIONS') {
+                    res.send(200);
+                }
+                else {
+                    // Pass to next layer of middleware
+                    next();
+                }
             });
             app.use(bodyParser.urlencoded({
                 extended: true
@@ -89,8 +103,8 @@ var RetroServer = (function () {
     };
     RetroServer.prototype.initHttpServer = function () {
         console.log('Init HTTP Server');
-        var hostname = process.env.APP_HOSTNAME || nconf.get('hostname');
-        var port = parseInt(process.env.PORT, 10) || parseInt(nconf.get('port'), 10);
+        var hostname = this.getHostName();
+        var port = this.getPort();
         this.serverInstance = this.app.listen(port, function () {
             console.log('Server started on port ' + port);
             console.log('');
