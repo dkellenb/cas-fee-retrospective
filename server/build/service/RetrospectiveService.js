@@ -113,7 +113,7 @@ var RetrospectiveService = (function () {
                     reject(error);
                 }
                 else {
-                    if (persistedRetrospective.manager !== persistedUser._id && currentUser.systemRole !== UserDomainModel_1.UserRole.ADMIN) {
+                    if (!persistedRetrospective.manager.equals(persistedUser._id) && currentUser.systemRole !== UserDomainModel_1.UserRole.ADMIN) {
                         reject('User "' + currentUser.uuid + '" is not allowed to edit retrospective "' + retrospectiveId + '"');
                     }
                     else {
@@ -134,7 +134,7 @@ var RetrospectiveService = (function () {
                     reject(error);
                 }
                 else {
-                    if (persistedRetrospective.manager !== persistedUser._id && currentUser.systemRole !== UserDomainModel_1.UserRole.ADMIN) {
+                    if (!persistedRetrospective.manager.equals(persistedUser._id) && currentUser.systemRole !== UserDomainModel_1.UserRole.ADMIN) {
                         reject('User "' + currentUser.uuid + '" is not allowed to edit retrospective "' + retrospectiveId + '"');
                     }
                     else {
@@ -159,7 +159,7 @@ var RetrospectiveService = (function () {
                     reject(error);
                 }
                 else {
-                    if (persistedRetrospective.manager !== persistedUser._id && currentUser.systemRole !== UserDomainModel_1.UserRole.ADMIN) {
+                    if (!persistedRetrospective.manager.equals(persistedUser._id) && currentUser.systemRole !== UserDomainModel_1.UserRole.ADMIN) {
                         reject('User "' + currentUser.uuid + '" is not allowed to edit retrospective "' + retrospectiveId + '"');
                     }
                     else {
