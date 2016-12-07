@@ -23,6 +23,8 @@ export class CreateSessionComponent implements OnInit {
   public sessionDescErrorMessage: string = null;
   public shortNameErrorMessage: string = null;
 
+  private _waitForCreateSession: boolean = false;
+
   constructor(private authService: AuthenticationService,
               private retrospectiveService: RetrospectiveService,
               private router: Router,
@@ -34,15 +36,17 @@ export class CreateSessionComponent implements OnInit {
   }
 
   public createSession() {
-    if (this.inputValidation()) {
+    if (!this._waitForCreateSession && this.inputValidation()) {
       this.retrospectiveService.createRetrospective(this.sessionTitle, this.sessionDesc, this.shortName).subscribe(sessionKey => {
           console.log('new SessionKey is: ' + sessionKey);
           this.router.navigate([sessionKey], {relativeTo: this.route});
+          this._waitForCreateSession = false;
         },
         e => {
           console.log(e);
           this.notificationService.pushNextMessage(new NotificationMessage(NotificationMessageType.ERROR,
             'There was a error while trying to create a new retrospective session on the Server.', 10));
+          this._waitForCreateSession = false;
         });
     }
   }

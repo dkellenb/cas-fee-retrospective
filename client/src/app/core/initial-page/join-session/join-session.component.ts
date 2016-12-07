@@ -21,6 +21,8 @@ export class JoinSessionComponent implements OnInit {
   public shortNameErrorMessage: string = null;
   public sessionKeyErrorMessage: string = null;
 
+  private _waitForJoinSession: boolean = false;
+
   constructor(private authService: AuthenticationService,
               private retrospectiveService: RetrospectiveService,
               private router: Router,
@@ -37,22 +39,25 @@ export class JoinSessionComponent implements OnInit {
           'Could not find a Retrospective-Session with the Id:' + this.retrospectiveService.failedRetrospectiveId);
       } else {
         this.shortNameErrorMessage = 'Please insert a Shortname';
-        this.validationErrorMessage = new NotificationMessage(NotificationMessageType.INFO, 'Need a Shortname for join the Retrospective Session');
+        this.validationErrorMessage = new NotificationMessage(NotificationMessageType.INFO,
+          'Need a Shortname for join the Retrospective Session');
       }
       this.notificationService.pushNextMessage(this.validationErrorMessage);
     }
   }
 
   public joinSession(): void {
-    if (this.inputValidation()) {
+    if (!this._waitForJoinSession && this.inputValidation()) {
       this.retrospectiveService.joinRetrospective(this.sessionKey.trim(), this.shortName).subscribe(sucess => {
         if (sucess) {
           this.router.navigate([this.sessionKey.trim()], {relativeTo: this.route});
         }
+        this._waitForJoinSession = false;
       }, e => {
         console.log(e);
         this.notificationService.pushNextMessage(new NotificationMessage(NotificationMessageType.ERROR,
           'There was a problem with the connection to the Server', 10));
+        this._waitForJoinSession = false;
       });
     }
   }
