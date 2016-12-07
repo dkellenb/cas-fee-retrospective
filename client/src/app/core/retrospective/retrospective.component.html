@@ -8,7 +8,8 @@
       <rsb-split-bar>
         <rsb-split-bar-container-right>
           <rsb-button-set>
-            <rsb-icon-button [buttonType]="iconButtonType.ARROW_RIGHT" [lableText]="retroStatecontrollerLabelText"></rsb-icon-button>
+            <rsb-icon-button [buttonType]="iconButtonType.ARROW_RIGHT" [lableText]="retroStatecontrollerLabelText"
+                             (click)="aktivateNextRetroPhase()"></rsb-icon-button>
           </rsb-button-set>
         </rsb-split-bar-container-right>
       </rsb-split-bar>

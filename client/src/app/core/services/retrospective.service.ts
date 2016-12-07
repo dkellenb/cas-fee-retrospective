@@ -8,6 +8,9 @@ import {ConfigurationService, AuthenticationService} from '../../shared/';
 import {Observable} from 'rxjs';
 import {AuthHttp} from 'angular2-jwt';
 import {WebSocketService, WebSocketAction} from './web-socket.service';
+import {RetrospectiveStatus} from '../../shared/model/RetrospectiveDomainModel';
+import {NotificationMessage} from '../../shared/notification-message/notification-message';
+import {NotificationMessageType} from '../../shared/notification-message/notification-message-type';
 
 @Injectable()
 export class RetrospectiveService {
@@ -160,6 +163,12 @@ export class RetrospectiveService {
     });
   }
 
+  public updateRetrospectiveStatus(status: RetrospectiveStatus): Observable<boolean> {
+    return this.authHttp.put(this.createRetrospectiveIdStatusEndpoint(this._currentRetrospective.uuid), status).map(response => {
+      return response.status === 204;
+    });
+  }
+
   public  get failedRetrospectiveId(): string {
     return this._failedRetrospectiveId;
   }
@@ -186,7 +195,8 @@ export class RetrospectiveService {
             this.updatedDeletedComment(websocketAction.id);
             break;
           case 'newStatus':
-            console.log('Change status');
+            // reload everything to remove all comments in edit mode or other deltas
+            this.getRetrospective(this._currentRetrospective.uuid);
             break;
           default:
             console.log('Unknown Websocket Action ' + websocketAction.action);
@@ -240,6 +250,10 @@ export class RetrospectiveService {
 
   private createRetrospectiveIdEndpoint(id: string) {
     return this.configuration.retrospectiveEndpoint + '/' + id;
+  }
+
+  private createRetrospectiveIdStatusEndpoint(id: string) {
+    return this.createRetrospectiveIdEndpoint(id) + '/status';
   }
 
   private createAttendeeIdEndpoint(retroId: string, attendeeId: string) {

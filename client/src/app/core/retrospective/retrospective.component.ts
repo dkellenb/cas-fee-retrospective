@@ -58,6 +58,20 @@ export class RetrospectiveComponent implements OnInit {
     return currendUser != null && (currendUser.role === UserRole.MANAGER || currendUser.role === UserRole.ADMIN);
   }
 
+  public aktivateNextRetroPhase(): void {
+    let nextStatus = this.getNextStatus();
+    if (nextStatus != null) {
+      this.retrospectiveService.updateRetrospectiveStatus(nextStatus)
+        .first()
+        .subscribe((success: boolean) => {
+            console.log('Session enter next status: ' + nextStatus);
+          },
+          e => {
+            console.log('was not able to enter next status');
+          });
+    }
+  }
+
   public get retroStatecontrollerLabelText(): string {
     return this.retrospective.status != null ?
       this.retrospective.status === RetrospectiveStatus.OPEN ? 'Start review of comments'
@@ -67,4 +81,16 @@ export class RetrospectiveComponent implements OnInit {
         : this.retrospective.status === RetrospectiveStatus.VOTE ? 'Show votingresult'
         : '' : '';
   }
+
+  private getNextStatus(): RetrospectiveStatus {
+    return this.retrospective.status != null ?
+      this.retrospective.status === RetrospectiveStatus.OPEN ? RetrospectiveStatus.REVIEW
+        : this.retrospective.status === RetrospectiveStatus.REVIEW ? RetrospectiveStatus.VOTE
+        : this.retrospective.status === RetrospectiveStatus.GROUP ? RetrospectiveStatus.VOTE
+        : this.retrospective.status === RetrospectiveStatus.VOTE ? RetrospectiveStatus.CLOSED
+        : this.retrospective.status === RetrospectiveStatus.CLOSED ? null
+        : null : null;
+  }
+
+
 }
