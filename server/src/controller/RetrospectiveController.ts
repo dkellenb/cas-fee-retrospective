@@ -113,7 +113,11 @@ export class RetrospectiveController {
       .then((currentUser) => this.retrospectiveService.getPublicRetrospectiveSecured(currentUser, request.params.id))
       .then((retrospective) => {
         let filteredAttendee = retrospective.attendees.filter((attendee) => attendee.uuid === request.params.userid);
-        response.send(filteredAttendee);
+        if (filteredAttendee.length === 0) {
+          response.sendStatus(404);
+        } else {
+          response.send(filteredAttendee[0]);
+        }
       }).catch((err) => {
         console.log(err);
       response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});

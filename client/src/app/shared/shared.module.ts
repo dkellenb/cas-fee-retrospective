@@ -23,6 +23,7 @@ import {CarouselModule} from './carousel';
 import {UserStatusComponent} from './user-status';
 import {NotificationMessageComponent} from './notification-message/notification-message.component';
 import {NotifierComponent} from './notifier/notifier.component';
+import { UserIconComponent } from './user-icon/user-icon.component';
 
 @NgModule({
   declarations: [BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective, IconButtonComponent,
@@ -33,7 +34,8 @@ import {NotifierComponent} from './notifier/notifier.component';
     FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective,
     UserStatusComponent,
     NotificationMessageComponent,
-    NotifierComponent],
+    NotifierComponent,
+    UserIconComponent],
   imports: [CommonModule, HttpModule, RouterModule, FormsModule, CarouselModule],
   exports: [CommonModule, HttpModule, RouterModule, FormsModule,
     BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective,
@@ -45,7 +47,8 @@ import {NotifierComponent} from './notifier/notifier.component';
     , CarouselModule,
     UserStatusComponent,
     SplitBarComponent, SplitBarContainerLeftDirective, SplitBarContainerRightDirective,
-    NotificationMessageComponent, NotifierComponent
+    NotificationMessageComponent, NotifierComponent,
+    UserIconComponent
   ],
   providers: [
     ConfigurationService, AuthenticationService,
