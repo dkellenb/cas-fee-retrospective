@@ -199,8 +199,8 @@ var RetrospectiveService = (function () {
                 }
                 else {
                     var userPartOfAttendees = persistedRetrospective.attendees.find(function (attendeeId) {
-                        console.log(attendeeId + ' vs ' + persistedUser._id + ' : ' + (attendeeId === persistedUser._id));
-                        return attendeeId === persistedUser._id;
+                        console.log(attendeeId + ' vs ' + persistedUser._id + ' : ' + attendeeId.equals(persistedUser._id));
+                        return attendeeId.equals(persistedUser._id);
                     });
                     if (!userPartOfAttendees) {
                         console.log('Register user ' + currentUser.uuid + ' to ' + retrospectiveId);
