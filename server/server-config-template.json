@@ -1,8 +1,7 @@
 {
   "port": 3000,
   "ui-port": 4200,
-  "overwrite-allow-origin": true,
-  "hostname": "localhost",
+  "hostname": "http://localhost",
 
   "mongodbUrl": "mongodb://<dbuser>:<dbpassword>@ds033976.mlab.com:33976/cas-fee-retrospective",
 
