@@ -37,7 +37,7 @@ var RetrospectiveRepository = (function (_super) {
         this.getModel()
             .where('uuid').equals(_uuid)
             .exec(function (error, result) {
-            callback(error, !result || result.length === 0 ? result : result[0]);
+            callback(error, !result || result.length === 0 ? null : result[0]);
         });
     };
     RetrospectiveRepository.prototype.findByUuidPopulated = function (_uuid, callback) {

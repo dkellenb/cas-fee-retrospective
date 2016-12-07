@@ -280,10 +280,16 @@ var RetrospectiveService = (function () {
             if (retrospectiveLoadError) {
                 action(retrospectiveLoadError);
             }
+            else if (!persistedRetrospective) {
+                action('Persisted retrospective not found');
+            }
             else {
                 _this.userRepository.findByUuid(currentUser.uuid, function (userLoadError, persistedUser) {
                     if (userLoadError) {
                         action(userLoadError);
+                    }
+                    else if (!persistedUser) {
+                        action('Persisted user not found');
                     }
                     else {
                         action(null, persistedRetrospective, persistedUser);
