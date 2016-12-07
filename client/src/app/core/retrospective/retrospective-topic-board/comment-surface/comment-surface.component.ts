@@ -5,7 +5,7 @@ import {IStickyNote, TopicService} from '../services/';
 @Component({
   selector: 'rsb-comment-surface',
   templateUrl: './comment-surface.component.html',
-  styleUrls: ['./comment-surface.component.css']
+  styleUrls: ['./comment-surface.component.scss']
 })
 export class CommentSurfaceComponent implements OnInit {
 
