@@ -1,7 +1,8 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {UserService} from '../../services';
 import {IBasicRetrospective} from '../../../shared/model/RetrospectiveDomainModel';
-import {IRetrospectiveUser} from '../../../shared/model/UserDomainModel';
+import {IRetrospectiveUser, UserRole} from '../../../shared/model/UserDomainModel';
+import {AuthenticationService} from '../../../shared/services/authentication.service';
 
 @Component({
   selector: 'rsb-control-panel',
@@ -13,7 +14,7 @@ export class ControlPanelComponent implements OnInit {
   @Input()
   private retrospective: IBasicRetrospective<IRetrospectiveUser>;
 
-  constructor(private userService: UserService) {
+  constructor() {
   }
 
   ngOnInit() {

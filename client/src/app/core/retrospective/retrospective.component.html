@@ -1,8 +1,19 @@
-<rsb-board [isCollapsible]="true" [isOpen]="false">
+<rsb-board [isCollapsible]="true" [isOpen]="false" [collapseFooter]="!hasManagerRole">
   <rsb-board-title><strong>Controllpanel for Retrospective:</strong> {{retrospective?.name}}</rsb-board-title>
   <rsb-board-body>
     <rsb-control-panel [retrospective]="retrospective"></rsb-control-panel>
   </rsb-board-body>
+  <rsb-board-footer *ngIf="hasManagerRole">
+    <div class="retro-state-controller">
+      <rsb-split-bar>
+        <rsb-split-bar-container-right>
+          <rsb-button-set>
+            <rsb-icon-button [buttonType]="iconButtonType.ARROW_RIGHT" [lableText]="retroStatecontrollerLabelText"></rsb-icon-button>
+          </rsb-button-set>
+        </rsb-split-bar-container-right>
+      </rsb-split-bar>
+    </div>
+  </rsb-board-footer>
 </rsb-board>
 <rsb-carousel [carouselActive]="false">
   <div class="board-grid">

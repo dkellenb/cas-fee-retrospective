@@ -1,6 +1,6 @@
 import {
   Component, OnInit, Input, Directive, trigger, state, transition, animate, style,
-  OnChanges
+  OnChanges, ViewChild, AfterViewInit
 } from '@angular/core';
 import {IconButtonType} from '../icon-button';
 import {NotifierService} from '../notifier/notifier.service';
@@ -45,6 +45,10 @@ export class BoardComponent implements OnInit, OnChanges {
 
   @Input()
   private isCollapsible = false;
+
+  // noinspection TsLint used in template
+  @Input()
+  private collapseFooter: boolean = true;
 
   private collapsibleState: string = BoardComponent.OPEN;
 
@@ -102,4 +106,13 @@ export class BoardButtonsDirective {
   selector: 'rsb-board-body'
 })
 export class BoardBodyDirective {
+}
+
+/**
+ * Content of the Body part of the Board
+ */
+@Directive({
+  selector: 'rsb-board-footer'
+})
+export class BoardFooterDirective {
 }
