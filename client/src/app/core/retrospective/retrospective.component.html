@@ -3,7 +3,7 @@
   <rsb-board-body>
     <rsb-control-panel [retrospective]="retrospective"></rsb-control-panel>
   </rsb-board-body>
-  <rsb-board-footer *ngIf="hasManagerRole">
+  <rsb-board-footer *ngIf="hasManagerRole&&!isClosed">
     <div class="retro-state-controller">
       <rsb-split-bar>
         <rsb-split-bar-container-right>

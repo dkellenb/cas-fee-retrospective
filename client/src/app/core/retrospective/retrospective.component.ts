@@ -16,7 +16,9 @@ export class RetrospectiveComponent implements OnInit {
 
   public iconButtonType = IconButtonType;
 
-  private retrospective: IBasicRetrospective<IRetrospectiveUser>;
+  private _retrospective: IBasicRetrospective<IRetrospectiveUser>;
+
+  private retroId: string;
 
   constructor(private route: ActivatedRoute,
               private retrospectiveService: RetrospectiveService,
@@ -25,37 +27,40 @@ export class RetrospectiveComponent implements OnInit {
   }
 
   ngOnInit() {
-    let retroId;
     this.route.params.switchMap((params: Params) => {
-      retroId = params['id'];
-      return this.retrospectiveService.joinRetrospective(retroId);
+      this.retroId = params['id'];
+      return this.retrospectiveService.joinRetrospective(this.retroId);
     })
       .flatMap((sucess: boolean) => {
         if (sucess) {
-          return this.retrospectiveService.getRetrospective(retroId);
+          return this.retrospectiveService.getRetrospective(this.retroId);
         }
         throw Error('Wasn\'t able to join retrospective');
       })
       .first()
       .subscribe((retrospective: IBasicRetrospective<IRetrospectiveUser>) => {
-        this.retrospective = retrospective;
-        console.log('load Retrospective with UUID: ' + this.retrospective.uuid);
+        this._retrospective = retrospective;
+        console.log('load Retrospective with UUID: ' + this._retrospective.uuid);
       }, e => {
-        console.log('Wasn\'t able to find Retrospective: ' + retroId);
-        this.retrospectiveService.failedRetrospectiveId = retroId;
+        console.log('Wasn\'t able to find Retrospective: ' + this.retroId);
+        this.retrospectiveService.failedRetrospectiveId = this.retroId;
         this.router.navigate(['']);
       });
   }
 
   public get hasManagerRole(): boolean {
-    if (this.retrospective == null) {
+    if (this._retrospective == null) {
       return false;
     }
     let loggedInUserUUID: string = this.authService.getLoggedInUser().uuid;
-    let currendUser: IRetrospectiveUser = this.retrospective.attendees.find((user: IRetrospectiveUser) => {
+    let currendUser: IRetrospectiveUser = this._retrospective.attendees.find((user: IRetrospectiveUser) => {
       return user.uuid === loggedInUserUUID;
     });
     return currendUser != null && (currendUser.role === UserRole.MANAGER || currendUser.role === UserRole.ADMIN);
+  }
+
+  public get isClosed(): boolean {
+    return this.retrospectiveService != null && this._retrospective.status === RetrospectiveStatus.CLOSED;
   }
 
   public aktivateNextRetroPhase(): void {
@@ -73,24 +78,31 @@ export class RetrospectiveComponent implements OnInit {
   }
 
   public get retroStatecontrollerLabelText(): string {
-    return this.retrospective.status != null ?
-      this.retrospective.status === RetrospectiveStatus.OPEN ? 'Start review of comments'
-        : this.retrospective.status === RetrospectiveStatus.CLOSED ? ''
-        : this.retrospective.status === RetrospectiveStatus.GROUP ? 'Start voting'
-        : this.retrospective.status === RetrospectiveStatus.REVIEW ? 'Start voting'
-        : this.retrospective.status === RetrospectiveStatus.VOTE ? 'Show votingresult'
+    return this._retrospective.status != null ?
+      this._retrospective.status === RetrospectiveStatus.OPEN ? 'Start review of comments'
+        : this._retrospective.status === RetrospectiveStatus.CLOSED ? ''
+        : this._retrospective.status === RetrospectiveStatus.GROUP ? 'Start voting'
+        : this._retrospective.status === RetrospectiveStatus.REVIEW ? 'Start voting'
+        : this._retrospective.status === RetrospectiveStatus.VOTE ? 'Show votingresult'
         : '' : '';
   }
 
   private getNextStatus(): RetrospectiveStatus {
-    return this.retrospective.status != null ?
-      this.retrospective.status === RetrospectiveStatus.OPEN ? RetrospectiveStatus.REVIEW
-        : this.retrospective.status === RetrospectiveStatus.REVIEW ? RetrospectiveStatus.VOTE
-        : this.retrospective.status === RetrospectiveStatus.GROUP ? RetrospectiveStatus.VOTE
-        : this.retrospective.status === RetrospectiveStatus.VOTE ? RetrospectiveStatus.CLOSED
-        : this.retrospective.status === RetrospectiveStatus.CLOSED ? null
+    return this._retrospective.status != null ?
+      this._retrospective.status === RetrospectiveStatus.OPEN ? RetrospectiveStatus.REVIEW
+        : this._retrospective.status === RetrospectiveStatus.REVIEW ? RetrospectiveStatus.VOTE
+        : this._retrospective.status === RetrospectiveStatus.GROUP ? RetrospectiveStatus.VOTE
+        : this._retrospective.status === RetrospectiveStatus.VOTE ? RetrospectiveStatus.CLOSED
+        : this._retrospective.status === RetrospectiveStatus.CLOSED ? null
         : null : null;
   }
 
-
+  public get retrospective(): IBasicRetrospective<IRetrospectiveUser> {
+    this.retrospectiveService.getRetrospective(this.retroId)
+      .first()
+      .subscribe((retrospective: IBasicRetrospective<IRetrospectiveUser>) => {
+        this._retrospective = retrospective;
+      });
+    return this._retrospective;
+  }
 }

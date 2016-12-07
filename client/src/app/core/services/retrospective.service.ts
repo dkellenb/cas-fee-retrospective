@@ -8,7 +8,7 @@ import {ConfigurationService, AuthenticationService} from '../../shared/';
 import {Observable} from 'rxjs';
 import {AuthHttp} from 'angular2-jwt';
 import {WebSocketService, WebSocketAction} from './web-socket.service';
-import {RetrospectiveStatus} from '../../shared/model/RetrospectiveDomainModel';
+import {RetrospectiveStatus, ChangeStatusJSON} from '../../shared/model/RetrospectiveDomainModel';
 import {NotificationMessage} from '../../shared/notification-message/notification-message';
 import {NotificationMessageType} from '../../shared/notification-message/notification-message-type';
 
@@ -91,12 +91,16 @@ export class RetrospectiveService {
     });
   }
 
-  public getRetrospective(retrospectiveId: string): Observable<IBasicRetrospective<IRetrospectiveUser>> {
-    if (this._currentRetrospective != null && this._currentRetrospective.uuid === retrospectiveId) {
-      return Observable.create((observer) => {
-        observer.next(this._currentRetrospective);
-        observer.complete();
-      });
+  public getRetrospective(retrospectiveId: string, forceReload?: boolean): Observable<IBasicRetrospective<IRetrospectiveUser>> {
+    if (!forceReload || forceReload == null) {
+      if (this._currentRetrospective != null && this._currentRetrospective.uuid === retrospectiveId) {
+        return Observable.create((observer) => {
+          observer.next(this._currentRetrospective);
+          observer.complete();
+        });
+      }
+    } else {
+      console.log('Force Reload of Retrospective');
     }
     return this.authHttp.get(this.createRetrospectiveIdEndpoint(retrospectiveId)).map(response => {
       this._currentRetrospective = response.json();
@@ -164,7 +168,9 @@ export class RetrospectiveService {
   }
 
   public updateRetrospectiveStatus(status: RetrospectiveStatus): Observable<boolean> {
-    return this.authHttp.put(this.createRetrospectiveIdStatusEndpoint(this._currentRetrospective.uuid), status).map(response => {
+    let updateStatus: ChangeStatusJSON = <ChangeStatusJSON>{};
+    updateStatus.status = status;
+    return this.authHttp.put(this.createRetrospectiveIdStatusEndpoint(this._currentRetrospective.uuid), updateStatus).map(response => {
       return response.status === 204;
     });
   }
@@ -196,7 +202,7 @@ export class RetrospectiveService {
             break;
           case 'newStatus':
             // reload everything to remove all comments in edit mode or other deltas
-            this.getRetrospective(this._currentRetrospective.uuid);
+            this.reloadRetrospective();
             break;
           default:
             console.log('Unknown Websocket Action ' + websocketAction.action);
@@ -246,6 +252,15 @@ export class RetrospectiveService {
         topic.comments.splice(commentIndex, 1);
       }
     });
+  }
+
+  private reloadRetrospective() {
+    this.getRetrospective(this._currentRetrospective.uuid, true)
+      .first()
+      .subscribe((retrospective: IBasicRetrospective<IRetrospectiveUser>) => {
+        console.log('reload Retrospective');
+        this._currentRetrospective = retrospective;
+      });
   }
 
   private createRetrospectiveIdEndpoint(id: string) {

@@ -96,7 +96,7 @@ class RetroServer {
       app.use(function (req, res, next) {
 
         // Website you wish to allow to connect
-        res.setHeader('Access-Control-Allow-Origin', this.getHostName() + ':' + this.getPort());
+        res.setHeader('Access-Control-Allow-Origin', this.getHostName() + ':' + 4200);
 
         // Request methods you wish to allow
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -113,7 +113,7 @@ class RetroServer {
 
         // Pass to next layer of middleware
         next();
-      });
+      }.bind(this));
 
       app.use(bodyParser.urlencoded({
         extended: true
