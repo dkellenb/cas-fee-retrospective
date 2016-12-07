@@ -75,8 +75,14 @@ var RetroServer = (function () {
                 // Set to true if you need the website to include cookies in the requests sent
                 // to the API (e.g. in case you use sessions)
                 res.setHeader('Access-Control-Allow-Credentials', 'true');
-                // Pass to next layer of middleware
-                next();
+
+                // intercept OPTIONS method
+                if (req.method == 'OPTIONS') {
+                    res.send(200);
+                }
+                else {
+                    next();
+                }
             });
             app.use(bodyParser.urlencoded({
                 extended: true
