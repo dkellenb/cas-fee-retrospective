@@ -62,6 +62,10 @@ class RetroServer {
     return parseInt(process.env.PORT, 10) || parseInt(nconf.get('port'), 10);
   }
 
+  private getAllowOriginHostName(): String {
+    return process.env.ALLOW_ORIGIN_HOST_NAME || nconf.get('allow_origin_host_name');
+  }
+
   private loadConfig(): void {
     console.log('Load configuration');
     this.config = nconf.argv()
@@ -89,6 +93,7 @@ class RetroServer {
 
   private setupInversifyExpressServer(): void {
     console.log('Setup InversifyExpressServer');
+    const self = this;
     let server = new InversifyExpressServer(this.kernel);
     server.setConfig((app) => {
 
@@ -96,7 +101,7 @@ class RetroServer {
       app.use(function (req, res, next) {
 
         // Website you wish to allow to connect
-        res.setHeader('Access-Control-Allow-Origin', this.getHostName() + ':' + this.getPort());
+        res.setHeader('Access-Control-Allow-Origin', '' + self.getAllowOriginHostName());
 
         // Request methods you wish to allow
         res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
