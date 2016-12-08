@@ -8,7 +8,8 @@ import {
 } from '../../../client/src/app/shared/model/RetrospectiveDomainModel';
 import {
   IPersistedRetrospectiveDbModel, PersistedRetrospectiveTopic,
-  PersistedRetrospectiveComment, IPersistedRetrospectiveTopic, IPersistedRetrospectiveComment
+  PersistedRetrospectiveComment, IPersistedRetrospectiveTopic, IPersistedRetrospectiveComment,
+  PersistedRetrospectiveVote, IPersistedRetrospectiveVote
 } from '../repository/model/RetrospectiveDbModel';
 import {UUID} from '../../../client/src/app/shared/util/UUID';
 import {RetrospectiveUser} from './model/User';
@@ -262,6 +263,48 @@ export class RetrospectiveService {
     });
   }
 
+  public createVote(currentUser: IUser, retroId: string, topicId: string, commentId: string): Promise<IPersistedRetrospectiveVote> {
+    return new Promise<IPersistedRetrospectiveVote>((resolve, reject) => {
+      this.doCommentAction(currentUser, retroId, topicId, commentId, (error, pRetrospective, pTopic, pComment, pUser) => {
+        if (error) {
+          reject(error);
+        } else {
+          if (!pComment.votes || pComment.votes.findIndex((v) => v.author.equals(pUser._id)) >= 0) {
+            reject('User has already voted');
+          } else {
+            let newVote = new PersistedRetrospectiveVote(pUser._id);
+            pComment.votes.push(newVote);
+            pRetrospective.save();
+            resolve(newVote);
+          }
+        }
+      });
+    });
+  }
+
+  public deleteVote(currentUser: IUser, retroId: string, topicId: string, commentId: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.doCommentAction(currentUser, retroId, topicId, commentId, (error, pRetrospective, pTopic, pComment, pUser) => {
+        if (error) {
+          reject(error);
+        } else {
+          if (!pComment.votes) {
+            reject('No votes found');
+          } else {
+            let lengthBefore = pComment.votes.length;
+            pComment.votes = pComment.votes.filter((v) => !v.author.equals(pUser._id));
+            if (pComment.votes.length === lengthBefore) {
+              reject('No vote from user ' + pUser.uuid + ' found');
+            } else {
+              pRetrospective.save();
+              resolve();
+            }
+          }
+        }
+      });
+    });
+  }
+
   private doRetrospectiveAction(currentUser: IUser, retroId: string,
                                 action: (error: any, retro?: IPersistedRetrospectiveDbModel, user?: IUserDbModel) => void): void {
     this.retrospectiveRepository.findByUuid(retroId, (retrospectiveLoadError, persistedRetrospective) => {
@@ -291,7 +334,7 @@ export class RetrospectiveService {
         action(error);
       } else {
         if (persistedRetrospective.attendees.find((attendeeId) => {
-            return attendeeId === persistedUser._id;
+            return attendeeId.equals(persistedUser._id);
           }) === null) {
           action('User is not part of this retrospective');
         }

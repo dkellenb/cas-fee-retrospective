@@ -6,7 +6,7 @@ export class RetrospectiveStatus {
   static CLOSED: string = 'CLOSED';
 }
 
-export interface IRetrospectiveVote<T> {
+export interface IBasicRetrospectiveVote<T> {
   uuid: string;
   author: T;
   value: number;
@@ -19,7 +19,7 @@ export interface IBasicRetrospectiveComment<T> {
   anonymous: boolean;
   author: T;
   topicUuid?: string;
-  votes: IRetrospectiveVote<T>[];
+  votes: IBasicRetrospectiveVote<T>[];
 }
 
 export interface IBasicRetrospectiveTopic<T> {

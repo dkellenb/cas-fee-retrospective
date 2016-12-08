@@ -155,7 +155,7 @@ export class RetrospectiveController {
       .then((retrospective) => response.send(retrospective.topics))
       .catch((err) => {
         console.log(err);
-        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+        response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});
       });
   }
 
@@ -166,7 +166,7 @@ export class RetrospectiveController {
       .then((retrospective) => response.send(retrospective.topics.find((topic) => topic.uuid === request.params.topicid)))
       .catch((err) => {
         console.log(err);
-        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+        response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});
       });
   }
 
@@ -184,7 +184,7 @@ export class RetrospectiveController {
       })
       .catch((err) => {
         console.log(err);
-        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+        response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});
       });
   }
 
@@ -198,7 +198,7 @@ export class RetrospectiveController {
         ).sendStatus(201))
       .catch((err) => {
         console.log(err);
-        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+        response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});
       });
   }
 
@@ -216,7 +216,7 @@ export class RetrospectiveController {
       })
       .catch((err) => {
         console.log(err);
-        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+        response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});
       });
   }
 
@@ -228,7 +228,7 @@ export class RetrospectiveController {
       .then((comment) => response.send(comment))
       .catch((err) => {
         console.log(err);
-        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+        response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});
       });
   }
 
@@ -240,7 +240,32 @@ export class RetrospectiveController {
       .then((comment) => response.sendStatus(204))
       .catch((err) => {
         console.log(err);
-        response.send({'error': 'error in your request. see server logs for details', 'details' : err});
+        response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});
+      });
+  }
+
+  @Post('/:id/topics/:topicid/comments/:cid/votes')
+  public createVote(request: Request, response: Response): void {
+    this.userService.getJwtUser(request)
+      .then((currentUser) => this.retrospectiveService.createVote(currentUser,
+        request.params.id, request.params.topicid, request.params.cid))
+      .then((createdVote) => response.location(
+        '/rest/retrospectives/' + request.params.id + '/topics/' + request.params.topicid + '/comments/' + request.params.cid + '/votes/'))
+      .catch((err) => {
+        console.log(err);
+        response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});
+      });
+  }
+
+  @Delete('/:id/topics/:topicid/comments/:cid/votes')
+  public deleteOwnVote(request: Request, response: Response): void {
+    this.userService.getJwtUser(request)
+      .then((currentUser) => this.retrospectiveService.deleteVote(currentUser,
+        request.params.id, request.params.topicid, request.params.cid))
+      .then(() => response.sendStatus(204))
+      .catch((err) => {
+        console.log(err);
+        response.status(400).send({'error': 'error in your request. see server logs for details', 'details' : err});
       });
   }
 
