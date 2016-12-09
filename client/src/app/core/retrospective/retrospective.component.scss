@@ -1,29 +1,38 @@
 @import '../../shared/shared.scss';
 
+.boards-container {
+  min-height: calc(100vh - 32rem);
+  width: 100%;
+}
+
 .board-grid {
   display: flex;
-  flex-wrap:wrap;
-  flex-direction:row;
+  flex-wrap: wrap;
+  flex-direction: row;
   margin: 0 -1rem;
 }
 
 .board-grid__element {
   flex: 1;
-  flex-basis: 300px;
+  flex-basis: 18.75rem;
   padding: 0;
   margin: 0 1rem;
+}
+
+.board-grid__element_carousel {
+  width: 90%;
 }
 
 rsb-comment-segment {
   border-bottom: 1px solid $panel-border-color;
 }
 
-.retro-state-controller{
+.retro-state-controller {
   border-top: 1px solid $panel-border-color;
   padding: 0.125rem 0.125rem 0.125rem 0.25rem; /*2px / 4px*/
 }
 
-@media screen and (min-width:900px) {
+@media screen and (min-width: 900px) {
   .board-grid {
     flex-wrap: nowrap;
   }

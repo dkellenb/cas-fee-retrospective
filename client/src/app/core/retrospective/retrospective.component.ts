@@ -6,6 +6,7 @@ import {IconButtonType} from '../../shared/icon-button/icon-button-type';
 import {AuthenticationService} from '../../shared/services/authentication.service';
 import {UserRole} from '../../shared/model/UserDomainModel';
 import {RetrospectiveStatus} from '../../shared/model/RetrospectiveDomainModel';
+import {ScreenSizeService} from '../../shared/services/screen-size.service';
 
 @Component({
   selector: 'rsb-retrospective',
@@ -23,7 +24,8 @@ export class RetrospectiveComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private retrospectiveService: RetrospectiveService,
               private router: Router,
-              private authService: AuthenticationService) {
+              private authService: AuthenticationService,
+              private scrennSizeService: ScreenSizeService) {
   }
 
   ngOnInit() {
@@ -104,5 +106,10 @@ export class RetrospectiveComponent implements OnInit {
         this._retrospective = retrospective;
       });
     return this._retrospective;
+  }
+
+
+  public isCarouselAktive(): boolean {
+    return this.retrospective != null && this.retrospective.status !== RetrospectiveStatus.OPEN && !this.scrennSizeService.isSmaleScreen;
   }
 }

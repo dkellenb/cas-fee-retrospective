@@ -1,19 +1,18 @@
-import {Injectable, OnDestroy, Optional} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {
   IBasicRetrospectiveTopic,
   IRetrospectiveUser,
   IUser,
-  IBasicRetrospectiveComment
+  IBasicRetrospectiveComment,
+  CreateCommentJSON,
+  UpdateCommentJSON,
+  RetrospectiveStatus
 } from '../../../../shared/model';
-import {AuthenticationService} from '../../../../shared/services/authentication.service';
+import {AuthenticationService, NotificationMessage, NotificationMessageType} from '../../../../shared';
 import {StickyNoteMode} from './sticky-note-mode.enum';
 import {IStickyNote} from './sticky-note.interface';
 import {RetrospectiveService} from '../../../services/retrospective.service';
-import {CreateCommentJSON, UpdateCommentJSON} from '../../../../shared/model/RetrospectiveDomainModel';
 import {Subject, Observable, Observer} from 'rxjs';
-import {NotifierService} from "../../../../shared/notifier/notifier.service";
-import {NotificationMessage} from "../../../../shared/notification-message/notification-message";
-import {NotificationMessageType} from "../../../../shared/notification-message/notification-message-type";
 
 @Injectable()
 export class TopicService implements OnDestroy {
@@ -22,14 +21,6 @@ export class TopicService implements OnDestroy {
   private _topic: IBasicRetrospectiveTopic<IRetrospectiveUser>;
 
   public newComment$: Subject<number> = new Subject<number>();
-
-  private static mapIBasicRetrospectiveCommentToIStickyNote(comment: IBasicRetrospectiveComment < IRetrospectiveUser >): IStickyNote {
-    let sticky: IStickyNote = <IStickyNote>comment;
-    if (sticky.mode == null) {
-      sticky.mode = StickyNoteMode.Display;
-    }
-    return sticky;
-  }
 
   constructor(private authService: AuthenticationService,
               private retrospectiveService: RetrospectiveService) {
@@ -96,7 +87,7 @@ export class TopicService implements OnDestroy {
 
   public reloadStickyNote(stickyNote: IStickyNote): Observable<NotificationMessage> {
     return this.retrospectiveService.getComment(stickyNote.uuid)
-      .map(TopicService.mapIBasicRetrospectiveCommentToIStickyNote)
+      .map(this.mapIBasicRetrospectiveCommentToIStickyNote)
       .map((resetNote: IStickyNote) => {
         resetNote.mode = StickyNoteMode.Display;
         this._topic.comments[this.findIndexOfCommentByUuid(stickyNote.uuid)] = resetNote;
@@ -110,7 +101,7 @@ export class TopicService implements OnDestroy {
     comment.description = stickyNote.description;
     comment.anonymous = stickyNote.author !== null;
     return this.retrospectiveService.createComment(this._topic.uuid, comment).first()
-      .map(TopicService.mapIBasicRetrospectiveCommentToIStickyNote)
+      .map(this.mapIBasicRetrospectiveCommentToIStickyNote)
       .map((returnStickyNote: IStickyNote) => {
           stickyNote.uuid = returnStickyNote.uuid;
           stickyNote.topicUuid = returnStickyNote.topicUuid;
@@ -139,6 +130,17 @@ export class TopicService implements OnDestroy {
       });
   }
 
+  private mapIBasicRetrospectiveCommentToIStickyNote(comment: IBasicRetrospectiveComment < IRetrospectiveUser >): IStickyNote {
+    let sticky: IStickyNote = <IStickyNote>comment;
+    if (sticky.mode == null) {
+      sticky.mode = StickyNoteMode.Display;
+    }
+    // if (this.retrospectiveService.getCurrent().status === RetrospectiveStatus.VOTE) {
+    //   sticky.mode = StickyNoteMode.Vote;
+    // }
+    return sticky;
+  }
+
   private getLoggedInRetrospectiveUser(): IRetrospectiveUser {
     let retroUser: IRetrospectiveUser = <IRetrospectiveUser>{};
     let user: IUser = this.authService.getLoggedInUser();
@@ -152,13 +154,13 @@ export class TopicService implements OnDestroy {
   }
 
   public get comments(): IStickyNote[] {
-    return this._topic.comments.map(TopicService.mapIBasicRetrospectiveCommentToIStickyNote);
+    return this._topic.comments.map(this.mapIBasicRetrospectiveCommentToIStickyNote);
   }
 
   public get ownComments(): IStickyNote[] {
     return this._topic.comments.filter((comment: IBasicRetrospectiveComment<IRetrospectiveUser>) => {
       return comment.author.uuid === this.authService.getLoggedInUser().uuid;
-    }).map(TopicService.mapIBasicRetrospectiveCommentToIStickyNote);
+    }).map(this.mapIBasicRetrospectiveCommentToIStickyNote);
   }
 
   public get hasCommentInEditMode(): boolean {

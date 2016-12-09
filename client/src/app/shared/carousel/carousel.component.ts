@@ -9,8 +9,6 @@ import {Subject} from 'rxjs';
 })
 export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
 
-  private range: number = 25;
-
   private topElement: number = 0;
 
   private carouselElementHasBeenClicked$: Subject<number> = new Subject<number>();
@@ -19,7 +17,13 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
   private carouselElements: QueryList<CarouselElementDirective>;
 
   @Input()
+  public range: number = 25;
+
+  @Input()
   private carouselActive: boolean = true;
+
+  @Input()
+  private fixedNavButtons: boolean = false;
 
   constructor() {
     this.topElement = 0;
@@ -34,6 +38,7 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges) {
+    console.log(this.isCarouselActive + ' elements: ' + this.getNumberOfElements());
     this.updateCarouselElementPositions();
   }
 

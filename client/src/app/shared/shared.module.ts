@@ -18,7 +18,7 @@ import {TextInputComponent} from './text-input';
 import {ButtonSetComponent, ButtonSetElementDirective} from './button-set';
 import {ButtonSetTextComponent} from './button-set-text';
 import {FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective} from './form';
-import {ConfigurationService, AuthenticationService} from './services';
+import {ConfigurationService, AuthenticationService, ScreenSizeService} from './services';
 import {CarouselModule} from './carousel';
 import {UserStatusComponent} from './user-status';
 import {NotificationMessageComponent} from './notification-message/notification-message.component';
@@ -53,8 +53,7 @@ import {BoardFooterDirective} from './board/board.component';
     UserIconComponent
   ],
   providers: [
-    ConfigurationService, AuthenticationService,
-    AUTH_PROVIDERS
+    ConfigurationService, AuthenticationService, ScreenSizeService, AUTH_PROVIDERS
   ]
 })
 export class SharedModule {
