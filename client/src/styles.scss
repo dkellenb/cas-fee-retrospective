@@ -10,6 +10,7 @@
 body{
   font-family: Arial, serif;
   margin: 1rem;
+  background: url('assets/images/background.png');
 }
 
 h1, .title {
@@ -53,3 +54,26 @@ p, span, label, .text, a, textarea, input {
 .text__content_small {
   font-size: 0.75rem; /*12px*/
 }
+
+
+/**
+ * Cross components styles.
+ */
+
+@media screen and (min-width: 900px) {
+  .sticky-note textarea {
+    height: 6rem;
+  }
+}
+
+// Initial button
+html .comment-segment__empty-space .icon-button__icon_add {
+  font-size: 2.5rem;
+  width: 3rem;
+  height: 3rem;
+}
+
+.board-grid .board {
+  min-height: calc(100vh - 14rem);
+}
+
