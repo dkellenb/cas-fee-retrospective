@@ -1,19 +1,18 @@
-import {Injectable, OnDestroy, Optional} from '@angular/core';
+import {Injectable, OnDestroy} from '@angular/core';
 import {
   IBasicRetrospectiveTopic,
   IRetrospectiveUser,
   IUser,
-  IBasicRetrospectiveComment
+  IBasicRetrospectiveComment,
+  CreateCommentJSON, UpdateCommentJSON
 } from '../../../../shared/model';
 import {AuthenticationService} from '../../../../shared/services/authentication.service';
 import {StickyNoteMode} from './sticky-note-mode.enum';
 import {IStickyNote} from './sticky-note.interface';
 import {RetrospectiveService} from '../../../services/retrospective.service';
-import {CreateCommentJSON, UpdateCommentJSON} from '../../../../shared/model/RetrospectiveDomainModel';
 import {Subject, Observable, Observer} from 'rxjs';
-import {NotifierService} from "../../../../shared/notifier/notifier.service";
-import {NotificationMessage} from "../../../../shared/notification-message/notification-message";
-import {NotificationMessageType} from "../../../../shared/notification-message/notification-message-type";
+import {NotificationMessage} from '../../../../shared/notification-message/notification-message';
+import {NotificationMessageType} from '../../../../shared/notification-message/notification-message-type';
 
 @Injectable()
 export class TopicService implements OnDestroy {

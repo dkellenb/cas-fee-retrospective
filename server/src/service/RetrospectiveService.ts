@@ -4,8 +4,8 @@ import TYPES from '../constant/types';
 import {UserRepository, RetrospectiveRepository, RetrospectiveDbModel} from '../repository/';
 import {
   RetrospectiveStatus, UpdateRetrospectiveJSON, IBasicRetrospective,
-  CreateCommentJSON, UpdateCommentJSON, ChangeStatusJSON
-} from '../../../client/src/app/shared/model/RetrospectiveDomainModel';
+  CreateCommentJSON, UpdateCommentJSON, ChangeStatusJSON, UserRole
+} from '../../../client/src/app/shared/model/';
 import {
   IPersistedRetrospectiveDbModel, PersistedRetrospectiveTopic,
   PersistedRetrospectiveComment, IPersistedRetrospectiveTopic, IPersistedRetrospectiveComment,
@@ -14,8 +14,7 @@ import {
 import {UUID} from '../../../client/src/app/shared/util/UUID';
 import {RetrospectiveUser} from './model/User';
 import {PublicRetrospective} from './model/Restrospective';
-import {IUserDbModel, IPersistedUser} from '../repository/model/UserDbModel';
-import {UserRole} from '../../../client/src/app/shared/model/UserDomainModel';
+import {IUserDbModel} from '../repository/model/UserDbModel';
 import {WebSocketService} from './WebSocketService';
 
 

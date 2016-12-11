@@ -4,10 +4,9 @@ import { Request, Response } from 'express';
 import TYPES from '../constant/types';
 import { UserService, RetrospectiveService } from '../service';
 import {
-  CreateRetrospectiveJSON,
+  CreateRetrospectiveJSON, ChangeStatusJSON,
   UpdateRetrospectiveJSON, CreateCommentJSON, UpdateCommentJSON
 } from '../../../client/src/app/shared/model/';
-import {ChangeStatusJSON} from '../../../client/src/app/shared/model/RetrospectiveDomainModel';
 
 @injectable()
 @Controller('/rest/retrospectives')
