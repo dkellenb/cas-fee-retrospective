@@ -1,7 +1,7 @@
 import * as mongoose from 'mongoose';
 import * as mongodb from 'mongodb';
 import {IPersistedUser} from './UserDbModel';
-import {IRetrospectiveVote, IBasicRetrospective, IBasicRetrospectiveTopic, IBasicRetrospectiveComment}
+import {IBasicRetrospectiveVote, IBasicRetrospective, IBasicRetrospectiveTopic, IBasicRetrospectiveComment}
   from '../../../../client/src/app/shared/model/';
 import {UUID}
   from '../../../../client/src/app/shared/util/';
@@ -27,6 +27,10 @@ export interface IPersistedRetrospectiveComment extends IBasicRetrospectiveComme
 
 }
 
+export interface IPersistedRetrospectiveVote extends IBasicRetrospectiveVote<mongodb.ObjectID> {
+
+}
+
 export class PersistedRetrospectiveTopic implements IPersistedRetrospectiveTopic {
   uuid: string;
   name: string;
@@ -45,12 +49,24 @@ export class PersistedRetrospectiveComment implements IPersistedRetrospectiveCom
   description: string;
   anonymous: boolean;
   author: mongodb.ObjectID;
-  votes: IRetrospectiveVote<mongodb.ObjectID>[];
+  votes: IBasicRetrospectiveVote<mongodb.ObjectID>[];
 
   constructor(description, title?, anonymous?) {
     this.uuid = new UUID().toString();
     this.title = title || '';
     this.description = description;
     this.anonymous = anonymous === true;
+  }
+}
+
+export class PersistedRetrospectiveVote implements IPersistedRetrospectiveVote {
+  uuid: string;
+  author: mongodb.ObjectID;
+  value: number;
+
+  constructor(author: mongodb.ObjectID) {
+    this.author = author;
+    this.uuid = new UUID().toString();
+    this.value = 1;
   }
 }

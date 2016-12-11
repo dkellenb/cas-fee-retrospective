@@ -1,6 +1,6 @@
 import {RetrospectiveUser} from './User';
 import {RetrospectiveStatus, IBasicRetrospective, IBasicRetrospectiveTopic,
-        IBasicRetrospectiveComment, IRetrospectiveVote} from '../../../../client/src/app/shared/model';
+        IBasicRetrospectiveComment, IBasicRetrospectiveVote} from '../../../../client/src/app/shared/model';
 import {IPopulatedRetrospective, IPersistedUser} from '../../repository/model';
 
 export class PublicRetrospective implements IBasicRetrospective<RetrospectiveUser> {
@@ -47,7 +47,7 @@ export class PublicRetrospectiveComment implements IBasicRetrospectiveComment<Re
   anonymous: boolean;
   author: RetrospectiveUser;
   topicUuid?: string;
-  votes: IRetrospectiveVote<RetrospectiveUser>[];
+  votes: IBasicRetrospectiveVote<RetrospectiveUser>[];
 
   public static fromRetrospective(populatedRetrospectiveComment: IBasicRetrospectiveComment<IPersistedUser>,
                                   populatedTopic?: IBasicRetrospectiveTopic<IPersistedUser>): PublicRetrospectiveComment {
@@ -63,12 +63,12 @@ export class PublicRetrospectiveComment implements IBasicRetrospectiveComment<Re
   }
 }
 
-export class PublicRetrospectiveVote implements IRetrospectiveVote<RetrospectiveUser> {
+export class PublicRetrospectiveVote implements IBasicRetrospectiveVote<RetrospectiveUser> {
   uuid: string;
   author: RetrospectiveUser;
   value: number;
 
-  public static fromRetrospective(populatedVote: IRetrospectiveVote<IPersistedUser>): PublicRetrospectiveVote {
+  public static fromRetrospective(populatedVote: IBasicRetrospectiveVote<IPersistedUser>): PublicRetrospectiveVote {
     let vote = new PublicRetrospectiveVote();
     vote.uuid = populatedVote.uuid;
     vote.author = RetrospectiveUser.fromRetrospective(populatedVote.author);
