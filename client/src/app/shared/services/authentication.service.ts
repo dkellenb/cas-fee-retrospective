@@ -30,7 +30,12 @@ export class AuthenticationService {
   }
 
   public getLoggedInUser(): IUser {
-    return this.jwtHelper.decodeToken(this.getAuthenticationToken());
+    let authenticationToken = this.getAuthenticationToken();
+    if (authenticationToken) {
+      return this.jwtHelper.decodeToken(authenticationToken);
+    } else {
+      return null;
+    }
   }
 
   public logoutUser() {
