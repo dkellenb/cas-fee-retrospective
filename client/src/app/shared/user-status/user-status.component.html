@@ -1,4 +1,3 @@
 <div *ngIf="isLoggedIn" class="user-status">
-  <p class="user-status__username">{{loggedInUser.shortName}}</p>
-  <a class="user-status__logout-link" (click)="logout()" href="#" title="Logout">Logout</a>
+  <p class="user-status__username">{{loggedInUser.shortName}} (<a class="user-status__logout-link" (click)="logout()" href="#" title="Logout">Logout</a>)</p>
 </div>

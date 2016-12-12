@@ -2,9 +2,9 @@ import {UserService, UserUnknown} from '../../src/service/UserService';
 import {UserRepository} from '../../src/repository/UserRepository';
 import {UserJwtService} from '../../src/service/UserJwtService';
 import * as TypeMoq from 'typemoq';
-import {CreateUserJSON, UserRole} from '../../../client/src/app/shared/model/UserDomainModel';
+import {CreateUserJSON, UserRole} from '../../../client/src/app/shared/model';
 import { expect } from 'chai';
-import {IUserJwt} from '../../src/service/model/User';
+import {IUserJwt} from '../../src/service/model';
 import {IPersistedUser} from '../../src/repository/model/UserDbModel';
 import { Request } from 'express';
 

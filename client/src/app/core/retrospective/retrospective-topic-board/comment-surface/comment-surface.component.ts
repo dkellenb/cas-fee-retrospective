@@ -1,5 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {RetrospectiveStatus} from '../../../../shared/model/RetrospectiveDomainModel';
+import {RetrospectiveStatus} from '../../../../shared/model';
 import {IStickyNote, TopicService} from '../services/';
 
 @Component({

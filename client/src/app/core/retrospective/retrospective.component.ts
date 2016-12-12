@@ -1,12 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {IBasicRetrospective, IRetrospectiveUser} from '../../shared/model';
+import {IBasicRetrospective, IRetrospectiveUser, UserRole, RetrospectiveStatus} from '../../shared/model';
 import {RetrospectiveService} from '../services/retrospective.service';
 import {IconButtonType} from '../../shared/icon-button/icon-button-type';
 import {AuthenticationService} from '../../shared/services/authentication.service';
-import {UserRole} from '../../shared/model/UserDomainModel';
-import {RetrospectiveStatus} from '../../shared/model/RetrospectiveDomainModel';
-import {ScreenSizeService} from '../../shared/services/screen-size.service';
 
 @Component({
   selector: 'rsb-retrospective',

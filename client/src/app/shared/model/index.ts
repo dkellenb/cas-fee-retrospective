@@ -1,2 +1,2 @@
-export * from './RetrospectiveDomainModel';
-export * from './UserDomainModel';
+export * from './retrospective';
+export * from './user';

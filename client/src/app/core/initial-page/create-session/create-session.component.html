@@ -6,7 +6,7 @@
     <rsb-text-input [labelText]="'Description of Retrospective'" [isTextArea]="true"
                     [id]="'createSessionDesc'" [(ngModel)]="sessionDesc" [isRequierd]="true"
                     [inputErrorMessage]="sessionDescErrorMessage"></rsb-text-input>
-    <rsb-text-input *ngIf="!isUserLoggedIn" [labelText]="'Shortname'"
+    <rsb-text-input *ngIf="!isUserLoggedIn" [labelText]="'Username'"
                     [id]="'createSessionShortName'" [(ngModel)]="shortName" [isRequierd]="true"
                     [inputErrorMessage]="shortNameErrorMessage"></rsb-text-input>
   </rsb-form-body>

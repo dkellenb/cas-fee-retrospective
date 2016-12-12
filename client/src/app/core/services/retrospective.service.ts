@@ -8,9 +8,7 @@ import {ConfigurationService, AuthenticationService} from '../../shared/';
 import {Observable} from 'rxjs';
 import {AuthHttp} from 'angular2-jwt';
 import {WebSocketService, WebSocketAction} from './web-socket.service';
-import {RetrospectiveStatus, ChangeStatusJSON} from '../../shared/model/RetrospectiveDomainModel';
-import {NotificationMessage} from '../../shared/notification-message/notification-message';
-import {NotificationMessageType} from '../../shared/notification-message/notification-message-type';
+import {RetrospectiveStatus, ChangeStatusJSON} from '../../shared/model';
 
 @Injectable()
 export class RetrospectiveService {
