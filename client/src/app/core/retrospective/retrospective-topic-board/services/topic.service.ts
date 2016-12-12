@@ -4,19 +4,14 @@ import {
   IRetrospectiveUser,
   IUser,
   IBasicRetrospectiveComment,
-  CreateCommentJSON, UpdateCommentJSON
-  IBasicRetrospectiveComment,
   CreateCommentJSON,
-  UpdateCommentJSON,
-  RetrospectiveStatus
+  UpdateCommentJSON
 } from '../../../../shared/model';
 import {AuthenticationService, NotificationMessage, NotificationMessageType} from '../../../../shared';
 import {StickyNoteMode} from './sticky-note-mode.enum';
 import {IStickyNote} from './sticky-note.interface';
 import {RetrospectiveService} from '../../../services/retrospective.service';
 import {Subject, Observable, Observer} from 'rxjs';
-import {NotificationMessage} from '../../../../shared/notification-message/notification-message';
-import {NotificationMessageType} from '../../../../shared/notification-message/notification-message-type';
 
 @Injectable()
 export class TopicService implements OnDestroy {

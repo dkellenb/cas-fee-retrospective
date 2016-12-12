@@ -1,6 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {RetrospectiveStatus} from '../../../../shared/model';
 import {IStickyNote, TopicService} from '../services/';
+import {RetrospectiveStatus} from '../../../../shared/model/retrospective/RetrospectiveStatus';
 
 @Component({
   selector: 'rsb-comment-surface',
