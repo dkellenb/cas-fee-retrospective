@@ -25,5 +25,4 @@ export class CommentSurfaceComponent implements OnInit {
   private get isCommentStack(): boolean {
     return this.mode === RetrospectiveStatus.OPEN;
   }
-
 }

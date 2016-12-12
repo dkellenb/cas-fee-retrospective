@@ -119,7 +119,9 @@ export class RetrospectiveService {
     return this.authHttp.get(this.createRetrospectiveIdEndpoint(retrospectiveId)).map(response => {
       this._currentRetrospective = response.json();
       this._failedRetrospectiveId = null;
-      this.setupWebSocket(retrospectiveId);
+      if (!forceReload || forceReload == null) {
+        this.setupWebSocket(retrospectiveId);
+      }
       return this._currentRetrospective;
     });
   }
