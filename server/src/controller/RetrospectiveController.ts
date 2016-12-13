@@ -269,6 +269,4 @@ export class RetrospectiveController {
                 response.status(400).send({'error': 'error in your request. see server logs for details', 'details': err});
             });
     }
-
-
 }

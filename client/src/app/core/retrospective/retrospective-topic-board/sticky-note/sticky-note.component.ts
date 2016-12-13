@@ -24,6 +24,7 @@ export class StickyNoteComponent implements OnInit {
   private _isWaitingForCommit = false;
   private _isWaitingForDelete = false;
   private _isWaitingForReload = false;
+  private hasActiveVote = false;
 
   private validationErrorMessage: NotificationMessage;
   private titleError: boolean = false;
@@ -96,14 +97,29 @@ export class StickyNoteComponent implements OnInit {
   }
 
   public vote(): void {
-    this.topicService.voteForComment(this.stickyNote.uuid)
-      .first()
-      .subscribe((notificationMessage: NotificationMessage) => {
-        this.notificationService.pushNextMessage(notificationMessage);
-      }, e => {
-        this.notificationService.pushNextMessage(new NotificationMessage(NotificationMessageType.ERROR,
-          'There was a error while trying to vote for comment', 10));
-      });
+    if (this.hasActiveVote) {
+      this.topicService.removeVoteForComment(this.stickyNote.uuid)
+        .first()
+        .subscribe((notificationMessage: NotificationMessage) => {
+          this.notificationService.pushNextMessage(notificationMessage);
+          this.hasActiveVote = false;
+        }, e => {
+          console.log(e);
+          this.notificationService.pushNextMessage(new NotificationMessage(NotificationMessageType.ERROR,
+            'There was a error while trying to remove vote for comment', 10));
+        });
+    } else {
+      this.topicService.voteForComment(this.stickyNote.uuid)
+        .first()
+        .subscribe((notificationMessage: NotificationMessage) => {
+          this.notificationService.pushNextMessage(notificationMessage);
+          this.hasActiveVote = true;
+        }, e => {
+          console.log(e);
+          this.notificationService.pushNextMessage(new NotificationMessage(NotificationMessageType.ERROR,
+            'There was a error while trying to vote for comment', 10));
+        });
+    }
   }
 
   public inputValidation(): boolean {

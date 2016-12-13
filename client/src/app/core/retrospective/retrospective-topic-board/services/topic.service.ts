@@ -13,7 +13,6 @@ import {IStickyNote} from './sticky-note.interface';
 import {RetrospectiveService} from '../../../services/retrospective.service';
 import {Subject, Observable, Observer} from 'rxjs';
 import {RetrospectiveStatus} from '../../../../shared/model/retrospective/RetrospectiveStatus';
-import {IBasicRetrospectiveVote} from '../../../../shared/model/retrospective/IBasicRetrospectiveVote';
 
 @Injectable()
 export class TopicService implements OnDestroy {
@@ -99,9 +98,9 @@ export class TopicService implements OnDestroy {
     return this.retrospectiveService.voteForComment(this._topic.uuid, commentId)
       .map((success: boolean) => {
         if (success) {
-          return new NotificationMessage(NotificationMessageType.SUCCESS, 'Vote has been registered');
+          return new NotificationMessage(NotificationMessageType.SUCCESS, 'Vote has been registered', 5);
         }
-        return new NotificationMessage(NotificationMessageType.WARNING, 'Vote was not registered');
+        return new NotificationMessage(NotificationMessageType.WARNING, 'Vote was not registered', 10);
       });
   }
 
@@ -109,9 +108,9 @@ export class TopicService implements OnDestroy {
     return this.retrospectiveService.removeVoteForComment(this._topic.uuid, commentId)
       .map((success: boolean) => {
         if (success) {
-          return new NotificationMessage(NotificationMessageType.SUCCESS, 'Vote was successfully removed');
+          return new NotificationMessage(NotificationMessageType.SUCCESS, 'Vote was successfully removed', 5);
         }
-        return new NotificationMessage(NotificationMessageType.WARNING, 'Vote was not removed');
+        return new NotificationMessage(NotificationMessageType.WARNING, 'Vote was not removed', 10);
       });
   }
 
