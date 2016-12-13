@@ -221,7 +221,7 @@ export class RetrospectiveService {
   }
 
   public hasManagerRole(): boolean {
-    if (this._currentRetrospective == null) {
+    if (this._currentRetrospective == null || !this.authService.isUserLoggedIn()) {
       return false;
     }
     let loggedInUserUUID: string = this.authService.getLoggedInUser().uuid;
