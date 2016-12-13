@@ -58,6 +58,7 @@ gulp.task('del', function() {
 gulp.task('build-source', function() {
     var tsResult = gulp.src(['src/**/*.ts',
         '../client/src/app/**/shared/model/*.ts',
+        '../client/src/app/**/shared/model/**/*.ts',
         '../client/src/app/**/shared/util/*.ts'])
         .pipe(tsc(tsProject));
     return tsResult.js
