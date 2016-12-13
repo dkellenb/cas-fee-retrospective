@@ -44,7 +44,7 @@ export class RetrospectiveService {
   }
 
   private canVote(persistedRetrospective: IPersistedRetrospectiveDbModel, persistedUser: IUserDbModel): boolean {
-    return persistedRetrospective.status === RetrospectiveStatus.OPEN
+    return persistedRetrospective.status === RetrospectiveStatus.VOTE
       || this.canModifyRetrospective(persistedRetrospective, persistedUser);
   }
 
