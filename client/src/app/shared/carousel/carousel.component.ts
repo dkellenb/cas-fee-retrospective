@@ -1,6 +1,7 @@
 import {Component, OnInit, ContentChildren, QueryList, AfterViewInit, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {CarouselElementDirective} from './carousel-element.directive';
 import {Subject} from 'rxjs';
+import {calcPossibleSecurityContexts} from '@angular/compiler/src/template_parser/binding_parser';
 
 @Component({
   selector: 'rsb-carousel',
@@ -63,6 +64,7 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
     if (this.getNumberOfElements() <= 0) {
       return;
     }
+
     let stepSize = this.calcStepSize(this.getNumberOfElements());
     this.carouselElements.forEach(function (carouselElement: CarouselElementDirective, index: number) {
       carouselElement.order = index - this.topElement;

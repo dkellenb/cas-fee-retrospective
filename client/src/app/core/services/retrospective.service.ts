@@ -14,6 +14,7 @@ import {Observable, Subscription} from 'rxjs';
 import {AuthHttp} from 'angular2-jwt';
 import {WebSocketService, WebSocketAction} from './web-socket.service';
 import {RetrospectiveStatus} from '../../shared/model/retrospective/RetrospectiveStatus';
+import {UserRole} from '../../shared/model/user/UserRole';
 
 @Injectable()
 export class RetrospectiveService {
@@ -197,6 +198,17 @@ export class RetrospectiveService {
 
   public set failedRetrospectiveId(value: string) {
     this._failedRetrospectiveId = value;
+  }
+
+  public hasManagerRole(): boolean {
+    if (this._currentRetrospective == null) {
+      return false;
+    }
+    let loggedInUserUUID: string = this.authService.getLoggedInUser().uuid;
+    let currendUser: IRetrospectiveUser = this._currentRetrospective.attendees.find((user: IRetrospectiveUser) => {
+      return user.uuid === loggedInUserUUID;
+    });
+    return currendUser != null && (currendUser.role === UserRole.MANAGER || currendUser.role === UserRole.ADMIN);
   }
 
   private setupWebSocket(retrospectiveId: string) {

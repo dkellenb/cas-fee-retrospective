@@ -1,7 +1,7 @@
 @import '../../shared/shared.scss';
 
 .boards-container {
-  min-height: calc(100vh - 32rem);
+  min-height: calc(100vh - 12rem);
   width: 100%;
 }
 
@@ -10,6 +10,7 @@
   flex-wrap: wrap;
   flex-direction: row;
   margin: 0 -1rem;
+  min-height: calc(100vh - 13rem);
 }
 
 .board-grid__element {

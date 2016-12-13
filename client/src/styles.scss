@@ -9,7 +9,10 @@
 
 body{
   font-family: Arial, serif;
-  margin: 1rem;
+  padding: 1rem;
+  margin: 0;
+  box-sizing: border-box;
+  min-height: 100vh;
   background: url('assets/images/background.png');
 }
 
@@ -71,9 +74,5 @@ html .comment-segment__empty-space .icon-button__icon_add {
   font-size: 2.5rem;
   width: 3rem;
   height: 3rem;
-}
-
-.board-grid .board {
-  min-height: calc(100vh - 14rem);
 }
 

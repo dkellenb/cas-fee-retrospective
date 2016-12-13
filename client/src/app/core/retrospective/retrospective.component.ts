@@ -1,16 +1,17 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
-import {IBasicRetrospective, IRetrospectiveUser, UserRole} from '../../shared/model';
+import {IBasicRetrospective, IRetrospectiveUser} from '../../shared/model';
 import {RetrospectiveService} from '../services/retrospective.service';
 import {IconButtonType} from '../../shared/icon-button/icon-button-type';
-import {AuthenticationService} from '../../shared/services/authentication.service';
 import {ScreenSizeService} from '../../shared/services/screen-size.service';
 import {RetrospectiveStatus} from '../../shared/model/retrospective/RetrospectiveStatus';
+import {SharedHeightService} from '../../shared/sharedHeight/shared-height.service';
 
 @Component({
   selector: 'rsb-retrospective',
   templateUrl: './retrospective.component.html',
-  styleUrls: ['./retrospective.component.scss']
+  styleUrls: ['./retrospective.component.scss'],
+  providers: [SharedHeightService]
 })
 export class RetrospectiveComponent implements OnInit {
 
@@ -22,7 +23,6 @@ export class RetrospectiveComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private retrospectiveService: RetrospectiveService,
               private router: Router,
-              private authService: AuthenticationService,
               private scrennSizeService: ScreenSizeService) {
   }
 
@@ -48,14 +48,7 @@ export class RetrospectiveComponent implements OnInit {
   }
 
   public get hasManagerRole(): boolean {
-    if (this.retrospective == null) {
-      return false;
-    }
-    let loggedInUserUUID: string = this.authService.getLoggedInUser().uuid;
-    let currendUser: IRetrospectiveUser = this.retrospective.attendees.find((user: IRetrospectiveUser) => {
-      return user.uuid === loggedInUserUUID;
-    });
-    return currendUser != null && (currendUser.role === UserRole.MANAGER || currendUser.role === UserRole.ADMIN);
+    return this.retrospectiveService.hasManagerRole();
   }
 
   public get isClosed(): boolean {

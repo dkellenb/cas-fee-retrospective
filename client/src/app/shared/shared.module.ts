@@ -25,6 +25,7 @@ import {NotificationMessageComponent} from './notification-message/notification-
 import {NotifierComponent} from './notifier/notifier.component';
 import {UserIconComponent} from './user-icon/user-icon.component';
 import {BoardFooterDirective} from './board/board.component';
+import {SharedHeightDirective} from './sharedHeight/shared-height.directive';
 
 @NgModule({
   declarations: [BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective, BoardFooterDirective,
@@ -37,7 +38,8 @@ import {BoardFooterDirective} from './board/board.component';
     UserStatusComponent,
     NotificationMessageComponent,
     NotifierComponent,
-    UserIconComponent],
+    UserIconComponent,
+    SharedHeightDirective],
   imports: [CommonModule, HttpModule, RouterModule, FormsModule, CarouselModule],
   exports: [CommonModule, HttpModule, RouterModule, FormsModule,
     BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective, BoardFooterDirective,
@@ -50,7 +52,7 @@ import {BoardFooterDirective} from './board/board.component';
     UserStatusComponent,
     SplitBarComponent, SplitBarContainerLeftDirective, SplitBarContainerRightDirective,
     NotificationMessageComponent, NotifierComponent,
-    UserIconComponent
+    UserIconComponent, SharedHeightDirective
   ],
   providers: [
     ConfigurationService, AuthenticationService, ScreenSizeService, AUTH_PROVIDERS

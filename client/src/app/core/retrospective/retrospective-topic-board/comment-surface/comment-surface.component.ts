@@ -1,6 +1,7 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {IStickyNote, TopicService} from '../services/';
 import {RetrospectiveStatus} from '../../../../shared/model/retrospective/RetrospectiveStatus';
+import {StickyNoteMode} from '../services/sticky-note-mode.enum';
 
 @Component({
   selector: 'rsb-comment-surface',
@@ -19,7 +20,15 @@ export class CommentSurfaceComponent implements OnInit {
   }
 
   public get comments(): IStickyNote[] {
-    return this.topicService.comments;
+    return this.topicService.comments.map((stickyNote: IStickyNote) => {
+      if (this.mode === RetrospectiveStatus.VOTE) {
+        stickyNote.mode = StickyNoteMode.Vote;
+      }
+      if (this.mode === RetrospectiveStatus.REVIEW || this.mode === RetrospectiveStatus.GROUP) {
+        stickyNote.mode = StickyNoteMode.Editable;
+      }
+      return stickyNote;
+    });
   }
 
   private get isCommentStack(): boolean {

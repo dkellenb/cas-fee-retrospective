@@ -134,9 +134,6 @@ export class TopicService implements OnDestroy {
     if (sticky.mode == null) {
       sticky.mode = StickyNoteMode.Display;
     }
-    // if (this.retrospectiveService.getCurrent().status === RetrospectiveStatus.VOTE) {
-    //   sticky.mode = StickyNoteMode.Vote;
-    // }
     return sticky;
   }
 

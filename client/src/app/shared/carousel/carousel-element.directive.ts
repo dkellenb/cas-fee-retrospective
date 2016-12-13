@@ -64,11 +64,11 @@ export class CarouselElementDirective {
     return 1 - (this._absOrder * this._scaleSize);
   }
 
-  get isTopElement(): boolean {
+  public get isTopElement(): boolean {
     return this._isTopElement;
   }
 
-  set isTopElement(value: boolean) {
+  public set isTopElement(value: boolean) {
     this._isTopElement = value;
   }
 }
