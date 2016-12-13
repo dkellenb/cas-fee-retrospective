@@ -146,7 +146,7 @@ var RetrospectiveController = (function () {
             .then(function (retrospective) { return response.send(retrospective.topics); })
             .catch(function (err) {
             console.log(err);
-            response.send({ 'error': 'error in your request. see server logs for details', 'details': err });
+            response.status(400).send({ 'error': 'error in your request. see server logs for details', 'details': err });
         });
     };
     RetrospectiveController.prototype.getTopic = function (request, response) {
@@ -156,7 +156,7 @@ var RetrospectiveController = (function () {
             .then(function (retrospective) { return response.send(retrospective.topics.find(function (topic) { return topic.uuid === request.params.topicid; })); })
             .catch(function (err) {
             console.log(err);
-            response.send({ 'error': 'error in your request. see server logs for details', 'details': err });
+            response.status(400).send({ 'error': 'error in your request. see server logs for details', 'details': err });
         });
     };
     RetrospectiveController.prototype.getComments = function (request, response) {
@@ -174,7 +174,7 @@ var RetrospectiveController = (function () {
         })
             .catch(function (err) {
             console.log(err);
-            response.send({ 'error': 'error in your request. see server logs for details', 'details': err });
+            response.status(400).send({ 'error': 'error in your request. see server logs for details', 'details': err });
         });
     };
     RetrospectiveController.prototype.addComment = function (request, response) {
@@ -184,7 +184,7 @@ var RetrospectiveController = (function () {
             .then(function (createdComment) { return response.location('/rest/retrospectives/' + request.params.id + '/topics/' + request.params.topicid + '/comments/' + createdComment.uuid).sendStatus(201); })
             .catch(function (err) {
             console.log(err);
-            response.send({ 'error': 'error in your request. see server logs for details', 'details': err });
+            response.status(400).send({ 'error': 'error in your request. see server logs for details', 'details': err });
         });
     };
     RetrospectiveController.prototype.getComment = function (request, response) {
@@ -202,7 +202,7 @@ var RetrospectiveController = (function () {
         })
             .catch(function (err) {
             console.log(err);
-            response.send({ 'error': 'error in your request. see server logs for details', 'details': err });
+            response.status(400).send({ 'error': 'error in your request. see server logs for details', 'details': err });
         });
     };
     RetrospectiveController.prototype.updateComment = function (request, response) {
@@ -212,7 +212,7 @@ var RetrospectiveController = (function () {
             .then(function (comment) { return response.send(comment); })
             .catch(function (err) {
             console.log(err);
-            response.send({ 'error': 'error in your request. see server logs for details', 'details': err });
+            response.status(400).send({ 'error': 'error in your request. see server logs for details', 'details': err });
         });
     };
     RetrospectiveController.prototype.deleteComment = function (request, response) {
@@ -222,7 +222,30 @@ var RetrospectiveController = (function () {
             .then(function (comment) { return response.sendStatus(204); })
             .catch(function (err) {
             console.log(err);
-            response.send({ 'error': 'error in your request. see server logs for details', 'details': err });
+            response.status(400).send({ 'error': 'error in your request. see server logs for details', 'details': err });
+        });
+    };
+    RetrospectiveController.prototype.createVote = function (request, response) {
+        var _this = this;
+        this.userService.getJwtUser(request)
+            .then(function (currentUser) { return _this.retrospectiveService.createVote(currentUser, request.params.id, request.params.topicid, request.params.cid); })
+            .then(function (createdVote) { return response.location('/rest/retrospectives/' + request.params.id
+            + '/topics/' + request.params.topicid
+            + '/comments/' + request.params.cid + '/votes/')
+            .sendStatus(201); })
+            .catch(function (err) {
+            console.log(err);
+            response.status(400).send({ 'error': 'error in your request. see server logs for details', 'details': err });
+        });
+    };
+    RetrospectiveController.prototype.deleteOwnVote = function (request, response) {
+        var _this = this;
+        this.userService.getJwtUser(request)
+            .then(function (currentUser) { return _this.retrospectiveService.deleteVote(currentUser, request.params.id, request.params.topicid, request.params.cid); })
+            .then(function () { return response.sendStatus(204); })
+            .catch(function (err) {
+            console.log(err);
+            response.status(400).send({ 'error': 'error in your request. see server logs for details', 'details': err });
         });
     };
     __decorate([
@@ -333,6 +356,18 @@ var RetrospectiveController = (function () {
         __metadata('design:paramtypes', [Object, Object]), 
         __metadata('design:returntype', void 0)
     ], RetrospectiveController.prototype, "deleteComment", null);
+    __decorate([
+        inversify_express_utils_1.Put('/:id/topics/:topicid/comments/:cid/votes'), 
+        __metadata('design:type', Function), 
+        __metadata('design:paramtypes', [Object, Object]), 
+        __metadata('design:returntype', void 0)
+    ], RetrospectiveController.prototype, "createVote", null);
+    __decorate([
+        inversify_express_utils_1.Delete('/:id/topics/:topicid/comments/:cid/votes'), 
+        __metadata('design:type', Function), 
+        __metadata('design:paramtypes', [Object, Object]), 
+        __metadata('design:returntype', void 0)
+    ], RetrospectiveController.prototype, "deleteOwnVote", null);
     RetrospectiveController = __decorate([
         inversify_1.injectable(),
         inversify_express_utils_1.Controller('/rest/retrospectives'),

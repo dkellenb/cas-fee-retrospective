@@ -14,11 +14,10 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 var inversify_1 = require('inversify');
 var types_1 = require('../constant/types');
 var _1 = require('../repository/');
-var RetrospectiveDomainModel_1 = require('../shared/model/RetrospectiveDomainModel');
+var _2 = require('../shared/model/');
 var RetrospectiveDbModel_1 = require('../repository/model/RetrospectiveDbModel');
 var UUID_1 = require('../shared/util/UUID');
 var Restrospective_1 = require('./model/Restrospective');
-var UserDomainModel_1 = require('../shared/model/UserDomainModel');
 var WebSocketService_1 = require('./WebSocketService');
 var RetrospectiveService = (function () {
     function RetrospectiveService(userRepository, retrospectiveRepository, webSocketService) {
@@ -26,10 +25,25 @@ var RetrospectiveService = (function () {
         this.retrospectiveRepository = retrospectiveRepository;
         this.webSocketService = webSocketService;
     }
+    RetrospectiveService.prototype.canModifyRetrospective = function (persistedRetrospective, persistedUser) {
+        return persistedRetrospective.manager.equals(persistedUser._id) || persistedUser.systemRole === _2.UserRole.ADMIN;
+    };
+    RetrospectiveService.prototype.canCreateComment = function (persistedRetrospective, persistedUser) {
+        return persistedRetrospective.status === _2.RetrospectiveStatus.OPEN
+            || this.canModifyRetrospective(persistedRetrospective, persistedUser);
+    };
+    RetrospectiveService.prototype.canUpdateComment = function (persistedRetrospective, persistedUser, persistedComment) {
+        return (persistedRetrospective.status === _2.RetrospectiveStatus.OPEN && persistedComment.author.equals(persistedUser._id))
+            || this.canModifyRetrospective(persistedRetrospective, persistedUser);
+    };
+    RetrospectiveService.prototype.canVote = function (persistedRetrospective, persistedUser) {
+        return persistedRetrospective.status === _2.RetrospectiveStatus.OPEN
+            || this.canModifyRetrospective(persistedRetrospective, persistedUser);
+    };
     RetrospectiveService.prototype.getRetrospectives = function (currentUser) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            if (currentUser.systemRole !== UserDomainModel_1.UserRole.ADMIN) {
+            if (currentUser.systemRole !== _2.UserRole.ADMIN) {
                 reject('Only system admin can see all persisted retrospectives');
             }
             else {
@@ -65,7 +79,7 @@ var RetrospectiveService = (function () {
         return new Promise(function (resolve, reject) {
             _this.getRetrospective(uuid)
                 .then(function (retrospective) {
-                if (retrospective.attendees.find(function (attendee) { return attendee.uuid === currentUser.uuid; }) || currentUser.systemRole === UserDomainModel_1.UserRole.ADMIN) {
+                if (retrospective.attendees.find(function (attendee) { return attendee.uuid === currentUser.uuid; }) || currentUser.systemRole === _2.UserRole.ADMIN) {
                     resolve(retrospective);
                 }
                 else {
@@ -79,7 +93,7 @@ var RetrospectiveService = (function () {
         return new Promise(function (resolve, reject) {
             var retrospective = new _1.RetrospectiveDbModel();
             retrospective.uuid = new UUID_1.UUID().toString();
-            retrospective.status = RetrospectiveDomainModel_1.RetrospectiveStatus.OPEN;
+            retrospective.status = _2.RetrospectiveStatus.OPEN;
             retrospective.name = createRetrospectiveJSON.name;
             retrospective.description = createRetrospectiveJSON.description;
             retrospective.topics = [new RetrospectiveDbModel_1.PersistedRetrospectiveTopic('Stop doing'),
@@ -113,7 +127,7 @@ var RetrospectiveService = (function () {
                     reject(error);
                 }
                 else {
-                    if (!persistedRetrospective.manager.equals(persistedUser._id) && currentUser.systemRole !== UserDomainModel_1.UserRole.ADMIN) {
+                    if (!_this.canModifyRetrospective(persistedRetrospective, persistedUser)) {
                         reject('User "' + currentUser.uuid + '" is not allowed to edit retrospective "' + retrospectiveId + '"');
                     }
                     else {
@@ -134,7 +148,7 @@ var RetrospectiveService = (function () {
                     reject(error);
                 }
                 else {
-                    if (!persistedRetrospective.manager.equals(persistedUser._id) && currentUser.systemRole !== UserDomainModel_1.UserRole.ADMIN) {
+                    if (!_this.canModifyRetrospective(persistedRetrospective, persistedUser)) {
                         reject('User "' + currentUser.uuid + '" is not allowed to edit retrospective "' + retrospectiveId + '"');
                     }
                     else {
@@ -159,7 +173,7 @@ var RetrospectiveService = (function () {
                     reject(error);
                 }
                 else {
-                    if (!persistedRetrospective.manager.equals(persistedUser._id) && currentUser.systemRole !== UserDomainModel_1.UserRole.ADMIN) {
+                    if (!_this.canModifyRetrospective(persistedRetrospective, persistedUser)) {
                         reject('User "' + currentUser.uuid + '" is not allowed to edit retrospective "' + retrospectiveId + '"');
                     }
                     else {
@@ -224,18 +238,23 @@ var RetrospectiveService = (function () {
                     reject(error);
                 }
                 else {
-                    var persistedComment_1 = new RetrospectiveDbModel_1.PersistedRetrospectiveComment(comment.description, comment.title, comment.anonymous);
-                    persistedComment_1.author = persistedUser._id;
-                    persistedTopic.comments.push(persistedComment_1);
-                    persistedRetrospective.save(function (err) {
-                        if (err) {
-                            reject(err);
-                        }
-                        else {
-                            _this.webSocketService.commentAddedToRetrospective(retrospectiveId, persistedComment_1.uuid);
-                            resolve(persistedComment_1);
-                        }
-                    });
+                    if (!_this.canCreateComment(persistedRetrospective, persistedUser)) {
+                        reject('Not allowed to create comment. Most probably retro has changed its status.');
+                    }
+                    else {
+                        var persistedComment_1 = new RetrospectiveDbModel_1.PersistedRetrospectiveComment(comment.description, comment.title, comment.anonymous);
+                        persistedComment_1.author = persistedUser._id;
+                        persistedTopic.comments.push(persistedComment_1);
+                        persistedRetrospective.save(function (err) {
+                            if (err) {
+                                reject(err);
+                            }
+                            else {
+                                _this.webSocketService.commentAddedToRetrospective(retrospectiveId, persistedComment_1.uuid);
+                                resolve(persistedComment_1);
+                            }
+                        });
+                    }
                 }
             });
         });
@@ -248,12 +267,17 @@ var RetrospectiveService = (function () {
                     reject(error);
                 }
                 else {
-                    pComment.title = updateComment.title || pComment.title;
-                    pComment.description = updateComment.description || pComment.description;
-                    pComment.anonymous = updateComment.anonymous || pComment.anonymous;
-                    pRetrospective.save();
-                    _this.webSocketService.commentUpdatedOnRetrospective(retroId, pComment.uuid);
-                    resolve(pComment);
+                    if (!_this.canUpdateComment(pRetrospective, pUser, pComment)) {
+                        reject('Not allowed to update comment. Most probably retro has changed its status.');
+                    }
+                    else {
+                        pComment.title = updateComment.title || pComment.title;
+                        pComment.description = updateComment.description || pComment.description;
+                        pComment.anonymous = updateComment.anonymous || pComment.anonymous;
+                        pRetrospective.save();
+                        _this.webSocketService.commentUpdatedOnRetrospective(retroId, pComment.uuid);
+                        resolve(pComment);
+                    }
                 }
             });
         });
@@ -266,10 +290,72 @@ var RetrospectiveService = (function () {
                     reject(error);
                 }
                 else {
-                    pTopic.comments = pTopic.comments.filter(function (comment) { return comment.uuid !== commentId; });
-                    pRetrospective.save();
-                    _this.webSocketService.commentRemovedFromRetrospective(retroId, pComment.uuid);
-                    resolve();
+                    if (!_this.canUpdateComment(pRetrospective, pUser, pComment)) {
+                        reject('Not allowed to delete comment. Most probably retro has changed its status.');
+                    }
+                    else {
+                        pTopic.comments = pTopic.comments.filter(function (comment) { return comment.uuid !== commentId; });
+                        pRetrospective.save();
+                        _this.webSocketService.commentRemovedFromRetrospective(retroId, pComment.uuid);
+                        resolve();
+                    }
+                }
+            });
+        });
+    };
+    RetrospectiveService.prototype.createVote = function (currentUser, retroId, topicId, commentId) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.doCommentAction(currentUser, retroId, topicId, commentId, function (error, pRetrospective, pTopic, pComment, pUser) {
+                if (error) {
+                    reject(error);
+                }
+                else {
+                    if (!pComment.votes || pComment.votes.findIndex(function (v) { return v.author.equals(pUser._id); }) >= 0) {
+                        reject('User has already voted');
+                    }
+                    else {
+                        if (!_this.canVote(pRetrospective, pUser)) {
+                            reject('User not allowed to vote. Most probably retro has changed its status.');
+                        }
+                        else {
+                            var newVote = new RetrospectiveDbModel_1.PersistedRetrospectiveVote(pUser._id);
+                            pComment.votes.push(newVote);
+                            pRetrospective.save();
+                            resolve(newVote);
+                        }
+                    }
+                }
+            });
+        });
+    };
+    RetrospectiveService.prototype.deleteVote = function (currentUser, retroId, topicId, commentId) {
+        var _this = this;
+        return new Promise(function (resolve, reject) {
+            _this.doCommentAction(currentUser, retroId, topicId, commentId, function (error, pRetrospective, pTopic, pComment, pUser) {
+                if (error) {
+                    reject(error);
+                }
+                else {
+                    if (!pComment.votes) {
+                        reject('No votes found');
+                    }
+                    else {
+                        var lengthBefore = pComment.votes.length;
+                        pComment.votes = pComment.votes.filter(function (v) { return !v.author.equals(pUser._id); });
+                        if (pComment.votes.length === lengthBefore) {
+                            reject('No vote from user ' + pUser.uuid + ' found');
+                        }
+                        else {
+                            if (!_this.canVote(pRetrospective, pUser)) {
+                                reject('User not allowed to delete vote. Most probably retro has changed its status.');
+                            }
+                            else {
+                                pRetrospective.save();
+                                resolve();
+                            }
+                        }
+                    }
                 }
             });
         });
@@ -305,7 +391,7 @@ var RetrospectiveService = (function () {
             }
             else {
                 if (persistedRetrospective.attendees.find(function (attendeeId) {
-                    return attendeeId === persistedUser._id;
+                    return attendeeId.equals(persistedUser._id);
                 }) === null) {
                     action('User is not part of this retrospective');
                 }
@@ -326,9 +412,6 @@ var RetrospectiveService = (function () {
                 var comment = persistedTopic.comments.find(function (comment) { return commentId === comment.uuid; });
                 if (comment == null) {
                     action('Comment could not be found');
-                }
-                if (!comment.author.equals(persistedUser._id) && persistedUser.systemRole !== UserDomainModel_1.UserRole.ADMIN) {
-                    action('Not allowed to modify this comment');
                 }
                 else {
                     action(null, persistedRetrospective, persistedTopic, comment, persistedUser);

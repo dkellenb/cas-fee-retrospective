@@ -18,3 +18,12 @@ var PersistedRetrospectiveComment = (function () {
     return PersistedRetrospectiveComment;
 }());
 exports.PersistedRetrospectiveComment = PersistedRetrospectiveComment;
+var PersistedRetrospectiveVote = (function () {
+    function PersistedRetrospectiveVote(author) {
+        this.author = author;
+        this.uuid = new _1.UUID().toString();
+        this.value = 1;
+    }
+    return PersistedRetrospectiveVote;
+}());
+exports.PersistedRetrospectiveVote = PersistedRetrospectiveVote;
