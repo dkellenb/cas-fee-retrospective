@@ -5,6 +5,10 @@
 
 }
 
+.controlpanel_segment{
+  margin-bottom: 2rem;
+}
+
 .controlpanel__description {
 
 }
@@ -26,3 +30,60 @@
   text-align: center;
 }
 
+
+.progressbar {
+  position: relative;
+  height: 5rem;
+}
+.progressbar__elements {
+  counter-reset: step;
+  padding: 0;
+}
+.progressbar__elements li {
+  list-style-type: none;
+  width: 25%;
+  float: left;
+  font-size: 0.75rem;
+  position: relative;
+  text-align: center;
+  text-transform: uppercase;
+  z-index: 2;
+  color: #7d7d7d;
+}
+.progressbar__elements li:before {
+  width: 1.875rem;
+  height: 1.875rem;
+  content: counter(step);
+  counter-increment: step;
+  line-height: 1.875rem;
+  border: 0.125rem solid #7d7d7d;
+  display: block;
+  text-align: center;
+  margin: 0 auto 0.625rem auto;
+  border-radius: 50%;
+  background-color: white;
+  position: relative;
+  z-index: 2;
+}
+.progressbar__elements li:after {
+  width: 100%;
+  height: 0.125rem;
+  content: '';
+  position: absolute;
+  background-color: #7d7d7d;
+  top: 0.9375rem;
+  left: calc(-50% + 0.9375rem);
+  z-index: -1;
+}
+.progressbar__elements li:first-child:after {
+  content: none;
+}
+.progressbar__elements li.progressbar__element_active {
+  color: green;
+}
+.progressbar__elements li.progressbar__element_active:before {
+  border-color: #55b776;
+}
+.progressbar__elements li.progressbar__element_active + li:after {
+  background-color: #55b776;
+}

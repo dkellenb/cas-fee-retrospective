@@ -17,7 +17,7 @@
   </rsb-board-footer>
 </rsb-board>
 <div class="boards-container">
-  <rsb-carousel [carouselActive]="isCarouselAktive()" [fixedNavButtons]="true" [range]="10">
+  <rsb-carousel [carouselActive]="isCarouselAktive()" [fixedNavButtons]="false" [range]="10">
     <div [class.board-grid]="!isCarouselAktive()">
       <div rsbCarouselElement [ngClass]="{'board-grid__element':!isCarouselAktive(),'board-grid__element_carousel':isCarouselAktive()}"
            *ngFor="let topic of retrospective?.topics">
