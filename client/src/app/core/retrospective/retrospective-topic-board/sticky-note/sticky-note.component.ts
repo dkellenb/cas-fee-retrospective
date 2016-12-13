@@ -22,8 +22,8 @@ export class StickyNoteComponent implements OnInit {
   private covered: boolean = false;
 
   private _isWaitingForCommit = false;
-  private _isWaitingForDelet = false;
-  private _isWatingForReload = false;
+  private _isWaitingForDelete = false;
+  private _isWaitingForReload = false;
 
   private validationErrorMessage: NotificationMessage;
   private titleError: boolean = false;
@@ -59,15 +59,15 @@ export class StickyNoteComponent implements OnInit {
     }
     if (this.stickyNote.uuid == null) {
       this.deleteComment();
-    } else if (!this._isWatingForReload) {
-      this._isWatingForReload = true;
+    } else if (!this._isWaitingForReload) {
+      this._isWaitingForReload = true;
       this.topicService.reloadStickyNote(this.stickyNote)
         .first()
         .subscribe((notificationMessage: NotificationMessage) => {
-          this._isWatingForReload = false;
+          this._isWaitingForReload = false;
           this.notificationService.pushNextMessage(notificationMessage);
         }, e => {
-          this._isWatingForReload = false;
+          this._isWaitingForReload = false;
           this.notificationService.pushNextMessage(new NotificationMessage(NotificationMessageType.ERROR,
             'There was a error while trying to reload comment', 10));
         });
@@ -79,17 +79,17 @@ export class StickyNoteComponent implements OnInit {
   }
 
   public deleteComment() {
-    if (!this._isWaitingForDelet) {
-      this._isWaitingForDelet = true;
+    if (!this._isWaitingForDelete) {
+      this._isWaitingForDelete = true;
       this.topicService.deleteComment(this.stickyNote)
         .first()
         .subscribe((notificationMessage: NotificationMessage) => {
           this.notificationService.pushNextMessage(notificationMessage);
-          this._isWaitingForDelet = false;
+          this._isWaitingForDelete = false;
         }, e => {
           this.notificationService.pushNextMessage(new NotificationMessage(NotificationMessageType.ERROR,
             'There was a error while trying to delete comment', 10));
-          this._isWaitingForDelet = false;
+          this._isWaitingForDelete = false;
         });
     }
   }
