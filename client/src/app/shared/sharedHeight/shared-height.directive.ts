@@ -14,10 +14,13 @@ export class SharedHeightDirective implements DoCheck, OnDestroy {
   constructor(private el: ElementRef,
               private renderer: Renderer,
               private sharedHeightService: SharedHeightService) {
+
     this._heightChangeSubscription = this.sharedHeightService.heightChange$.subscribe((newHeight: number) => {
       this.minHeight = newHeight;
       this.updateElement();
     });
+
+    this.minHeight = this.sharedHeightService.lastHightChange;
   }
 
   ngDoCheck(): void {

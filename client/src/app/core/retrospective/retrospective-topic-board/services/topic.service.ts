@@ -41,7 +41,6 @@ export class TopicService implements OnDestroy {
   public addNewEmptyComment(): void {
     let indexOfEdit: number = this.findIndexOfCommentInEditMode();
     if (indexOfEdit > -1) {
-      console.log(indexOfEdit);
       this.newComment$.next(indexOfEdit);
       return; // there is already on note in Edit Mode move to this;
     }
@@ -89,7 +88,7 @@ export class TopicService implements OnDestroy {
     return this.retrospectiveService.getComment(stickyNote.uuid)
       .map(this.mapIBasicRetrospectiveCommentToIStickyNote)
       .map((resetNote: IStickyNote) => {
-        resetNote.mode = StickyNoteMode.Display;
+        resetNote.mode = null;
         this._topic.comments[this.findIndexOfCommentByUuid(stickyNote.uuid)] = resetNote;
         return new NotificationMessage(NotificationMessageType.INFO, 'No Changes were made to the comment', 5);
       });
@@ -109,7 +108,7 @@ export class TopicService implements OnDestroy {
           stickyNote.description = returnStickyNote.description;
           stickyNote.author = returnStickyNote.author;
           stickyNote.votes = returnStickyNote.votes;
-          stickyNote.mode = StickyNoteMode.Display;
+          stickyNote.mode = null;
           return new NotificationMessage(NotificationMessageType.SUCCESS, 'New Comment has been commited to the Retrospective', 10);
         },
         e => {
@@ -125,7 +124,7 @@ export class TopicService implements OnDestroy {
     comment.anonymous = stickyNote.author !== null;
     return this.retrospectiveService.updateComment(this._topic.uuid, stickyNote.uuid, comment)
       .map(() => {
-        stickyNote.mode = StickyNoteMode.Display;
+        stickyNote.mode = null;
         return new NotificationMessage(NotificationMessageType.SUCCESS, 'Comment has been changed', 5);
       });
   }
@@ -161,7 +160,6 @@ export class TopicService implements OnDestroy {
         default:
           stickyNote.mode = StickyNoteMode.Display;
       }
-      console.log(stickyNote.mode);
     }
     return stickyNote;
   }

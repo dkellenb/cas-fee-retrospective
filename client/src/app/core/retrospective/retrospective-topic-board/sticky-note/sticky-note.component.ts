@@ -9,12 +9,7 @@ import {NotificationMessageType} from '../../../../shared/notification-message/n
   templateUrl: './sticky-note.component.html',
   styleUrls: ['./sticky-note.component.scss'],
 })
-export class StickyNoteComponent implements OnInit, OnChanges {
-
-
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes);
-  }
+export class StickyNoteComponent implements OnInit {
 
   // noinspection TsLint used in template
   private iconButtonType = IconButtonType;
