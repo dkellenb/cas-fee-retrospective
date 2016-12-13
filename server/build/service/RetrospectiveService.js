@@ -37,7 +37,7 @@ var RetrospectiveService = (function () {
             || this.canModifyRetrospective(persistedRetrospective, persistedUser);
     };
     RetrospectiveService.prototype.canVote = function (persistedRetrospective, persistedUser) {
-        return persistedRetrospective.status === _2.RetrospectiveStatus.OPEN
+        return persistedRetrospective.status === _2.RetrospectiveStatus.VOTE
             || this.canModifyRetrospective(persistedRetrospective, persistedUser);
     };
     RetrospectiveService.prototype.getRetrospectives = function (currentUser) {
