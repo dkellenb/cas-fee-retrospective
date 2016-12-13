@@ -46,8 +46,8 @@ export class NotifierService implements OnDestroy {
       .sort((message1: NotificationMessage, message2: NotificationMessage) => {
         return message1.messgePriority < message2.messgePriority ? 1
           : message1.messgePriority > message2.messgePriority ? -1
-          : message1.createTime > message2.createTime ? 1
-          : message1.createTime < message2.createTime ? -1
+          : message1.createTime < message2.createTime ? 1
+          : message1.createTime > message2.createTime ? -1
           : 0; // Default
       });
   }
