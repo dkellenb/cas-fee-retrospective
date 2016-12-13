@@ -34,7 +34,6 @@ export class SharedHeightDirective implements DoCheck, OnDestroy {
   }
 
   public get height(): number {
-    console.log(this.el.nativeElement.offsetHeight + ' ' + this.el.nativeElement.offsetWidth);
     return this.el.nativeElement.offsetHeight;
   }
 
@@ -43,7 +42,6 @@ export class SharedHeightDirective implements DoCheck, OnDestroy {
   }
 
   public set minHeight(value: number) {
-    console.log('height:' + this._height + ' value:' + value);
     if (this.height < value) {
       this._minHeight = value;
       this._height = value;

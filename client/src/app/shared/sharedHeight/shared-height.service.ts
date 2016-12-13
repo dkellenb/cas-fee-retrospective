@@ -13,7 +13,6 @@ export class SharedHeightService {
     this._heightChange$.next(value);
   }
 
-
   public get heightChange$(): Observable<number> {
     return this._heightChange$;
   }
