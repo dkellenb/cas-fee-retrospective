@@ -12,6 +12,7 @@ import {StickyNoteMode} from './sticky-note-mode.enum';
 import {IStickyNote} from './sticky-note.interface';
 import {RetrospectiveService} from '../../../services/retrospective.service';
 import {Subject, Observable, Observer} from 'rxjs';
+import {RetrospectiveStatus} from '../../../../shared/model/retrospective/RetrospectiveStatus';
 
 @Injectable()
 export class TopicService implements OnDestroy {
@@ -130,11 +131,39 @@ export class TopicService implements OnDestroy {
   }
 
   private mapIBasicRetrospectiveCommentToIStickyNote(comment: IBasicRetrospectiveComment < IRetrospectiveUser >): IStickyNote {
-    let sticky: IStickyNote = <IStickyNote>comment;
-    if (sticky.mode == null) {
-      sticky.mode = StickyNoteMode.Display;
+    let stickyNote: IStickyNote = <IStickyNote>comment;
+    if (stickyNote.mode == null) {
+      switch (this.retroStatus) {
+        case RetrospectiveStatus.OPEN:
+          stickyNote.mode = StickyNoteMode.Editable;
+          break;
+
+        case RetrospectiveStatus.REVIEW:
+        case RetrospectiveStatus.GROUP:
+          if (this.hasManagerRole) {
+            if (stickyNote.mode === StickyNoteMode.New || stickyNote.mode === StickyNoteMode.Edit) {
+              break;
+            }
+            stickyNote.mode = StickyNoteMode.Editable;
+          } else {
+            stickyNote.mode = StickyNoteMode.Display;
+          }
+          break;
+
+        case RetrospectiveStatus.VOTE:
+          stickyNote.mode = StickyNoteMode.Vote;
+          break;
+
+        case RetrospectiveStatus.CLOSED:
+          stickyNote.mode = StickyNoteMode.Display;
+          break;
+
+        default:
+          stickyNote.mode = StickyNoteMode.Display;
+      }
+      console.log(stickyNote.mode);
     }
-    return sticky;
+    return stickyNote;
   }
 
   private getLoggedInRetrospectiveUser(): IRetrospectiveUser {
@@ -150,13 +179,17 @@ export class TopicService implements OnDestroy {
   }
 
   public get comments(): IStickyNote[] {
-    return this._topic.comments.map(this.mapIBasicRetrospectiveCommentToIStickyNote);
+    return this._topic.comments.map((comment: IBasicRetrospectiveComment<IRetrospectiveUser>) => {
+      return this.mapIBasicRetrospectiveCommentToIStickyNote(comment);
+    });
   }
 
   public get ownComments(): IStickyNote[] {
     return this._topic.comments.filter((comment: IBasicRetrospectiveComment<IRetrospectiveUser>) => {
       return comment.author.uuid === this.authService.getLoggedInUser().uuid;
-    }).map(this.mapIBasicRetrospectiveCommentToIStickyNote);
+    }).map((comment: IBasicRetrospectiveComment<IRetrospectiveUser>) => {
+      return this.mapIBasicRetrospectiveCommentToIStickyNote(comment);
+    });
   }
 
   public get hasCommentInEditMode(): boolean {
@@ -169,6 +202,14 @@ export class TopicService implements OnDestroy {
     return this.comments.map((stickyNote: IStickyNote) => {
       return stickyNote.mode === StickyNoteMode.Edit || stickyNote.mode === StickyNoteMode.New;
     }).indexOf(true);
+  }
+
+  public get hasManagerRole(): boolean {
+    return this.retrospectiveService.hasManagerRole();
+  }
+
+  public get retroStatus(): RetrospectiveStatus {
+    return this.retrospectiveService.getCurrent().status;
   }
 
 

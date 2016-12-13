@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {IconButtonType, NotifierService} from '../../../../shared';
 import {TopicService, IStickyNote, StickyNoteMode} from '../services/';
 import {NotificationMessage} from '../../../../shared/notification-message/notification-message';
@@ -9,7 +9,12 @@ import {NotificationMessageType} from '../../../../shared/notification-message/n
   templateUrl: './sticky-note.component.html',
   styleUrls: ['./sticky-note.component.scss'],
 })
-export class StickyNoteComponent implements OnInit {
+export class StickyNoteComponent implements OnInit, OnChanges {
+
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log(changes);
+  }
 
   // noinspection TsLint used in template
   private iconButtonType = IconButtonType;
@@ -31,11 +36,13 @@ export class StickyNoteComponent implements OnInit {
 
   constructor(private topicService: TopicService,
               private notificationService: NotifierService) {
-
+    this.stickyNote = <IStickyNote>{mode: StickyNoteMode.Display};
   }
 
   ngOnInit() {
   }
+
+
 
   public saveStickyNote(): void {
     if (!this._isWaitingForCommit && this.inputValidation()) {
@@ -93,7 +100,6 @@ export class StickyNoteComponent implements OnInit {
   }
 
   public vote(): void {
-
   }
 
   public inputValidation(): boolean {

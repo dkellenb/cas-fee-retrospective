@@ -3,8 +3,6 @@ import {IBasicRetrospectiveTopic, IRetrospectiveUser} from '../../../shared/mode
 import {IconButtonType} from '../../../shared';
 import {TopicService} from './services/topic.service';
 import {RetrospectiveStatus} from '../../../shared/model/retrospective/RetrospectiveStatus';
-import {RetrospectiveService} from '../../services/retrospective.service';
-import {SharedHeightService} from '../../../shared/sharedHeight/shared-height.service';
 
 @Component({
   selector: 'rsb-retrospective-topic-board',
@@ -17,13 +15,9 @@ export class RetrospectiveTopicBoardComponent implements OnInit {
   @Input()
   public topic: IBasicRetrospectiveTopic<IRetrospectiveUser>;
 
-  @Input()
-  public retroStatus: RetrospectiveStatus;
-
   public iconButtonType = IconButtonType;
 
-  constructor(private topicService: TopicService,
-              private retrospectiveService: RetrospectiveService) {
+  constructor(private topicService: TopicService) {
   }
 
   ngOnInit() {
@@ -35,12 +29,13 @@ export class RetrospectiveTopicBoardComponent implements OnInit {
   }
 
   private get showAddCommentButton(): boolean {
-    return this.retroStatus === RetrospectiveStatus.OPEN
-      || (this.retroStatus === RetrospectiveStatus.REVIEW && this.retrospectiveService.hasManagerRole())
-      || (this.retroStatus === RetrospectiveStatus.GROUP && this.retrospectiveService.hasManagerRole());
+    let retroStatus: RetrospectiveStatus = this.topicService.retroStatus;
+    return retroStatus === RetrospectiveStatus.OPEN
+      || (retroStatus === RetrospectiveStatus.REVIEW && this.topicService.hasManagerRole)
+      || (retroStatus === RetrospectiveStatus.GROUP && this.topicService.hasManagerRole);
   }
 
   private get showCommentSegment() {
-    return this.retroStatus === RetrospectiveStatus.OPEN;
+    return this.topicService.retroStatus === RetrospectiveStatus.OPEN;
   }
 }
