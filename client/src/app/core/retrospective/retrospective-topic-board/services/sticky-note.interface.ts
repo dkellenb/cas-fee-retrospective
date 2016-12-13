@@ -3,4 +3,6 @@ import {StickyNoteMode} from './sticky-note-mode.enum';
 
 export interface IStickyNote extends IBasicRetrospectiveComment<IRetrospectiveUser> {
   mode: StickyNoteMode;
+  activeVote: boolean;
+  voteCount: number;
 }

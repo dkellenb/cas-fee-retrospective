@@ -38,7 +38,6 @@ export class StickyNoteComponent implements OnInit {
   }
 
 
-
   public saveStickyNote(): void {
     if (!this._isWaitingForCommit && this.inputValidation()) {
       this._isWaitingForCommit = true;
@@ -47,6 +46,7 @@ export class StickyNoteComponent implements OnInit {
         this.notificationService.pushNextMessage(notificationMessage);
       }, e => {
         this._isWaitingForCommit = false;
+        console.log(e);
         this.notificationService.pushNextMessage(new NotificationMessage(NotificationMessageType.ERROR,
           'There was a error while trying to save comment', 10));
       });
@@ -68,6 +68,7 @@ export class StickyNoteComponent implements OnInit {
           this.notificationService.pushNextMessage(notificationMessage);
         }, e => {
           this._isWaitingForReload = false;
+          console.log(e);
           this.notificationService.pushNextMessage(new NotificationMessage(NotificationMessageType.ERROR,
             'There was a error while trying to reload comment', 10));
         });
@@ -95,6 +96,14 @@ export class StickyNoteComponent implements OnInit {
   }
 
   public vote(): void {
+    this.topicService.voteForComment(this.stickyNote.uuid)
+      .first()
+      .subscribe((notificationMessage: NotificationMessage) => {
+        this.notificationService.pushNextMessage(notificationMessage);
+      }, e => {
+        this.notificationService.pushNextMessage(new NotificationMessage(NotificationMessageType.ERROR,
+          'There was a error while trying to vote for comment', 10));
+      });
   }
 
   public inputValidation(): boolean {
@@ -131,6 +140,10 @@ export class StickyNoteComponent implements OnInit {
 
   public get isDisplayMode(): boolean {
     return this.stickyNote.mode === StickyNoteMode.Display || this.isEditableMode;
+  }
+
+  public get isClosedMode(): boolean {
+    return this.stickyNote.mode === StickyNoteMode.Closed;
   }
 
   public get showEditButton(): boolean {

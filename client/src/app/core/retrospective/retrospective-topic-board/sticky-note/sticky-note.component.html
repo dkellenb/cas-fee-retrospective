@@ -5,6 +5,7 @@
   </div>
   <div *ngIf="!covered" class="sticky-note__body">
     <p *ngIf="!showForm" rsbDisableElement>{{stickyNote.description}}</p>
+    <p>{{voteCount}}</p>
     <rsb-text-input *ngIf="showForm" [(ngModel)]="stickyNote.description" [isTextArea]="true" [hasError]="descError"></rsb-text-input>
   </div>
   <div *ngIf="!covered" class="sticky-note__footer">
@@ -13,13 +14,14 @@
         <span *ngIf="showAuthor" class="text text__content_small" rsbDisableElement>{{stickyNote.author.shortName}}</span>
       </rsb-split-bar-container-left>
       <rsb-split-bar-container-right>
-        <rsb-button-set>
-          <rsb-icon-button *ngIf="isVoteMode" [buttonType]="iconButtonType.VOTE" (click)="vote()"></rsb-icon-button>
+        <rsb-button-set *ngIf="!isClosedMode">
+          <rsb-icon-button *ngIf="isVoteMode" [buttonType]="iconButtonType.VOTE" [activated]="stickyNote.activeVote" (click)="vote()"></rsb-icon-button>
           <rsb-icon-button *ngIf="showForm" [buttonType]="iconButtonType.CHECK_MARK" (click)="saveStickyNote()" (touch)="saveStickyNote()"></rsb-icon-button>
           <rsb-icon-button *ngIf="showForm" [buttonType]="iconButtonType.ABOARD" (click)="aboardEdit()" (touch)="aboardEdit()"></rsb-icon-button>
           <rsb-icon-button *ngIf="showEditButton" [buttonType]="iconButtonType.EDIT" (click)="enterEditMode()" (touch)="enterEditMode()"></rsb-icon-button>
           <rsb-icon-button *ngIf="showDeleteButton" [buttonType]="iconButtonType.DELETE" (click)="deleteComment()" (touch)="deleteComment()"></rsb-icon-button>
         </rsb-button-set>
+        <p *ngIf="isClosedMode">Votes: {{stickyNote.voteCount}}</p>
       </rsb-split-bar-container-right>
     </rsb-split-bar>
   </div>

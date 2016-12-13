@@ -13,6 +13,7 @@ import {IStickyNote} from './sticky-note.interface';
 import {RetrospectiveService} from '../../../services/retrospective.service';
 import {Subject, Observable, Observer} from 'rxjs';
 import {RetrospectiveStatus} from '../../../../shared/model/retrospective/RetrospectiveStatus';
+import {IBasicRetrospectiveVote} from '../../../../shared/model/retrospective/IBasicRetrospectiveVote';
 
 @Injectable()
 export class TopicService implements OnDestroy {
@@ -94,6 +95,26 @@ export class TopicService implements OnDestroy {
       });
   }
 
+  public voteForComment(commentId: string): Observable<NotificationMessage> {
+    return this.retrospectiveService.voteForComment(this._topic.uuid, commentId)
+      .map((success: boolean) => {
+        if (success) {
+          return new NotificationMessage(NotificationMessageType.SUCCESS, 'Vote has been registered');
+        }
+        return new NotificationMessage(NotificationMessageType.WARNING, 'Vote was not registered');
+      });
+  }
+
+  public removeVoteForComment(commentId: string): Observable<NotificationMessage> {
+    return this.retrospectiveService.removeVoteForComment(this._topic.uuid, commentId)
+      .map((success: boolean) => {
+        if (success) {
+          return new NotificationMessage(NotificationMessageType.SUCCESS, 'Vote was successfully removed');
+        }
+        return new NotificationMessage(NotificationMessageType.WARNING, 'Vote was not removed');
+      });
+  }
+
   private createNewComment(stickyNote: IStickyNote): Observable<NotificationMessage> {
     let comment: CreateCommentJSON = <CreateCommentJSON>{};
     comment.title = stickyNote.title;
@@ -154,13 +175,21 @@ export class TopicService implements OnDestroy {
           break;
 
         case RetrospectiveStatus.CLOSED:
-          stickyNote.mode = StickyNoteMode.Display;
+          stickyNote.mode = StickyNoteMode.Closed;
           break;
 
         default:
           stickyNote.mode = StickyNoteMode.Display;
       }
     }
+
+    if (comment.votes != null) {
+      stickyNote.voteCount = comment.votes.length;
+    } else {
+      stickyNote.voteCount = 0;
+      stickyNote.activeVote = false;
+    }
+
     return stickyNote;
   }
 

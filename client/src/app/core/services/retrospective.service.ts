@@ -192,6 +192,26 @@ export class RetrospectiveService {
     });
   }
 
+  public voteForComment(topicId: string, commentId: string): Observable<boolean> {
+    return this.authHttp.put(this.createVotesEndpoint(this._currentRetrospective.uuid, topicId, commentId), '').map(response => {
+      if (response.status === 201) {
+        return true;
+      } else {
+        throw new Error(`Could not vote for comment '${commentId}' on retro '${this._currentRetrospective.uuid}'`);
+      }
+    });
+  }
+
+  public removeVoteForComment(topicId: string, commentId: string): Observable<boolean> {
+    return this.authHttp.delete(this.createVotesEndpoint(this._currentRetrospective.uuid, topicId, commentId)).map(response => {
+      if (response.status === 204) {
+        return true;
+      } else {
+        throw new Error(`Could not delete own vote on comment '${commentId}' on retro '${this._currentRetrospective.uuid}'`);
+      }
+    });
+  }
+
   public  get failedRetrospectiveId(): string {
     return this._failedRetrospectiveId;
   }
@@ -320,5 +340,9 @@ export class RetrospectiveService {
 
   private createCommentIdEndpoint(retroId: string, topicId: string, commentId: string) {
     return this.createCommentEndpoint(retroId, topicId) + '/' + commentId;
+  }
+
+  private createVotesEndpoint(retroId: string, topicId: string, commentId: string) {
+    return this.createCommentIdEndpoint(retroId, topicId, commentId) + '/votes';
   }
 }
