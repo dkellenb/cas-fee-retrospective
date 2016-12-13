@@ -39,12 +39,7 @@ export class CommentSegmentComponent implements OnInit, AfterViewInit {
   }
 
   public get comments(): IStickyNote[] {
-    return this.topicService.ownComments.map((stickyNote: IStickyNote) => {
-      if (stickyNote.mode === StickyNoteMode.Display) {
-        stickyNote.mode = StickyNoteMode.Editable;
-      }
-      return stickyNote;
-    });
+    return this.topicService.ownComments;
   }
 
 }

@@ -1,6 +1,7 @@
 import {Component, OnInit, ContentChildren, QueryList, AfterViewInit, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {CarouselElementDirective} from './carousel-element.directive';
 import {Subject} from 'rxjs';
+import {calcPossibleSecurityContexts} from '@angular/compiler/src/template_parser/binding_parser';
 
 @Component({
   selector: 'rsb-carousel',
@@ -8,8 +9,6 @@ import {Subject} from 'rxjs';
   styleUrls: ['./carousel.component.scss']
 })
 export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
-
-  private range: number = 25;
 
   private topElement: number = 0;
 
@@ -19,7 +18,13 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
   private carouselElements: QueryList<CarouselElementDirective>;
 
   @Input()
+  public range: number = 25;
+
+  @Input()
   private carouselActive: boolean = true;
+
+  @Input()
+  private fixedNavButtons: boolean = false;
 
   constructor() {
     this.topElement = 0;
@@ -34,6 +39,7 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges) {
+    console.log(this.isCarouselActive + ' elements: ' + this.getNumberOfElements());
     this.updateCarouselElementPositions();
   }
 
@@ -58,6 +64,7 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
     if (this.getNumberOfElements() <= 0) {
       return;
     }
+
     let stepSize = this.calcStepSize(this.getNumberOfElements());
     this.carouselElements.forEach(function (carouselElement: CarouselElementDirective, index: number) {
       carouselElement.order = index - this.topElement;

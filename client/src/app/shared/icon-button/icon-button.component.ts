@@ -21,6 +21,9 @@ export class IconButtonComponent implements OnInit {
   @Input()
   private toggleStatus: boolean = true;
 
+  @Input()
+  private activated: boolean = false;
+
   public iconButtonType = IconButtonType;
 
   constructor() {

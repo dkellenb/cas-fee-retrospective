@@ -3,27 +3,27 @@ import {ActivatedRoute, Params, Router} from '@angular/router';
 import {IBasicRetrospective, IRetrospectiveUser} from '../../shared/model';
 import {RetrospectiveService} from '../services/retrospective.service';
 import {IconButtonType} from '../../shared/icon-button/icon-button-type';
-import {AuthenticationService} from '../../shared/services/authentication.service';
-import {UserRole} from '../../shared/model/UserDomainModel';
-import {RetrospectiveStatus} from '../../shared/model/RetrospectiveDomainModel';
+import {ScreenSizeService} from '../../shared/services/screen-size.service';
+import {RetrospectiveStatus} from '../../shared/model/retrospective/RetrospectiveStatus';
+import {SharedHeightService} from '../../shared/sharedHeight/shared-height.service';
 
 @Component({
   selector: 'rsb-retrospective',
   templateUrl: './retrospective.component.html',
-  styleUrls: ['./retrospective.component.scss']
+  styleUrls: ['./retrospective.component.scss'],
+  providers: [SharedHeightService]
 })
 export class RetrospectiveComponent implements OnInit {
 
   public iconButtonType = IconButtonType;
 
-  private _retrospective: IBasicRetrospective<IRetrospectiveUser>;
 
   private retroId: string;
 
   constructor(private route: ActivatedRoute,
               private retrospectiveService: RetrospectiveService,
               private router: Router,
-              private authService: AuthenticationService) {
+              private scrennSizeService: ScreenSizeService) {
   }
 
   ngOnInit() {
@@ -39,8 +39,7 @@ export class RetrospectiveComponent implements OnInit {
       })
       .first()
       .subscribe((retrospective: IBasicRetrospective<IRetrospectiveUser>) => {
-        this._retrospective = retrospective;
-        console.log('load Retrospective with UUID: ' + this._retrospective.uuid);
+        console.log('load Retrospective with UUID: ' + retrospective.uuid);
       }, e => {
         console.log('Wasn\'t able to find Retrospective: ' + this.retroId);
         this.retrospectiveService.failedRetrospectiveId = this.retroId;
@@ -49,18 +48,11 @@ export class RetrospectiveComponent implements OnInit {
   }
 
   public get hasManagerRole(): boolean {
-    if (this._retrospective == null) {
-      return false;
-    }
-    let loggedInUserUUID: string = this.authService.getLoggedInUser().uuid;
-    let currendUser: IRetrospectiveUser = this._retrospective.attendees.find((user: IRetrospectiveUser) => {
-      return user.uuid === loggedInUserUUID;
-    });
-    return currendUser != null && (currendUser.role === UserRole.MANAGER || currendUser.role === UserRole.ADMIN);
+    return this.retrospectiveService.hasManagerRole();
   }
 
   public get isClosed(): boolean {
-    return this.retrospectiveService != null && this._retrospective.status === RetrospectiveStatus.CLOSED;
+    return this.retrospectiveService != null && this.retrospective.status === RetrospectiveStatus.CLOSED;
   }
 
   public aktivateNextRetroPhase(): void {
@@ -78,31 +70,31 @@ export class RetrospectiveComponent implements OnInit {
   }
 
   public get retroStatecontrollerLabelText(): string {
-    return this._retrospective.status != null ?
-      this._retrospective.status === RetrospectiveStatus.OPEN ? 'Start review of comments'
-        : this._retrospective.status === RetrospectiveStatus.CLOSED ? ''
-        : this._retrospective.status === RetrospectiveStatus.GROUP ? 'Start voting'
-        : this._retrospective.status === RetrospectiveStatus.REVIEW ? 'Start voting'
-        : this._retrospective.status === RetrospectiveStatus.VOTE ? 'Show votingresult'
+    return this.retrospective.status != null ?
+      this.retrospective.status === RetrospectiveStatus.OPEN ? 'Start review of comments'
+        : this.retrospective.status === RetrospectiveStatus.CLOSED ? ''
+        : this.retrospective.status === RetrospectiveStatus.GROUP ? 'Start voting'
+        : this.retrospective.status === RetrospectiveStatus.REVIEW ? 'Start voting'
+        : this.retrospective.status === RetrospectiveStatus.VOTE ? 'Show votingresult'
         : '' : '';
   }
 
   private getNextStatus(): RetrospectiveStatus {
-    return this._retrospective.status != null ?
-      this._retrospective.status === RetrospectiveStatus.OPEN ? RetrospectiveStatus.REVIEW
-        : this._retrospective.status === RetrospectiveStatus.REVIEW ? RetrospectiveStatus.VOTE
-        : this._retrospective.status === RetrospectiveStatus.GROUP ? RetrospectiveStatus.VOTE
-        : this._retrospective.status === RetrospectiveStatus.VOTE ? RetrospectiveStatus.CLOSED
-        : this._retrospective.status === RetrospectiveStatus.CLOSED ? null
+    return this.retrospective.status != null ?
+      this.retrospective.status === RetrospectiveStatus.OPEN ? RetrospectiveStatus.REVIEW
+        : this.retrospective.status === RetrospectiveStatus.REVIEW ? RetrospectiveStatus.VOTE
+        : this.retrospective.status === RetrospectiveStatus.GROUP ? RetrospectiveStatus.VOTE
+        : this.retrospective.status === RetrospectiveStatus.VOTE ? RetrospectiveStatus.CLOSED
+        : this.retrospective.status === RetrospectiveStatus.CLOSED ? null
         : null : null;
   }
 
   public get retrospective(): IBasicRetrospective<IRetrospectiveUser> {
-    this.retrospectiveService.getRetrospective(this.retroId)
-      .first()
-      .subscribe((retrospective: IBasicRetrospective<IRetrospectiveUser>) => {
-        this._retrospective = retrospective;
-      });
-    return this._retrospective;
+    return this.retrospectiveService.getCurrent();
+  }
+
+
+  public isCarouselAktive(): boolean {
+    return this.retrospective != null && this.retrospective.status !== RetrospectiveStatus.OPEN && !this.scrennSizeService.isSmaleScreen;
   }
 }

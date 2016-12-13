@@ -1,7 +1,8 @@
-import {IBasicRetrospectiveComment} from '../../../../shared/model/RetrospectiveDomainModel';
-import {IRetrospectiveUser} from '../../../../shared/model/UserDomainModel';
+import {IBasicRetrospectiveComment, IRetrospectiveUser} from '../../../../shared/model/';
 import {StickyNoteMode} from './sticky-note-mode.enum';
 
 export interface IStickyNote extends IBasicRetrospectiveComment<IRetrospectiveUser> {
   mode: StickyNoteMode;
+  activeVote: boolean;
+  voteCount: number;
 }

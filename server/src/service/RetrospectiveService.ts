@@ -4,17 +4,17 @@ import TYPES from '../constant/types';
 import {UserRepository, RetrospectiveRepository, RetrospectiveDbModel} from '../repository/';
 import {
   RetrospectiveStatus, UpdateRetrospectiveJSON, IBasicRetrospective,
-  CreateCommentJSON, UpdateCommentJSON, ChangeStatusJSON
-} from '../../../client/src/app/shared/model/RetrospectiveDomainModel';
+  CreateCommentJSON, UpdateCommentJSON, ChangeStatusJSON, UserRole
+} from '../../../client/src/app/shared/model/';
 import {
   IPersistedRetrospectiveDbModel, PersistedRetrospectiveTopic,
-  PersistedRetrospectiveComment, IPersistedRetrospectiveTopic, IPersistedRetrospectiveComment
+  PersistedRetrospectiveComment, IPersistedRetrospectiveTopic, IPersistedRetrospectiveComment,
+  PersistedRetrospectiveVote, IPersistedRetrospectiveVote
 } from '../repository/model/RetrospectiveDbModel';
 import {UUID} from '../../../client/src/app/shared/util/UUID';
 import {RetrospectiveUser} from './model/User';
 import {PublicRetrospective} from './model/Restrospective';
 import {IUserDbModel} from '../repository/model/UserDbModel';
-import {UserRole} from '../../../client/src/app/shared/model/UserDomainModel';
 import {WebSocketService} from './WebSocketService';
 
 
@@ -27,6 +27,25 @@ export class RetrospectiveService {
     @inject(TYPES.WebSocketService) private webSocketService: WebSocketService
   ) {
 
+  }
+
+  private canModifyRetrospective(persistedRetrospective: IPersistedRetrospectiveDbModel, persistedUser: IUserDbModel): boolean {
+    return persistedRetrospective.manager.equals(persistedUser._id) || persistedUser.systemRole === UserRole.ADMIN;
+  }
+
+  private canCreateComment(persistedRetrospective: IPersistedRetrospectiveDbModel, persistedUser: IUserDbModel): boolean {
+    return persistedRetrospective.status === RetrospectiveStatus.OPEN
+      || this.canModifyRetrospective(persistedRetrospective, persistedUser);
+  }
+
+  private canUpdateComment(persistedRetrospective: IPersistedRetrospectiveDbModel, persistedUser: IUserDbModel, persistedComment: IPersistedRetrospectiveComment): boolean {
+    return (persistedRetrospective.status === RetrospectiveStatus.OPEN && persistedComment.author.equals(persistedUser._id))
+      || this.canModifyRetrospective(persistedRetrospective, persistedUser);
+  }
+
+  private canVote(persistedRetrospective: IPersistedRetrospectiveDbModel, persistedUser: IUserDbModel): boolean {
+    return persistedRetrospective.status === RetrospectiveStatus.OPEN
+      || this.canModifyRetrospective(persistedRetrospective, persistedUser);
   }
 
   public getRetrospectives(currentUser: IUser): Promise<IBasicRetrospective<RetrospectiveUser>[]> {
@@ -109,7 +128,7 @@ export class RetrospectiveService {
         if (error) {
           reject(error);
         } else {
-          if (!persistedRetrospective.manager.equals(persistedUser._id) && currentUser.systemRole !== UserRole.ADMIN) {
+          if (!this.canModifyRetrospective(persistedRetrospective, persistedUser)) {
             reject('User "' + currentUser.uuid + '" is not allowed to edit retrospective "' + retrospectiveId + '"');
           } else {
             persistedRetrospective.name = updateRetrospective.name;
@@ -128,7 +147,7 @@ export class RetrospectiveService {
         if (error) {
           reject(error);
         } else {
-          if (!persistedRetrospective.manager.equals(persistedUser._id) && currentUser.systemRole !== UserRole.ADMIN) {
+          if (!this.canModifyRetrospective(persistedRetrospective, persistedUser)) {
             reject('User "' + currentUser.uuid + '" is not allowed to edit retrospective "' + retrospectiveId + '"');
           } else {
             this.retrospectiveRepository.delete(persistedRetrospective._id, (deleteError, result) => {
@@ -150,7 +169,7 @@ export class RetrospectiveService {
         if (error) {
           reject(error);
         } else {
-          if (!persistedRetrospective.manager.equals(persistedUser._id) && currentUser.systemRole !== UserRole.ADMIN) {
+          if (!this.canModifyRetrospective(persistedRetrospective, persistedUser)) {
             reject('User "' + currentUser.uuid + '" is not allowed to edit retrospective "' + retrospectiveId + '"');
           } else {
             persistedRetrospective.status = action.status;
@@ -212,18 +231,22 @@ export class RetrospectiveService {
         if (error) {
           reject(error);
         } else {
-          let persistedComment = new PersistedRetrospectiveComment(comment.description, comment.title, comment.anonymous);
-          persistedComment.author = persistedUser._id;
-          persistedTopic.comments.push(persistedComment);
+          if (!this.canCreateComment(persistedRetrospective, persistedUser)) {
+            reject('Not allowed to create comment. Most probably retro has changed its status.');
+          } else {
+            let persistedComment = new PersistedRetrospectiveComment(comment.description, comment.title, comment.anonymous);
+            persistedComment.author = persistedUser._id;
+            persistedTopic.comments.push(persistedComment);
 
-          persistedRetrospective.save((err) => {
-            if (err) {
-              reject(err);
-            } else {
-              this.webSocketService.commentAddedToRetrospective(retrospectiveId, persistedComment.uuid);
-              resolve(persistedComment);
-            }
-          });
+            persistedRetrospective.save((err) => {
+              if (err) {
+                reject(err);
+              } else {
+                this.webSocketService.commentAddedToRetrospective(retrospectiveId, persistedComment.uuid);
+                resolve(persistedComment);
+              }
+            });
+          }
         }
       });
     });
@@ -236,12 +259,16 @@ export class RetrospectiveService {
         if (error) {
           reject(error);
         } else {
-          pComment.title = updateComment.title || pComment.title;
-          pComment.description = updateComment.description || pComment.description;
-          pComment.anonymous = updateComment.anonymous || pComment.anonymous;
-          pRetrospective.save();
-          this.webSocketService.commentUpdatedOnRetrospective(retroId, pComment.uuid);
-          resolve(pComment);
+          if (!this.canUpdateComment(pRetrospective, pUser, pComment)) {
+            reject('Not allowed to update comment. Most probably retro has changed its status.');
+          } else {
+            pComment.title = updateComment.title || pComment.title;
+            pComment.description = updateComment.description || pComment.description;
+            pComment.anonymous = updateComment.anonymous || pComment.anonymous;
+            pRetrospective.save();
+            this.webSocketService.commentUpdatedOnRetrospective(retroId, pComment.uuid);
+            resolve(pComment);
+          }
         }
       });
     });
@@ -253,10 +280,64 @@ export class RetrospectiveService {
         if (error) {
           reject(error);
         } else {
-          pTopic.comments = pTopic.comments.filter((comment) => comment.uuid !== commentId);
-          pRetrospective.save();
-          this.webSocketService.commentRemovedFromRetrospective(retroId, pComment.uuid);
-          resolve();
+          if (!this.canUpdateComment(pRetrospective, pUser, pComment)) {
+            reject('Not allowed to delete comment. Most probably retro has changed its status.');
+          } else {
+            pTopic.comments = pTopic.comments.filter((comment) => comment.uuid !== commentId);
+            pRetrospective.save();
+            this.webSocketService.commentRemovedFromRetrospective(retroId, pComment.uuid);
+            resolve();
+          }
+        }
+      });
+    });
+  }
+
+  public createVote(currentUser: IUser, retroId: string, topicId: string, commentId: string): Promise<IPersistedRetrospectiveVote> {
+    return new Promise<IPersistedRetrospectiveVote>((resolve, reject) => {
+      this.doCommentAction(currentUser, retroId, topicId, commentId, (error, pRetrospective, pTopic, pComment, pUser) => {
+        if (error) {
+          reject(error);
+        } else {
+          if (!pComment.votes || pComment.votes.findIndex((v) => v.author.equals(pUser._id)) >= 0) {
+            reject('User has already voted');
+          } else {
+            if (!this.canVote(pRetrospective, pUser)) {
+              reject('User not allowed to vote. Most probably retro has changed its status.');
+            } else {
+              let newVote = new PersistedRetrospectiveVote(pUser._id);
+              pComment.votes.push(newVote);
+              pRetrospective.save();
+              resolve(newVote);
+            }
+          }
+        }
+      });
+    });
+  }
+
+  public deleteVote(currentUser: IUser, retroId: string, topicId: string, commentId: string): Promise<void> {
+    return new Promise<void>((resolve, reject) => {
+      this.doCommentAction(currentUser, retroId, topicId, commentId, (error, pRetrospective, pTopic, pComment, pUser) => {
+        if (error) {
+          reject(error);
+        } else {
+          if (!pComment.votes) {
+            reject('No votes found');
+          } else {
+            let lengthBefore = pComment.votes.length;
+            pComment.votes = pComment.votes.filter((v) => !v.author.equals(pUser._id));
+            if (pComment.votes.length === lengthBefore) {
+              reject('No vote from user ' + pUser.uuid + ' found');
+            } else {
+              if (!this.canVote(pRetrospective, pUser)) {
+                reject('User not allowed to delete vote. Most probably retro has changed its status.');
+              } else {
+                pRetrospective.save();
+                resolve();
+              }
+            }
+          }
         }
       });
     });
@@ -291,7 +372,7 @@ export class RetrospectiveService {
         action(error);
       } else {
         if (persistedRetrospective.attendees.find((attendeeId) => {
-            return attendeeId === persistedUser._id;
+            return attendeeId.equals(persistedUser._id);
           }) === null) {
           action('User is not part of this retrospective');
         }
@@ -315,9 +396,6 @@ export class RetrospectiveService {
         let comment = persistedTopic.comments.find((comment) => commentId === comment.uuid);
         if (comment == null) {
           action('Comment could not be found');
-        }
-        if (!comment.author.equals(persistedUser._id) && persistedUser.systemRole !== UserRole.ADMIN) {
-          action('Not allowed to modify this comment');
         } else {
           action(null, persistedRetrospective, persistedTopic, comment, persistedUser);
         }

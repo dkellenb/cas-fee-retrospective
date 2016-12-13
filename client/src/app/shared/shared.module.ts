@@ -18,13 +18,14 @@ import {TextInputComponent} from './text-input';
 import {ButtonSetComponent, ButtonSetElementDirective} from './button-set';
 import {ButtonSetTextComponent} from './button-set-text';
 import {FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective} from './form';
-import {ConfigurationService, AuthenticationService} from './services';
+import {ConfigurationService, AuthenticationService, ScreenSizeService} from './services';
 import {CarouselModule} from './carousel';
 import {UserStatusComponent} from './user-status';
 import {NotificationMessageComponent} from './notification-message/notification-message.component';
 import {NotifierComponent} from './notifier/notifier.component';
 import {UserIconComponent} from './user-icon/user-icon.component';
 import {BoardFooterDirective} from './board/board.component';
+import {SharedHeightDirective} from './sharedHeight/shared-height.directive';
 
 @NgModule({
   declarations: [BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective, BoardFooterDirective,
@@ -37,7 +38,8 @@ import {BoardFooterDirective} from './board/board.component';
     UserStatusComponent,
     NotificationMessageComponent,
     NotifierComponent,
-    UserIconComponent],
+    UserIconComponent,
+    SharedHeightDirective],
   imports: [CommonModule, HttpModule, RouterModule, FormsModule, CarouselModule],
   exports: [CommonModule, HttpModule, RouterModule, FormsModule,
     BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective, BoardFooterDirective,
@@ -50,11 +52,10 @@ import {BoardFooterDirective} from './board/board.component';
     UserStatusComponent,
     SplitBarComponent, SplitBarContainerLeftDirective, SplitBarContainerRightDirective,
     NotificationMessageComponent, NotifierComponent,
-    UserIconComponent
+    UserIconComponent, SharedHeightDirective
   ],
   providers: [
-    ConfigurationService, AuthenticationService,
-    AUTH_PROVIDERS
+    ConfigurationService, AuthenticationService, ScreenSizeService, AUTH_PROVIDERS
   ]
 })
 export class SharedModule {

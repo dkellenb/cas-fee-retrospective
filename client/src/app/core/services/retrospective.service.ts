@@ -1,22 +1,28 @@
 import {Injectable} from '@angular/core';
 import {UserService} from './user.service';
 import {
-  CreateRetrospectiveJSON, IBasicRetrospective, IRetrospectiveUser,
-  IBasicRetrospectiveComment, UpdateCommentJSON, CreateCommentJSON
+  CreateRetrospectiveJSON,
+  IBasicRetrospective,
+  IRetrospectiveUser,
+  IBasicRetrospectiveComment,
+  UpdateCommentJSON,
+  CreateCommentJSON,
+  ChangeStatusJSON
 } from '../../shared/model';
-import {ConfigurationService, AuthenticationService} from '../../shared/';
-import {Observable} from 'rxjs';
+import {ConfigurationService, AuthenticationService} from '../../shared';
+import {Observable, Subscription} from 'rxjs';
 import {AuthHttp} from 'angular2-jwt';
 import {WebSocketService, WebSocketAction} from './web-socket.service';
-import {RetrospectiveStatus, ChangeStatusJSON} from '../../shared/model/RetrospectiveDomainModel';
-import {NotificationMessage} from '../../shared/notification-message/notification-message';
-import {NotificationMessageType} from '../../shared/notification-message/notification-message-type';
+import {RetrospectiveStatus} from '../../shared/model/retrospective/RetrospectiveStatus';
+import {UserRole} from '../../shared/model/user/UserRole';
 
 @Injectable()
 export class RetrospectiveService {
 
+  // Empoty Retro as long non was loaded
   private _currentRetrospective: IBasicRetrospective<IRetrospectiveUser>;
   private _failedRetrospectiveId: string;
+  private _websocketSubscription: Subscription;
 
   private static extractIdFromLocation(location: string): string {
     if (location == null) {
@@ -30,6 +36,14 @@ export class RetrospectiveService {
               private configuration: ConfigurationService,
               private webSocketService: WebSocketService,
               private authHttp: AuthHttp) {
+
+    this._currentRetrospective = <IBasicRetrospective<IRetrospectiveUser>> {
+      uuid: '',
+      name: '',
+      attendees: [],
+      status: RetrospectiveStatus.OPEN,
+      topics: []
+    };
   }
 
   public getCurrent(): IBasicRetrospective<IRetrospectiveUser> {
@@ -102,10 +116,13 @@ export class RetrospectiveService {
     } else {
       console.log('Force Reload of Retrospective');
     }
+    console.log('rerload Retro');
     return this.authHttp.get(this.createRetrospectiveIdEndpoint(retrospectiveId)).map(response => {
       this._currentRetrospective = response.json();
-      this.setupWebSocket(retrospectiveId);
       this._failedRetrospectiveId = null;
+      if (!forceReload || forceReload == null) {
+        this.setupWebSocket(retrospectiveId);
+      }
       return this._currentRetrospective;
     });
   }
@@ -175,6 +192,26 @@ export class RetrospectiveService {
     });
   }
 
+  public voteForComment(topicId: string, commentId: string): Observable<boolean> {
+    return this.authHttp.put(this.createVotesEndpoint(this._currentRetrospective.uuid, topicId, commentId), '').map(response => {
+      if (response.status === 201) {
+        return true;
+      } else {
+        throw new Error(`Could not vote for comment '${commentId}' on retro '${this._currentRetrospective.uuid}'`);
+      }
+    });
+  }
+
+  public removeVoteForComment(topicId: string, commentId: string): Observable<boolean> {
+    return this.authHttp.delete(this.createVotesEndpoint(this._currentRetrospective.uuid, topicId, commentId)).map(response => {
+      if (response.status === 204) {
+        return true;
+      } else {
+        throw new Error(`Could not delete own vote on comment '${commentId}' on retro '${this._currentRetrospective.uuid}'`);
+      }
+    });
+  }
+
   public  get failedRetrospectiveId(): string {
     return this._failedRetrospectiveId;
   }
@@ -183,8 +220,22 @@ export class RetrospectiveService {
     this._failedRetrospectiveId = value;
   }
 
+  public hasManagerRole(): boolean {
+    if (this._currentRetrospective == null) {
+      return false;
+    }
+    let loggedInUserUUID: string = this.authService.getLoggedInUser().uuid;
+    let currendUser: IRetrospectiveUser = this._currentRetrospective.attendees.find((user: IRetrospectiveUser) => {
+      return user.uuid === loggedInUserUUID;
+    });
+    return currendUser != null && (currendUser.role === UserRole.MANAGER || currendUser.role === UserRole.ADMIN);
+  }
+
   private setupWebSocket(retrospectiveId: string) {
-    this.webSocketService.get(retrospectiveId)
+    if (this._websocketSubscription != null) {
+      this._websocketSubscription.unsubscribe();
+    }
+    this._websocketSubscription = this.webSocketService.get(retrospectiveId)
       .subscribe((websocketAction: WebSocketAction) => {
         console.log('Receieved web socket action: ' + JSON.stringify(websocketAction));
         switch (websocketAction.action) {
@@ -289,5 +340,9 @@ export class RetrospectiveService {
 
   private createCommentIdEndpoint(retroId: string, topicId: string, commentId: string) {
     return this.createCommentEndpoint(retroId, topicId) + '/' + commentId;
+  }
+
+  private createVotesEndpoint(retroId: string, topicId: string, commentId: string) {
+    return this.createCommentIdEndpoint(retroId, topicId, commentId) + '/votes';
   }
 }

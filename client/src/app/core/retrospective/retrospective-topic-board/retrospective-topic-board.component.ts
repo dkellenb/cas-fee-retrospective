@@ -1,7 +1,9 @@
-import {Component, OnInit, Input, ContentChild, AfterViewInit} from '@angular/core';
-import {IBasicRetrospectiveTopic, IRetrospectiveUser, RetrospectiveStatus} from '../../../shared/model';
-import {IconButtonType, CarouselComponent} from '../../../shared';
+import {Component, OnInit, Input} from '@angular/core';
+import {IBasicRetrospectiveTopic, IRetrospectiveUser} from '../../../shared/model';
+import {IconButtonType} from '../../../shared';
 import {TopicService} from './services/topic.service';
+import {RetrospectiveStatus} from '../../../shared/model/retrospective/RetrospectiveStatus';
+
 @Component({
   selector: 'rsb-retrospective-topic-board',
   templateUrl: './retrospective-topic-board.component.html',
@@ -12,9 +14,6 @@ export class RetrospectiveTopicBoardComponent implements OnInit {
 
   @Input()
   public topic: IBasicRetrospectiveTopic<IRetrospectiveUser>;
-
-  @Input()
-  public retroStatus: RetrospectiveStatus;
 
   public iconButtonType = IconButtonType;
 
@@ -30,10 +29,13 @@ export class RetrospectiveTopicBoardComponent implements OnInit {
   }
 
   private get showAddCommentButton(): boolean {
-    return this.retroStatus === RetrospectiveStatus.OPEN;
+    let retroStatus: RetrospectiveStatus = this.topicService.retroStatus;
+    return retroStatus === RetrospectiveStatus.OPEN
+      || (retroStatus === RetrospectiveStatus.REVIEW && this.topicService.hasManagerRole)
+      || (retroStatus === RetrospectiveStatus.GROUP && this.topicService.hasManagerRole);
   }
 
   private get showCommentSegment() {
-    return this.retroStatus === RetrospectiveStatus.OPEN;
+    return this.topicService.retroStatus === RetrospectiveStatus.OPEN;
   }
 }

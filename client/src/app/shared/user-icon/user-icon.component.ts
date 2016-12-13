@@ -1,5 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {IRetrospectiveUser, UserRole} from '../model/UserDomainModel';
+import {IRetrospectiveUser, UserRole} from '../model';
 
 @Component({
   selector: 'rsb-user-icon',

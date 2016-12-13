@@ -12,6 +12,7 @@
 .input__textfield:focus {
   border-color: $input-border-color__focus;
   background: $input-background-color__focus;
+  box-shadow: 0.2rem 0.2rem 6px rgba(0,0,0,.075);
 }
 
 .input__textfield:disabled {

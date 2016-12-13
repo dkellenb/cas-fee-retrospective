@@ -16,10 +16,13 @@
     </div>
   </rsb-board-footer>
 </rsb-board>
-<rsb-carousel [carouselActive]="false">
-  <div class="board-grid">
-    <div rsbCarouselElement class="board-grid__element" *ngFor="let topic of retrospective?.topics">
-      <rsb-retrospective-topic-board [topic]="topic" [retroStatus]="retrospective.status"></rsb-retrospective-topic-board>
+<div class="boards-container">
+  <rsb-carousel [carouselActive]="isCarouselAktive()" [fixedNavButtons]="true" [range]="10">
+    <div [class.board-grid]="!isCarouselAktive()">
+      <div rsbCarouselElement [ngClass]="{'board-grid__element':!isCarouselAktive(),'board-grid__element_carousel':isCarouselAktive()}"
+           *ngFor="let topic of retrospective?.topics">
+        <rsb-retrospective-topic-board [topic]="topic"></rsb-retrospective-topic-board>
+      </div>
     </div>
-  </div>
-</rsb-carousel>
+  </rsb-carousel>
+</div>

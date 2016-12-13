@@ -72,13 +72,13 @@ URL: `/rest/retrospectives/:id/topics/:topicid/comments`
 
 ### Retrospective Management: Voting
 
-URL `/rest/retrospectives/:id/comments/:topicid/comments/:cid/votes`
+URL `/rest/retrospectives/:id/topics/:topicid/comments/:cid/votes`
 
 | +URL     | CMD    | Auth | Done | Description                                                       |
 |----------|--------|------|------|-------------------------------------------------------------------|
 |          | GET    | X    |      | Get all votes (restricted)                                        |
-|          | PUT    | X    |      | Posts a vote to a single comment                                  |
-| :vid     | DELETE | X    |      | Remove a vote (only if from the current user)                     |
+|          | PUT    | X    | OK   | Posts a vote to a single comment                                  |
+|          | DELETE | X    | OK   | Remove a vote (only if from the current user)                     |
 
 ### User Management
 

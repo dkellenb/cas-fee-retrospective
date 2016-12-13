@@ -4,7 +4,7 @@
                     [(ngModel)]="sessionKey" [isRequierd]="true"
                     [inputErrorMessage]="sessionKeyErrorMessage"></rsb-text-input>
     <rsb-text-input *ngIf="!isUserLoggedIn"
-                    [labelText]="'Shortname'"
+                    [labelText]="'Username'"
                     [id]="'joinSessionShortName'"
                     [(ngModel)]="shortName" [isRequierd]="true"
                     [inputErrorMessage]="shortNameErrorMessage"></rsb-text-input>

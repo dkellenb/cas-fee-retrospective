@@ -20,6 +20,10 @@
   margin: auto 0;
 }
 
+.carousel__nav-button_fixed{
+  position: fixed;
+}
+
 .carousel__nav-button-right {
   border-right: 0 solid transparent;
   border-left: 2.0625rem solid $icon-text-color;

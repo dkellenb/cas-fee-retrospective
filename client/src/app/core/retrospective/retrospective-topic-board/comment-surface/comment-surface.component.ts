@@ -1,6 +1,6 @@
-import {Component, OnInit, Input} from '@angular/core';
-import {RetrospectiveStatus} from '../../../../shared/model/RetrospectiveDomainModel';
+import {Component, OnInit} from '@angular/core';
 import {IStickyNote, TopicService} from '../services/';
+import {RetrospectiveStatus} from '../../../../shared/model/retrospective/RetrospectiveStatus';
 
 @Component({
   selector: 'rsb-comment-surface',
@@ -8,9 +8,6 @@ import {IStickyNote, TopicService} from '../services/';
   styleUrls: ['./comment-surface.component.scss']
 })
 export class CommentSurfaceComponent implements OnInit {
-
-  @Input()
-  private mode: RetrospectiveStatus;
 
   constructor(private topicService: TopicService) {
   }
@@ -23,7 +20,6 @@ export class CommentSurfaceComponent implements OnInit {
   }
 
   private get isCommentStack(): boolean {
-    return this.mode === RetrospectiveStatus.OPEN;
+    return this.topicService.retroStatus === RetrospectiveStatus.OPEN;
   }
-
 }
