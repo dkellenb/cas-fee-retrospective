@@ -205,9 +205,16 @@ export class TopicService implements OnDestroy {
   }
 
   public get comments(): IStickyNote[] {
-    return this._topic.comments.map((comment: IBasicRetrospectiveComment<IRetrospectiveUser>) => {
+    let stickyNotes: IStickyNote [] = this._topic.comments.map((comment: IBasicRetrospectiveComment<IRetrospectiveUser>) => {
       return this.mapIBasicRetrospectiveCommentToIStickyNote(comment);
     });
+
+    if (this.retroStatus === RetrospectiveStatus.CLOSED) {
+      return stickyNotes.sort((sticky1: IStickyNote, sticky2: IStickyNote) => {
+        return sticky2.voteCount - sticky1.voteCount;
+      });
+    }
+    return stickyNotes;
   }
 
   public get ownComments(): IStickyNote[] {
