@@ -12,4 +12,13 @@
       </div>
     </div>
   </div>
+  <div *ngIf="hasManagerRole" class="add-user">
+    <h3 class="controlpanel__segment-title">Add Users to Retro</h3>
+    <div class="add-user__qrcode" (click)="toggleQrSize()">
+      <!--Size can't be changed so this is a work around for 2-->
+      <qr-code *ngIf="largeQr" [data]="currendRoute" [size]="500"></qr-code>
+      <qr-code *ngIf="!largeQr" [data]="currendRoute" [size]="150"></qr-code>
+      <p>Alternative copy URL from browser and send it to user for joining.</p>
+    </div>
+  </div>
 </div>

@@ -1,7 +1,7 @@
 <rsb-board [isCollapsible]="true" [isOpen]="false" [collapseFooter]="!hasManagerRole">
   <rsb-board-title><strong>Controllpanel for Retrospective:</strong> {{retrospective?.name}}</rsb-board-title>
   <rsb-board-body>
-    <rsb-control-panel [retrospective]="retrospective"></rsb-control-panel>
+    <rsb-control-panel></rsb-control-panel>
   </rsb-board-body>
   <rsb-board-footer *ngIf="hasManagerRole&&!isClosed">
     <div class="retro-state-controller">
