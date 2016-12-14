@@ -1,9 +1,9 @@
 @import '../shared.scss';
 
-$gradient-start-alpha: rgba(222, 238, 190,0.2);
+$gradient-start-alpha: rgba(222, 238, 190, 0.9);
 $gradient-start: #fafafa;
 $gradient-start-q: '#fafafa';
-$gradient-end-alpha: rgba(228, 228, 228, 0.6);
+$gradient-end-alpha: rgba(228, 228, 228, 0.9);
 
 .board {
   min-width: 16.5rem;
@@ -19,6 +19,11 @@ $gradient-end-alpha: rgba(228, 228, 228, 0.6);
   -moz-box-shadow: 0.25rem 0.25rem 0.5rem 0.125rem rgba(0, 0, 0, 0.15);
   box-shadow: 0.25rem 0.25rem 0.5rem 0.125rem rgba(0, 0, 0, 0.15);
 
+  background: url('../../../assets/images/background.png')
+}
+
+.board__color-layer {
+  height: 100%;
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#fafafa+0,eeeeee+100 */
   background: $gradient-start; /* Old browsers */
   background: -moz-linear-gradient(-45deg, $gradient-start-alpha 0%, $gradient-end-alpha 100%); /* FF3.6-15 */
