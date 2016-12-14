@@ -33,7 +33,7 @@ export class CarouselElementDirective {
       this.renderer.setElementStyle(this.el.nativeElement, 'position', 'absolute');
       this.renderer.setElementStyle(this.el.nativeElement, 'transition', 'transform 0.5s, left 0.5s');
     } else {
-      this.el.nativeElement.style = '';
+      this.renderer.setElementAttribute(this.el.nativeElement, 'style', null);
     }
     this.disableService.disableSubElements(!this._isTopElement && this._isActive);
   }

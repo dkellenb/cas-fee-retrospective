@@ -76,3 +76,26 @@ html .comment-segment__empty-space .icon-button__icon_add {
   height: 3rem;
 }
 
+/**
+ * FORM ELEMENTS
+ */
+
+.form .form__element{
+  margin-bottom: 0.5rem;
+}
+
+.create-session textarea {
+  height: 6rem;
+}
+
+.no_select {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Chrome/Safari/Opera */
+  -khtml-user-select: none; /* Konqueror */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+  cursor: default;
+}
+
+
