@@ -1,9 +1,9 @@
 @import '../shared.scss';
 
-$gradient-start-alpha: rgba(222, 238, 190, 0.9);
+$gradient-start-alpha: rgba(232, 240, 247, 0.5);
 $gradient-start: #fafafa;
 $gradient-start-q: '#fafafa';
-$gradient-end-alpha: rgba(228, 228, 228, 0.9);
+$gradient-end-alpha: rgba(238, 238, 238, 0.5);
 
 .board {
   min-width: 16.5rem;

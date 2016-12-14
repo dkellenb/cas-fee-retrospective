@@ -116,7 +116,7 @@ export class RetrospectiveService {
     } else {
       console.log('Force Reload of Retrospective');
     }
-    console.log('rerload Retro');
+    console.log('reload retrospective');
     return this.authHttp.get(this.createRetrospectiveIdEndpoint(retrospectiveId)).map(response => {
       this._currentRetrospective = response.json();
       this._failedRetrospectiveId = null;
