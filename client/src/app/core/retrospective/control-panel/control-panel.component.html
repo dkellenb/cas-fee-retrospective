@@ -2,7 +2,7 @@
   <div class="controlpanel_segment progressbar">
     <h3 class="controlpanel__segment-title">Steps</h3>
     <ul class="progressbar__elements">
-      <li [class.progressbar__element_active]="passedOpenState">open</li>
+      <li [class.progressbar__element_active]="passedOpenState">comment</li>
       <li [class.progressbar__element_active]="passedReviewState">review</li>
       <li [class.progressbar__element_active]="passedVoteState">vote</li>
       <li [class.progressbar__element_active]="passedClosedState">closed</li>
@@ -10,7 +10,7 @@
   </div>
   <div class="controlpanel_segment controlpanel__description">
     <h3 class="controlpanel__segment-title">Description</h3>
-    <p class="controlpanel__text"><strong>Description:</strong> {{retrospective?.description}}</p>
+    <div class="controlpanel__description-text"><rsb-linebreak-text [text]="retrospective?.description"></rsb-linebreak-text></div>
   </div>
   <div class="controlpanel_segment controlpanel__users">
     <h3 class="controlpanel__segment-title">Retrospective Session Members</h3>

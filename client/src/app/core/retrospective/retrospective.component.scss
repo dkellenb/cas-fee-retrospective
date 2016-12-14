@@ -2,7 +2,14 @@
 
 .boards-container {
   min-height: calc(100vh - 12rem);
+  height: 1px;
   width: 100%;
+}
+
+.boards-container:after {
+  clear: both;
+  font-size: 0;
+  display: table;
 }
 
 .board-grid {
@@ -17,7 +24,7 @@
   flex: 1;
   flex-basis: 18.75rem;
   padding: 0;
-  margin: 0 1rem;
+  margin: 0 1rem 1rem 1rem;
 }
 
 .board-grid__element_carousel {
