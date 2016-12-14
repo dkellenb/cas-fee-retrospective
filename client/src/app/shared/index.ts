@@ -14,3 +14,4 @@ export * from './notification-message';
 export * from './notifier';
 export * from './user-icon';
 export * from './sharedHeight';
+export * from './linebreak-text';

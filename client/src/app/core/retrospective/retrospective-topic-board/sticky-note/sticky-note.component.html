@@ -4,7 +4,7 @@
     <rsb-text-input *ngIf="showForm" [(ngModel)]="stickyNote.title" [hasError]="titleError"></rsb-text-input>
   </div>
   <div *ngIf="!covered" class="sticky-note__body">
-    <p *ngIf="!showForm" rsbDisableElement>{{stickyNote.description}}</p>
+    <rsb-linebreak-text *ngIf="!showForm" [text]="stickyNote.description"></rsb-linebreak-text>
     <p>{{voteCount}}</p>
     <rsb-text-input *ngIf="showForm" [(ngModel)]="stickyNote.description" [isTextArea]="true" [hasError]="descError"></rsb-text-input>
   </div>
