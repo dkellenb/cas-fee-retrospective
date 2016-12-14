@@ -17,7 +17,7 @@ var gulp            = require('gulp'),
 var install = require("gulp-install");
 
 
-gulp.task('client-gulpClean', function() {
+gulp.task('client-clean', function() {
     return del(__dirname + '/client/dist/')
 });
 gulp.task('client-install', function () {
@@ -87,7 +87,7 @@ gulp.task('server-ts-start', function() {
 
 gulp.task('build',
     gulpSequence(
-        ['client-gulpClean', 'server-clean'],
+        ['client-clean', 'server-clean'],
         'client-install',
         'server-install',
         'client-build',
@@ -96,7 +96,7 @@ gulp.task('build',
 );
 gulp.task('heroku-build',
     gulpSequence(
-        ['client-gulpClean', 'server-clean'],
+        ['client-clean', 'server-clean'],
         'client-install',
         'server-install',
         'client-heroku-build',
