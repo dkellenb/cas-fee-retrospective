@@ -1,15 +1,32 @@
 <div class="controlpanel">
-  <div class="controlpanel__description">
+  <div class="controlpanel_segment progressbar">
+    <h3 class="controlpanel__segment-title">Steps</h3>
+    <ul class="progressbar__elements">
+      <li [class.progressbar__element_active]="passedOpenState">open</li>
+      <li [class.progressbar__element_active]="passedReviewState">review</li>
+      <li [class.progressbar__element_active]="passedVoteState">vote</li>
+      <li [class.progressbar__element_active]="passedClosedState">closed</li>
+    </ul>
+  </div>
+  <div class="controlpanel_segment controlpanel__description">
     <h3 class="controlpanel__segment-title">Description</h3>
-    <p class="controlpanel__text"><strong>Retrospective Status:</strong> {{this.retrospective?.status}}</p>
     <p class="controlpanel__text"><strong>Description:</strong> {{retrospective?.description}}</p>
   </div>
-  <div class="controlpanel__users">
+  <div class="controlpanel_segment controlpanel__users">
     <h3 class="controlpanel__segment-title">Retrospective Session Members</h3>
     <div class="gallery gallery__elements">
       <div class="gallery__element" *ngFor="let user of users">
         <rsb-user-icon [user]="user"></rsb-user-icon>
       </div>
+    </div>
+  </div>
+  <div *ngIf="hasManagerRole" class="controlpanel_segment add-user">
+    <h3 class="controlpanel__segment-title">Add Users to Retro</h3>
+    <div class="add-user__qrcode" (click)="toggleQrSize()">
+      <!--Size can't be changed so this is a work around for 2-->
+      <qr-code *ngIf="largeQr" [data]="currendRoute" [size]="500"></qr-code>
+      <qr-code *ngIf="!largeQr" [data]="currendRoute" [size]="150"></qr-code>
+      <p>Alternative copy URL from browser and send it to user for joining.</p>
     </div>
   </div>
 </div>
