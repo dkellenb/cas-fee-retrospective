@@ -1,4 +1,5 @@
 import {Component, OnInit, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {isUndefined} from 'util';
 
 @Component({
   selector: 'rsb-linebreak-text',
@@ -24,6 +25,7 @@ export class LinebreakTextComponent implements OnInit, OnChanges {
   private updateLinesText(newText: string): void {
     if (newText == null) {
       this.textLines = [];
+      return;
     }
 
     this.textLines = newText.split(/[\n\r]/g).filter((line: string) => {
@@ -34,5 +36,4 @@ export class LinebreakTextComponent implements OnInit, OnChanges {
 
   ngOnInit() {
   }
-
 }
