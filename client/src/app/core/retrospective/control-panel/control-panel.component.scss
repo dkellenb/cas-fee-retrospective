@@ -55,12 +55,12 @@
   color: #7d7d7d;
 }
 .progressbar__elements li:before {
+  font-family: FontAwesome, serif;
+  font-size: 1.125rem;
   width: 1.875rem;
   height: 1.875rem;
-  content: counter(step);
-  counter-increment: step;
   line-height: 1.875rem;
-  border: 0.125rem solid #7d7d7d;
+  border: 0.1875rem solid #7d7d7d;
   display: block;
   text-align: center;
   margin: 0 auto 0.625rem auto;
@@ -71,11 +71,11 @@
 }
 .progressbar__elements li:after {
   width: 100%;
-  height: 0.125rem;
+  height: 0.1875rem;
   content: '';
   position: absolute;
   background-color: #7d7d7d;
-  top: 0.9375rem;
+  top: 1rem;
   left: calc(-50% + 0.9375rem);
   z-index: -1;
 }
@@ -88,6 +88,22 @@
 .progressbar__elements li.progressbar__element_active:before {
   border-color: #55b776;
 }
-.progressbar__elements li.progressbar__element_active + li:after {
+.progressbar__elements li.progressbar__element_active:after{
   background-color: #55b776;
+}
+
+.progressbar__element_comment:before{
+  content: '\f249'
+}
+
+.progressbar__element_review:before{
+  content: '\f086'
+}
+
+.progressbar__element_vote:before{
+  content: '\f164'
+}
+
+.progressbar__element_closed:before{
+  content: '\f06e'
 }
