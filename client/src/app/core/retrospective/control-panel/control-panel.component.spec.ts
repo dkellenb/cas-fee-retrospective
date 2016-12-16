@@ -1,9 +1,14 @@
 /* tslint:disable:no-unused-variable */
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {By} from '@angular/platform-browser';
+import {DebugElement} from '@angular/core';
 
-import { ControlPanelComponent } from './control-panel.component';
+import {ControlPanelComponent} from './control-panel.component';
+import {LinebreakTextComponent} from '../../../shared/linebreak-text/linebreak-text.component';
+import {UserIconComponent} from '../../../shared/user-icon/user-icon.component';
+import {QRCodeComponent} from 'angular2-qrcode/angular2-qrcode';
+import {RetrospectiveService} from '../../services/retrospective.service';
+import {StubRetrospectiveService} from '../../services/retrospective.service.spec';
 
 describe('ControlPanelComponent', () => {
   let component: ControlPanelComponent;
@@ -11,9 +16,17 @@ describe('ControlPanelComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ControlPanelComponent ]
+      declarations: [
+        ControlPanelComponent,
+        LinebreakTextComponent,
+        UserIconComponent,
+        QRCodeComponent
+      ],
+      providers: [
+        {provide: RetrospectiveService, useClass: StubRetrospectiveService}
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {

@@ -15,3 +15,4 @@ export * from './notifier';
 export * from './user-icon';
 export * from './sharedHeight';
 export * from './linebreak-text';
+export * from './text-input';

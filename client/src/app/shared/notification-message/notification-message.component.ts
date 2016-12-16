@@ -19,19 +19,19 @@ export class NotificationMessageComponent implements OnInit {
   }
 
   public get isError(): boolean {
-    return NotificationMessageType.ERROR === this.message.type;
+    return this.message != null && NotificationMessageType.ERROR === this.message.type;
   }
 
   public get isWarning(): boolean {
-    return NotificationMessageType.WARNING === this.message.type;
+    return this.message != null && NotificationMessageType.WARNING === this.message.type;
   }
 
   public get isInfo(): boolean {
-    return NotificationMessageType.INFO === this.message.type;
+    return this.message != null && NotificationMessageType.INFO === this.message.type;
   }
 
   public get isSuccess(): boolean {
-    return NotificationMessageType.SUCCESS === this.message.type;
+    return this.message != null && NotificationMessageType.SUCCESS === this.message.type;
   }
 
   public get modifierClass() {
