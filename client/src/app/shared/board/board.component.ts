@@ -44,7 +44,7 @@ export class BoardComponent implements OnInit, OnChanges {
   private isOpen: boolean = true;
 
   @Input()
-  private isCollapsible = false;
+  private isCollapsible: boolean = false;
 
   // noinspection TsLint used in template
   @Input()
