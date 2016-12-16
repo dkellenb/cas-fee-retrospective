@@ -14,7 +14,7 @@ We build our own component lib for this Project.
 * User-Status
 
 ###Complex Components
-* Board
+* Board [rsb-board](../board)
 * Header-Bar
 * Form
 * Carousel
