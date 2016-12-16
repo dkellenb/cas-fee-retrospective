@@ -131,7 +131,7 @@ export class StickyNoteComponent implements OnInit {
 
     if (this.titleError || this.descError) {
       this.validationErrorMessage = new NotificationMessage(NotificationMessageType.WARNING,
-        'There are missing infomration for this sticky-note');
+        'There are missing information for this sticky-note');
       this.notificationService.pushNextMessage(this.validationErrorMessage);
       return false;
     }
