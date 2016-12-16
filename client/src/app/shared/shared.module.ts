@@ -16,7 +16,6 @@ import {SplitBarComponent, SplitBarContainerRightDirective, SplitBarContainerLef
 import {HeaderBarComponent, HeaderBarTitleDirective, HeaderBarMenuDirective} from './header-bar';
 import {TextInputComponent} from './text-input';
 import {ButtonSetComponent, ButtonSetElementDirective} from './button-set';
-import {ButtonSetTextComponent} from './button-set-text';
 import {FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective} from './form';
 import {ConfigurationService, AuthenticationService, ScreenSizeService} from './services';
 import {CarouselModule} from './carousel';
@@ -34,7 +33,7 @@ import { LinebreakTextComponent } from './linebreak-text/linebreak-text.componen
     SplitBarComponent, SplitBarContainerLeftDirective, SplitBarContainerRightDirective,
     HeaderBarComponent, HeaderBarTitleDirective, HeaderBarMenuDirective,
     TextInputComponent,
-    ButtonSetComponent, ButtonSetElementDirective, ButtonSetTextComponent, ButtonSetTextComponent,
+    ButtonSetComponent, ButtonSetElementDirective,
     FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective,
     UserStatusComponent,
     NotificationMessageComponent,
@@ -48,7 +47,7 @@ import { LinebreakTextComponent } from './linebreak-text/linebreak-text.componen
     IconButtonComponent,
     HeaderBarComponent, HeaderBarTitleDirective, HeaderBarMenuDirective,
     TextInputComponent,
-    ButtonSetComponent, ButtonSetElementDirective, ButtonSetTextComponent,
+    ButtonSetComponent, ButtonSetElementDirective,
     FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective
     , CarouselModule,
     UserStatusComponent,
