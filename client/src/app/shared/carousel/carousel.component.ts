@@ -12,6 +12,8 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
 
   private topElement: number = 0;
 
+  // witch which
+
   private carouselElementHasBeenClicked$: Subject<number> = new Subject<number>();
 
   @ContentChildren(CarouselElementDirective)
@@ -23,6 +25,7 @@ export class CarouselComponent implements OnInit, AfterViewInit, OnChanges {
   @Input()
   private carouselActive: boolean = true;
 
+  // noinspection JSUnusedLocalSymbols
   @Input()
   private fixedNavButtons: boolean = false;
 
