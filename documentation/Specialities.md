@@ -24,8 +24,13 @@ This page is intended to show what we learned and have built in into this applic
   - Websocket with different 'rooms'
 - Client
   - Create a complete own [component lib](../client/src/app/shared). No use of external libs like matirial
-  - Create a fully functional carousel component
-  - Create a way to send notification messges from anywhere in the application by a service.
+  - Create a fully functional [carousel](../client/src/app/shared/carousel) component
+  - Create a way to send [notification messges](../client/src/app/shared/notifier) from anywhere in the application by a service.
+  - All components has their own css. Just a minimum set of global styles.
+  - Used Scss.
+  - Add a protector e2e test
+  - Made Tests with the MockBackand and the TestBed (retrospective.service.spec.ts)
+  - Used Bem for the styles.
 - Server side implementation:
   - Express server
   - Using injection based framework ([https://github.com/inversify/inversify-express-utils](inversify-express-utils))

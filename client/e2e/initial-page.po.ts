@@ -1,5 +1,4 @@
 import {browser, element, by, protractor} from 'protractor';
-import {RetrospectivePage} from './retrospective-page.po';
 
 export class InitialPage {
   public joinRetroKeyInput = element(by.id('joinSessionKey'));
@@ -18,7 +17,7 @@ export class InitialPage {
     browser.executeScript('window.localStorage.clear();');
   }
 
-  public createRetrospective(title: string, description: string, shortName: string): RetrospectivePage {
+  public createRetrospective(title: string, description: string, shortName: string) {
     this.createRetroTitleInput.sendKeys(title);
     this.createDescriptionInput.sendKeys(description);
     this.createShortNameInput.sendKeys(shortName);
