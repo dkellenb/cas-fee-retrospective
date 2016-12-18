@@ -4,13 +4,13 @@ import {NotificationMessageType} from './notification-message-type';
 
 @Component({
   selector: 'rsb-notification-message',
-  templateUrl: './notification-message.component.html',
+  templateUrl: 'notification-message.component.html',
   styleUrls: ['notification-message.component.scss']
 })
 export class NotificationMessageComponent implements OnInit {
 
   @Input()
-  public message: NotificationMessage;
+  public message: NotificationMessage = null;
 
   constructor() {
   }

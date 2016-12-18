@@ -20,13 +20,14 @@ import {FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDir
 import {ConfigurationService, AuthenticationService, ScreenSizeService} from './services';
 import {CarouselModule} from './carousel';
 import {UserStatusComponent} from './user-status';
-import {NotificationMessageComponent} from './notification-message/notification-message.component';
+import {NotificationMessageComponent} from './notifier/notification-message/notification-message.component';
 import {NotifierComponent} from './notifier/notifier.component';
 import {UserIconComponent} from './user-icon/user-icon.component';
 import {BoardFooterDirective} from './board/board.component';
 import {SharedHeightDirective} from './sharedHeight/shared-height.directive';
 import {LinebreakTextComponent} from './linebreak-text/linebreak-text.component';
 import {DisableElementDirective} from './disable-element/disable-element.directive';
+import {NotifierModule} from './notifier/notifier.module';
 
 @NgModule({
   declarations: [BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective, BoardFooterDirective,
@@ -37,12 +38,10 @@ import {DisableElementDirective} from './disable-element/disable-element.directi
     ButtonSetComponent, ButtonSetElementDirective,
     FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective,
     UserStatusComponent,
-    NotificationMessageComponent,
-    NotifierComponent,
     UserIconComponent,
     SharedHeightDirective,
     LinebreakTextComponent, DisableElementDirective],
-  imports: [CommonModule, HttpModule, RouterModule, FormsModule, CarouselModule],
+  imports: [CommonModule, HttpModule, RouterModule, FormsModule, CarouselModule, NotifierModule],
   exports: [CommonModule, HttpModule, RouterModule, FormsModule,
     BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective, BoardFooterDirective,
     IconButtonComponent,
@@ -53,7 +52,7 @@ import {DisableElementDirective} from './disable-element/disable-element.directi
     , CarouselModule,
     UserStatusComponent,
     SplitBarComponent, SplitBarContainerLeftDirective, SplitBarContainerRightDirective,
-    NotificationMessageComponent, NotifierComponent,
+    NotifierModule,
     UserIconComponent, SharedHeightDirective, LinebreakTextComponent, DisableElementDirective
   ],
   providers: [

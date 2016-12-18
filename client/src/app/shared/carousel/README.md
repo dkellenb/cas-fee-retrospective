@@ -2,10 +2,9 @@
 Create a carousel for any childnodes with the rsbCarouselElement. Ideal is to have elements the same size. (is not necessary but looks better)
 The carousel can be navigated with the two arrow buttons on the side or by clicking on a element in the back.
 If there is just one element the navigation will not be present.
-Elements in the back will be disabled or set to not selectable if marked with the attribute directive rsbDisableElement.
+Elements in the back will be disabled or set to not selectable if marked with the attribute directive [rsbDisableElement](../disable-element).
 
 ##Inputfields
-
 | Parameter       | Type    | Default | Description                                                                                                                                       |
 |-----------------|---------|---------|---------------------------------------------------------------------------------------------------------------------------------------------------|
 | range           | number  | 25      | Define the range in % witch will be used for the left and right side to stack the elements in the back                                            |
@@ -17,7 +16,6 @@ The Carousel has 3 elements
 * rsb-carousel -> create the main element for the carousel.
 * rsbCarouselElement -> the carousel main component is looking for this attribute directive and will order them in the carousel view.
 * [rsbDisableElement](../disable-element) -> this attribute directive will label all elements that should not be active if a rsbCarouselElement is not the front element.
-
 
 ##Examples
 ### Simple carousel

@@ -1,5 +1,5 @@
 import {Injectable, OnDestroy} from '@angular/core';
-import {NotificationMessage} from '../notification-message/notification-message';
+import {NotificationMessage} from './notification-message/notification-message';
 import {Subject} from 'rxjs';
 
 @Injectable()

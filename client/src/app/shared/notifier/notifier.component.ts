@@ -1,5 +1,5 @@
 import {Component, OnInit, transition, style, animate, trigger} from '@angular/core';
-import {NotificationMessage} from '../notification-message/notification-message';
+import {NotificationMessage} from './notification-message/notification-message';
 import {NotifierService} from './notifier.service';
 
 @Component({

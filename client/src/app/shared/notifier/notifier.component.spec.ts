@@ -4,7 +4,7 @@ import {By} from '@angular/platform-browser';
 import {DebugElement} from '@angular/core';
 
 import {NotifierComponent} from './notifier.component';
-import {NotificationMessageComponent} from '../notification-message/notification-message.component';
+import {NotificationMessageComponent} from './notification-message/notification-message.component';
 import {NotifierService} from './notifier.service';
 
 describe('NotifierComponent', () => {
