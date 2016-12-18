@@ -1,7 +1,8 @@
 {
   "port": 3000,
   "hostname": "http://localhost",
-  "allow_origin_host_name": "http://localhost:4200",
+  "allow_origin_host_name": "http://localhost:3000",
+  // development: "allow_origin_host_name": "http://localhost:4200",
 
   "mongodbUrl": "mongodb://<dbuser>:<dbpassword>@ds033976.mlab.com:33976/cas-fee-retrospective",
 

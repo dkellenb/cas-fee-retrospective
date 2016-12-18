@@ -3,7 +3,7 @@ import {
   OnChanges, ViewChild, AfterViewInit
 } from '@angular/core';
 import {IconButtonType} from '../icon-button';
-import {NotifierService} from '../notifier/notifier.service';
+import {NotifierService} from '../notifier/services/notifier.service';
 
 @Component({
   selector: 'rsb-board',
@@ -44,7 +44,7 @@ export class BoardComponent implements OnInit, OnChanges {
   private isOpen: boolean = true;
 
   @Input()
-  private isCollapsible = false;
+  private isCollapsible: boolean = false;
 
   // noinspection TsLint used in template
   @Input()

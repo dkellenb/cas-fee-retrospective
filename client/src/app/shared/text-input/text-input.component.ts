@@ -1,5 +1,6 @@
 import {Component, OnInit, Input, forwardRef} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
+import {UUID} from '../util/UUID';
 
 export const TEXT_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -30,7 +31,7 @@ export class TextInputComponent implements OnInit, ControlValueAccessor {
   public isRequierd: boolean = false;
 
   @Input()
-  public hasError: boolean = false;
+  public hideLabel: boolean = false;
 
   private _value: string;
   private _onTouchedCallback;
@@ -40,13 +41,12 @@ export class TextInputComponent implements OnInit, ControlValueAccessor {
   }
 
   ngOnInit() {
-    if (this.labelText === null) {
+    if (this.labelText == null) {
       console.error('No Lable for TextInputComponent');
       this.inputErrorMessage = 'No Lable for TextInputComponent';
     }
-    if (this.id === null) {
-      console.error('No ID for TextInputComponent Lable->' + this.labelText);
-      this.inputErrorMessage = 'No ID for TextInputComponent';
+    if (this.id == null) {
+      this.id = 'text-input__' + new UUID();
     }
   }
 

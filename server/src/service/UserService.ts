@@ -8,9 +8,18 @@ import { UserJwtService } from './UserJwtService';
 import { IPersistedUser, PersistedUser, UserToken, User } from '../repository/model/UserDbModel';
 import { PublicUser, UserJwt } from './model/User';
 
+/**
+ * Business logic for user related actions.
+ */
 @injectable()
 export class UserService {
 
+  /**
+   * Converts a user object to contain only public available fields.
+   *
+   * @param persistedUser the persisted user
+   * @returns {PublicUser} the public user
+   */
   static convertUserToPublicUser(persistedUser: IPersistedUser): PublicUser {
     let publicUser = new PublicUser();
     publicUser.uuid = persistedUser.uuid;
@@ -19,6 +28,12 @@ export class UserService {
     return publicUser;
   }
 
+  /**
+   * Converts a persisted user to a business object user.
+   *
+   * @param persistedUser persisted user
+   * @returns {User} the business object user
+   */
   static convertUserToIUser(persistedUser: IPersistedUser): IUser {
     let user = new User();
     user.uuid = persistedUser.uuid;
@@ -28,6 +43,12 @@ export class UserService {
     return user;
   }
 
+  /**
+   * C'tor with dependencies injected.
+   *
+   * @param userRepository user repository.
+   * @param userJwtService jwt service.
+   */
   constructor(
     @inject(TYPES.UserRepository) private userRepository: UserRepository,
     @inject(TYPES.UserJwtService) private userJwtService: UserJwtService
@@ -35,9 +56,13 @@ export class UserService {
 
   }
 
+  /**
+   * Based on a create request from the client create a new user.
+   *
+   * @param createUser the new user to be created
+   * @returns {Promise<IPersistedUser>} the persisted user
+   */
   public createUser(createUser: CreateUserJSON): Promise<IPersistedUser> {
-    console.log('UserService#createUser');
-
     // create user
     let user = new PersistedUser();
     user.uuid = new UUID().toString();
@@ -59,13 +84,18 @@ export class UserService {
         } else if (!data) {
           reject('User could not be created');
         } else {
-          console.log('UserService#createUser@promise');
           resolve(data);
         }
       });
     });
   }
 
+  /**
+   * Based on a request, get the user encoded with JWT.
+   *
+   * @param request the HTTP request
+   * @returns {Promise<IUser>} decoded user
+   */
   public getJwtUser(request: Request): Promise<IUser> {
     return new Promise<IUser>((resolve, reject) => {
       let jwtUser = this.userJwtService.getJwtUser(request);
@@ -84,6 +114,13 @@ export class UserService {
     });
   }
 
+  /**
+   * For a given user and token id, create a JWT.
+   *
+   * @param userUuid id of the user
+   * @param jwtUuid id of the token to generate a JWT.
+   * @returns {Promise<string>} the JWT
+   */
   public getJwt(userUuid: string, jwtUuid: string): Promise<string> {
     return new Promise<string>((resolve, reject) => {
       this.userRepository.findByUuid(userUuid, (error, user) => {
@@ -94,7 +131,6 @@ export class UserService {
         } else {
           let singleToken = (user.tokens || []).find(t => t.uuid === jwtUuid);
           if (singleToken !== null) {
-            console.log('Token found: ' + JSON.stringify(singleToken));
             let jwtUser = UserJwt.create(user, singleToken);
             resolve(this.userJwtService.createJwt(jwtUser));
           } else {
@@ -105,15 +141,20 @@ export class UserService {
     });
   }
 
+  /**
+   * Returns all users of the system. Note that this method can only be executed
+   * by administrators.
+   *
+   * @param currentUser the current user (needed for authentication)
+   * @returns {Promise<IUser[]>} all users
+   */
   public getAllUsers(currentUser: User): Promise<IUser[]> {
     return new Promise<IUser[]>((resolve, reject) => {
       if (currentUser.systemRole !== UserRole.ADMIN) {
-        console.log('User ' + currentUser.shortName + ' is not allowed to fetch all users from the system');
-        throw new InvalidAccess('You are not allowed to fetch all users from the system');
+        throw new InvalidAccess(`You "${currentUser.shortName}" are not allowed to fetch all users from the system`);
       } else {
         this.userRepository.retrieve((error, users) => {
           if (error) {
-            console.log(error);
             reject(error);
           } else if (!users) {
             reject('No users found');
@@ -125,20 +166,13 @@ export class UserService {
     });
   }
 
-  public getPublicUsers(userUuids: string[]): Promise<PublicUser[]> {
-    return new Promise<PublicUser[]>((resolve, reject) => {
-      this.userRepository.findByUuids(userUuids, (error, users) => {
-        if (error) {
-          reject(error);
-        } else if (!users) {
-          reject('No users found');
-        } else {
-          resolve(users.map(u => UserService.convertUserToPublicUser(u)));
-        }
-      });
-    });
-  }
-
+  /**
+   * For the given user id, return the details.
+   *
+   * @param currentUser for authentication if needed
+   * @param userUuid user id
+   * @returns {Promise<PublicUser>} user details
+   */
   public getPublicUser(currentUser: User, userUuid: string): Promise<PublicUser> {
     return new Promise<PublicUser>((resolve, reject) => {
       this.userRepository.findByUuid(userUuid, (error, user) => {
@@ -153,6 +187,14 @@ export class UserService {
     });
   }
 
+  /**
+   * Updates a user.
+   *
+   * @param currentUser current user (for authentication)
+   * @param userUuid the user to be updated
+   * @param updateUser update fields
+   * @returns {Promise<PublicUser>} the updated user
+   */
   public updateUser(currentUser: User, userUuid: string, updateUser: UpdateUserJSON): Promise<PublicUser> {
     return new Promise<PublicUser>((resolve, reject) => {
       this.userRepository.findByUuid(userUuid, (error, user) => {
@@ -173,6 +215,13 @@ export class UserService {
     });
   }
 
+  /**
+   * Deletion of a user. Note that this action can only be performed by an Administrator.
+   *
+   * @param currentUser the current user (needed for authorization)
+   * @param userUuid the user to be deleted
+   * @returns {Promise<void>}
+   */
   public deleteUser(currentUser: User, userUuid: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       if (currentUser.uuid === userUuid || currentUser.systemRole === UserRole.ADMIN) {

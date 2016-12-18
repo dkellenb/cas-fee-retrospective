@@ -1,5 +1,4 @@
 import {Component, OnInit, Input, OnChanges, SimpleChanges} from '@angular/core';
-import {isUndefined} from 'util';
 
 @Component({
   selector: 'rsb-linebreak-text',

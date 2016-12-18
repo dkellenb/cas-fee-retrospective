@@ -6,6 +6,7 @@ This page is intended to show what we learned and have built in into this applic
 1. Write UCs (see [Use Cases](UseCases.md))
 1. Created mockups (see [Mockup](mockup/page/index.html))
 1. Created components (non angular) based on mockups (see [Live Components](mockup/live/index.html))
+1. Create a own angular 2 component library with full documentation [rsb-lib](../client/src/app/shared)
 1. Analyzed which technology shall be used
 1. Defined how a RestAPI should look like (see [Rest API](RestAPI.md))
 1. Parallel developed server / client

@@ -1,12 +1,23 @@
 <div class="sticky-note" [ngClass]="{'sticky-note__content_covered': covered}">
   <div *ngIf="!covered" class="sticky-note__header">
     <h3 *ngIf="!showForm" class="title title__content_third" rsbDisableElement>{{stickyNote.title}}</h3>
-    <rsb-text-input *ngIf="showForm" [(ngModel)]="stickyNote.title" [hasError]="titleError"></rsb-text-input>
+    <rsb-text-input *ngIf="showForm"
+                    [labelText]="'Sticky-Note Title'"
+                    [isRequierd]="true"
+                    [(ngModel)]="stickyNote.title"
+                    [hideLabel]="true"
+                    [inputErrorMessage]="titleError"></rsb-text-input>
   </div>
   <div *ngIf="!covered" class="sticky-note__body">
     <rsb-linebreak-text *ngIf="!showForm" [text]="stickyNote.description"></rsb-linebreak-text>
     <p>{{voteCount}}</p>
-    <rsb-text-input *ngIf="showForm" [(ngModel)]="stickyNote.description" [isTextArea]="true" [hasError]="descError"></rsb-text-input>
+    <rsb-text-input *ngIf="showForm"
+                    [labelText]="'Sticky-Note Description'"
+                    [isRequierd]="true"
+                    [(ngModel)]="stickyNote.description"
+                    [isTextArea]="true"
+                    [hideLabel]="true"
+                    [inputErrorMessage]="descError"></rsb-text-input>
   </div>
   <div *ngIf="!covered" class="sticky-note__footer">
     <rsb-split-bar>
@@ -15,7 +26,8 @@
       </rsb-split-bar-container-left>
       <rsb-split-bar-container-right>
         <rsb-button-set *ngIf="!isClosedMode">
-          <rsb-icon-button *ngIf="isVoteMode" [buttonType]="iconButtonType.VOTE" [activated]="hasActiveVote" (click)="vote()" (touch)="vote()"></rsb-icon-button>
+          <rsb-icon-button *ngIf="isVoteMode" [buttonType]="iconButtonType.VOTE" [activated]="hasActiveVote" (click)="vote()"
+                           (touch)="vote()"></rsb-icon-button>
           <rsb-icon-button *ngIf="showForm" [buttonType]="iconButtonType.CHECK_MARK" (click)="saveStickyNote()" (touch)="saveStickyNote()"></rsb-icon-button>
           <rsb-icon-button *ngIf="showForm" [buttonType]="iconButtonType.ABOARD" (click)="aboardEdit()" (touch)="aboardEdit()"></rsb-icon-button>
           <rsb-icon-button *ngIf="showEditButton" [buttonType]="iconButtonType.EDIT" (click)="enterEditMode()" (touch)="enterEditMode()"></rsb-icon-button>

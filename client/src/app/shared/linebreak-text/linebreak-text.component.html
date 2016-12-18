@@ -1,1 +1,1 @@
-<p><ng-container *ngFor="let textLine of textLines">{{textLine}}<br/></ng-container></p>
+<p><ng-container *ngFor="let textLine of textLines; let last = last">{{textLine}}<br *ngIf="!last"/></ng-container></p>

@@ -19,9 +19,9 @@ export class UserIconComponent implements OnInit {
 
   public get modifierClass() {
     return {
-      'user__icon_user': this.user.role === UserRole.USER,
-      'user__icon_manager': this.user.role === UserRole.MANAGER,
-      'user__icon_admin': this.user.role === UserRole.ADMIN
+      'user__icon_user': this.user != null && this.user.role === UserRole.USER,
+      'user__icon_manager': this.user != null && this.user.role === UserRole.MANAGER,
+      'user__icon_admin': this.user != null && this.user.role === UserRole.ADMIN
     };
   }
 }

@@ -8,8 +8,8 @@ import { DisableElementDirective } from '../disable-element/disable-element.dire
   imports: [
     CommonModule
   ],
-  declarations: [CarouselComponent, CarouselElementDirective, DisableElementDirective],
-  exports: [CarouselComponent, CarouselElementDirective, DisableElementDirective]
+  declarations: [CarouselComponent, CarouselElementDirective],
+  exports: [CarouselComponent, CarouselElementDirective]
 })
 export class CarouselModule {
 }
