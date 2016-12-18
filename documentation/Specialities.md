@@ -12,6 +12,7 @@ This page is intended to show what we learned and have built in into this applic
 1. Parallel developed server / client
 1. TODO User testing (see [User testing](UserTesting.md))
 1. Deployed on Heroku (see https://cas-fee-retrospective.herokuapp.com/)
+1. Made a [Usability-Test](Usability-Test-Findings.md)
 
 ## Built in
 - General
@@ -22,8 +23,9 @@ This page is intended to show what we learned and have built in into this applic
     - Shared domain model
   - Websocket with different 'rooms'
 - Client
-  - Lazy loading of debug module (see `client/src/app/+debug`)
-  - ...
+  - Create a complete own [component lib](../client/src/app/shared). No use of external libs like matirial
+  - Create a fully functional carousel component
+  - Create a way to send notification messges from anywhere in the application by a service.
 - Server side implementation:
   - Express server
   - Using injection based framework ([https://github.com/inversify/inversify-express-utils](inversify-express-utils))
