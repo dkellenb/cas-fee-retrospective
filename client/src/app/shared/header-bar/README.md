@@ -5,7 +5,8 @@ Create a header bar container. Show the user status at the far right.
 there are no inputfields
 
 ##Structure
-The form component has 4 elements
+The form component has 3 elements
+
 * rsb-header-bar
 * rsb-header-bar-title
 * rsb-header-bar-menu
