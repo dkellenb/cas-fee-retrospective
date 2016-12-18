@@ -56,4 +56,8 @@ export class AbstractRepository<T extends mongoose.Document> {
     this._model.find(callback);
   }
 
+  save(object: T, callback: (error: any, result: T) => void) {
+    object.save(callback);
+  }
+
 }

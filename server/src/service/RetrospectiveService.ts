@@ -1,8 +1,8 @@
 import { injectable, inject } from 'inversify';
-import { CreateRetrospectiveJSON, IUser } from '../../../client/src/app/shared/model/';
 import TYPES from '../constant/types';
 import {UserRepository, RetrospectiveRepository, RetrospectiveDbModel} from '../repository/';
 import {
+  CreateRetrospectiveJSON, IUser,
   RetrospectiveStatus, UpdateRetrospectiveJSON, IBasicRetrospective,
   CreateCommentJSON, UpdateCommentJSON, ChangeStatusJSON, UserRole
 } from '../../../client/src/app/shared/model/';
@@ -21,6 +21,62 @@ import {WebSocketService} from './WebSocketService';
 @injectable()
 export class RetrospectiveService {
 
+  /**
+   * Checks if a user can modify a retrospective.
+   *
+   * @param persistedRetrospective the retrospective
+   * @param persistedUser the user
+   * @returns {boolean} {@code true} if allowed
+   */
+  static canModifyRetrospective(persistedRetrospective: IPersistedRetrospectiveDbModel, persistedUser: IUserDbModel): boolean {
+    return persistedRetrospective.manager.equals(persistedUser._id) || persistedUser.systemRole === UserRole.ADMIN;
+  }
+
+  /**
+   * Checks if a user can create a comment.
+   *
+   * @param persistedRetrospective the retrospective
+   * @param persistedUser the user
+   * @returns {boolean} {@code true} if allowed
+   */
+  static canCreateComment(persistedRetrospective: IPersistedRetrospectiveDbModel, persistedUser: IUserDbModel): boolean {
+    return persistedRetrospective.status === RetrospectiveStatus.OPEN
+      || RetrospectiveService.canModifyRetrospective(persistedRetrospective, persistedUser);
+  }
+
+  /**
+   * Checks if a user can update the given comment
+   *
+   * @param persistedRetrospective the retrospective
+   * @param persistedUser the user
+   * @param persistedComment the comment which should be updated
+   * @returns {boolean} {@code true} if allowed
+   */
+  static canUpdateComment(persistedRetrospective: IPersistedRetrospectiveDbModel, persistedUser: IUserDbModel,
+                          persistedComment: IPersistedRetrospectiveComment): boolean {
+    return (persistedRetrospective.status === RetrospectiveStatus.OPEN && persistedComment.author.equals(persistedUser._id))
+      || RetrospectiveService.canModifyRetrospective(persistedRetrospective, persistedUser);
+  }
+
+  /**
+   * Checks if a user can vote on a given comment
+   *
+   * @param persistedRetrospective the retrospective
+   * @param persistedUser the user
+   * @returns {boolean} {@code true} if allowed
+   */
+  static canVote(persistedRetrospective: IPersistedRetrospectiveDbModel, persistedUser: IUserDbModel): boolean {
+    return persistedRetrospective.status === RetrospectiveStatus.VOTE
+      || RetrospectiveService.canModifyRetrospective(persistedRetrospective, persistedUser);
+  }
+
+  /**
+   * C'tor with all dependencies (typically injected).
+   *
+   * @param userRepository the user repository
+   * @param retrospectiveRepository the retrospective repository
+   * @param webSocketService web socket service
+   */
   constructor(
     @inject(TYPES.UserRepository) private userRepository: UserRepository,
     @inject(TYPES.RetrospectiveRepository) private retrospectiveRepository: RetrospectiveRepository,
@@ -29,25 +85,13 @@ export class RetrospectiveService {
 
   }
 
-  private canModifyRetrospective(persistedRetrospective: IPersistedRetrospectiveDbModel, persistedUser: IUserDbModel): boolean {
-    return persistedRetrospective.manager.equals(persistedUser._id) || persistedUser.systemRole === UserRole.ADMIN;
-  }
-
-  private canCreateComment(persistedRetrospective: IPersistedRetrospectiveDbModel, persistedUser: IUserDbModel): boolean {
-    return persistedRetrospective.status === RetrospectiveStatus.OPEN
-      || this.canModifyRetrospective(persistedRetrospective, persistedUser);
-  }
-
-  private canUpdateComment(persistedRetrospective: IPersistedRetrospectiveDbModel, persistedUser: IUserDbModel, persistedComment: IPersistedRetrospectiveComment): boolean {
-    return (persistedRetrospective.status === RetrospectiveStatus.OPEN && persistedComment.author.equals(persistedUser._id))
-      || this.canModifyRetrospective(persistedRetrospective, persistedUser);
-  }
-
-  private canVote(persistedRetrospective: IPersistedRetrospectiveDbModel, persistedUser: IUserDbModel): boolean {
-    return persistedRetrospective.status === RetrospectiveStatus.VOTE
-      || this.canModifyRetrospective(persistedRetrospective, persistedUser);
-  }
-
+  /**
+   * Retrieves all retrospective. At the moment only available to admin. Easily extendible to see all retrospectives
+   * a user can see (e.g. everywhere where he is a participant.
+   *
+   * @param currentUser the current user
+   * @returns {Promise<IPersistedRetrospectiveDbModel>} all retrospectives (a user can see)
+   */
   public getRetrospectives(currentUser: IUser): Promise<IBasicRetrospective<RetrospectiveUser>[]> {
     return new Promise<IPersistedRetrospectiveDbModel>((resolve, reject) => {
       if (currentUser.systemRole !== UserRole.ADMIN) {
@@ -64,6 +108,12 @@ export class RetrospectiveService {
     });
   }
 
+  /**
+   * Retrieves a single retrospective. Note: Is not secured.
+   *
+   * @param uuid retrospective to see.
+   * @returns {Promise<PublicRetrospective>}
+   */
   public getRetrospective(uuid: string): Promise<PublicRetrospective> {
     return new Promise<PublicRetrospective>((resolve, reject) => {
       this.retrospectiveRepository.findByUuidPopulated(uuid, (error, retrospective) => {
@@ -78,6 +128,13 @@ export class RetrospectiveService {
     });
   }
 
+  /**
+   * Retrieves a a single retrospective, checks if the user is privileged to see it.
+   *
+   * @param currentUser
+   * @param uuid
+   * @returns {Promise<PublicRetrospective>}
+   */
   public getPublicRetrospectiveSecured(currentUser: IUser, uuid: string): Promise<PublicRetrospective> {
     return new Promise<PublicRetrospective>((resolve, reject) => {
       this.getRetrospective(uuid)
@@ -91,6 +148,13 @@ export class RetrospectiveService {
     });
   }
 
+  /**
+   * Creates a retrospective.
+   *
+   * @param currentUser the user (and also manager)
+   * @param createRetrospectiveJSON details of the retrospective
+   * @returns {Promise<IPersistedRetrospectiveDbModel>}
+   */
   public createRetrospective(currentUser: IUser, createRetrospectiveJSON: CreateRetrospectiveJSON):
       Promise<IPersistedRetrospectiveDbModel> {
     return new Promise<IPersistedRetrospectiveDbModel>((resolve, reject) => {
@@ -109,7 +173,7 @@ export class RetrospectiveService {
         } else {
           retrospective.attendees.push(user._id);
           retrospective.manager = user._id;
-          retrospective.save((err, createdRetrospective) => {
+          this.retrospectiveRepository.save(retrospective, (err, createdRetrospective) => {
             if (err) {
               reject(err);
             } else {
@@ -121,6 +185,14 @@ export class RetrospectiveService {
     });
   }
 
+  /**
+   * Updates a a retrospective.
+   *
+   * @param currentUser the current user
+   * @param retrospectiveId the retrospective to update
+   * @param updateRetrospective details to update
+   * @returns {Promise<IPersistedRetrospectiveDbModel>}
+   */
   public updateRetrospective(currentUser: IUser, retrospectiveId: string, updateRetrospective: UpdateRetrospectiveJSON):
        Promise<IPersistedRetrospectiveDbModel> {
     return new Promise<IPersistedRetrospectiveDbModel>((resolve, reject) => {
@@ -128,7 +200,7 @@ export class RetrospectiveService {
         if (error) {
           reject(error);
         } else {
-          if (!this.canModifyRetrospective(persistedRetrospective, persistedUser)) {
+          if (!RetrospectiveService.canModifyRetrospective(persistedRetrospective, persistedUser)) {
             reject('User "' + currentUser.uuid + '" is not allowed to edit retrospective "' + retrospectiveId + '"');
           } else {
             persistedRetrospective.name = updateRetrospective.name;
@@ -141,13 +213,20 @@ export class RetrospectiveService {
     });
   }
 
+  /**
+   * Deletion of a retrospective.
+   *
+   * @param currentUser the current user
+   * @param retrospectiveId the retrospective to be deleted
+   * @returns {Promise<void>}
+   */
   public deleteRetrospective(currentUser: IUser, retrospectiveId: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.doRetrospectiveAction(currentUser, retrospectiveId, (error, persistedRetrospective, persistedUser) => {
         if (error) {
           reject(error);
         } else {
-          if (!this.canModifyRetrospective(persistedRetrospective, persistedUser)) {
+          if (!RetrospectiveService.canModifyRetrospective(persistedRetrospective, persistedUser)) {
             reject('User "' + currentUser.uuid + '" is not allowed to edit retrospective "' + retrospectiveId + '"');
           } else {
             this.retrospectiveRepository.delete(persistedRetrospective._id, (deleteError, result) => {
@@ -163,43 +242,78 @@ export class RetrospectiveService {
     });
   }
 
+  /**
+   * Change the state of a retrospective.
+   *
+   * @param currentUser the current user
+   * @param retrospectiveId the retrospective to change
+   * @param action the action
+   * @returns {Promise<IPersistedRetrospectiveDbModel>}
+   */
   public changeStatus(currentUser: IUser, retrospectiveId: string, action: ChangeStatusJSON): Promise<IPersistedRetrospectiveDbModel> {
     return new Promise<IPersistedRetrospectiveDbModel>((resolve, reject) => {
       this.doRetrospectiveAction(currentUser, retrospectiveId, (error, persistedRetrospective, persistedUser) => {
         if (error) {
           reject(error);
         } else {
-          if (!this.canModifyRetrospective(persistedRetrospective, persistedUser)) {
+          if (!RetrospectiveService.canModifyRetrospective(persistedRetrospective, persistedUser)) {
             reject('User "' + currentUser.uuid + '" is not allowed to edit retrospective "' + retrospectiveId + '"');
           } else {
             persistedRetrospective.status = action.status;
-            persistedRetrospective.save();
-            this.webSocketService.retrospectiveStatusChanged(retrospectiveId, action.status);
-            resolve(persistedRetrospective);
+            this.retrospectiveRepository.save(persistedRetrospective, (err, result) => {
+              if (err) {
+                reject(err);
+              } else {
+                this.webSocketService.retrospectiveStatusChanged(retrospectiveId, action.status);
+                resolve(result);
+              }
+            });
           }
         }
       });
     });
   }
 
-  public getRetrospectiveUsers(currentUser: IUser, id: string): Promise<RetrospectiveUser[]> {
+  /**
+   * All users of this retrospective.
+   *
+   * @param currentUser the current user
+   * @param retrospectiveId the retrospective id
+   * @returns {Promise<RetrospectiveUser[]>}
+   */
+  public getRetrospectiveUsers(currentUser: IUser, retrospectiveId: string): Promise<RetrospectiveUser[]> {
     return new Promise<RetrospectiveUser[]>((resolve, reject) => {
-      this.getPublicRetrospectiveSecured(currentUser, id).then((retrospective) => {
+      this.getPublicRetrospectiveSecured(currentUser, retrospectiveId).then((retrospective) => {
         // as get retrospective secured return all references loaded, we can safely cast here and two lines bellow
         resolve(retrospective.attendees);
       }).catch((err) => reject(err));
     });
   }
 
-  public getRetrospectiveUser(currentUser: IUser, id: string, uuid: string): Promise<RetrospectiveUser> {
+  /**
+   * A specific retrospective user.
+   *
+   * @param currentUser the current user
+   * @param retrospectiveId the retrospective id
+   * @param uuid the user details to see
+   * @returns {Promise<RetrospectiveUser>}
+   */
+  public getRetrospectiveUser(currentUser: IUser, retrospectiveId: string, uuid: string): Promise<RetrospectiveUser> {
     return new Promise<RetrospectiveUser>((resolve, reject) => {
-      this.getPublicRetrospectiveSecured(currentUser, id).then((retrospective) => {
+      this.getPublicRetrospectiveSecured(currentUser, retrospectiveId).then((retrospective) => {
         // as get retrospective secured return all references loaded, we can safely cast here and two lines bellow
         resolve(retrospective.attendees.find((attendee) => attendee.uuid === uuid));
       }).catch((err) => reject(err));
     });
   }
 
+  /**
+   * Join of a retrospective.
+   *
+   * @param currentUser the current user
+   * @param retrospectiveId the retrospective to join
+   * @returns {Promise<IPersistedRetrospectiveDbModel>}
+   */
   public joinRetrospective(currentUser: IUser, retrospectiveId: string): Promise<IPersistedRetrospectiveDbModel> {
     return new Promise<IPersistedRetrospectiveDbModel>((resolve, reject) => {
       this.doRetrospectiveAction(currentUser, retrospectiveId, (error, persistedRetrospective, persistedUser) => {
@@ -224,6 +338,15 @@ export class RetrospectiveService {
     });
   }
 
+  /**
+   * Add a comment to a retrospective (and topic).
+   *
+   * @param currentUser the current user
+   * @param retrospectiveId the retrospective to update
+   * @param topicId the topic to which the comment should belong to
+   * @param comment the comment
+   * @returns {Promise<PersistedRetrospectiveComment>}
+   */
   public addComment(currentUser: IUser, retrospectiveId: string, topicId: string, comment: CreateCommentJSON):
       Promise<PersistedRetrospectiveComment> {
     return new Promise<PersistedRetrospectiveComment>((resolve, reject) => {
@@ -231,7 +354,7 @@ export class RetrospectiveService {
         if (error) {
           reject(error);
         } else {
-          if (!this.canCreateComment(persistedRetrospective, persistedUser)) {
+          if (!RetrospectiveService.canCreateComment(persistedRetrospective, persistedUser)) {
             reject('Not allowed to create comment. Most probably retro has changed its status.');
           } else {
             let persistedComment = new PersistedRetrospectiveComment(comment.description, comment.title, comment.anonymous);
@@ -252,6 +375,16 @@ export class RetrospectiveService {
     });
   }
 
+  /**
+   * Update of a comment.
+   *
+   * @param currentUser the current user
+   * @param retroId the retrospective to which the comment belongs to
+   * @param topicId the topic to which the comment belongs to
+   * @param commentId the comment to update
+   * @param updateComment the new comment details
+   * @returns {Promise<IPersistedRetrospectiveComment>}
+   */
   public updateComment(currentUser: IUser, retroId: string, topicId: string, commentId: string, updateComment: UpdateCommentJSON):
      Promise<IPersistedRetrospectiveComment> {
     return new Promise<IPersistedRetrospectiveComment>((resolve, reject) => {
@@ -259,7 +392,7 @@ export class RetrospectiveService {
         if (error) {
           reject(error);
         } else {
-          if (!this.canUpdateComment(pRetrospective, pUser, pComment)) {
+          if (!RetrospectiveService.canUpdateComment(pRetrospective, pUser, pComment)) {
             reject('Not allowed to update comment. Most probably retro has changed its status.');
           } else {
             pComment.title = updateComment.title || pComment.title;
@@ -274,13 +407,22 @@ export class RetrospectiveService {
     });
   }
 
+  /**
+   * Deletion of a comment.
+   *
+   * @param currentUser the current user
+   * @param retroId the retrospective to which the comment belongs to
+   * @param topicId the topic to which the comment belongs to
+   * @param commentId the id of the comment to be deleted
+   * @returns {Promise<void>}
+   */
   public deleteComment(currentUser: IUser, retroId: string, topicId: string, commentId: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.doCommentAction(currentUser, retroId, topicId, commentId, (error, pRetrospective, pTopic, pComment, pUser) => {
         if (error) {
           reject(error);
         } else {
-          if (!this.canUpdateComment(pRetrospective, pUser, pComment)) {
+          if (!RetrospectiveService.canUpdateComment(pRetrospective, pUser, pComment)) {
             reject('Not allowed to delete comment. Most probably retro has changed its status.');
           } else {
             pTopic.comments = pTopic.comments.filter((comment) => comment.uuid !== commentId);
@@ -293,6 +435,15 @@ export class RetrospectiveService {
     });
   }
 
+  /**
+   * Create a vote on a comment.
+   *
+   * @param currentUser the current user
+   * @param retroId the retrospective to which the comment belongs to
+   * @param topicId the topic to which the comment belongs to
+   * @param commentId the comment to vote on
+   * @returns {Promise<IPersistedRetrospectiveVote>}
+   */
   public createVote(currentUser: IUser, retroId: string, topicId: string, commentId: string): Promise<IPersistedRetrospectiveVote> {
     return new Promise<IPersistedRetrospectiveVote>((resolve, reject) => {
       this.doCommentAction(currentUser, retroId, topicId, commentId, (error, pRetrospective, pTopic, pComment, pUser) => {
@@ -302,7 +453,7 @@ export class RetrospectiveService {
           if (!pComment.votes || pComment.votes.findIndex((v) => v.author.equals(pUser._id)) >= 0) {
             reject('User has already voted');
           } else {
-            if (!this.canVote(pRetrospective, pUser)) {
+            if (!RetrospectiveService.canVote(pRetrospective, pUser)) {
               reject('User not allowed to vote. Most probably retro has changed its status.');
             } else {
               let newVote = new PersistedRetrospectiveVote(pUser._id);
@@ -316,6 +467,15 @@ export class RetrospectiveService {
     });
   }
 
+  /**
+   * Delete a vote.
+   *
+   * @param currentUser the current user
+   * @param retroId the retrospective id to which the comment belongs to
+   * @param topicId the topic to which the comemnt belongs to
+   * @param commentId the comment id to which the vote should be removed
+   * @returns {Promise<void>}
+   */
   public deleteVote(currentUser: IUser, retroId: string, topicId: string, commentId: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.doCommentAction(currentUser, retroId, topicId, commentId, (error, pRetrospective, pTopic, pComment, pUser) => {
@@ -330,7 +490,7 @@ export class RetrospectiveService {
             if (pComment.votes.length === lengthBefore) {
               reject('No vote from user ' + pUser.uuid + ' found');
             } else {
-              if (!this.canVote(pRetrospective, pUser)) {
+              if (!RetrospectiveService.canVote(pRetrospective, pUser)) {
                 reject('User not allowed to delete vote. Most probably retro has changed its status.');
               } else {
                 pRetrospective.save();

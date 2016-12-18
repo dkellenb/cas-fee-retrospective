@@ -1,11 +1,12 @@
+import * as TypeMoq from 'typemoq';
+import { expect } from 'chai';
+
 import {UserService, UserUnknown} from '../../src/service/UserService';
 import {UserRepository} from '../../src/repository/UserRepository';
 import {UserJwtService} from '../../src/service/UserJwtService';
-import * as TypeMoq from 'typemoq';
 import {CreateUserJSON, UserRole} from '../../../client/src/app/shared/model';
-import { expect } from 'chai';
 import {IUserJwt} from '../../src/service/model';
-import {IPersistedUser} from '../../src/repository/model/UserDbModel';
+import {IPersistedUser, IUserToken, IUserDbModel} from '../../src/repository/model/UserDbModel';
 import { Request } from 'express';
 
 describe('UserService', function() {
@@ -13,7 +14,6 @@ describe('UserService', function() {
   let userService: UserService;
   let userRepository: TypeMoq.Mock<UserRepository>;
   let userJwtService: TypeMoq.Mock<UserJwtService>;
-
 
   beforeEach(() => {
     // setup
@@ -80,7 +80,6 @@ describe('UserService', function() {
 
     let request = <Request>{};
 
-
     it('Should return JWT-based user from request', function(done) {
       // given
       userJwtService.setup(s => s.getJwtUser(TypeMoq.It.isAny())).returns(() => iUserJwt);
@@ -138,10 +137,56 @@ describe('UserService', function() {
 
   });
 
-  describe('#getJwt', function () {
-    it('Should return the JWT for a specific user', function(done) {
+  describe('#getJwt()', function() {
+    let userUuid = '123-456-user-uuid';
+    let tokenUuid = '123-456-jwt-uuid';
 
+    let token: IUserToken = <IUserToken>{};
+    token.uuid = tokenUuid;
+    token.validUntil = 1;
+
+    let persistedUser: IUserDbModel = <IUserDbModel>{};
+    persistedUser.uuid = userUuid;
+    persistedUser.tokens = [];
+    persistedUser.tokens.push(token);
+
+    it('Should return the JWT for a specific user', function(done) {
+      // given
+      userJwtService.setup(s => s.createJwt(TypeMoq.It.isAny())).returns(() => 'encoded-jwt');
+      userRepository.setup(s => s.findByUuid(TypeMoq.It.isAnyString(), TypeMoq.It.isAny())).callback((_userUuid, fncCallback) => {
+        fncCallback(null, persistedUser);
+      });
+
+      // when
+      let getJwtPromise = userService.getJwt(userUuid, tokenUuid);
+
+      // then
+      getJwtPromise.then((result) => {
+        expect(result).to.be.equals('encoded-jwt');
+        done();
+      }).catch(() => {
+        done('No exception expected');
+      });
     });
+
+    it('Should fail if user could not be found in the repository', function(done) {
+      // given
+      userRepository.setup(s => s.findByUuid(TypeMoq.It.isAnyString(), TypeMoq.It.isAny())).callback((_userUuid, fncCallback) => {
+        fncCallback(null, null);
+      });
+
+      // when
+      let getJwtPromise = userService.getJwt(userUuid, tokenUuid);
+
+      // then
+      getJwtPromise.then(() => {
+        done('No success case expected');
+      }).catch((err) => {
+        expect(err.message).to.be.equals('This user is unknown to the system.');
+        done();
+      });
+    });
+
   });
 
 });
