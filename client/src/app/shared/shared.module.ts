@@ -20,11 +20,9 @@ import {FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDir
 import {ConfigurationService, AuthenticationService, ScreenSizeService} from './services';
 import {CarouselModule} from './carousel';
 import {UserStatusComponent} from './user-status';
-import {NotificationMessageComponent} from './notifier/notification-message/notification-message.component';
-import {NotifierComponent} from './notifier/notifier.component';
 import {UserIconComponent} from './user-icon/user-icon.component';
 import {BoardFooterDirective} from './board/board.component';
-import {SharedHeightDirective} from './sharedHeight/shared-height.directive';
+import {SharedHeightDirective} from './shared-height';
 import {LinebreakTextComponent} from './linebreak-text/linebreak-text.component';
 import {DisableElementDirective} from './disable-element/disable-element.directive';
 import {NotifierModule} from './notifier/notifier.module';
