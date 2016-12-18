@@ -1,4 +1,4 @@
-#Icon Button Component
+#Text Input Component
 Create a text inputfield or textarea with label and error message if needed.
 
 ##Inputfields
@@ -10,46 +10,28 @@ Create a text inputfield or textarea with label and error message if needed.
 | isTextArea        | boolean | false   | On default there is a input of type text, if true there is a textarea instead                    |
 | isRequierd        | boolean | false   | Defines if a input is required. If true there will be added a star to the label.                 |
 | hideLabel         | boolean | false   | If true the Label and ErrorMessage will be hidden. (Still present in the dom)                    |
+| value             | string  | null    | Set the value of the field                                                                       |
 
 ##Structure
-There is no real structure to the button component. 
+There are 3 Parts for a _TextInputComponent_
 
-Imported is to understand that the button-types are saved in a extra class and can be access from there. Because of the way templates are rendered in angular 2 the _ButtonIconTypes_ class type does not be accessible per default in in the template. By adding the class to the component scope by defining a variable for the class you can access it in the template.
-```typeScript
-private iconButtonType = IconButtonType;
-```
+* Input (Input field or TextArea)
+* Label (Label for the input)
+* ErrorMessge (Also a Label but for display the ErrorMessage)
 
-###ButtonTypes
-
-####Simple Buttons
-* NONE (No Icon)
-* ADD (Plus)
-* ABOARD (X)
-* DELETE (Trashcan)
-* EDIT (Pencil)
-* CHECK_MARK (Check mark)
-* ARROW_UP (Triangle up)
-* ARROW_DOWN (Triangle down)
-* ARROW_LEFT (Triangle left)
-* ARROW_RIGHT (Triangle right)
-* VOTE (Thump up)
-
-####Toggle Buttons
-* COLLAPSIBLE (Triangle up / Triangle down)
+The _TextInputComponent_ implements the _ControlValueAccessor_ so it is possible to access the value through `[(ngModel)]`
 
 ##Examples
 ```html
-<!--Simple Button-->
-<rsb-icon-button [buttonType]="iconButtonType.CHECK_MARK" (click)="simpleClick()"></rsb-icon-button>
+ <rsb-text-input [labelText]="'Please insert Text'" [(ngModel)]="myValue" ></rsb-text-input>
 
-<!--With Label-->
-<rsb-icon-button [buttonType]="iconButtonType.ADD" [lableText]="Click Me" (click)="labelClicked()"></rsb-icon-button>
-
-<!--Define ID-->
-<rsb-icon-button [buttonType]="iconButtonType.EDIT" [htmluid]="'edit-button-id'"></rsb-icon-button>
-
-<!--Active Button-->
-<rsb-icon-button [buttonType]="iconButtonType.VOTE" [activated]="true"></rsb-icon-button>
+<!--Complex example-->
+ <rsb-text-input [labelText]="'Sticky-Note Description'"
+                 [isRequierd]="true"
+                 [(ngModel)]="stickyNote.description"
+                 [isTextArea]="true"
+                 [hideLabel]="true"
+                 [inputErrorMessage]="descError"></rsb-text-input>
 ```
 
 
