@@ -21,4 +21,4 @@ We build our own component lib for this Project.
 ###Special elements and directives
 * Disable-Element [(Directive / Service)](disable-element) 
 * Notifier [rsb-notifier](notifier)
-* Shared-Height (Directive /Service)
+* Shared-Height [(Directive /Service)](shared-height)
