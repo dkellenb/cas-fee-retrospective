@@ -2,13 +2,14 @@
 Create a text inputfield or textarea with label and error message if needed.
 
 ##Inputfields
-| Parameter    | Type           | Default | Description                                                                                                                                                          |
-|--------------|----------------|---------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| buttonType   | IconButtonType | NONE    | Define the type of the button. Use the class _IconButtonType_ to see what kind of icon buttons are available. Default is a Button without any icon or toggle effect. |
-| lableText    | string         | null    | If not null the label text will be shown before the icon button.                                                                                                     |
-| htmlUid      | string         | null    | The id of the button can be set by this input. If no id is set the button will generate one form him self. (is needed to link the label)                             |
-| toggleStatus | boolean        | true    | defines in which toggle status the button initially starts. Can also be used to toggle the button from external.                                                     |
-| activated    | boolean        | false   | If set to true the button will receive a additional class _icon-button__body_success_ which can be used for additional styling. (default is a green background)      |
+| Parameter         | Type    | Default | Description                                                                                      |
+|-------------------|---------|---------|--------------------------------------------------------------------------------------------------|
+| id                | string  | null    | Defines the html id. If no id is set there will be one generated for linking labels with field.  |
+| labelText         | string  | null    | Defines the Label text. This attribute is required.                                              |
+| inputErrorMessage | string  | null    | If present the flied will show a error message and will have a red border.                       |
+| isTextArea        | boolean | false   | On default there is a input of type text, if true there is a textarea instead                    |
+| isRequierd        | boolean | false   | Defines if a input is required. If true there will be added a star to the label.                 |
+| hideLabel         | boolean | false   | If true the Label and ErrorMessage will be hidden. (Still present in the dom)                    |
 
 ##Structure
 There is no real structure to the button component. 

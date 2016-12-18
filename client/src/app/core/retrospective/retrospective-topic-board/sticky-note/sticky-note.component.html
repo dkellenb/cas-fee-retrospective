@@ -3,6 +3,7 @@
     <h3 *ngIf="!showForm" class="title title__content_third" rsbDisableElement>{{stickyNote.title}}</h3>
     <rsb-text-input *ngIf="showForm"
                     [labelText]="'Sticky-Note Title'"
+                    [isRequierd]="true"
                     [(ngModel)]="stickyNote.title"
                     [hideLabel]="true"
                     [inputErrorMessage]="titleError"></rsb-text-input>
@@ -12,6 +13,7 @@
     <p>{{voteCount}}</p>
     <rsb-text-input *ngIf="showForm"
                     [labelText]="'Sticky-Note Description'"
+                    [isRequierd]="true"
                     [(ngModel)]="stickyNote.description"
                     [isTextArea]="true"
                     [hideLabel]="true"
