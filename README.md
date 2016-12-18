@@ -1,11 +1,33 @@
 # Retrospective Project - Project 2 of group 'dkellenb' and 'bruede'
+This repository contains the project work of the two students [Daniel Kellenberger](https://github.com/dkellenb) and [Benjamin Rüde](https://github.com/bruede) as a result of the 2nd project for the CAS in Front End Engineering at Rapperswil, Switerland.
 
-This repository contains the project work of the two students [Daniel Kellenberger](https://github.com/dkellenb) and [Benjamin Rüde](https://github.com/bruede).
+## Goal
+For those teams working with scrum in distributed teams, doing retrospectives together is not easy. This project aims
+to fill some part of the gap by providing an online collaboration tool to do retrospectives together.
 
-## Installation, Configuration and launch
+## Retrospective application (Demo application)
+### Demo Access
+https://cas-fee-retrospective.herokuapp.com/
+
+### Requirements (Participants)
+ * Participants are connected through phone conference system
+ * Screen of the organisator is shared with all participants
+ * Each participant has a device with access to the internet
+
+### Features
+* Easy setup of retrospectives (can be done by anyone, no login required)
+* Invite other participants by sharing the URL or the QR Code
+* Four phase process:
+    1. *COMMENT*: All participants can add comments
+    1. *REVIEW*: Manager can show all comments, modify or delete them or create new ones (discuss them)
+    1. *VOTE*: Participants can vote on each topic
+    1. *CLOSE*: Retrospective is freezed
+
+## Installation, configuration and launch (Self installation)
 ### Installation
-1. `git co https://github.com/dkellenb/cas-fee-retrospective`
+1. `git clone https://github.com/dkellenb/cas-fee-retrospective`
 1. `npm install -g gulp`
+1. `npm install`
 1. `gulp build`
 
 ### Configuration
@@ -15,10 +37,11 @@ Copy file `server/server-config-template.json` to `server/server-config.json` an
 Start application with `gulp run`.
 
 ## Documentation
-* [Specialities](documentation/Specialities.md)
 * [UseCases](documentation/UseCases.md)
 * [DomainModel](documentation/DomainModel.md)
 * [RestAPI](documentation/RestAPI.md)
+* [Assessment Remarks](documentation/AssessmentRemarks.md)
+* [Specialities](documentation/Specialities.md)
 
 ## Development
 
@@ -54,8 +77,7 @@ Server is available in /server/ folder.
  * Prepare: /server/$ `npm install`
  * Run Server: /server/$ `npm start` or use /server/$ `nodemon`
  
- If you want to run the unit tests, simply use `npm test <example>/**/*.spec.ts`  
- To run all tests simply run `npm run test:all`
+To run all tests simply run `npm run test`
 
 ### Deploying to Github Pages
 

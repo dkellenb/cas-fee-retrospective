@@ -54,8 +54,8 @@ gulp.task('server-clean', function() {
         .pipe(gulpClean());
 });
 gulp.task('server-install', function() {
-    return gulp.src(['/server/pacakge.json'])
-       .pipe(install());
+    return gulp.src(['./server/package.json'])
+        .pipe(install());
 });
 gulp.task('server-build', function(cb) {
     process.chdir('server');
@@ -69,7 +69,7 @@ gulp.task('server-build', function(cb) {
         cb();
     });
 });
-gulp.task('client-heroku-build-to-server', function() {
+gulp.task('client-build-to-server', function() {
     gulp.src('client/dist/**/*')
         .pipe(gulp.dest('server/build/public'));
 });
@@ -84,29 +84,43 @@ gulp.task('server-ts-start', function() {
         console.log('Server stopped');
     });
 });
+gulp.task('server-start', function() {
+    process.chdir('server');
+    var ngBuild = spawn('node', ['./src/server.js'], {stdio: 'inherit'});
+    ngBuild.on('close', function (code) {
+        if (code !== 0) {
+            console.log('Server broke with error code ' + code);
+            return
+        }
+        console.log('Server stopped');
+    });
+});
 
 gulp.task('build',
     gulpSequence(
-        ['client-clean', 'server-clean'],
+        'client-clean',
+        'server-clean',
         'client-install',
         'server-install',
         'client-build',
-        'server-build'
+        'server-build',
+        'client-build-to-server'
     )
 );
 gulp.task('heroku-build',
     gulpSequence(
-        ['client-clean', 'server-clean'],
+        'client-clean',
+        'server-clean',
         'client-install',
         'server-install',
         'client-heroku-build',
         'server-build',
-        'client-heroku-build-to-server'
+        'client-build-to-server'
     )
 );
 
-gulp.task('run', ['server-ts-start']);
+gulp.task('run', ['server-start']);
 
 gulp.task('build-and-run',
-    gulpSequence('build', 'server-ts-start')
+    gulpSequence('build', 'server-start')
 );
