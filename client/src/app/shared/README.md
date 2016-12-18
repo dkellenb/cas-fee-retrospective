@@ -8,8 +8,8 @@ We build our own component lib for this Project.
 * Button-Set [rsb-button-set](button-set)
 * Linebreak-Text [rsb-linebreak-text](linebreak-text)
 * Split-Bar [rsb-split-bar](split-bar)
-* Text-Input
-* User-Icon
+* Text-Input [rsb-text-input](text-input)
+* User-Icon [rsb-user-icon](user-icon)
 * User-Status
 
 ###Complex Components
