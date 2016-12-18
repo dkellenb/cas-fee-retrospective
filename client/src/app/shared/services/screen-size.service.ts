@@ -3,8 +3,8 @@ import {Injectable, NgZone} from '@angular/core';
 @Injectable()
 export class ScreenSizeService {
 
-  private _screenWidth;
-  private _screenHeight;
+  private _screenWidth = window.innerWidth;
+  private _screenHeight = window.innerHeight;
 
   constructor(ngZone: NgZone) {
     window.onresize = (e) => {

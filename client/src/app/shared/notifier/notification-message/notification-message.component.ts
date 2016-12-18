@@ -1,16 +1,16 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {NotificationMessage} from './notification-message';
-import {NotificationMessageType} from './notification-message-type';
+import {NotificationMessage} from '../services/notification-message';
+import {NotificationMessageType} from '../services/notification-message-type';
 
 @Component({
   selector: 'rsb-notification-message',
-  templateUrl: './notification-message.component.html',
+  templateUrl: 'notification-message.component.html',
   styleUrls: ['notification-message.component.scss']
 })
 export class NotificationMessageComponent implements OnInit {
 
   @Input()
-  public message: NotificationMessage;
+  public message: NotificationMessage = null;
 
   constructor() {
   }
@@ -19,19 +19,19 @@ export class NotificationMessageComponent implements OnInit {
   }
 
   public get isError(): boolean {
-    return NotificationMessageType.ERROR === this.message.type;
+    return this.message != null && NotificationMessageType.ERROR === this.message.type;
   }
 
   public get isWarning(): boolean {
-    return NotificationMessageType.WARNING === this.message.type;
+    return this.message != null && NotificationMessageType.WARNING === this.message.type;
   }
 
   public get isInfo(): boolean {
-    return NotificationMessageType.INFO === this.message.type;
+    return this.message != null && NotificationMessageType.INFO === this.message.type;
   }
 
   public get isSuccess(): boolean {
-    return NotificationMessageType.SUCCESS === this.message.type;
+    return this.message != null && NotificationMessageType.SUCCESS === this.message.type;
   }
 
   public get modifierClass() {

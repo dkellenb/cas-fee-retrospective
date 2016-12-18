@@ -41,5 +41,4 @@ export class AuthenticationService {
   public logoutUser() {
     this.authenticationToken.deleteCache();
   }
-
 }

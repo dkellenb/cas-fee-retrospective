@@ -2,10 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params, Router} from '@angular/router';
 import {IBasicRetrospective, IRetrospectiveUser} from '../../shared/model';
 import {RetrospectiveService} from '../services/retrospective.service';
-import {IconButtonType} from '../../shared/icon-button/icon-button-type';
-import {ScreenSizeService} from '../../shared/services/screen-size.service';
+import {ScreenSizeService, SharedHeightService, IconButtonType} from '../../shared';
 import {RetrospectiveStatus} from '../../shared/model/retrospective/RetrospectiveStatus';
-import {SharedHeightService} from '../../shared/sharedHeight/shared-height.service';
 
 @Component({
   selector: 'rsb-retrospective',
@@ -41,6 +39,7 @@ export class RetrospectiveComponent implements OnInit {
       .subscribe((retrospective: IBasicRetrospective<IRetrospectiveUser>) => {
         console.log('load Retrospective with UUID: ' + retrospective.uuid);
       }, e => {
+        console.error(e);
         console.log('Wasn\'t able to find Retrospective: ' + this.retroId);
         this.retrospectiveService.failedRetrospectiveId = this.retroId;
         this.router.navigate(['']);

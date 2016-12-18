@@ -16,17 +16,16 @@ import {SplitBarComponent, SplitBarContainerRightDirective, SplitBarContainerLef
 import {HeaderBarComponent, HeaderBarTitleDirective, HeaderBarMenuDirective} from './header-bar';
 import {TextInputComponent} from './text-input';
 import {ButtonSetComponent, ButtonSetElementDirective} from './button-set';
-import {ButtonSetTextComponent} from './button-set-text';
 import {FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective} from './form';
 import {ConfigurationService, AuthenticationService, ScreenSizeService} from './services';
 import {CarouselModule} from './carousel';
 import {UserStatusComponent} from './user-status';
-import {NotificationMessageComponent} from './notification-message/notification-message.component';
-import {NotifierComponent} from './notifier/notifier.component';
 import {UserIconComponent} from './user-icon/user-icon.component';
 import {BoardFooterDirective} from './board/board.component';
-import {SharedHeightDirective} from './sharedHeight/shared-height.directive';
-import { LinebreakTextComponent } from './linebreak-text/linebreak-text.component';
+import {SharedHeightDirective} from './shared-height';
+import {LinebreakTextComponent} from './linebreak-text/linebreak-text.component';
+import {DisableElementDirective} from './disable-element/disable-element.directive';
+import {NotifierModule} from './notifier/notifier.module';
 
 @NgModule({
   declarations: [BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective, BoardFooterDirective,
@@ -34,27 +33,25 @@ import { LinebreakTextComponent } from './linebreak-text/linebreak-text.componen
     SplitBarComponent, SplitBarContainerLeftDirective, SplitBarContainerRightDirective,
     HeaderBarComponent, HeaderBarTitleDirective, HeaderBarMenuDirective,
     TextInputComponent,
-    ButtonSetComponent, ButtonSetElementDirective, ButtonSetTextComponent, ButtonSetTextComponent,
+    ButtonSetComponent, ButtonSetElementDirective,
     FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective,
     UserStatusComponent,
-    NotificationMessageComponent,
-    NotifierComponent,
     UserIconComponent,
     SharedHeightDirective,
-    LinebreakTextComponent],
-  imports: [CommonModule, HttpModule, RouterModule, FormsModule, CarouselModule],
+    LinebreakTextComponent, DisableElementDirective],
+  imports: [CommonModule, HttpModule, RouterModule, FormsModule, CarouselModule, NotifierModule],
   exports: [CommonModule, HttpModule, RouterModule, FormsModule,
     BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective, BoardFooterDirective,
     IconButtonComponent,
     HeaderBarComponent, HeaderBarTitleDirective, HeaderBarMenuDirective,
     TextInputComponent,
-    ButtonSetComponent, ButtonSetElementDirective, ButtonSetTextComponent,
+    ButtonSetComponent, ButtonSetElementDirective,
     FormComponent, FormBodyDirective, FormSubmitDirective, FormSetElementDirective
     , CarouselModule,
     UserStatusComponent,
     SplitBarComponent, SplitBarContainerLeftDirective, SplitBarContainerRightDirective,
-    NotificationMessageComponent, NotifierComponent,
-    UserIconComponent, SharedHeightDirective, LinebreakTextComponent
+    NotifierModule,
+    UserIconComponent, SharedHeightDirective, LinebreakTextComponent, DisableElementDirective
   ],
   providers: [
     ConfigurationService, AuthenticationService, ScreenSizeService, AUTH_PROVIDERS

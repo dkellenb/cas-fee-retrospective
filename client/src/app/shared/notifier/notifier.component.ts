@@ -1,6 +1,6 @@
 import {Component, OnInit, transition, style, animate, trigger} from '@angular/core';
-import {NotificationMessage} from '../notification-message/notification-message';
-import {NotifierService} from './notifier.service';
+import {NotificationMessage} from './services/notification-message';
+import {NotifierService} from './services/notifier.service';
 
 @Component({
   selector: 'rsb-notifier',

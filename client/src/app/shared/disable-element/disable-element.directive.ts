@@ -5,7 +5,6 @@ import {
   OnDestroy,
   OnInit,
   Optional,
-  ViewContainerRef
 } from '@angular/core';
 import {DisableService} from './disable.service';
 import {Subscription} from 'rxjs';
@@ -23,8 +22,7 @@ export class DisableElementDirective implements OnDestroy, OnInit {
   private disableElements: string[] = ['BUTTON', 'INPUT', 'SELECT', 'TEXTAREA', 'OPTGROUP', 'OPTION', 'FIELDSET'];
   private disable;
 
-  constructor(private el: ElementRef, private renderer: Renderer,
-              @Optional() private disableService: DisableService) {
+  constructor(private el: ElementRef, private renderer: Renderer, @Optional() private disableService: DisableService) {
     this.disable = this.disableElements.indexOf(this.el.nativeElement.tagName.toUpperCase()) > -1;
   }
 
