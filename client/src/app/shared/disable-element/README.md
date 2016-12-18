@@ -9,8 +9,8 @@ There is just the method _disableSubElements_ on the Service. This method trigge
 ##Structure
 There are to main elements to the disable-element composition
 
-*DisableService 
-*DisableElementDirective 
+* DisableService 
+* DisableElementDirective 
  
 ### DisableService
 Provide this service at the level from where you want to be able to disable elements down the node tree.

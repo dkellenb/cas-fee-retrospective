@@ -10,7 +10,7 @@ We build our own component lib for this Project.
 * Split-Bar [rsb-split-bar](split-bar)
 * Text-Input [rsb-text-input](text-input)
 * User-Icon [rsb-user-icon](user-icon)
-* User-Status
+* User-Status [rsb-user-status](user-status)
 
 ###Complex Components
 * Board [rsb-board](board)
