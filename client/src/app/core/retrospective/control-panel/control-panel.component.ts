@@ -3,6 +3,7 @@ import {IBasicRetrospective, IRetrospectiveUser} from '../../../shared/model/';
 import {DOCUMENT} from '@angular/platform-browser';
 import {RetrospectiveService} from '../../services/retrospective.service';
 import {RetrospectiveStatus} from '../../../shared/model/retrospective/RetrospectiveStatus';
+import {ScreenSizeService} from '../../../shared/services/screen-size.service';
 
 @Component({
   selector: 'rsb-control-panel',
@@ -14,7 +15,8 @@ export class ControlPanelComponent implements OnInit {
   private largeQr = false;
 
   constructor(private retrospectiveService: RetrospectiveService,
-              @Inject(DOCUMENT) private document: any) {
+              @Inject(DOCUMENT) private document: any,
+              private screenSizeService: ScreenSizeService) {
   }
 
   private get retrospective(): IBasicRetrospective<IRetrospectiveUser> {
@@ -68,5 +70,9 @@ export class ControlPanelComponent implements OnInit {
 
   public get passedClosedState(): boolean {
     return this.retrospective.status === RetrospectiveStatus.CLOSED;
+  }
+
+  public get isSmaleScreen() {
+    return this.screenSizeService.isSmaleScreen;
   }
 }
