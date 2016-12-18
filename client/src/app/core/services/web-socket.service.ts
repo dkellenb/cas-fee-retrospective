@@ -11,7 +11,7 @@ export class WebSocketService {
   constructor(private configurationService: ConfigurationService) {
   }
 
-  get(retrospectiveId: string): Observable<WebSocketAction> {
+  public get(retrospectiveId: string): Observable<WebSocketAction> {
     if (!this.socket) {
       this.socket = io.connect(this.configurationService.serverHostUrl, {
         path: this.configurationService.webSocketUrl

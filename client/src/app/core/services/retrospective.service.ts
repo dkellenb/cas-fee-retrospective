@@ -47,6 +47,7 @@ export class RetrospectiveService {
   }
 
   public getCurrent(): IBasicRetrospective<IRetrospectiveUser> {
+  //  console.log(JSON.stringify(this._currentRetrospective));
     return this._currentRetrospective;
   }
 
