@@ -130,8 +130,6 @@ export class StickyNoteComponent implements OnInit {
     this.descError = (this.stickyNote.description == null || this.stickyNote.description.trim() === '')
       ? 'Please insert a description' : null;
 
-    console.log(this.titleError);
-    console.log(this.descError);
     if (this.titleError != null || this.descError != null) {
       this.validationErrorMessage = new NotificationMessage(NotificationMessageType.WARNING,
         'There are missing information for this sticky-note');
