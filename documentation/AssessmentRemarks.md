@@ -10,7 +10,9 @@
 
 ## Configuration
 
-Copy file `server/server-config-template.json` to `server/server-config.json` and adapt it to your needs.
+Copy file `server/server-config-template.json` to `server/server-config.json` and adapt it to your needs:
+ * mongodbUrl
+ * jwt-key
 
 ## Execution
 1. Start application with `gulp run`.
@@ -38,5 +40,5 @@ Copy file `server/server-config-template.json` to `server/server-config.json` an
 ### Learnings
 - Learned a lot by trying to cover most of the presented  technologies from our lecture
 - Don't choose always the most recent version, you may loose too much time
-- Filter stackoverflow comments by selecting only the last recent ones (as most of the answers are not valid anymore)
+- Filter Stackoverflow comments by selecting only the last recent ones (as most of the answers are not valid anymore)
 - Browser Stack is really helpful for finding IPhone 6 rendering issues, if no Mac is available for debugging.

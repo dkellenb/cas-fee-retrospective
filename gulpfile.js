@@ -86,7 +86,7 @@ gulp.task('server-ts-start', function() {
 });
 gulp.task('server-start', function() {
     process.chdir('server');
-    var ngBuild = spawn('node', ['./src/server.js'], {stdio: 'inherit'});
+    var ngBuild = spawn('node', ['./build/server.js'], {stdio: 'inherit'});
     ngBuild.on('close', function (code) {
         if (code !== 0) {
             console.log('Server broke with error code ' + code);

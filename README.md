@@ -32,6 +32,8 @@ https://cas-fee-retrospective.herokuapp.com/
 
 ### Configuration
 Copy file `server/server-config-template.json` to `server/server-config.json` and adapt it to your needs.
+ * mongodbUrl
+ * jwt-key
 
 ### Execution
 Start application with `gulp run`.
