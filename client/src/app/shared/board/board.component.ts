@@ -3,7 +3,7 @@ import {
   OnChanges, ViewChild, AfterViewInit
 } from '@angular/core';
 import {IconButtonType} from '../icon-button';
-import {NotifierService} from '../notifier/notifier.service';
+import {NotifierService} from '../notifier/services/notifier.service';
 
 @Component({
   selector: 'rsb-board',

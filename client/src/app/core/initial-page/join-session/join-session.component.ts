@@ -2,9 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {IconButtonType, AuthenticationService} from '../../../shared';
 import {Router, ActivatedRoute} from '@angular/router';
 import {RetrospectiveService} from '../../services';
-import {NotificationMessage} from '../../../shared/notifier/notification-message/notification-message';
-import {NotificationMessageType} from '../../../shared/notifier/notification-message/notification-message-type';
-import {NotifierService} from '../../../shared/notifier/notifier.service';
+import {NotificationMessage} from '../../../shared/notifier/services/notification-message';
+import {NotificationMessageType} from '../../../shared/notifier/services/notification-message-type';
+import {NotifierService} from '../../../shared/notifier/services/notifier.service';
 
 @Component({
   selector: 'rsb-join-session',

@@ -1,6 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core';
-import {NotificationMessage} from './notification-message';
-import {NotificationMessageType} from './notification-message-type';
+import {NotificationMessage} from '../services/notification-message';
+import {NotificationMessageType} from '../services/notification-message-type';
 
 @Component({
   selector: 'rsb-notification-message',

@@ -1,8 +1,8 @@
 import {Component, OnInit, Input, OnChanges, SimpleChanges} from '@angular/core';
 import {IconButtonType, NotifierService} from '../../../../shared';
 import {TopicService, IStickyNote, StickyNoteMode} from '../services/';
-import {NotificationMessage} from '../../../../shared/notifier/notification-message/notification-message';
-import {NotificationMessageType} from '../../../../shared/notifier/notification-message/notification-message-type';
+import {NotificationMessage} from '../../../../shared/notifier/services/notification-message';
+import {NotificationMessageType} from '../../../../shared/notifier/services/notification-message-type';
 
 @Component({
   selector: 'rsb-sticky-note',

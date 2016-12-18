@@ -1,5 +1,5 @@
-#Notification Message Component
-Create a notification message for the 4 severities _error_, _warning_, _sucess_ and _info_ 
+#Notifier Component
+Create a component who is able to display NotificationMessage from a queue.  
 
 ##Inputfields
 | Parameter | Type                | Default | Description                  |

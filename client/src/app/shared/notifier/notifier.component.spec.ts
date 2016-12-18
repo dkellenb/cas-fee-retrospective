@@ -5,7 +5,7 @@ import {DebugElement} from '@angular/core';
 
 import {NotifierComponent} from './notifier.component';
 import {NotificationMessageComponent} from './notification-message/notification-message.component';
-import {NotifierService} from './notifier.service';
+import {NotifierService} from './services/notifier.service';
 
 describe('NotifierComponent', () => {
   let component: NotifierComponent;

@@ -7,7 +7,6 @@ We build our own component lib for this Project.
 * Icon-Button [rsb-icon-button](icon-button)
 * Button-Set [rsb-button-set](button-set)
 * Linebreak-Text [rsb-linebreak-text](linebreak-text)
-* Notification-Message
 * Split-Bar
 * Text-Input
 * User-Icon
@@ -18,6 +17,7 @@ We build our own component lib for this Project.
 * Header-Bar [rsb-header-bar](header-bar)
 * Form [rsb-form](form)
 * Carousel [rsb-carousel](carousel)
+* Notifier [rsb-notifier](notifier)
 
 ###Special elements and directives
 * Disable-Element [(Directive / Service)](disable-element) 
