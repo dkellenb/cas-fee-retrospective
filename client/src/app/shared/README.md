@@ -1,5 +1,6 @@
 # RSB Component Libary
 We build our own component lib for this Project.
+As base for this lib we used the [live mockups](../../../../documentation/mockup/live) from the docu
 
 ##Components
 
