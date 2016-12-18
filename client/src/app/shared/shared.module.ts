@@ -25,7 +25,8 @@ import {NotifierComponent} from './notifier/notifier.component';
 import {UserIconComponent} from './user-icon/user-icon.component';
 import {BoardFooterDirective} from './board/board.component';
 import {SharedHeightDirective} from './sharedHeight/shared-height.directive';
-import { LinebreakTextComponent } from './linebreak-text/linebreak-text.component';
+import {LinebreakTextComponent} from './linebreak-text/linebreak-text.component';
+import {DisableElementDirective} from './disable-element/disable-element.directive';
 
 @NgModule({
   declarations: [BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective, BoardFooterDirective,
@@ -40,7 +41,7 @@ import { LinebreakTextComponent } from './linebreak-text/linebreak-text.componen
     NotifierComponent,
     UserIconComponent,
     SharedHeightDirective,
-    LinebreakTextComponent],
+    LinebreakTextComponent, DisableElementDirective],
   imports: [CommonModule, HttpModule, RouterModule, FormsModule, CarouselModule],
   exports: [CommonModule, HttpModule, RouterModule, FormsModule,
     BoardComponent, BoardBodyDirective, BoardButtonsDirective, BoardTitleDirective, BoardFooterDirective,
@@ -53,7 +54,7 @@ import { LinebreakTextComponent } from './linebreak-text/linebreak-text.componen
     UserStatusComponent,
     SplitBarComponent, SplitBarContainerLeftDirective, SplitBarContainerRightDirective,
     NotificationMessageComponent, NotifierComponent,
-    UserIconComponent, SharedHeightDirective, LinebreakTextComponent
+    UserIconComponent, SharedHeightDirective, LinebreakTextComponent, DisableElementDirective
   ],
   providers: [
     ConfigurationService, AuthenticationService, ScreenSizeService, AUTH_PROVIDERS

@@ -5,7 +5,6 @@ import {
   OnDestroy,
   OnInit,
   Optional,
-  ViewContainerRef
 } from '@angular/core';
 import {DisableService} from './disable.service';
 import {Subscription} from 'rxjs';

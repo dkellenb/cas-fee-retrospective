@@ -43,9 +43,49 @@ you can use a css like this for prevent any selection of the element.
 }
 ```
 
+the _DisableService_ is a optional import, so if there is no provider for the service nothing will happen. This allows for building in hooks in a component library for later disable if needed.
+
 ##Examples
-### Simple carousel
-```xml
+
+### Component
+```typescript
+import {Component, OnInit} from '@angular/core';
+import {DisableService} from '../../shared/disable-element/disable.service';
+
+@Component({
+  selector: 'app-sample',
+  templateUrl: './sample.component.html',
+  styleUrls: ['./sample.component.css'],
+  providers: [DisableService]
+})
+export class SampleComponent {
+
+  private _toggle: boolean;
+
+  constructor(private disableService: DisableService) {
+  }
+
+  public toggleELements() {
+    this._toggle = !this._toggle;
+    this.disableService.disableSubElements(this._toggle);
+  }
+}
+```
+
+### Template
+```html
+<div>
+  <button type="button" (click)="toggleELements()"></button>
+  <!--this could be in a other component which control the form-->
+  <div>
+    <form>
+      <label for="myText_{{element.name}}">Your Text</label>
+      <input id="myText_{{element.name}}" type="text" rsbDisableElement>
+      <button type="submit" rsbDisableElement></button>
+    </form>
+  </div>
+  <!--->
+</div>
 ```
 
 

@@ -17,9 +17,9 @@ We build our own component lib for this Project.
 * Board [rsb-board](board)
 * Header-Bar
 * Form
-* Carousel
+* Carousel [rsb-carousel](carousel)
 
 ###Special elements and directives
-* Disable-Element (Directive / Service)
+* Disable-Element [(Directive / Service)](disable-element) 
 * Notifier
 * Shared-Height (Directive /Service)
