@@ -21,7 +21,7 @@ The Carousel has 3 elements
 
 ##Examples
 ### Simple carousel
-```xml
+```html
 <rsb-carousel>
   <img src="apple.jpg" width="200px" rsbCarouselElement>
   <img src="pinapple.jpg" width="200px" rsbCarouselElement>
@@ -30,8 +30,7 @@ The Carousel has 3 elements
 ```
 
 ### Complex carousel
-```xml
-
+```html
 <rsb-carousel [range]="20" [carouselActive]="isCarouselAktive" [fixedNavButtons]="true">
   <div *ngFor="let element of elements" class="myElement" rsbCarouselElement>
     <form>

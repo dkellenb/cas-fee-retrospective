@@ -9,7 +9,7 @@ there are no input fields
 * The container is made for childenodes of the type [`<rsb-icon-button>`](../icon-button)
 
 ##Examples
-```xml
+```html
 <rsb-button-set>
   <rsb-icon-button [buttonType]="iconButtonType.CHECK_MARK" (click)="save()"></rsb-icon-button>
   <rsb-icon-button [buttonType]="iconButtonType.ABOARD" (click)="aboard()"></rsb-icon-button>

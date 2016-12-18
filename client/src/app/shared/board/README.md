@@ -30,7 +30,7 @@ The footer is also like a div. Special about the footer is that it is possible t
 
 ##Examples
 ### Simple open board
-```xml
+```html
 <rsb-board [isCollapsible]="false">
   <rsb-board-title>Create User</rsb-board-title>
   <rsb-board-body>
@@ -39,7 +39,7 @@ The footer is also like a div. Special about the footer is that it is possible t
 </rsb-board>
 ```
 ### Complex open board
-```xml
+```html
 <rsb-board [isCollapsible]="true" [isOpen]="true" [collapseFooter]=false>
   <rsb-board-title>Create User</rsb-board-title>
   <rsb-board-buttons>
