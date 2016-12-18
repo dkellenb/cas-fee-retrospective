@@ -37,6 +37,7 @@ export class CreateSessionComponent implements OnInit {
 
   public createSession() {
     if (!this._waitForCreateSession && this.inputValidation()) {
+      this._waitForCreateSession = true;
       this.retrospectiveService.createRetrospective(this.sessionTitle, this.sessionDesc, this.shortName).subscribe(sessionKey => {
           console.log('new SessionKey is: ' + sessionKey);
           this.router.navigate([sessionKey], {relativeTo: this.route});

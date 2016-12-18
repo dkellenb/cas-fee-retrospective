@@ -1,5 +1,5 @@
 <div class="controlpanel">
-  <div class="controlpanel_segment progressbar">
+  <div class="controlpanel__segment progressbar">
     <h3 class="controlpanel__segment-title">Steps</h3>
     <ul class="progressbar__elements">
       <li [class.progressbar__element_active]="passedOpenState" class="progressbar__element_comment">comment</li>
@@ -8,13 +8,13 @@
       <li [class.progressbar__element_active]="passedClosedState" class="progressbar__element_closed">closed</li>
     </ul>
   </div>
-  <div class="controlpanel_segment controlpanel__description">
+  <div class="controlpanel__segment controlpanel__description">
     <h3 class="controlpanel__segment-title">Description</h3>
     <div class="controlpanel__description-text">
       <rsb-linebreak-text [text]="retrospective?.description"></rsb-linebreak-text>
     </div>
   </div>
-  <div class="controlpanel_segment controlpanel__users">
+  <div class="controlpanel__segment controlpanel__users">
     <h3 class="controlpanel__segment-title">Retrospective Session Members</h3>
     <div class="gallery gallery__elements">
       <div class="gallery__element" *ngFor="let user of users">
@@ -22,7 +22,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf="hasManagerRole" class="controlpanel_segment add-user">
+  <div *ngIf="hasManagerRole" class="controlpanel__segment add-user">
     <h3 class="controlpanel__segment-title">Add Users to Retro</h3>
     <div class="add-user__qrcode" (click)="toggleQrSize()">
       <!--Size can't be changed so this is a work around for 2-->

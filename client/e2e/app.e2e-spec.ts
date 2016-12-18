@@ -1,14 +1,13 @@
-import { RetrospectiveClientPage } from './app.po';
+import {InitialPage} from './initial-page.po';
+import {browser} from 'protractor';
 
-describe('retrospective-client App', function() {
-  let page: RetrospectiveClientPage;
+describe('retrospective-client App', function () {
 
-  beforeEach(() => {
-    page = new RetrospectiveClientPage();
+  it('sould walk through a complete retro', () => {
+    browser.get('/');
+    let initalPage: InitialPage = new InitialPage();
+    initalPage.navigateTo();
+    initalPage.createRetrospective('My Title', 'This is a Description \nwith new Line', 'protector');
   });
 
-  it('should display message saying app works', () => {
-    page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
-  });
 });

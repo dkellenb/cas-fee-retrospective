@@ -48,6 +48,7 @@ export class JoinSessionComponent implements OnInit {
 
   public joinSession(): void {
     if (!this._waitForJoinSession && this.inputValidation()) {
+      this._waitForJoinSession = true;
       this.retrospectiveService.joinRetrospective(this.sessionKey.trim(), this.shortName).subscribe(sucess => {
         if (sucess) {
           this.router.navigate([this.sessionKey.trim()], {relativeTo: this.route});

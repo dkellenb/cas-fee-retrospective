@@ -12,6 +12,7 @@ import {WebSocketService} from './web-socket.service';
 import {MockWebSocketService} from './web-socket.service.spec';
 import {CreateCommentJSON} from '../../shared/model/retrospective/CreateCommentJSON';
 import {IBasicRetrospectiveComment} from '../../shared/model/retrospective/IBasicRetrospectiveComment';
+import {UpdateCommentJSON} from '../../shared/model/retrospective/UpdateCommentJSON';
 
 const initialRetro: IBasicRetrospective<IRetrospectiveUser> = {
   'uuid': '56e03af4-8b6c-4498-a14b-f8d87cf0dfeb',
@@ -246,10 +247,84 @@ describe('Service: Retrospective', () => {
           service.createComment('11546e54-d2cb-4451-b739-bc69f175ab2a', comment)
             .subscribe((returnComment: IBasicRetrospectiveComment<IRetrospectiveUser>) => {
               expect(returnComment).toEqual(commentFromServer);
-              console.log(returnComment);
             });
         });
 
+    })));
+
+  it('should update Comment', async(inject(
+    [RetrospectiveService, MockBackend],
+    (service: RetrospectiveService, backend: MockBackend) => {
+
+      // SetUp
+      let updateComment: UpdateCommentJSON = <UpdateCommentJSON>{};
+      updateComment.title = 'Comment Title';
+      updateComment.description = 'Here is a Description';
+      updateComment.anonymous = false;
+
+      backend.connections.subscribe((c: MockConnection) => {
+
+        // Load initial Retro in Service
+        if (c.request.url === 'http://localhost:3000/rest/retrospectives/56e03af4-8b6c-4498-a14b-f8d87cf0dfeb') {
+          c.mockRespond(new Response(new ResponseOptions({body: initialRetro, status: 200})));
+          return;
+        }
+
+        expect(c.request.url).toEqual('http://localhost:3000/rest' +
+          '/retrospectives/56e03af4-8b6c-4498-a14b-f8d87cf0dfeb/topics/11546e54-d2cb-4451-b739-bc69f175ab2a/' +
+          'comments/6830afdd-22cb-4171-b611-b975081e58ef');
+
+        expect(c.request.method).toBe(RequestMethod.Put);
+        let body = JSON.parse(c.request.getBody());
+        expect(body.title).toEqual(updateComment.title);
+        expect(body.description).toEqual(updateComment.description);
+        expect(body.anonymous).toEqual(updateComment.anonymous);
+
+        let headers: Headers = new Headers();
+        headers.append('Location', 'http://localhost:3000/rest/retrospectives/' +
+          '56e03af4-8b6c-4498-a14b-f8d87cf0dfeb/comments/6830afdd-22cb-4171-b611-b975081e58ef');
+        c.mockRespond(new Response(new ResponseOptions({headers: headers, body: commentFromServer, status: 200})));
+      });
+
+      // Execute
+      service.getRetrospective('56e03af4-8b6c-4498-a14b-f8d87cf0dfeb')
+        .subscribe(() => {
+          service.updateComment('11546e54-d2cb-4451-b739-bc69f175ab2a', '6830afdd-22cb-4171-b611-b975081e58ef', updateComment)
+            .subscribe((returnComment: IBasicRetrospectiveComment<IRetrospectiveUser>) => {
+              expect(returnComment).toEqual(commentFromServer);
+            });
+        });
+    })));
+
+  it('should delete Comment', async(inject(
+    [RetrospectiveService, MockBackend],
+    (service: RetrospectiveService, backend: MockBackend) => {
+
+      backend.connections.subscribe((c: MockConnection) => {
+
+        // Load initial Retro in Service
+        if (c.request.url === 'http://localhost:3000/rest/retrospectives/56e03af4-8b6c-4498-a14b-f8d87cf0dfeb') {
+          c.mockRespond(new Response(new ResponseOptions({body: initialRetro, status: 200})));
+          return;
+        }
+
+        expect(c.request.url).toEqual('http://localhost:3000/rest' +
+          '/retrospectives/56e03af4-8b6c-4498-a14b-f8d87cf0dfeb/topics/11546e54-d2cb-4451-b739-bc69f175ab2a/' +
+          'comments/6830afdd-22cb-4171-b611-b975081e58ef');
+
+        expect(c.request.method).toBe(RequestMethod.Delete);
+
+        c.mockRespond(new Response(new ResponseOptions({body: 'deleted', status: 204})));
+      });
+
+      // Execute
+      service.getRetrospective('56e03af4-8b6c-4498-a14b-f8d87cf0dfeb')
+        .subscribe(() => {
+          service.deleteComment('11546e54-d2cb-4451-b739-bc69f175ab2a', '6830afdd-22cb-4171-b611-b975081e58ef')
+            .subscribe((success: boolean) => {
+              expect(success).toBe(true);
+            });
+        });
     })));
 });
 
