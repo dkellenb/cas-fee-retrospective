@@ -53,6 +53,9 @@ var AbstractRepository = (function () {
         console.log('AbstractRepository#findAll');
         this._model.find(callback);
     };
+    AbstractRepository.prototype.save = function (object, callback) {
+        object.save(callback);
+    };
     AbstractRepository = __decorate([
         inversify_1.injectable(), 
         __metadata('design:paramtypes', [])

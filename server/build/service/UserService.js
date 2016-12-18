@@ -24,11 +24,26 @@ var UserRepository_1 = require('../repository/UserRepository');
 var UserJwtService_1 = require('./UserJwtService');
 var UserDbModel_1 = require('../repository/model/UserDbModel');
 var User_1 = require('./model/User');
+/**
+ * Business logic for user related actions.
+ */
 var UserService = (function () {
+    /**
+     * C'tor with dependencies injected.
+     *
+     * @param userRepository user repository.
+     * @param userJwtService jwt service.
+     */
     function UserService(userRepository, userJwtService) {
         this.userRepository = userRepository;
         this.userJwtService = userJwtService;
     }
+    /**
+     * Converts a user object to contain only public available fields.
+     *
+     * @param persistedUser the persisted user
+     * @returns {PublicUser} the public user
+     */
     UserService.convertUserToPublicUser = function (persistedUser) {
         var publicUser = new User_1.PublicUser();
         publicUser.uuid = persistedUser.uuid;
@@ -36,6 +51,12 @@ var UserService = (function () {
         publicUser.shortName = persistedUser.shortName;
         return publicUser;
     };
+    /**
+     * Converts a persisted user to a business object user.
+     *
+     * @param persistedUser persisted user
+     * @returns {User} the business object user
+     */
     UserService.convertUserToIUser = function (persistedUser) {
         var user = new UserDbModel_1.User();
         user.uuid = persistedUser.uuid;
@@ -44,9 +65,14 @@ var UserService = (function () {
         user.systemRole = persistedUser.systemRole;
         return user;
     };
+    /**
+     * Based on a create request from the client create a new user.
+     *
+     * @param createUser the new user to be created
+     * @returns {Promise<IPersistedUser>} the persisted user
+     */
     UserService.prototype.createUser = function (createUser) {
         var _this = this;
-        console.log('UserService#createUser');
         // create user
         var user = new UserDbModel_1.PersistedUser();
         user.uuid = new _2.UUID().toString();
@@ -68,12 +94,17 @@ var UserService = (function () {
                     reject('User could not be created');
                 }
                 else {
-                    console.log('UserService#createUser@promise');
                     resolve(data);
                 }
             });
         });
     };
+    /**
+     * Based on a request, get the user encoded with JWT.
+     *
+     * @param request the HTTP request
+     * @returns {Promise<IUser>} decoded user
+     */
     UserService.prototype.getJwtUser = function (request) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -94,6 +125,13 @@ var UserService = (function () {
             });
         });
     };
+    /**
+     * For a given user and token id, create a JWT.
+     *
+     * @param userUuid id of the user
+     * @param jwtUuid id of the token to generate a JWT.
+     * @returns {Promise<string>} the JWT
+     */
     UserService.prototype.getJwt = function (userUuid, jwtUuid) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -107,7 +145,6 @@ var UserService = (function () {
                 else {
                     var singleToken = (user.tokens || []).find(function (t) { return t.uuid === jwtUuid; });
                     if (singleToken !== null) {
-                        console.log('Token found: ' + JSON.stringify(singleToken));
                         var jwtUser = User_1.UserJwt.create(user, singleToken);
                         resolve(_this.userJwtService.createJwt(jwtUser));
                     }
@@ -118,17 +155,22 @@ var UserService = (function () {
             });
         });
     };
+    /**
+     * Returns all users of the system. Note that this method can only be executed
+     * by administrators.
+     *
+     * @param currentUser the current user (needed for authentication)
+     * @returns {Promise<IUser[]>} all users
+     */
     UserService.prototype.getAllUsers = function (currentUser) {
         var _this = this;
         return new Promise(function (resolve, reject) {
             if (currentUser.systemRole !== _1.UserRole.ADMIN) {
-                console.log('User ' + currentUser.shortName + ' is not allowed to fetch all users from the system');
-                throw new InvalidAccess('You are not allowed to fetch all users from the system');
+                throw new InvalidAccess("You \"" + currentUser.shortName + "\" are not allowed to fetch all users from the system");
             }
             else {
                 _this.userRepository.retrieve(function (error, users) {
                     if (error) {
-                        console.log(error);
                         reject(error);
                     }
                     else if (!users) {
@@ -141,22 +183,13 @@ var UserService = (function () {
             }
         });
     };
-    UserService.prototype.getPublicUsers = function (userUuids) {
-        var _this = this;
-        return new Promise(function (resolve, reject) {
-            _this.userRepository.findByUuids(userUuids, function (error, users) {
-                if (error) {
-                    reject(error);
-                }
-                else if (!users) {
-                    reject('No users found');
-                }
-                else {
-                    resolve(users.map(function (u) { return UserService.convertUserToPublicUser(u); }));
-                }
-            });
-        });
-    };
+    /**
+     * For the given user id, return the details.
+     *
+     * @param currentUser for authentication if needed
+     * @param userUuid user id
+     * @returns {Promise<PublicUser>} user details
+     */
     UserService.prototype.getPublicUser = function (currentUser, userUuid) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -173,6 +206,14 @@ var UserService = (function () {
             });
         });
     };
+    /**
+     * Updates a user.
+     *
+     * @param currentUser current user (for authentication)
+     * @param userUuid the user to be updated
+     * @param updateUser update fields
+     * @returns {Promise<PublicUser>} the updated user
+     */
     UserService.prototype.updateUser = function (currentUser, userUuid, updateUser) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -196,6 +237,13 @@ var UserService = (function () {
             });
         });
     };
+    /**
+     * Deletion of a user. Note that this action can only be performed by an Administrator.
+     *
+     * @param currentUser the current user (needed for authorization)
+     * @param userUuid the user to be deleted
+     * @returns {Promise<void>}
+     */
     UserService.prototype.deleteUser = function (currentUser, userUuid) {
         var _this = this;
         return new Promise(function (resolve, reject) {

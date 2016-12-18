@@ -20,26 +20,69 @@ var UUID_1 = require('../shared/util/UUID');
 var Restrospective_1 = require('./model/Restrospective');
 var WebSocketService_1 = require('./WebSocketService');
 var RetrospectiveService = (function () {
+    /**
+     * C'tor with all dependencies (typically injected).
+     *
+     * @param userRepository the user repository
+     * @param retrospectiveRepository the retrospective repository
+     * @param webSocketService web socket service
+     */
     function RetrospectiveService(userRepository, retrospectiveRepository, webSocketService) {
         this.userRepository = userRepository;
         this.retrospectiveRepository = retrospectiveRepository;
         this.webSocketService = webSocketService;
     }
-    RetrospectiveService.prototype.canModifyRetrospective = function (persistedRetrospective, persistedUser) {
+    /**
+     * Checks if a user can modify a retrospective.
+     *
+     * @param persistedRetrospective the retrospective
+     * @param persistedUser the user
+     * @returns {boolean} {@code true} if allowed
+     */
+    RetrospectiveService.canModifyRetrospective = function (persistedRetrospective, persistedUser) {
         return persistedRetrospective.manager.equals(persistedUser._id) || persistedUser.systemRole === _2.UserRole.ADMIN;
     };
-    RetrospectiveService.prototype.canCreateComment = function (persistedRetrospective, persistedUser) {
+    /**
+     * Checks if a user can create a comment.
+     *
+     * @param persistedRetrospective the retrospective
+     * @param persistedUser the user
+     * @returns {boolean} {@code true} if allowed
+     */
+    RetrospectiveService.canCreateComment = function (persistedRetrospective, persistedUser) {
         return persistedRetrospective.status === _2.RetrospectiveStatus.OPEN
-            || this.canModifyRetrospective(persistedRetrospective, persistedUser);
+            || RetrospectiveService.canModifyRetrospective(persistedRetrospective, persistedUser);
     };
-    RetrospectiveService.prototype.canUpdateComment = function (persistedRetrospective, persistedUser, persistedComment) {
+    /**
+     * Checks if a user can update the given comment
+     *
+     * @param persistedRetrospective the retrospective
+     * @param persistedUser the user
+     * @param persistedComment the comment which should be updated
+     * @returns {boolean} {@code true} if allowed
+     */
+    RetrospectiveService.canUpdateComment = function (persistedRetrospective, persistedUser, persistedComment) {
         return (persistedRetrospective.status === _2.RetrospectiveStatus.OPEN && persistedComment.author.equals(persistedUser._id))
-            || this.canModifyRetrospective(persistedRetrospective, persistedUser);
+            || RetrospectiveService.canModifyRetrospective(persistedRetrospective, persistedUser);
     };
-    RetrospectiveService.prototype.canVote = function (persistedRetrospective, persistedUser) {
+    /**
+     * Checks if a user can vote on a given comment
+     *
+     * @param persistedRetrospective the retrospective
+     * @param persistedUser the user
+     * @returns {boolean} {@code true} if allowed
+     */
+    RetrospectiveService.canVote = function (persistedRetrospective, persistedUser) {
         return persistedRetrospective.status === _2.RetrospectiveStatus.VOTE
-            || this.canModifyRetrospective(persistedRetrospective, persistedUser);
+            || RetrospectiveService.canModifyRetrospective(persistedRetrospective, persistedUser);
     };
+    /**
+     * Retrieves all retrospective. At the moment only available to admin. Easily extendible to see all retrospectives
+     * a user can see (e.g. everywhere where he is a participant.
+     *
+     * @param currentUser the current user
+     * @returns {Promise<IPersistedRetrospectiveDbModel>} all retrospectives (a user can see)
+     */
     RetrospectiveService.prototype.getRetrospectives = function (currentUser) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -58,6 +101,12 @@ var RetrospectiveService = (function () {
             }
         });
     };
+    /**
+     * Retrieves a single retrospective. Note: Is not secured.
+     *
+     * @param uuid retrospective to see.
+     * @returns {Promise<PublicRetrospective>}
+     */
     RetrospectiveService.prototype.getRetrospective = function (uuid) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -74,6 +123,13 @@ var RetrospectiveService = (function () {
             });
         });
     };
+    /**
+     * Retrieves a a single retrospective, checks if the user is privileged to see it.
+     *
+     * @param currentUser
+     * @param uuid
+     * @returns {Promise<PublicRetrospective>}
+     */
     RetrospectiveService.prototype.getPublicRetrospectiveSecured = function (currentUser, uuid) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -88,6 +144,13 @@ var RetrospectiveService = (function () {
             }).catch(function (err) { return reject(err); });
         });
     };
+    /**
+     * Creates a retrospective.
+     *
+     * @param currentUser the user (and also manager)
+     * @param createRetrospectiveJSON details of the retrospective
+     * @returns {Promise<IPersistedRetrospectiveDbModel>}
+     */
     RetrospectiveService.prototype.createRetrospective = function (currentUser, createRetrospectiveJSON) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -107,7 +170,7 @@ var RetrospectiveService = (function () {
                 else {
                     retrospective.attendees.push(user._id);
                     retrospective.manager = user._id;
-                    retrospective.save(function (err, createdRetrospective) {
+                    _this.retrospectiveRepository.save(retrospective, function (err, createdRetrospective) {
                         if (err) {
                             reject(err);
                         }
@@ -119,6 +182,14 @@ var RetrospectiveService = (function () {
             });
         });
     };
+    /**
+     * Updates a a retrospective.
+     *
+     * @param currentUser the current user
+     * @param retrospectiveId the retrospective to update
+     * @param updateRetrospective details to update
+     * @returns {Promise<IPersistedRetrospectiveDbModel>}
+     */
     RetrospectiveService.prototype.updateRetrospective = function (currentUser, retrospectiveId, updateRetrospective) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -127,7 +198,7 @@ var RetrospectiveService = (function () {
                     reject(error);
                 }
                 else {
-                    if (!_this.canModifyRetrospective(persistedRetrospective, persistedUser)) {
+                    if (!RetrospectiveService.canModifyRetrospective(persistedRetrospective, persistedUser)) {
                         reject('User "' + currentUser.uuid + '" is not allowed to edit retrospective "' + retrospectiveId + '"');
                     }
                     else {
@@ -140,6 +211,13 @@ var RetrospectiveService = (function () {
             });
         });
     };
+    /**
+     * Deletion of a retrospective.
+     *
+     * @param currentUser the current user
+     * @param retrospectiveId the retrospective to be deleted
+     * @returns {Promise<void>}
+     */
     RetrospectiveService.prototype.deleteRetrospective = function (currentUser, retrospectiveId) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -148,7 +226,7 @@ var RetrospectiveService = (function () {
                     reject(error);
                 }
                 else {
-                    if (!_this.canModifyRetrospective(persistedRetrospective, persistedUser)) {
+                    if (!RetrospectiveService.canModifyRetrospective(persistedRetrospective, persistedUser)) {
                         reject('User "' + currentUser.uuid + '" is not allowed to edit retrospective "' + retrospectiveId + '"');
                     }
                     else {
@@ -165,6 +243,14 @@ var RetrospectiveService = (function () {
             });
         });
     };
+    /**
+     * Change the state of a retrospective.
+     *
+     * @param currentUser the current user
+     * @param retrospectiveId the retrospective to change
+     * @param action the action
+     * @returns {Promise<IPersistedRetrospectiveDbModel>}
+     */
     RetrospectiveService.prototype.changeStatus = function (currentUser, retrospectiveId, action) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -173,37 +259,65 @@ var RetrospectiveService = (function () {
                     reject(error);
                 }
                 else {
-                    if (!_this.canModifyRetrospective(persistedRetrospective, persistedUser)) {
+                    if (!RetrospectiveService.canModifyRetrospective(persistedRetrospective, persistedUser)) {
                         reject('User "' + currentUser.uuid + '" is not allowed to edit retrospective "' + retrospectiveId + '"');
                     }
                     else {
                         persistedRetrospective.status = action.status;
-                        persistedRetrospective.save();
-                        _this.webSocketService.retrospectiveStatusChanged(retrospectiveId, action.status);
-                        resolve(persistedRetrospective);
+                        _this.retrospectiveRepository.save(persistedRetrospective, function (err, result) {
+                            if (err) {
+                                reject(err);
+                            }
+                            else {
+                                _this.webSocketService.retrospectiveStatusChanged(retrospectiveId, action.status);
+                                resolve(result);
+                            }
+                        });
                     }
                 }
             });
         });
     };
-    RetrospectiveService.prototype.getRetrospectiveUsers = function (currentUser, id) {
+    /**
+     * All users of this retrospective.
+     *
+     * @param currentUser the current user
+     * @param retrospectiveId the retrospective id
+     * @returns {Promise<RetrospectiveUser[]>}
+     */
+    RetrospectiveService.prototype.getRetrospectiveUsers = function (currentUser, retrospectiveId) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.getPublicRetrospectiveSecured(currentUser, id).then(function (retrospective) {
+            _this.getPublicRetrospectiveSecured(currentUser, retrospectiveId).then(function (retrospective) {
                 // as get retrospective secured return all references loaded, we can safely cast here and two lines bellow
                 resolve(retrospective.attendees);
             }).catch(function (err) { return reject(err); });
         });
     };
-    RetrospectiveService.prototype.getRetrospectiveUser = function (currentUser, id, uuid) {
+    /**
+     * A specific retrospective user.
+     *
+     * @param currentUser the current user
+     * @param retrospectiveId the retrospective id
+     * @param uuid the user details to see
+     * @returns {Promise<RetrospectiveUser>}
+     */
+    RetrospectiveService.prototype.getRetrospectiveUser = function (currentUser, retrospectiveId, uuid) {
         var _this = this;
         return new Promise(function (resolve, reject) {
-            _this.getPublicRetrospectiveSecured(currentUser, id).then(function (retrospective) {
+            _this.getPublicRetrospectiveSecured(currentUser, retrospectiveId).then(function (retrospective) {
                 // as get retrospective secured return all references loaded, we can safely cast here and two lines bellow
                 resolve(retrospective.attendees.find(function (attendee) { return attendee.uuid === uuid; }));
             }).catch(function (err) { return reject(err); });
         });
     };
+    /**
+     * Join of a retrospective.
+     *
+     * @param currentUser the current user
+     * @param retrospectiveId the retrospective to join
+     * @returns {Promise<IPersistedRetrospectiveDbModel>}
+     */
     RetrospectiveService.prototype.joinRetrospective = function (currentUser, retrospectiveId) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -230,6 +344,15 @@ var RetrospectiveService = (function () {
             });
         });
     };
+    /**
+     * Add a comment to a retrospective (and topic).
+     *
+     * @param currentUser the current user
+     * @param retrospectiveId the retrospective to update
+     * @param topicId the topic to which the comment should belong to
+     * @param comment the comment
+     * @returns {Promise<PersistedRetrospectiveComment>}
+     */
     RetrospectiveService.prototype.addComment = function (currentUser, retrospectiveId, topicId, comment) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -238,7 +361,7 @@ var RetrospectiveService = (function () {
                     reject(error);
                 }
                 else {
-                    if (!_this.canCreateComment(persistedRetrospective, persistedUser)) {
+                    if (!RetrospectiveService.canCreateComment(persistedRetrospective, persistedUser)) {
                         reject('Not allowed to create comment. Most probably retro has changed its status.');
                     }
                     else {
@@ -259,6 +382,16 @@ var RetrospectiveService = (function () {
             });
         });
     };
+    /**
+     * Update of a comment.
+     *
+     * @param currentUser the current user
+     * @param retroId the retrospective to which the comment belongs to
+     * @param topicId the topic to which the comment belongs to
+     * @param commentId the comment to update
+     * @param updateComment the new comment details
+     * @returns {Promise<IPersistedRetrospectiveComment>}
+     */
     RetrospectiveService.prototype.updateComment = function (currentUser, retroId, topicId, commentId, updateComment) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -267,7 +400,7 @@ var RetrospectiveService = (function () {
                     reject(error);
                 }
                 else {
-                    if (!_this.canUpdateComment(pRetrospective, pUser, pComment)) {
+                    if (!RetrospectiveService.canUpdateComment(pRetrospective, pUser, pComment)) {
                         reject('Not allowed to update comment. Most probably retro has changed its status.');
                     }
                     else {
@@ -282,6 +415,15 @@ var RetrospectiveService = (function () {
             });
         });
     };
+    /**
+     * Deletion of a comment.
+     *
+     * @param currentUser the current user
+     * @param retroId the retrospective to which the comment belongs to
+     * @param topicId the topic to which the comment belongs to
+     * @param commentId the id of the comment to be deleted
+     * @returns {Promise<void>}
+     */
     RetrospectiveService.prototype.deleteComment = function (currentUser, retroId, topicId, commentId) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -290,7 +432,7 @@ var RetrospectiveService = (function () {
                     reject(error);
                 }
                 else {
-                    if (!_this.canUpdateComment(pRetrospective, pUser, pComment)) {
+                    if (!RetrospectiveService.canUpdateComment(pRetrospective, pUser, pComment)) {
                         reject('Not allowed to delete comment. Most probably retro has changed its status.');
                     }
                     else {
@@ -303,6 +445,15 @@ var RetrospectiveService = (function () {
             });
         });
     };
+    /**
+     * Create a vote on a comment.
+     *
+     * @param currentUser the current user
+     * @param retroId the retrospective to which the comment belongs to
+     * @param topicId the topic to which the comment belongs to
+     * @param commentId the comment to vote on
+     * @returns {Promise<IPersistedRetrospectiveVote>}
+     */
     RetrospectiveService.prototype.createVote = function (currentUser, retroId, topicId, commentId) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -315,7 +466,7 @@ var RetrospectiveService = (function () {
                         reject('User has already voted');
                     }
                     else {
-                        if (!_this.canVote(pRetrospective, pUser)) {
+                        if (!RetrospectiveService.canVote(pRetrospective, pUser)) {
                             reject('User not allowed to vote. Most probably retro has changed its status.');
                         }
                         else {
@@ -329,6 +480,15 @@ var RetrospectiveService = (function () {
             });
         });
     };
+    /**
+     * Delete a vote.
+     *
+     * @param currentUser the current user
+     * @param retroId the retrospective id to which the comment belongs to
+     * @param topicId the topic to which the comemnt belongs to
+     * @param commentId the comment id to which the vote should be removed
+     * @returns {Promise<void>}
+     */
     RetrospectiveService.prototype.deleteVote = function (currentUser, retroId, topicId, commentId) {
         var _this = this;
         return new Promise(function (resolve, reject) {
@@ -347,7 +507,7 @@ var RetrospectiveService = (function () {
                             reject('No vote from user ' + pUser.uuid + ' found');
                         }
                         else {
-                            if (!_this.canVote(pRetrospective, pUser)) {
+                            if (!RetrospectiveService.canVote(pRetrospective, pUser)) {
                                 reject('User not allowed to delete vote. Most probably retro has changed its status.');
                             }
                             else {
