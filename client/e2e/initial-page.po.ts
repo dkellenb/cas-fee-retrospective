@@ -1,4 +1,4 @@
-import {browser, element, by, protractor, ElementFinder} from 'protractor';
+import {browser, element, by, protractor} from 'protractor';
 import {RetrospectivePage} from './retrospective-page.po';
 
 export class InitialPage {
