@@ -1,6 +1,6 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {IconButtonType} from './icon-button-type';
-import {HtmlUidGenerator} from '../html-uid-generator';
+import {UUID} from '../util/UUID';
 
 @Component({
   selector: 'rsb-icon-button',
@@ -32,7 +32,7 @@ export class IconButtonComponent implements OnInit {
 
   ngOnInit() {
     if (!this.htmlUid) {
-      this.htmlUid = 'button__' + HtmlUidGenerator.getUid();
+      this.htmlUid = 'button__' + new UUID();
     }
   }
 

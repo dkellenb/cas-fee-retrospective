@@ -7,7 +7,7 @@
   font-style: normal;
 }
 
-body{
+body {
   font-family: Arial, serif;
   padding: 1rem;
   margin: 0;
@@ -58,7 +58,6 @@ p, span, label, .text, a, textarea, input {
   font-size: 0.75rem; /*12px*/
 }
 
-
 /**
  * Cross components styles.
  */
@@ -80,7 +79,7 @@ html .comment-segment__empty-space .icon-button__icon_add {
  * FORM ELEMENTS
  */
 
-.form .form__element{
+.form .form__element {
   margin-bottom: 0.5rem;
 }
 
@@ -96,6 +95,11 @@ html .comment-segment__empty-space .icon-button__icon_add {
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none;
   cursor: default;
+}
+
+// fix for hidden problem http://stackoverflow.com/questions/35578083/what-is-the-equivalent-of-ngshow-and-nghide-in-angular2
+[hidden] {
+  display: none !important;
 }
 
 

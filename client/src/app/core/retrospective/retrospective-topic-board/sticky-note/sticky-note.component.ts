@@ -27,8 +27,8 @@ export class StickyNoteComponent implements OnInit {
   private hasActiveVote = false;
 
   private validationErrorMessage: NotificationMessage;
-  private titleError: boolean = false;
-  private descError: boolean = false;
+  private titleError: string = null;
+  private descError: string = null;
 
   constructor(private topicService: TopicService,
               private notificationService: NotifierService) {
@@ -126,10 +126,13 @@ export class StickyNoteComponent implements OnInit {
     if (this.validationErrorMessage != null) {
       this.validationErrorMessage.setMessageExpired();
     }
-    this.titleError = this.stickyNote.title == null || this.stickyNote.title.trim() === '';
-    this.descError = this.stickyNote.description == null || this.stickyNote.description.trim() === '';
+    this.titleError = (this.stickyNote.title == null || this.stickyNote.title.trim() === '') ? 'Please insert title' : null;
+    this.descError = (this.stickyNote.description == null || this.stickyNote.description.trim() === '')
+      ? 'Please insert a description' : null;
 
-    if (this.titleError || this.descError) {
+    console.log(this.titleError);
+    console.log(this.descError);
+    if (this.titleError != null || this.descError != null) {
       this.validationErrorMessage = new NotificationMessage(NotificationMessageType.WARNING,
         'There are missing information for this sticky-note');
       this.notificationService.pushNextMessage(this.validationErrorMessage);
