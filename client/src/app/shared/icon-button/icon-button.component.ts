@@ -16,7 +16,7 @@ export class IconButtonComponent implements OnInit {
   private lableText: string = null;
 
   @Input()
-  private htmlUid: string;
+  private htmlUid: string = null;
 
   @Input()
   private toggleStatus: boolean = true;

@@ -8,8 +8,8 @@ Elements in the back will be disabled or set to not selectable if marked with th
 
 | Parameter       | Type    | Default | Description                                                                                                                                       |
 |-----------------|---------|---------|---------------------------------------------------------------------------------------------------------------------------------------------------|
-| range           | number  | 25      | Define the range in % witch will be used for the left and right siede to stack the elements in the back                                           |
-| carouselActive  | boolean | true    | the carousel can be deacitvated with this flag. All elements will be positioned like in a div. there will be no classes applied to the elements.  |
+| range           | number  | 25      | Define the range in % witch will be used for the left and right side to stack the elements in the back                                            |
+| carouselActive  | boolean | true    | the carousel can be deactivated with this flag. All elements will be positioned like in a div. there will be no classes applied to the elements.  |
 | fixedNavButtons | boolean | false   | if true the navigation arrows wil be locked in the vertical middle of the viewport.                                                               |
 
 ##Structure
